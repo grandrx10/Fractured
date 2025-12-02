@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using Cards.Core;
+using Cards.Environments;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+namespace Cards
+{
+    public class Agent: MonoBehaviour
+    {
+        [SerializeField] protected List<Card> hand;
+        private Func<Card, CardSubmitState> _callback;
+        private int _cardsRequested;
+        protected Card RandomCard => hand[Random.Range(0, hand.Count)];
+        
+        /*
+         * For selecting cards normally
+         */
+        public virtual void SelectCardAsync(Func<Card, CardSubmitState> callback, int requiredCards)
+        {
+            if (callback != null) Debug.LogError("Already awaiting a card!");
+            _callback = callback;
+            _cardsRequested = requiredCards;
+        }
+
+        public virtual void CancelSelection()
+        {
+            _callback = null;
+        }
+        
+        /*
+         * Implicitly gets the top priority card
+         */
+        public virtual Card SelectCardImmediate()
+        {
+            return RandomCard;
+        }
+
+        public void AddCard(Card card)
+        {
+            hand.Add(card);
+        }
+
+        public void AddCards(List<Card> cards)
+        {
+            hand.AddRange(cards);
+        }
+
+        public List<Card> GetCards()
+        {
+            return hand;
+        }
+
+        public CardSubmitState SubmitCard(Card card)
+        {
+            if (_callback == null) return CardSubmitState.Invalid;
+            var s = _callback.Invoke(card);
+            
+            if (s != CardSubmitState.Failure) return CardSubmitState.Failure;
+            _cardsRequested--;
+            if (_cardsRequested == 0) _callback = null;
+            return s;
+        }
+        
+        [ContextMenu("pick random")]
+        protected void PickRandom()
+        {
+            var card = RandomCard;
+            Debug.Log($"{name} playing card: {card}");
+            SubmitCard(card);
+        }
+    }
+}
