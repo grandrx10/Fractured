@@ -10,18 +10,20 @@ namespace Cards.Core
     {
         // should be fixed
         public new string name;
+        public string flavorText;
         public CardRarity rarity;
         public Sprite icon;
         // only for initialization!!!!
         public CardStats stats;
         public CardTier tier;
         public List<BaseBehavior> behaviors;
-        public CardVisuals Visuals => new (){Name = name, Rarity = rarity, Icon = icon};
+        public CardVisuals Visuals => new (){Name = name, FlavorText = flavorText, Rarity = rarity, Icon = icon};
     }
 
     public struct CardVisuals
     {
         public string Name;
+        public string FlavorText;
         public CardRarity Rarity;
         public Sprite Icon;
     }

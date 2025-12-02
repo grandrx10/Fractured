@@ -10,5 +10,10 @@ namespace Cards.Core.Behaviors
         {
             AttachedCard = card;
         }
+
+        public virtual string GetDescription()
+        {
+            return "";
+        }
     }
 }

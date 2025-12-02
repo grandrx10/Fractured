@@ -4,9 +4,12 @@ namespace Cards.Core.Behaviors
 {
     public class BaseUseBehavior: BaseBehavior
     {
-        public void Throw()
+        public virtual PhysicalCard Throw(PhysicalCard cardPrefab)
         {
-            Debug.Log("the card wil be throw");
+            var c = Instantiate(cardPrefab);
+            //Debug.Log("the card wil be throw");
+            c.card = AttachedCard;
+            return c;
         }
     }
 }

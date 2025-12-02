@@ -8,15 +8,27 @@ namespace Cards.Behaviors
     public class RPSBehavior: BaseBehavior
     {
         public RPSType type;
-        
+        [Range(0, 2)] public int tier;
         public enum RPSType
         {
             R,
             P,
             S,
-            Rp,
-            Pp,
-            Sp
+        }
+        
+        public override string GetDescription()
+        {
+            return $"<b>{GetName()}</b>: Beats {GetCounterName()} at RPS";
+        }
+
+        private string GetName()
+        {
+            return type == RPSType.R ? "Rock" : (type == RPSType.P ? "Paper" : "Scissors");
+        }
+        
+        private string GetCounterName()
+        {
+            return type == RPSType.R ? "Scissors" : (type == RPSType.P ? "Rock" : "Paper");
         }
     }
 }

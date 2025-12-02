@@ -12,6 +12,7 @@ namespace Cards
         [SerializeField] protected List<Card> hand;
         private Func<Card, CardSubmitState> _callback;
         private int _cardsRequested;
+        public bool CardRequested => _callback != null;
         protected Card RandomCard => hand[Random.Range(0, hand.Count)];
         
         /*
@@ -19,7 +20,7 @@ namespace Cards
          */
         public virtual void SelectCardAsync(Func<Card, CardSubmitState> callback, int requiredCards)
         {
-            if (callback != null) Debug.LogError("Already awaiting a card!");
+            if (_callback != null) Debug.LogError("Already awaiting a card!");
             _callback = callback;
             _cardsRequested = requiredCards;
         }

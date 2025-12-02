@@ -6,7 +6,7 @@ namespace Cards.Core.Behaviors
     {
         public int health;
         
-        public void StartMatch()
+        public virtual void StartMatch()
         {
             ResetValues();
         }
@@ -18,12 +18,12 @@ namespace Cards.Core.Behaviors
             AttachedCard.UpdateActive();
         }
         
-        public void EndMatch()
+        public virtual void EndMatch()
         {
             ResetValues();
         }
 
-        public void Hit(int damage)
+        public virtual void Hit(int damage)
         {
             health -= damage;
             if (health >= 0)

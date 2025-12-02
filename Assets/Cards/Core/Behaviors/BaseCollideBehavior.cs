@@ -4,7 +4,7 @@ namespace Cards.Core.Behaviors
 {
     public class BaseCollideBehavior: BaseBehavior
     {
-        public void Collide()
+        public virtual void Collide()
         {
             Debug.Log("the card colided");
         }
