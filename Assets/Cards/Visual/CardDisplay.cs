@@ -1,18 +1,20 @@
+using System.Collections.Generic;
 using Cards.Core;
 using Cards.Core.Behaviors;
 using UnityEngine;
 
 namespace Cards.Visual
 {
-    public class BaseCardDisplay : MonoBehaviour
+    public class CardDisplay : MonoBehaviour
     {
         public Card card;
-        public BaseCardContainer cardContainer;
+        public List<BaseCardContainer> cardContainers;
     
         void Start()
         {
             var v = card.Visuals;
-            var cc = Instantiate(cardContainer, transform);
+            var container = cardContainers[(int)v.Style];
+            var cc = Instantiate(container, transform);
             cc.transform.localPosition = Vector3.zero;
             cc.icon.sprite = v.Icon;
             cc.title.text = $"{v.Name}";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cards.Core;
 using Cards.Visual;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Cards
     {
         public Card mainHandCard;
         public Card offHandCard;
-
+        public List<Card> deck;
         public HandLayout handLayout;
 
         private void Awake()

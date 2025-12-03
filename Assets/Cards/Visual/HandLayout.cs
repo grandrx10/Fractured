@@ -8,7 +8,9 @@ namespace Cards.Visual
 {
     public class HandLayout : MonoBehaviour
     {
-        public LayoutMode mode;
+        public InteractMode mode;
+        public LayoutMode layout;
+        public RectTransform content;
         [SerializeField] private List<HandCardController> cards = new List<HandCardController>();
         [SerializeField] private float cardWidth = 150f;
         [SerializeField] private float maxSpacing = 150f;
@@ -18,23 +20,30 @@ namespace Cards.Visual
         [SerializeField] private float sideMove = 40f;
         [SerializeField] private float animTime = 0.15f;
         public Action<Card> CardUsed;
-        public BaseCardDisplay cardPrefab;
+        public CardDisplay cardPrefab;
         
-        private int hoveredIndex = -1;
-        private RectTransform rect;
-
         public enum LayoutMode
+        {
+            Hand,
+            Inventory
+        }
+        
+        private int _hoveredIndex = -1;
+        private RectTransform _rect;
+
+        public enum InteractMode
         {
             CardGame,
             ThirdPerson,
             Inactive
         }
+
         public void PopulateCards(List<Card> c)
         {
-            rect = GetComponent<RectTransform>();
+            _rect = GetComponent<RectTransform>();
             for (int i = 0; i < c.Count; i++)
             {
-                var cc = Instantiate(cardPrefab, transform);
+                var cc = Instantiate(cardPrefab, content);
                 cc.card = c[i];
                 var hcc = cc.gameObject.AddComponent<HandCardController>();
                 hcc.Init(this, i);
@@ -45,41 +54,50 @@ namespace Cards.Visual
 
         public void UseCard()
         {
-            if (hoveredIndex == -1) return;
-            CardUsed.Invoke(cards[hoveredIndex].AttachedCard);
+            if (_hoveredIndex == -1) return;
+            CardUsed.Invoke(cards[_hoveredIndex].AttachedCard);
         }
 
         public void OnCardHover(int index)
         {
-            if (mode != LayoutMode.CardGame) return;
-            hoveredIndex = index;
+            if (mode != InteractMode.CardGame || layout == LayoutMode.Inventory) return;
+            _hoveredIndex = index;
             RefreshLayout();
         }
 
         public void OnScroll(float d)
         {
-            if (mode != LayoutMode.ThirdPerson || d == 0) return;
-            hoveredIndex -= (int)Mathf.Sign(d);
-            if (hoveredIndex < 0) hoveredIndex = 0;
-            if (hoveredIndex >= cards.Count) hoveredIndex = cards.Count - 1;
+            if (mode != InteractMode.ThirdPerson || d == 0 || layout == LayoutMode.Inventory) return;
+            _hoveredIndex -= (int)Mathf.Sign(d);
+            if (_hoveredIndex < 0) _hoveredIndex = 0;
+            if (_hoveredIndex >= cards.Count) _hoveredIndex = cards.Count - 1;
             RefreshLayout();
         }
 
         public void OnCardExit(int index)
         {
-            if (mode != LayoutMode.CardGame) return;
-            if (hoveredIndex == index)
-                hoveredIndex = -1;
+            if (mode != InteractMode.CardGame || layout == LayoutMode.Inventory) return;
+            if (_hoveredIndex == index)
+                _hoveredIndex = -1;
             RefreshLayout();
         }
+        
+        [ContextMenu("Refresh Layout")]
+        public void RefreshLayout()
+        {
+            if (layout == LayoutMode.Hand)
+                LayoutHandMode();
+            else
+                LayoutInventoryMode();
+        }
 
-        void RefreshLayout()
+        void LayoutHandMode()
         {
             if (cards.Count == 0)
                 return;
 
-            float handWidth = rect.rect.width;
-
+            float handWidth = _rect.rect.width;
+            content.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, handWidth);
             // Evenly space cards across hand width
             float totalSpacing = handWidth - cardWidth;
             float spacing = (cards.Count > 1)
@@ -94,9 +112,9 @@ namespace Cards.Visual
                 float targetX = i * spacing + cardWidth / 2;
                 float targetY = baseY;
 
-                if (hoveredIndex != -1)
+                if (_hoveredIndex != -1)
                 {
-                    if (i == hoveredIndex)
+                    if (i == _hoveredIndex)
                     {
                         // POP UP
                         targetX += sideMove;
@@ -105,14 +123,14 @@ namespace Cards.Visual
                     else
                     {
                         // Distance-based shift
-                        int dist = Mathf.Abs(i - hoveredIndex);
+                        int dist = Mathf.Abs(i - _hoveredIndex);
 
                         // Weight = 1.0 for adjacent, fades to 0.0 for far cards
                         float weight = 1f / (dist + 0.5f);
 
                         float shiftAmount = sideShift * weight;
 
-                        if (i < hoveredIndex)
+                        if (i < _hoveredIndex)
                         {
                             targetX -= shiftAmount;
                         }
@@ -128,6 +146,31 @@ namespace Cards.Visual
                     .setEaseOutQuad();
             }
         }
-    }
+        
+        void LayoutInventoryMode()
+        {
+            float cardCount = cards.Count;
 
+            if (cardCount == 0)
+                return;
+
+            // total width of all cards placed side-by-side
+            float totalWidth = cardCount * cardWidth;
+
+            // apply this width to the Content rect so scrolling works
+            content.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, totalWidth);
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                float x = i * cardWidth + cardWidth * 0.5f; // center each card
+                float y = baseY;
+
+                LeanTween.moveLocal(
+                    cards[i].gameObject,
+                    new Vector3(x, y, 0),
+                    animTime
+                ).setEaseOutQuad();
+            }
+        }
+    }
 }

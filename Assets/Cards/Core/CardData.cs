@@ -12,20 +12,30 @@ namespace Cards.Core
         public new string name;
         public string flavorText;
         public CardRarity rarity;
+        public CardStyle style;
         public Sprite icon;
         // only for initialization!!!!
         public CardStats stats;
         public CardTier tier;
         public List<BaseBehavior> behaviors;
-        public CardVisuals Visuals => new (){Name = name, FlavorText = flavorText, Rarity = rarity, Icon = icon};
+        public CardVisuals Visuals => new (){Name = name, FlavorText = flavorText, Style = style, Rarity = rarity, Icon = icon};
     }
 
     public struct CardVisuals
     {
         public string Name;
         public string FlavorText;
+        public CardStyle Style;
         public CardRarity Rarity;
         public Sprite Icon;
+    }
+    
+    [Serializable]
+    public enum CardStyle
+    {
+        Standard,
+        Tarot,
+        
     }
     
     [Serializable]
