@@ -10,7 +10,6 @@ public class Follower : MonoBehaviour
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float nodeReachedThreshold = 0.5f; // Distance to consider node reached
     [SerializeField] private int nodesToStayBehind = 3; // Stay 3 nodes behind the player
-    [SerializeField] private float transitionSpeed = 8f; // Speed when lerping to new target path
     
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
