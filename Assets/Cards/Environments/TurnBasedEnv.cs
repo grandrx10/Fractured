@@ -2,7 +2,7 @@
 
 namespace Cards.Environments
 {
-    public class TurnBasedEnv: MonoBehaviour
+    public class TurnBasedEnv: CardEnv
     {
         
     }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Cards.Environments
 {
-    public class RPSEnv: MonoBehaviour
+    public class RPSEnv: CardEnv
     {
         private Agent _agent1, _agent2;
         

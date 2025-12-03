@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4406553406205813431}
   - component: {fileID: 3967700890871050442}
   - component: {fileID: 6020067382194454152}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Physical Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 3237961770503723567}
   - component: {fileID: 1827799179729569804}
   - component: {fileID: 3197438754781939741}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,9 +189,8 @@ GameObject:
   - component: {fileID: 2025507546102795460}
   - component: {fileID: 7249167945262360594}
   - component: {fileID: 6521642890256974495}
-  - component: {fileID: 7253535354418502918}
   - component: {fileID: 265735079367365302}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Physical Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,33 +278,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 0}
---- !u!54 &7253535354418502918
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6085946968305932494}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &265735079367365302
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -338,6 +310,10 @@ PrefabInstance:
     - target: {fileID: 3907866815185089934, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
       propertyPath: m_Name
       value: Card Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3907866815185089934, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3907866815185089934, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
       propertyPath: m_IsActive

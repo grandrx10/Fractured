@@ -5,13 +5,14 @@ using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Cards.Environments
 {
-    public class RTCombatEnv: MonoBehaviour
+    public class RTCombatEnv: CardEnv
     {
         public Agent playerAgent;
-        public float currentMana;
+        [FormerlySerializedAs("currentMana")] public float mana;
         
         private void Start()
         {
@@ -24,7 +25,7 @@ namespace Cards.Environments
 
         private CardSubmitState UseCard(Card card)
         {
-            if (card.stats.mana < currentMana) return CardSubmitState.Failure;
+            if (card.stats.mana < mana) return CardSubmitState.Failure;
             return CardSubmitState.Success;
         }
         

@@ -1,15 +1,21 @@
-﻿using UnityEngine;
+﻿using Cards.Environments;
+using UnityEngine;
 
 namespace Cards.Core.Behaviors
 {
     public class BaseUseBehavior: BaseBehavior
     {
-        public virtual PhysicalCard Throw(PhysicalCard cardPrefab)
+        public virtual void Throw(CardEnv env, Agent agent)
         {
-            var c = Instantiate(cardPrefab);
-            //Debug.Log("the card wil be throw");
-            c.card = AttachedCard;
-            return c;
+            //TODO: make a base env that defines throwing cards
+            if (env is OpenWorldEnv opEnv)
+            {
+                opEnv.ThrowCard(AttachedCard, Quaternion.identity, 30);
+            }
+            else
+            {
+                Debug.LogError("Env Does not support throwing");
+            }
         }
     }
 }
