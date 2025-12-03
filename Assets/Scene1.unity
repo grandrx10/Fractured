@@ -971,11 +971,11 @@ MonoBehaviour:
       YOffset: 0
     Strategy: 0
     MaximumEffort: 4
-    SmoothingTime: 0
+    SmoothingTime: 0.11
     Damping: 0.4
     DampingWhenOccluded: 0.2
   ShotQualityEvaluation:
-    Enabled: 0
+    Enabled: 1
     OptimalDistance: 10
     NearLimit: 5
     FarLimit: 30
@@ -1010,7 +1010,39 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1117915448}
+  - {fileID: 335559595}
   m_Father: {fileID: 1612713898}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &335559594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 335559595}
+  m_Layer: 0
+  m_Name: AdjustedLookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &335559595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335559594}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.07, y: 0.44000053, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 299149731}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &424452053
 GameObject:
@@ -3647,6 +3679,7 @@ GameObject:
   - component: {fileID: 1612713904}
   - component: {fileID: 1612713905}
   - component: {fileID: 1612713907}
+  - component: {fileID: 1612713908}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3783,6 +3816,25 @@ MonoBehaviour:
   interactText: {fileID: 1570476988}
   showDebugRay: 1
   currentInteractable: {fileID: 0}
+--- !u!114 &1612713908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612713897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abbe38f389f0f324aba3774c12cfd1db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 267410584}
+  player: {fileID: 1612713898}
+  originalLookAtPoint: {fileID: 1117915448}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  pullSpeed: 10
 --- !u!1 &1749328533
 GameObject:
   m_ObjectHideFlags: 0
