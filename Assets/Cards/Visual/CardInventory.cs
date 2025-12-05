@@ -4,8 +4,10 @@ namespace Cards.Visual
 {
     public class CardInventory : MonoBehaviour
     {
-        public HandLayout handLayout;
-        public GameObject main;
+        // just needs to support moving cards between layout and disp
+        public CardInteractionContainer handLayout;
+        public CardInteractionContainer deckLayout;
+        public Agent targetAgent;
         
     }
 }

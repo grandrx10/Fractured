@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Stone
-  m_Shader: {fileID: -6465566751694194690, guid: 8998c473223e36740b99b2bb294fb2e0, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 27ebebee57addcc4da8603911a592c9d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -68,6 +68,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Splatmap:
+        m_Texture: {fileID: 2800000, guid: 86c13e930deb0db4783c5875f048bfdb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_A:
+        m_Texture: {fileID: 2800000, guid: 3d7e23f397bd4e347bc2a33df00d0897, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_B:
+        m_Texture: {fileID: 2800000, guid: 7334f41aedeae534fb57921b121a9f1f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_C:
+        m_Texture: {fileID: 2800000, guid: 6dc316139475bb04e887760522945098, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -103,12 +119,21 @@ Material:
     - _Metallic: 0
     - _Noise: 15
     - _NoiseScale: 400
+    - _NoiseScale_A: 1
+    - _NoiseScale_B: 1
+    - _NoiseScale_C: 1
+    - _Noise_A: 2
+    - _Noise_B: 2
+    - _Noise_C: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Scale: 25
+    - _Scale_A: 50
+    - _Scale_B: 50
+    - _Scale_C: 7
     - _Smooth: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -122,7 +147,10 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HSV: {r: 1, g: 0.2, b: 1.5, a: 0}
+    - _HSV: {r: 1, g: 0.2, b: 3, a: 0}
+    - _HSV_A: {r: 1, g: 1, b: 1, a: 0}
+    - _HSV_B: {r: 1, g: 2, b: 0.2, a: 0}
+    - _HSV_C: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -6,12 +6,11 @@ using UnityEngine.Serialization;
 
 namespace Cards.Visual
 {
-    public class HandLayout : MonoBehaviour
+    public class HandLayout : CardInteractionContainer
     {
         public InteractMode mode;
         public LayoutMode layout;
         public RectTransform content;
-        [SerializeField] private List<HandCardController> cards = new List<HandCardController>();
         [SerializeField] private float cardWidth = 150f;
         [SerializeField] private float maxSpacing = 150f;
         [SerializeField] private float baseY = 80f;
@@ -38,14 +37,14 @@ namespace Cards.Visual
             Inactive
         }
 
-        public void PopulateCards(List<Card> c)
+        public override void PopulateCards(List<Card> c)
         {
             _rect = GetComponent<RectTransform>();
             for (int i = 0; i < c.Count; i++)
             {
                 var cc = Instantiate(cardPrefab, content);
                 cc.card = c[i];
-                var hcc = cc.gameObject.AddComponent<HandCardController>();
+                var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
                 hcc.Init(this, i);
                 cards.Add(hcc);
             }
@@ -58,7 +57,7 @@ namespace Cards.Visual
             CardUsed.Invoke(cards[_hoveredIndex].AttachedCard);
         }
 
-        public void OnCardHover(int index)
+        public override void OnCardHover(int index)
         {
             if (mode != InteractMode.CardGame || layout == LayoutMode.Inventory) return;
             _hoveredIndex = index;
@@ -74,7 +73,7 @@ namespace Cards.Visual
             RefreshLayout();
         }
 
-        public void OnCardExit(int index)
+        public override void OnCardExit(int index)
         {
             if (mode != InteractMode.CardGame || layout == LayoutMode.Inventory) return;
             if (_hoveredIndex == index)

@@ -8,7 +8,7 @@ namespace Cards.Visual
     public class CardDisplay : MonoBehaviour
     {
         public Card card;
-        public List<BaseCardContainer> cardContainers;
+        public List<CardDisplayPrefab> cardContainers;
     
         void Start()
         {

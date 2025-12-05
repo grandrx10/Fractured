@@ -10,7 +10,7 @@ namespace Cards
     {
         public Card mainHandCard;
         public Card offHandCard;
-        public List<Card> deck;
+        
         public HandLayout handLayout;
 
         private void Awake()

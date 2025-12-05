@@ -68,6 +68,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Splatmap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_A:
+        m_Texture: {fileID: 2800000, guid: 46cc1e28981d28949961007cbc078393, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_B:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_C:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -103,12 +119,21 @@ Material:
     - _Metallic: 0
     - _Noise: 15
     - _NoiseScale: 400
+    - _NoiseScale_A: 50
+    - _NoiseScale_B: 1
+    - _NoiseScale_C: 1
+    - _Noise_A: 1
+    - _Noise_B: 2
+    - _Noise_C: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Scale: 25
+    - _Scale_A: 100
+    - _Scale_B: 1
+    - _Scale_C: 1
     - _Smooth: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -123,6 +148,9 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HSV: {r: 2.94, g: 1, b: 1, a: 0}
+    - _HSV_A: {r: 1.59, g: 1.5, b: 1, a: 0}
+    - _HSV_B: {r: 1, g: 1, b: 1, a: 0}
+    - _HSV_C: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

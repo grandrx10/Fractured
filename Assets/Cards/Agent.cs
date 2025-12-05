@@ -9,7 +9,8 @@ namespace Cards
 {
     public class Agent: MonoBehaviour
     {
-        [SerializeField] protected List<Card> hand;
+        public List<Card> hand;
+        public List<Card> deck;
         private Func<Card, CardSubmitState> _callback;
         private int _cardsRequested;
         public bool CardRequested => _callback != null;
