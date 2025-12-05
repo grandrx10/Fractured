@@ -104,4 +104,21 @@ public class PlayerInteractController : MonoBehaviour
         bool visible = currentInteractable != null;
         interactText.gameObject.SetActive(visible);
     }
+
+    public Vector3 GetCameraRaycastTarget()
+    {
+        Ray ray = new Ray(raycastOrigin.position, raycastOrigin.forward);
+        RaycastHit hit;
+
+        // Build mask: ignore Projectile layer
+        int ignoreProjectileMask = ~(1 << LayerMask.NameToLayer("Projectile"));
+
+        if (Physics.Raycast(ray, out hit, 500f, ignoreProjectileMask))
+        {
+            return hit.point;
+        }
+
+        return raycastOrigin.position + raycastOrigin.forward * 500f;
+    }
+
 }

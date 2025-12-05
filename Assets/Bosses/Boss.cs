@@ -91,4 +91,18 @@ public class Boss : MonoBehaviour
         }
         return transform.position; // fallback
     }
+
+    /// <summary>
+    /// Returns the Transform of a named point, or null if not found
+    /// </summary>
+    public Transform GetPointTransform(string pointName)
+    {
+        foreach (var np in namedPoints)
+        {
+            if (np.name == pointName && np.transform != null)
+                return np.transform;
+        }
+
+        return null; // fallback if not found
+    }
 }
