@@ -32,7 +32,7 @@ struct DrawVertex
 struct DrawTriangle
 {
     float3 normalOS;  
-    float3 diffuseColor;
+    float4 diffuseColor;
     DrawVertex vertices[3]; // The three points on the triangle
 };
 
@@ -165,7 +165,7 @@ void Main(uint id : SV_DispatchThreadID)
 
     // fading on max distance
     float distanceFromCamera = distance(sv.positionWS, _CameraPositionWS);
-    float distanceFade = 1 - saturate((distanceFromCamera - _MinFadeDist) / (_MaxFadeDist - _MinFadeDist) * 2);
+    float distanceFade = 1 - saturate((distanceFromCamera - _MinFadeDist) / (_MaxFadeDist - _MinFadeDist));
 
     // skip if out of fading range too
     if (distanceFade < 0)
@@ -183,7 +183,7 @@ void Main(uint id : SV_DispatchThreadID)
     float3 perpendicularAngle = float3(0, 0, 1);
     float3 faceNormal = sv.normalOS;
   
-
+    _WindSpeed *= saturate(distanceFade * 2 - 1);
     // Wind
     float3 wind1 = float3(
     sin(_Time.x * _WindSpeed + sv.positionWS.x) + sin(
@@ -205,7 +205,7 @@ void Main(uint id : SV_DispatchThreadID)
     _BladeForward *= _GrassHeight;
     
     // loop to create blade per vertex
-    for (int j = 0; j < max(numBladesPerVertex * distanceFade, 1) ; j++)
+    for (int j = 0; j < max(numBladesPerVertex * saturate(distanceFade * distanceFade), 1) ; j++)
     {
          // vertices arrays
         DrawVertex drawVertices[GRASS_NUM_VERTICES_PER_BLADE];
@@ -267,7 +267,7 @@ void Main(uint id : SV_DispatchThreadID)
         {
             DrawTriangle tri = (DrawTriangle)0;
             tri.normalOS = faceNormal;
-            tri.diffuseColor = sv.color;
+            tri.diffuseColor = float4(sv.color, saturate(distanceFade*2));
             tri.vertices[0] = drawVertices[k];
             tri.vertices[1] = drawVertices[k + 1];
             tri.vertices[2] = drawVertices[k + 2];

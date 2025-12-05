@@ -8,7 +8,7 @@ struct DrawVertex
 struct DrawTriangle
 {
    float3 normalOS; 
-   float3 diffuseColor;
+   float4 diffuseColor;
    DrawVertex vertices[3]; // The three points on the triangle
 };
     
@@ -18,7 +18,7 @@ float _OrthographicCamSizeTerrain;
 float3 _OrthographicCamPosTerrain;
 
 //get the data from the compute shader
-void GetComputeData_float(float vertexID, out float3 worldPos, out float3 normal, out float2 uv, out float3 col)
+void GetComputeData_float(float vertexID, out float3 worldPos, out float3 normal, out float2 uv, out float4 col)
 {
       DrawTriangle tri = _DrawTriangles[vertexID / 3];
       DrawVertex input = tri.vertices[vertexID % 3];
