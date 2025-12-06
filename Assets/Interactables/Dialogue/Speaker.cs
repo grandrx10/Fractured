@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class Speaker : Interactable
 {
+    public Conversation conversation;
+
     public override void Interact(GameObject player)
     {
-        Debug.Log("I've been interacted with");
-
-        Follower follower = gameObject.GetComponent<Follower>();
-        if (follower != null)
+        if (conversation != null)
         {
-            follower.SetFollowable(player.GetComponent<Followable>());
-            canInteract = false;
+            DialogueManager.Instance.StartConversation(conversation);
         }
     }
 }

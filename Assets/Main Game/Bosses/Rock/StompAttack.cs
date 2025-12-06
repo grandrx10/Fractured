@@ -5,11 +5,20 @@ using System.Collections;
 public class StompAttack : BossAttack
 {
     public float cooldown = 1f;
-    public float launchForce = 20f;
-    public float upwardBoost = 1.5f;
-    public float rotationDuration = 0.5f; // Time to rotate toward player
+
+    [Header("Jump Settings")]
+    public float jumpDuration = 1f;           // constant duration for all jumps
+    public float minPeakHeight = 2f;          // height when jumping max distance
+    public float maxPeakHeight = 8f;          // height when jumping close range
+    public float maxJumpDistance = 10f;       // maximum distance boss can jump
+    public float targetRadius = 2f;           // random offset around player
+
+    [Header("Warning Settings")]
+    public GameObject warningPrefab;
+    public int warningRadius;
 
     private float lastAttackTime;
+    private bool isJumping = false;
 
     public override void StartAttack(GameObject boss)
     {
@@ -19,35 +28,75 @@ public class StompAttack : BossAttack
 
     public override void Tick(GameObject boss)
     {
-        if (!isActive) return;
-
-        Rigidbody rb = boss.GetComponent<Rigidbody>();
-        if (rb == null) return;
-
+        if (!isActive || isJumping) return;
         if (PlayerSingleton.Instance == null) return;
-        Transform player = PlayerSingleton.Instance.transform;
 
-        // Launch toward player if cooldown passed
         if (Time.time - lastAttackTime >= cooldown)
         {
-            LaunchAtPlayer(rb, player);
-            NpcCommands npc = boss.GetComponent<NpcCommands>();
-            if (npc != null && PlayerSingleton.Instance != null)
+            Vector3 playerPos = PlayerSingleton.Instance.transform.position;
+
+            // Add randomness to target
+            Vector2 randomOffset = Random.insideUnitCircle * targetRadius;
+            Vector3 targetPos = playerPos + new Vector3(randomOffset.x, 0f, randomOffset.y);
+
+            // Limit maximum jump distance
+            Vector3 startPos = boss.transform.position;
+            Vector3 toTarget = targetPos - startPos;
+            if (toTarget.magnitude > maxJumpDistance)
             {
-                npc.RotateOnceTowards(PlayerSingleton.Instance.transform); // single rotation
+                toTarget = toTarget.normalized * maxJumpDistance;
+                targetPos = startPos + toTarget;
             }
 
+            // Spawn warning prefab
+            if (warningPrefab != null)
+            {
+                Warning w = Instantiate(warningPrefab, targetPos, Quaternion.identity).GetComponent<Warning>();
+                w.Initialize(warningRadius, jumpDuration, Warning.WarningType.Grounded);
+            }
 
+            // Smooth rotation
+            NpcCommands npc = boss.GetComponent<NpcCommands>();
+            if (npc != null)
+                npc.RotateOnceTowards(PlayerSingleton.Instance.transform);
+
+            // Start jump
+            boss.GetComponent<MonoBehaviour>().StartCoroutine(JumpParabola(boss, targetPos));
             lastAttackTime = Time.time;
         }
     }
 
-    private void LaunchAtPlayer(Rigidbody rb, Transform player)
+    private IEnumerator JumpParabola(GameObject boss, Vector3 targetPos)
     {
-        Vector3 direction = (player.position - rb.position).normalized;
-        direction.y = upwardBoost;
+        isJumping = true;
 
-        rb.linearVelocity = Vector3.zero;
-        rb.AddForce(direction.normalized * launchForce, ForceMode.Impulse);
+        Vector3 startPos = boss.transform.position;
+        targetPos.y = startPos.y;
+
+        float distance = Vector3.Distance(startPos, targetPos);
+        
+        // Calculate peak height based on distance (closer = higher jump)
+        float normalizedDistance = Mathf.Clamp01(distance / maxJumpDistance);
+        float peakHeight = Mathf.Lerp(maxPeakHeight, minPeakHeight, normalizedDistance);
+
+        // Gravity & initial vertical speed for calculated peakHeight
+        float gravity = 2f * peakHeight / Mathf.Pow(jumpDuration / 2f, 2);
+        float initialVerticalSpeed = gravity * (jumpDuration / 2f);
+
+        float time = 0f;
+        while (time < jumpDuration)
+        {
+            float t = time;
+            Vector3 horiz = Vector3.Lerp(startPos, targetPos, t / jumpDuration);
+            float y = startPos.y + initialVerticalSpeed * t - 0.5f * gravity * t * t;
+
+            boss.transform.position = new Vector3(horiz.x, y, horiz.z);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        boss.transform.position = targetPos;
+        isJumping = false;
     }
 }

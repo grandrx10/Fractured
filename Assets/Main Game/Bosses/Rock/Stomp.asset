@@ -17,6 +17,10 @@ MonoBehaviour:
   triggerOnce: 0
   hasTriggered: 1
   cooldown: 4
-  launchForce: 15
-  upwardBoost: 1.5
-  rotationDuration: 0.5
+  jumpDuration: 1.5
+  minPeakHeight: 3
+  maxPeakHeight: 15
+  maxJumpDistance: 35
+  targetRadius: 2
+  warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  warningRadius: 10
