@@ -2,6 +2,30 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+[System.Serializable]
+public class DialogueLine
+{
+    public string speaker;
+    public string text;
+    public List<string> events = new List<string>();
+}
+
+[System.Serializable]
+public class Conversation
+{
+    public string name;
+    public List<DialogueLine> lines = new List<DialogueLine>();
+    public Dictionary<string, string> swapInstructions = new Dictionary<string, string>();
+}
+
+[System.Serializable]
+public class CharacterMapping
+{
+    public string characterName;
+    public GameObject characterObject;
+}
 
 public class DialogueManager : MonoBehaviour
 {
@@ -9,154 +33,259 @@ public class DialogueManager : MonoBehaviour
 
     [Header("UI References")]
     public GameObject dialogueBox;
-    public TMP_Text speakerText;
-    public TMP_Text dialogueText;
+    public TMP_Text characterNameText;
+    public TMP_Text characterSpeechText;
 
     [Header("Settings")]
     public float lettersPerSecond = 30f;
 
-    [Header("Characters")]
-    public List<Character> characters = new List<Character>();
+    [Header("Dialogue Files (Resources paths)")]
+    public List<string> dialogueFilePaths = new List<string>();
 
+    [Header("Character Mappings")]
+    public List<CharacterMapping> characterMappings = new List<CharacterMapping>();
+
+    private List<Conversation> conversations = new List<Conversation>();
     private Conversation currentConversation;
-    private int index = 0;
-    private bool isRunning = false;
+    private int dialogueIndex = 0;
     private Coroutine typingCoroutine;
+    private bool isTyping = false;
+    private bool inConversation = false;
 
-    private AudioSource currentAudioSource;
+    // Track which speakers were disabled during this conversation
+    private List<Speaker> disabledSpeakers = new List<Speaker>();
 
     private void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
 
-        if (dialogueBox != null)
-            dialogueBox.SetActive(false);
+        LoadAllDialogueFiles();
     }
 
-    private void Update()
+    private void LoadAllDialogueFiles()
     {
-        if (!isRunning)
-            return;
-
-        if (Input.GetMouseButtonDown(0))
+        foreach (string path in dialogueFilePaths)
         {
-            // If text is still typing, finish instantly
-            if (typingCoroutine != null)
-            {
-                StopCoroutine(typingCoroutine);
-                dialogueText.text = currentConversation.dialogues[index - 1].line;
-                typingCoroutine = null;
+            LoadDialogueFileFromResources(path);
+        }
+    }
 
-                // Stop any currently playing audio immediately
-                if (currentAudioSource != null && currentAudioSource.isPlaying)
-                    currentAudioSource.Stop();
-            }
-            else
+    private void LoadDialogueFileFromResources(string resourcePath)
+    {
+        string cleanPath = resourcePath.Replace(".txt", "");
+        TextAsset dialogueFile = Resources.Load<TextAsset>(cleanPath);
+
+        if (dialogueFile == null)
+        {
+            Debug.LogError("Dialogue file not found in Resources at: " + resourcePath);
+            return;
+        }
+
+        string text = dialogueFile.text;
+        string[] convoBlocks = text.Split(new string[] { "###" }, System.StringSplitOptions.RemoveEmptyEntries);
+        Debug.Log($"Loading file: {resourcePath} - Found {convoBlocks.Length} conversation blocks");
+        foreach (string block in convoBlocks)
+        {
+            ParseConversationBlock(block.Trim());
+        }
+    }
+
+  private void ParseConversationBlock(string block)
+{
+    // Split by === to get conversation name and content
+    string[] sections = block.Split(new string[] { "===" }, System.StringSplitOptions.None);
+    if (sections.Length < 2) return;
+
+    string convoName = sections[0].Trim();
+    if (string.IsNullOrEmpty(convoName)) return; // Skip empty blocks
+    
+    // Get dialogue section (between first and last ===)
+    string dialogueSection = sections[1].Trim();
+    
+    // Get swap instruction section (after last ===, if exists)
+    string swapSection = sections.Length >= 3 ? sections[2].Trim() : "";
+
+    Conversation convo = new Conversation();
+    convo.name = convoName;
+
+    // Check swap section for swap instructions (only if not empty)
+    if (!string.IsNullOrEmpty(swapSection))
+    {
+        string[] swapLines = swapSection.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+        foreach (string line in swapLines)
+        {
+            string trimmedLine = line.Trim();
+            // Skip lines that are just separators or empty
+            if (string.IsNullOrEmpty(trimmedLine)) continue;
+            
+            Match swapMatch = Regex.Match(trimmedLine, @"^\[(.*?)\]\{(.*?)\}$");
+            if (swapMatch.Success)
             {
-                PlayNextDialogue();
+                string characterName = swapMatch.Groups[1].Value.Trim();
+                string newConvoName = swapMatch.Groups[2].Value.Trim();
+                convo.swapInstructions[characterName] = newConvoName;
+                Debug.Log($"Found swap instruction: {characterName} -> {newConvoName}");
             }
         }
     }
 
-    public void StartConversation(Conversation convo)
+    // Now parse dialogue blocks separated by ---
+    string[] dialogueBlocks = dialogueSection.Split(new string[] { "---" }, System.StringSplitOptions.RemoveEmptyEntries);
+
+    foreach (string dlgBlock in dialogueBlocks)
     {
-        if (isRunning)
-            return;
+        string[] dlgLines = dlgBlock.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+        if (dlgLines.Length == 0) continue;
 
-        currentConversation = convo;
-        index = 0;
-        isRunning = true;
+        DialogueLine dialogueLine = new DialogueLine();
 
-        if (dialogueBox != null)
-            dialogueBox.SetActive(true);
+        // Extract events from first line (e.g., <EventName>)
+        MatchCollection eventMatches = Regex.Matches(dlgLines[0], @"<([^>]+)>");
+        foreach (Match match in eventMatches)
+            dialogueLine.events.Add(match.Groups[1].Value);
 
-        PlayNextDialogue();
+        // Remove events from first line and extract speaker
+        string firstLine = Regex.Replace(dlgLines[0], @"<([^>]+)>", "").Trim();
+        Match speakerMatch = Regex.Match(firstLine, @"\[(.*?)\]");
+        dialogueLine.speaker = speakerMatch.Success ? speakerMatch.Groups[1].Value.Trim() : "";
+
+        // Extract dialogue text
+        if (dlgLines.Length > 1)
+        {
+            // Multi-line dialogue
+            dialogueLine.text = string.Join("\n", dlgLines, 1, dlgLines.Length - 1).Trim();
+        }
+        else
+        {
+            // Single-line dialogue (remove speaker tag)
+            dialogueLine.text = firstLine.Replace("[" + dialogueLine.speaker + "]", "").Trim();
+        }
+
+        convo.lines.Add(dialogueLine);
     }
 
-    private void PlayNextDialogue()
+    conversations.Add(convo);
+    Debug.Log($"Loaded conversation: {convo.name} with {convo.lines.Count} lines and {convo.swapInstructions.Count} swap instructions");
+    
+    // Debug: List all loaded conversation names
+    if (convo.swapInstructions.Count > 0)
     {
-        if (index >= currentConversation.dialogues.Length)
+        foreach (var swap in convo.swapInstructions)
+        {
+            Debug.Log($"  - Swap: {swap.Key} will trigger conversation '{swap.Value}'");
+        }
+    }
+}
+
+
+    public void StartConversation(string conversationName)
+    {
+        currentConversation = conversations.Find(c => c.name == conversationName);
+        if (currentConversation == null)
+        {
+            Debug.LogError("Conversation not found: " + conversationName);
+            return;
+        }
+
+        inConversation = true;
+        // Apply swap instructions and disable interaction
+disabledSpeakers.Clear();
+foreach (var swap in currentConversation.swapInstructions)
+{
+    CharacterMapping mapping = characterMappings.Find(c => c.characterName == swap.Key);
+    if (mapping != null)
+    {
+        Speaker sp = mapping.characterObject.GetComponent<Speaker>();
+        if (sp != null)
+        {
+            sp.conversationName = swap.Value;   // swap conversation
+            sp.canInteract = false;             // disable interaction immediately
+
+            // Only track for re-enable if swap target is NOT empty
+            if (!string.IsNullOrEmpty(swap.Value))
+                disabledSpeakers.Add(sp);
+
+            Debug.Log($"Assigned conversation '{swap.Value}' and disabled interaction for {swap.Key}");
+        }
+    }
+}
+
+
+
+        dialogueIndex = 0;
+        dialogueBox.SetActive(true);
+        ShowNextLine();
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && inConversation)
+        {
+            if (isTyping)
+            {
+                if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+                DialogueLine currentLine = currentConversation.lines[dialogueIndex - 1];
+                characterSpeechText.text = currentLine.text;
+                isTyping = false;
+            }
+            else
+            {
+                ShowNextLine();
+            }
+        }
+    }
+
+    private void ShowNextLine()
+    {
+        if (currentConversation == null || dialogueIndex >= currentConversation.lines.Count)
         {
             EndConversation();
             return;
         }
 
-        Dialogue dialogue = currentConversation.dialogues[index];
-        index++;
+        DialogueLine line = currentConversation.lines[dialogueIndex];
 
-        // Execute dialogue events
-        foreach (DialogueEvent e in dialogue.events)
-            e?.Execute();
+        foreach (string evt in line.events)
+            Debug.Log("Trigger Event: " + evt);
 
-        // Update speaker name
-        if (speakerText != null)
-            speakerText.text = dialogue.speakerName;
+        characterNameText.text = line.speaker;
 
-        // Stop previous audio
-        if (currentAudioSource != null && currentAudioSource.isPlaying)
-            currentAudioSource.Stop();
+        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+        typingCoroutine = StartCoroutine(TypeText(line.text));
 
-        // Play voice line
-        if (dialogue.voiceLine != null)
-        {
-            Character speakerCharacter = characters.Find(c => c.characterName == dialogue.speakerName);
-            if (speakerCharacter != null)
-            {
-                AudioSource source = speakerCharacter.characterTransform.GetComponent<AudioSource>();
-                if (source == null)
-                    source = speakerCharacter.characterTransform.gameObject.AddComponent<AudioSource>();
-
-                source.clip = dialogue.voiceLine;
-                source.Play();
-                currentAudioSource = source;
-            }
-        }
-
-        // Start typing the dialogue
-        if (typingCoroutine != null)
-            StopCoroutine(typingCoroutine);
-
-        typingCoroutine = StartCoroutine(TypeText(dialogue.line));
+        dialogueIndex++;
     }
 
-    private IEnumerator TypeText(string line)
+    private IEnumerator TypeText(string text)
     {
-        dialogueText.text = "";
-        foreach (char c in line)
+        characterSpeechText.text = "";
+        isTyping = true;
+        foreach (char c in text)
         {
-            dialogueText.text += c;
+            characterSpeechText.text += c;
             yield return new WaitForSeconds(1f / lettersPerSecond);
         }
-        typingCoroutine = null;
+        isTyping = false;
     }
 
     private void EndConversation()
     {
-        isRunning = false;
+        dialogueBox.SetActive(false);
         currentConversation = null;
+        dialogueIndex = 0;
 
-        if (dialogueBox != null)
-            dialogueBox.SetActive(false);
+        // Re-enable interaction for all disabled speakers
+        foreach (Speaker sp in disabledSpeakers)
+            if (sp != null) sp.canInteract = true;
 
-        // Stop any remaining audio
-        if (currentAudioSource != null && currentAudioSource.isPlaying)
-            currentAudioSource.Stop();
+        disabledSpeakers.Clear();
+        inConversation = false;
 
-        currentAudioSource = null;
-
-        Debug.Log("Conversation finished.");
-    }
-
-    /// <summary>
-    /// Helper method to get a character by name
-    /// </summary>
-    public Character GetCharacterByName(string name)
-    {
-        return characters.Find(c => c.characterName == name);
+        Debug.Log("Conversation Ended");
     }
 }
