@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,11 +14,22 @@ public class DialogueLine
 }
 
 [System.Serializable]
+public class DialogueChoice
+{
+    public string choiceText;
+    public string eventName;      // For <EventName> format
+    public string conversationName; // For {ConvoName} format
+}
+
+[System.Serializable]
 public class Conversation
 {
     public string name;
     public List<DialogueLine> lines = new List<DialogueLine>();
+    public List<DialogueChoice> choices = new List<DialogueChoice>();
     public Dictionary<string, string> swapInstructions = new Dictionary<string, string>();
+
+    public string nextConversation = null; // auto-next conversation
 }
 
 [System.Serializable]
@@ -36,6 +48,10 @@ public class DialogueManager : MonoBehaviour
     public TMP_Text characterNameText;
     public TMP_Text characterSpeechText;
 
+    [Header("Choice UI")]
+    public Transform choiceParent;
+    public GameObject choicePrefab;
+
     [Header("Settings")]
     public float lettersPerSecond = 30f;
 
@@ -45,15 +61,22 @@ public class DialogueManager : MonoBehaviour
     [Header("Character Mappings")]
     public List<CharacterMapping> characterMappings = new List<CharacterMapping>();
 
+    [Header("Event Handler")]
+    public GameObject eventHandlerObject;
+
     private List<Conversation> conversations = new List<Conversation>();
     private Conversation currentConversation;
     private int dialogueIndex = 0;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     private bool inConversation = false;
+    private bool waitingForChoice = false;
 
     // Track which speakers were disabled during this conversation
     private List<Speaker> disabledSpeakers = new List<Speaker>();
+
+    // Cache for dialogue events
+    private Dictionary<string, DialogueEvent> eventCache = new Dictionary<string, DialogueEvent>();
 
     private void Awake()
     {
@@ -65,6 +88,22 @@ public class DialogueManager : MonoBehaviour
         Instance = this;
 
         LoadAllDialogueFiles();
+        CacheDialogueEvents();
+    }
+
+    private void CacheDialogueEvents()
+    {
+        if (eventHandlerObject == null)
+        {
+            Debug.LogWarning("No event handler object assigned to DialogueManager");
+            return;
+        }
+
+        DialogueEvent[] events = eventHandlerObject.GetComponentsInChildren<DialogueEvent>();
+        foreach (DialogueEvent evt in events)
+        {
+            eventCache[evt.gameObject.name] = evt;
+        }
     }
 
     private void LoadAllDialogueFiles()
@@ -88,54 +127,99 @@ public class DialogueManager : MonoBehaviour
 
         string text = dialogueFile.text;
         string[] convoBlocks = text.Split(new string[] { "###" }, System.StringSplitOptions.RemoveEmptyEntries);
-        Debug.Log($"Loading file: {resourcePath} - Found {convoBlocks.Length} conversation blocks");
+
         foreach (string block in convoBlocks)
         {
             ParseConversationBlock(block.Trim());
         }
     }
 
-  private void ParseConversationBlock(string block)
+    private void ParseConversationBlock(string block)
 {
     // Split by === to get conversation name and content
     string[] sections = block.Split(new string[] { "===" }, System.StringSplitOptions.None);
     if (sections.Length < 2) return;
 
     string convoName = sections[0].Trim();
-    if (string.IsNullOrEmpty(convoName)) return; // Skip empty blocks
-    
-    // Get dialogue section (between first and last ===)
+    if (string.IsNullOrEmpty(convoName)) return;
+
+    // Dialogue section (everything between first === and before last ===)
     string dialogueSection = sections[1].Trim();
-    
-    // Get swap instruction section (after last ===, if exists)
-    string swapSection = sections.Length >= 3 ? sections[2].Trim() : "";
+
+    // Post-dialogue section (everything after the first === except dialogueSection)
+    string postDialogueSection = "";
+    if (sections.Length > 2)
+    {
+        postDialogueSection = string.Join("\n", sections, 2, sections.Length - 2).Trim();
+    }
 
     Conversation convo = new Conversation();
     convo.name = convoName;
 
-    // Check swap section for swap instructions (only if not empty)
-    if (!string.IsNullOrEmpty(swapSection))
+    // Parse choices if present (??? separator)
+    string[] dialogueSplit = dialogueSection.Split(new string[] { "???" }, System.StringSplitOptions.None);
+    string actualDialogue = dialogueSplit[0].Trim();
+    string choicesSection = dialogueSplit.Length > 1 ? dialogueSplit[1].Trim() : "";
+
+    if (!string.IsNullOrEmpty(choicesSection))
     {
-        string[] swapLines = swapSection.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
-        foreach (string line in swapLines)
+        string[] choiceLines = choicesSection.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+        foreach (string choiceLine in choiceLines)
+        {
+            string trimmed = choiceLine.Trim();
+            if (string.IsNullOrEmpty(trimmed)) continue;
+
+            DialogueChoice choice = new DialogueChoice();
+
+            // Match [ChoiceText]<EventName> or [ChoiceText]{ConvoName}
+            Match eventMatch = Regex.Match(trimmed, @"^\[(.*?)\]<([^>]+)>$");
+            Match convoMatch = Regex.Match(trimmed, @"^\[(.*?)\]\{(.*?)\}$");
+
+            if (eventMatch.Success)
+            {
+                choice.choiceText = eventMatch.Groups[1].Value.Trim();
+                choice.eventName = eventMatch.Groups[2].Value.Trim();
+                convo.choices.Add(choice);
+            }
+            else if (convoMatch.Success)
+            {
+                choice.choiceText = convoMatch.Groups[1].Value.Trim();
+                choice.conversationName = convoMatch.Groups[2].Value.Trim();
+                convo.choices.Add(choice);
+            }
+        }
+    }
+
+    // Parse post-dialogue section for swap instructions and next conversation
+    if (!string.IsNullOrEmpty(postDialogueSection))
+    {
+        string[] postLines = postDialogueSection.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+        foreach (string line in postLines)
         {
             string trimmedLine = line.Trim();
-            // Skip lines that are just separators or empty
             if (string.IsNullOrEmpty(trimmedLine)) continue;
-            
+
+            // Swap instruction [Character]{ConvoName}
             Match swapMatch = Regex.Match(trimmedLine, @"^\[(.*?)\]\{(.*?)\}$");
             if (swapMatch.Success)
             {
                 string characterName = swapMatch.Groups[1].Value.Trim();
                 string newConvoName = swapMatch.Groups[2].Value.Trim();
                 convo.swapInstructions[characterName] = newConvoName;
-                Debug.Log($"Found swap instruction: {characterName} -> {newConvoName}");
+                continue;
+            }
+
+            // Next conversation >>ConvoName
+            Match nextConvoMatch = Regex.Match(trimmedLine, @"^>>\s*(.+)$");
+            if (nextConvoMatch.Success)
+            {
+                convo.nextConversation = nextConvoMatch.Groups[1].Value.Trim();
             }
         }
     }
 
-    // Now parse dialogue blocks separated by ---
-    string[] dialogueBlocks = dialogueSection.Split(new string[] { "---" }, System.StringSplitOptions.RemoveEmptyEntries);
+    // Now parse dialogue lines separated by ---
+    string[] dialogueBlocks = actualDialogue.Split(new string[] { "---" }, System.StringSplitOptions.RemoveEmptyEntries);
 
     foreach (string dlgBlock in dialogueBlocks)
     {
@@ -143,44 +227,54 @@ public class DialogueManager : MonoBehaviour
         if (dlgLines.Length == 0) continue;
 
         DialogueLine dialogueLine = new DialogueLine();
+        int lineIndex = 0;
 
-        // Extract events from first line (e.g., <EventName>)
-        MatchCollection eventMatches = Regex.Matches(dlgLines[0], @"<([^>]+)>");
-        foreach (Match match in eventMatches)
+        // Extract events at the start
+        while (lineIndex < dlgLines.Length)
+        {
+            string line = dlgLines[lineIndex].Trim();
+            string withoutEvents = Regex.Replace(line, @"<([^>]+)>", "").Trim();
+
+            if (string.IsNullOrEmpty(withoutEvents))
+            {
+                MatchCollection eventMatches = Regex.Matches(line, @"<([^>]+)>");
+                foreach (Match match in eventMatches)
+                    dialogueLine.events.Add(match.Groups[1].Value);
+
+                lineIndex++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (lineIndex >= dlgLines.Length) continue;
+
+        string firstLine = dlgLines[lineIndex];
+
+        // Remaining events in the first line
+        MatchCollection remainingEvents = Regex.Matches(firstLine, @"<([^>]+)>");
+        foreach (Match match in remainingEvents)
             dialogueLine.events.Add(match.Groups[1].Value);
 
-        // Remove events from first line and extract speaker
-        string firstLine = Regex.Replace(dlgLines[0], @"<([^>]+)>", "").Trim();
+        // Extract speaker
+        firstLine = Regex.Replace(firstLine, @"<([^>]+)>", "").Trim();
         Match speakerMatch = Regex.Match(firstLine, @"\[(.*?)\]");
         dialogueLine.speaker = speakerMatch.Success ? speakerMatch.Groups[1].Value.Trim() : "";
 
-        // Extract dialogue text
-        if (dlgLines.Length > 1)
-        {
-            // Multi-line dialogue
-            dialogueLine.text = string.Join("\n", dlgLines, 1, dlgLines.Length - 1).Trim();
-        }
+        // Extract text
+        if (dlgLines.Length > lineIndex + 1)
+            dialogueLine.text = string.Join("\n", dlgLines, lineIndex + 1, dlgLines.Length - lineIndex - 1).Trim();
         else
-        {
-            // Single-line dialogue (remove speaker tag)
             dialogueLine.text = firstLine.Replace("[" + dialogueLine.speaker + "]", "").Trim();
-        }
 
         convo.lines.Add(dialogueLine);
     }
 
     conversations.Add(convo);
-    Debug.Log($"Loaded conversation: {convo.name} with {convo.lines.Count} lines and {convo.swapInstructions.Count} swap instructions");
-    
-    // Debug: List all loaded conversation names
-    if (convo.swapInstructions.Count > 0)
-    {
-        foreach (var swap in convo.swapInstructions)
-        {
-            Debug.Log($"  - Swap: {swap.Key} will trigger conversation '{swap.Value}'");
-        }
-    }
 }
+
 
 
     public void StartConversation(string conversationName)
@@ -193,29 +287,24 @@ public class DialogueManager : MonoBehaviour
         }
 
         inConversation = true;
-        // Apply swap instructions and disable interaction
-disabledSpeakers.Clear();
-foreach (var swap in currentConversation.swapInstructions)
-{
-    CharacterMapping mapping = characterMappings.Find(c => c.characterName == swap.Key);
-    if (mapping != null)
-    {
-        Speaker sp = mapping.characterObject.GetComponent<Speaker>();
-        if (sp != null)
+        waitingForChoice = false;
+        disabledSpeakers.Clear();
+
+        foreach (var swap in currentConversation.swapInstructions)
         {
-            sp.conversationName = swap.Value;   // swap conversation
-            sp.canInteract = false;             // disable interaction immediately
-
-            // Only track for re-enable if swap target is NOT empty
-            if (!string.IsNullOrEmpty(swap.Value))
-                disabledSpeakers.Add(sp);
-
-            Debug.Log($"Assigned conversation '{swap.Value}' and disabled interaction for {swap.Key}");
+            CharacterMapping mapping = characterMappings.Find(c => c.characterName == swap.Key);
+            if (mapping != null)
+            {
+                Speaker sp = mapping.characterObject.GetComponent<Speaker>();
+                if (sp != null)
+                {
+                    sp.conversationName = swap.Value;
+                    sp.canInteract = false;
+                    if (!string.IsNullOrEmpty(swap.Value))
+                        disabledSpeakers.Add(sp);
+                }
+            }
         }
-    }
-}
-
-
 
         dialogueIndex = 0;
         dialogueBox.SetActive(true);
@@ -224,7 +313,7 @@ foreach (var swap in currentConversation.swapInstructions)
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && inConversation)
+        if (Input.GetMouseButtonDown(0) && inConversation && !waitingForChoice)
         {
             if (isTyping)
             {
@@ -244,14 +333,21 @@ foreach (var swap in currentConversation.swapInstructions)
     {
         if (currentConversation == null || dialogueIndex >= currentConversation.lines.Count)
         {
-            EndConversation();
+            if (currentConversation != null && currentConversation.choices.Count > 0)
+            {
+                ShowChoices();
+            }
+            else
+            {
+                EndConversation();
+            }
             return;
         }
 
         DialogueLine line = currentConversation.lines[dialogueIndex];
 
-        foreach (string evt in line.events)
-            Debug.Log("Trigger Event: " + evt);
+        foreach (string eventName in line.events)
+            ExecuteEvent(eventName);
 
         characterNameText.text = line.speaker;
 
@@ -259,6 +355,61 @@ foreach (var swap in currentConversation.swapInstructions)
         typingCoroutine = StartCoroutine(TypeText(line.text));
 
         dialogueIndex++;
+    }
+
+    private void ShowChoices()
+    {
+        waitingForChoice = true;
+        // Keep previous dialogue visible
+        ThirdPersonCam.Instance.cameraLocked = false;
+
+        foreach (DialogueChoice choice in currentConversation.choices)
+        {
+            GameObject choiceObj = Instantiate(choicePrefab, choiceParent);
+            TMP_Text choiceText = choiceObj.GetComponentInChildren<TMP_Text>();
+            if (choiceText != null)
+                choiceText.text = choice.choiceText;
+
+            Button button = choiceObj.GetComponent<Button>();
+            if (button != null)
+            {
+                DialogueChoice capturedChoice = choice;
+                button.onClick.AddListener(() => OnChoiceSelected(capturedChoice));
+            }
+        }
+    }
+
+    private void OnChoiceSelected(DialogueChoice choice)
+    {
+        foreach (Transform child in choiceParent)
+            Destroy(child.gameObject);
+
+        waitingForChoice = false;
+
+        if (!string.IsNullOrEmpty(choice.eventName))
+        {
+            ExecuteEvent(choice.eventName);
+            EndConversation();
+        }
+        else if (!string.IsNullOrEmpty(choice.conversationName))
+        {
+            EndConversation();
+            StartConversation(choice.conversationName);
+        }
+        else
+        {
+            EndConversation();
+        }
+
+        ThirdPersonCam.Instance.cameraLocked = true;
+    }
+
+    private void ExecuteEvent(string eventName)
+    {
+        if (eventCache.TryGetValue(eventName, out DialogueEvent evt))
+            evt.Execute();
+        else
+            Debug.LogWarning($"Event '{eventName}' not found in event handler object");
     }
 
     private IEnumerator TypeText(string text)
@@ -276,16 +427,26 @@ foreach (var swap in currentConversation.swapInstructions)
     private void EndConversation()
     {
         dialogueBox.SetActive(false);
-        currentConversation = null;
-        dialogueIndex = 0;
 
-        // Re-enable interaction for all disabled speakers
+        // Re-enable disabled speakers
         foreach (Speaker sp in disabledSpeakers)
             if (sp != null) sp.canInteract = true;
 
         disabledSpeakers.Clear();
         inConversation = false;
 
-        Debug.Log("Conversation Ended");
+        string nextConvo = currentConversation?.nextConversation;
+        currentConversation = null;
+        dialogueIndex = 0;
+        waitingForChoice = false;
+
+        foreach (Transform child in choiceParent)
+            Destroy(child.gameObject);
+
+        // Auto-start next conversation if specified
+        if (!string.IsNullOrEmpty(nextConvo))
+        {
+            StartConversation(nextConvo);
+        }
     }
 }

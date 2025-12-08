@@ -32,4 +32,32 @@ Yeah right, they barely know me.
 Well, we're going to change that today!
 ===
 [Ravenna]{}
+===
+>>EatInquiry
+###
+EatInquiry
+===
+[Ravenna]
+Do you want to eat something?
+???
+[Yes]{EatSomething}
+[No]{EatNothing}
+===
+[Ravenna]{}
+###
+EatNothing
+===
+<RavennaFollowEvent>
+[Ravenna]
+What? Don't tell me you're going on a diet? You're skinny enough already. Come on, let's go!
+===
+[Ravenna]{}
+###
+EatSomething
+===
+<RavennaFollowEvent>
+[Ravenna]
+I heard the town's restaurant just got a new special, let's check it out!
+===
+[Ravenna]{}
 ###
