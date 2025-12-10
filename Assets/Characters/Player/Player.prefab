@@ -219,11 +219,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1563743961754354caa3e526378a46f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  axisController: {fileID: 8612277872011975213}
   orientation: {fileID: 3603662854328374165}
   player: {fileID: 7779007587187811765}
   playerObj: {fileID: 2060488939423351865}
   rb: {fileID: 7163056067678048503}
   rotationSpeed: 5
+  cameraLocked: 1
 --- !u!1 &3829380429351370701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,6 +1275,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc02494ccda23da44ac6c8c2a972804e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  maxRayDistance: 10
 --- !u!114 &7658400312699198486
 MonoBehaviour:
   m_ObjectHideFlags: 0

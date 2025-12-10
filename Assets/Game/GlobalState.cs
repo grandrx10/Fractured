@@ -15,7 +15,7 @@ public class GlobalState: MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            Load("Assets/Main Game/save.txt");
+            Load("Assets/Game/save.txt");
         }
     }
 
@@ -23,7 +23,7 @@ public class GlobalState: MonoBehaviour
     {
         if (saveOnExit)
         {
-            Save("Assets/Main Game/save.txt");
+            Save("Assets/Game/save.txt");
         }
     }
 
