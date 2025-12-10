@@ -1,0 +1,104 @@
+WolfOpener
+===
+[Wolf]
+Har har, Ravenna, it is nice to see you again. Who might this young fella be?
+---
+[Dorian]
+Dorian, sir.
+---
+[Wolf]
+Oh, don't bother with the formalities, my days are far behind me. Just call me Wolf.
+---
+[Dorian]
+Your name is...
+---
+[Wolf]
+Ha! A bit on the nose? Well, I don't remember my actual name, that time's a little fuzzy to me. Anyways, Dorian, it's good to meet you. We need more younglings like you around on the island - who else is going to do all the chores? Haha.
+---
+[Ravenna]
+Hehe.
+---
+[Wolf]
+Speaking of chores, I have something I need something I need done. A quest if you will.
+---
+[Ravenna]
+What is it?
+---
+[Wolf]
+Well, it is top secret; you absolutely cannot tell anyone else you're doing this quest for me. Understand? Absolute calamity will befall us if you let this secret slip.
+---
+[Dorian]
+What is it??
+---
+[Wolf]
+I!!!
+---
+[Wolf]
+I need someone to trim the wool off of my goats.
+---
+[Dorian]
+Huh?
+---
+[Wolf]
+You see, I told my wife I was going to do that, but I totally forgot. I ain't that fast anymore (and far too lazy), so if you younglings could get it done, that'd be terrific. There'll be compensation.
+---
+[Ravenna]
+You can count on us, Mr. Wolf!
+---
+[Dorian]
+Huh? I didn't sign up for-
+---
+[Wolf]
+Great! Har har, I knew I could count on you, Ravenna and Dorian. Here's a scissor to help you on your journey. Once you're done, come to talk to me once again.
+---
+[Wolf]
+And remember. Do NOT tell anyone else. Especially not my wife.
+===
+[Wolf]{WolfQuest}
+###
+WolfQuest
+===
+[Wolf]
+Har har, did you get it done?
+???
+[Yes](WolfQuestComplete){WolfQuestComplete}
+[No]{WolfQuestIncomplete}
+###
+WolfQuestComplete
+===
+[Wolf]
+Great job, I knew I could count on you two. Did I mention you two are my favourite younglings? Alright, thanks. I'll talk to you younglings later.
+---
+[Dorian]
+Ahem.
+---
+[Ravenna]
+Mr. Wolf, didn't you mention a reward?
+---
+[Wolf]
+Did I mention a reward? I can't remember...
+---
+[Ravenna]
+Mr. Wolf.
+---
+[Wolf]
+Okay okay, here you go. Damn you younglings, robbing an old man blind...
+---
+[Ravenna]
+Thank you, Mr. Wolf! See you next time!
+---
+[Wolf]
+Yeah. Har.
+===
+[Wolf]{}
+###
+WolfQuestIncomplete
+===
+[Wolf]
+Well you best get to it quickly, before my wife kills me! Har har.
+---
+[Wolf]
+That last bit was only partially a joke. Please. Be fast.
+===
+[Wolf]{WolfQuest}
+###

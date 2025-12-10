@@ -135,147 +135,159 @@ public class DialogueManager : MonoBehaviour
     }
 
     private void ParseConversationBlock(string block)
-{
-    // Split by === to get conversation name and content
-    string[] sections = block.Split(new string[] { "===" }, System.StringSplitOptions.None);
-    if (sections.Length < 2) return;
-
-    string convoName = sections[0].Trim();
-    if (string.IsNullOrEmpty(convoName)) return;
-
-    // Dialogue section (everything between first === and before last ===)
-    string dialogueSection = sections[1].Trim();
-
-    // Post-dialogue section (everything after the first === except dialogueSection)
-    string postDialogueSection = "";
-    if (sections.Length > 2)
     {
-        postDialogueSection = string.Join("\n", sections, 2, sections.Length - 2).Trim();
-    }
+        // Split by === to get conversation name and content
+        string[] sections = block.Split(new string[] { "===" }, System.StringSplitOptions.None);
+        if (sections.Length < 2) return;
 
-    Conversation convo = new Conversation();
-    convo.name = convoName;
+        string convoName = sections[0].Trim();
+        if (string.IsNullOrEmpty(convoName)) return;
 
-    // Parse choices if present (??? separator)
-    string[] dialogueSplit = dialogueSection.Split(new string[] { "???" }, System.StringSplitOptions.None);
-    string actualDialogue = dialogueSplit[0].Trim();
-    string choicesSection = dialogueSplit.Length > 1 ? dialogueSplit[1].Trim() : "";
+        // Dialogue section (everything between first === and before last ===)
+        string dialogueSection = sections[1].Trim();
 
-    if (!string.IsNullOrEmpty(choicesSection))
-    {
-        string[] choiceLines = choicesSection.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
-        foreach (string choiceLine in choiceLines)
+        // Post-dialogue section (everything after the first === except dialogueSection)
+        string postDialogueSection = "";
+        if (sections.Length > 2)
         {
-            string trimmed = choiceLine.Trim();
-            if (string.IsNullOrEmpty(trimmed)) continue;
+            postDialogueSection = string.Join("\n", sections, 2, sections.Length - 2).Trim();
+        }
 
-            DialogueChoice choice = new DialogueChoice();
+        Conversation convo = new Conversation();
+        convo.name = convoName;
 
-            // Match [ChoiceText]<EventName> or [ChoiceText]{ConvoName}
-            Match eventMatch = Regex.Match(trimmed, @"^\[(.*?)\]<([^>]+)>$");
-            Match convoMatch = Regex.Match(trimmed, @"^\[(.*?)\]\{(.*?)\}$");
+        // Parse choices if present (??? separator)
+        string[] dialogueSplit = dialogueSection.Split(new string[] { "???" }, System.StringSplitOptions.None);
+        string actualDialogue = dialogueSplit[0].Trim();
+        string choicesSection = dialogueSplit.Length > 1 ? dialogueSplit[1].Trim() : "";
 
-            if (eventMatch.Success)
+        if (!string.IsNullOrEmpty(choicesSection))
+        {
+            string[] choiceLines = choicesSection.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+            foreach (string choiceLine in choiceLines)
             {
-                choice.choiceText = eventMatch.Groups[1].Value.Trim();
-                choice.eventName = eventMatch.Groups[2].Value.Trim();
-                convo.choices.Add(choice);
-            }
-            else if (convoMatch.Success)
-            {
-                choice.choiceText = convoMatch.Groups[1].Value.Trim();
-                choice.conversationName = convoMatch.Groups[2].Value.Trim();
-                convo.choices.Add(choice);
+                string trimmed = choiceLine.Trim();
+                if (string.IsNullOrEmpty(trimmed)) continue;
+
+                DialogueChoice choice = new DialogueChoice();
+
+                // Match [ChoiceText]<EventName> or [ChoiceText]{ConvoName}
+                Match eventMatch = Regex.Match(trimmed, @"^\[(.*?)\]<([^>]+)>$");
+                Match convoMatch = Regex.Match(trimmed, @"^\[(.*?)\]\{(.*?)\}$");
+
+                if (eventMatch.Success)
+                {
+                    choice.choiceText = eventMatch.Groups[1].Value.Trim();
+                    choice.eventName = eventMatch.Groups[2].Value.Trim();
+                    convo.choices.Add(choice);
+                }
+                else if (convoMatch.Success)
+                {
+                    choice.choiceText = convoMatch.Groups[1].Value.Trim();
+                    choice.conversationName = convoMatch.Groups[2].Value.Trim();
+                    convo.choices.Add(choice);
+                }
             }
         }
-    }
 
-    // Parse post-dialogue section for swap instructions and next conversation
-    if (!string.IsNullOrEmpty(postDialogueSection))
-    {
-        string[] postLines = postDialogueSection.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
-        foreach (string line in postLines)
+        // Parse post-dialogue section for swap instructions and next conversation
+        if (!string.IsNullOrEmpty(postDialogueSection))
         {
-            string trimmedLine = line.Trim();
-            if (string.IsNullOrEmpty(trimmedLine)) continue;
-
-            // Swap instruction [Character]{ConvoName}
-            Match swapMatch = Regex.Match(trimmedLine, @"^\[(.*?)\]\{(.*?)\}$");
-            if (swapMatch.Success)
+            string[] postLines = postDialogueSection.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+            foreach (string line in postLines)
             {
-                string characterName = swapMatch.Groups[1].Value.Trim();
-                string newConvoName = swapMatch.Groups[2].Value.Trim();
-                convo.swapInstructions[characterName] = newConvoName;
+                string trimmedLine = line.Trim();
+                if (string.IsNullOrEmpty(trimmedLine)) continue;
+
+                // Swap instruction [Character]{ConvoName}
+                Match swapMatch = Regex.Match(trimmedLine, @"^\[(.*?)\]\{(.*?)\}$");
+                if (swapMatch.Success)
+                {
+                    string characterName = swapMatch.Groups[1].Value.Trim();
+                    string newConvoName = swapMatch.Groups[2].Value.Trim();
+                    convo.swapInstructions[characterName] = newConvoName;
+                    continue;
+                }
+
+                // Next conversation >>ConvoName
+                Match nextConvoMatch = Regex.Match(trimmedLine, @"^>>\s*(.+)$");
+                if (nextConvoMatch.Success)
+                {
+                    convo.nextConversation = nextConvoMatch.Groups[1].Value.Trim();
+                }
+            }
+        }
+
+        // Now parse dialogue lines separated by ---
+        string[] dialogueBlocks = actualDialogue.Split(new string[] { "---" }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (string dlgBlock in dialogueBlocks)
+        {
+            string[] dlgLines = dlgBlock.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+            if (dlgLines.Length == 0) continue;
+
+            DialogueLine dialogueLine = new DialogueLine();
+            int lineIndex = 0;
+
+            // Extract events at the start
+            while (lineIndex < dlgLines.Length)
+            {
+                string line = dlgLines[lineIndex].Trim();
+                string withoutEvents = Regex.Replace(line, @"<([^>]+)>", "").Trim();
+
+                if (string.IsNullOrEmpty(withoutEvents))
+                {
+                    MatchCollection eventMatches = Regex.Matches(line, @"<([^>]+)>");
+                    foreach (Match match in eventMatches)
+                        dialogueLine.events.Add(match.Groups[1].Value);
+
+                    lineIndex++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            // If we only have events and no more lines, still add the dialogue line
+            if (lineIndex >= dlgLines.Length)
+            {
+                // This dialogue line only has events, no speaker or text
+                dialogueLine.speaker = "";
+                dialogueLine.text = "";
+                convo.lines.Add(dialogueLine);
                 continue;
             }
 
-            // Next conversation >>ConvoName
-            Match nextConvoMatch = Regex.Match(trimmedLine, @"^>>\s*(.+)$");
-            if (nextConvoMatch.Success)
+            string firstLine = dlgLines[lineIndex];
+
+            // Remaining events in the first line
+            MatchCollection remainingEvents = Regex.Matches(firstLine, @"<([^>]+)>");
+            foreach (Match match in remainingEvents)
+                dialogueLine.events.Add(match.Groups[1].Value);
+
+            // Extract speaker
+            firstLine = Regex.Replace(firstLine, @"<([^>]+)>", "").Trim();
+            Match speakerMatch = Regex.Match(firstLine, @"\[(.*?)\]");
+            dialogueLine.speaker = speakerMatch.Success ? speakerMatch.Groups[1].Value.Trim() : "";
+
+            // Extract text
+            if (dlgLines.Length > lineIndex + 1)
             {
-                convo.nextConversation = nextConvoMatch.Groups[1].Value.Trim();
-            }
-        }
-    }
-
-    // Now parse dialogue lines separated by ---
-    string[] dialogueBlocks = actualDialogue.Split(new string[] { "---" }, System.StringSplitOptions.RemoveEmptyEntries);
-
-    foreach (string dlgBlock in dialogueBlocks)
-    {
-        string[] dlgLines = dlgBlock.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
-        if (dlgLines.Length == 0) continue;
-
-        DialogueLine dialogueLine = new DialogueLine();
-        int lineIndex = 0;
-
-        // Extract events at the start
-        while (lineIndex < dlgLines.Length)
-        {
-            string line = dlgLines[lineIndex].Trim();
-            string withoutEvents = Regex.Replace(line, @"<([^>]+)>", "").Trim();
-
-            if (string.IsNullOrEmpty(withoutEvents))
-            {
-                MatchCollection eventMatches = Regex.Matches(line, @"<([^>]+)>");
-                foreach (Match match in eventMatches)
-                    dialogueLine.events.Add(match.Groups[1].Value);
-
-                lineIndex++;
+                dialogueLine.text = string.Join("\n", dlgLines, lineIndex + 1, dlgLines.Length - lineIndex - 1).Trim();
             }
             else
             {
-                break;
+                // Remove speaker tag and any remaining content
+                string remainingText = firstLine.Replace("[" + dialogueLine.speaker + "]", "").Trim();
+                dialogueLine.text = remainingText;
             }
+
+            convo.lines.Add(dialogueLine);
         }
 
-        if (lineIndex >= dlgLines.Length) continue;
-
-        string firstLine = dlgLines[lineIndex];
-
-        // Remaining events in the first line
-        MatchCollection remainingEvents = Regex.Matches(firstLine, @"<([^>]+)>");
-        foreach (Match match in remainingEvents)
-            dialogueLine.events.Add(match.Groups[1].Value);
-
-        // Extract speaker
-        firstLine = Regex.Replace(firstLine, @"<([^>]+)>", "").Trim();
-        Match speakerMatch = Regex.Match(firstLine, @"\[(.*?)\]");
-        dialogueLine.speaker = speakerMatch.Success ? speakerMatch.Groups[1].Value.Trim() : "";
-
-        // Extract text
-        if (dlgLines.Length > lineIndex + 1)
-            dialogueLine.text = string.Join("\n", dlgLines, lineIndex + 1, dlgLines.Length - lineIndex - 1).Trim();
-        else
-            dialogueLine.text = firstLine.Replace("[" + dialogueLine.speaker + "]", "").Trim();
-
-        convo.lines.Add(dialogueLine);
+        conversations.Add(convo);
     }
-
-    conversations.Add(convo);
-}
-
-
 
     public void StartConversation(string conversationName)
     {
@@ -346,15 +358,28 @@ public class DialogueManager : MonoBehaviour
 
         DialogueLine line = currentConversation.lines[dialogueIndex];
 
+        // Execute events for this line
         foreach (string eventName in line.events)
-            ExecuteEvent(eventName);
+        {
+            ExecuteEvent(eventName);   
+        }
 
+        dialogueIndex++; // Increment index early to handle recursion correctly
+
+        // If the line has no text, skip showing the dialogue box
+        if (string.IsNullOrEmpty(line.text))
+        {
+            // Immediately show the next line
+            ShowNextLine();
+            return;
+        }
+
+        // Show dialogue normally
         characterNameText.text = line.speaker;
+        dialogueBox.SetActive(true);
 
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
         typingCoroutine = StartCoroutine(TypeText(line.text));
-
-        dialogueIndex++;
     }
 
     private void ShowChoices()
@@ -406,6 +431,7 @@ public class DialogueManager : MonoBehaviour
 
     private void ExecuteEvent(string eventName)
     {
+        Debug.Log("executing " + eventName);
         if (eventCache.TryGetValue(eventName, out DialogueEvent evt))
             evt.Execute();
         else

@@ -2724,6 +2724,7 @@ GameObject:
   - component: {fileID: 930106252}
   - component: {fileID: 930106251}
   - component: {fileID: 930106250}
+  - component: {fileID: 930106255}
   m_Layer: 8
   m_Name: Sylph
   m_TagString: Untagged
@@ -2802,6 +2803,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4321e9967f5f834499ad252e9aae8d58, type: 2}
     - {fileID: 11400000, guid: 0bb80d8df4eaba34b84f865bce86146b, type: 2}
     - {fileID: 11400000, guid: 40bf490d138f4674986c15b5efc21f77, type: 2}
+    - {fileID: 11400000, guid: 65553e33e88e78b4f97104addeff5509, type: 2}
     minHealthThreshold: 1000
   bossHealth: {fileID: 930106251}
   namedPoints:
@@ -2827,6 +2829,18 @@ Transform:
   - {fileID: 899138556}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &930106255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930106249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00eb18bd46e2d04985fa3d3060a4b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &931733365
 GameObject:
   m_ObjectHideFlags: 0

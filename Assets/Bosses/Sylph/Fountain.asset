@@ -9,20 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea3dcab8046c23489785439b3050977, type: 3}
-  m_Name: WaterSplashHard
+  m_Script: {fileID: 11500000, guid: c186db6b2d0621747a1837b25fee5a0b, type: 3}
+  m_Name: Fountain
   m_EditorClassIdentifier: 
-  attackDuration: 1
-  delayAfter: 2
+  attackDuration: 5
+  delayAfter: 1
   triggerOnce: 0
   hasTriggered: 1
-  spawnPointName: StaffPoint
-  attackInterval: 0.1
-  targetRadius: 15
-  minPeakHeight: 10
-  maxPeakHeight: 15
-  splashDuration: 1.2
-  projectilePrefab: {fileID: 9205001508044568093, guid: e4001f80f2f4e3b4086f4f864562202a, type: 3}
+  fountainPrefab: {fileID: 4712961189452969834, guid: e2757e93bfc0a46499a5348815d62b52, type: 3}
+  spawnRadius: 12
   warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
-  warningRadius: 5
-  warningDuration: 1
+  warningDelay: 2
+  warningRadius: 6
+  warningDuration: 3
+  interval: 0.5
