@@ -27,7 +27,7 @@ namespace Cards.Visual
             Inventory
         }
         
-        private int _hoveredIndex = -1;
+        private CardDisplayInteractable _selectedCard;
         private RectTransform _rect;
 
         public enum InteractMode
@@ -45,49 +45,66 @@ namespace Cards.Visual
                 var cc = Instantiate(cardPrefab, content);
                 cc.card = c[i];
                 var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
-                hcc.Init(this, i);
+                hcc.Init(this);
                 cards.Add(hcc);
             }
             RefreshLayout();
         }
+        
+        public override void AddCard(Card card)
+        {
+            var cc = Instantiate(cardPrefab, content);
+            cc.card = card;
+            var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
+            hcc.Init(this);
+            cards.Add(hcc);
+        }
 
         public void UseCard()
         {
-            if (_hoveredIndex == -1) return;
-            CardUsed.Invoke(cards[_hoveredIndex].AttachedCard);
+            if (_selectedCard == null) return;
+            CardUsed.Invoke(_selectedCard.AttachedCard);
         }
 
-        public override void OnCardHover(int index)
+        public override void OnCardStartHover(CardDisplayInteractable card)
         {
             if (mode != InteractMode.CardGame || layout == LayoutMode.Inventory) return;
-            _hoveredIndex = index;
+            _selectedCard = card;
             RefreshLayout();
         }
 
         public void OnScroll(float d)
         {
             if (mode != InteractMode.ThirdPerson || d == 0 || layout == LayoutMode.Inventory) return;
-            _hoveredIndex -= (int)Mathf.Sign(d);
-            if (_hoveredIndex < 0) _hoveredIndex = 0;
-            if (_hoveredIndex >= cards.Count) _hoveredIndex = cards.Count - 1;
+            var hoveredIndex = cards.IndexOf(_selectedCard);
+            hoveredIndex -= (int)Mathf.Sign(d);
+            if (hoveredIndex < 0) hoveredIndex = 0;
+            if (hoveredIndex >= cards.Count) hoveredIndex = cards.Count - 1;
+            if (hoveredIndex > -1 && hoveredIndex < cards.Count) _selectedCard = cards[hoveredIndex];
             RefreshLayout();
         }
 
-        public override void OnCardExit(int index)
+        public override void OnCardStopHover(CardDisplayInteractable card)
         {
             if (mode != InteractMode.CardGame || layout == LayoutMode.Inventory) return;
-            if (_hoveredIndex == index)
-                _hoveredIndex = -1;
+            if (_selectedCard == card)
+                _selectedCard = null;
             RefreshLayout();
         }
         
         [ContextMenu("Refresh Layout")]
-        public void RefreshLayout()
+        public override void RefreshLayout()
         {
+            ValidateSelectedCard();
             if (layout == LayoutMode.Hand)
                 LayoutHandMode();
             else
                 LayoutInventoryMode();
+        }
+        
+        private void ValidateSelectedCard()
+        {
+            if (_selectedCard && !cards.Contains(_selectedCard)) _selectedCard = null;
         }
 
         void LayoutHandMode()
@@ -111,9 +128,10 @@ namespace Cards.Visual
                 float targetX = i * spacing + cardWidth / 2;
                 float targetY = baseY;
 
-                if (_hoveredIndex != -1)
+                if (_selectedCard != null)
                 {
-                    if (i == _hoveredIndex)
+                    var hoveredIndex = cards.IndexOf(_selectedCard);
+                    if (cards[i] == _selectedCard)
                     {
                         // POP UP
                         targetX += sideMove;
@@ -122,14 +140,14 @@ namespace Cards.Visual
                     else
                     {
                         // Distance-based shift
-                        int dist = Mathf.Abs(i - _hoveredIndex);
+                        int dist = Mathf.Abs(i - hoveredIndex);
 
                         // Weight = 1.0 for adjacent, fades to 0.0 for far cards
                         float weight = 1f / (dist + 0.5f);
 
                         float shiftAmount = sideShift * weight;
 
-                        if (i < _hoveredIndex)
+                        if (i < hoveredIndex)
                         {
                             targetX -= shiftAmount;
                         }

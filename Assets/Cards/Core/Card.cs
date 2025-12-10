@@ -13,24 +13,36 @@ namespace Cards.Core
         public bool Active { get; private set; }
         public CardTier tier;
         public CardStats stats;
-        public List<BaseBehavior> behaviors;
+        public List<Behavior> behaviors;
+        private bool _initialized;
+        public void AssignData(CardData d)
+        {
+            data = d;
+            Initialize();
+        }
         private void Awake()
         {
-            if (!data) Debug.LogError("no data given");
+            if (!data) return;
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             tier = data.tier;
             stats = data.stats;
             behaviors = data.behaviors.ToList();
             
-            CreateDefault<BaseUseBehavior>();
-            CreateDefault<BaseCollideBehavior>();
-            CreateDefault<BaseCardGameBehavior>();
-            CreateDefault<BaseHealthBehavior>();
+            CreateDefault<DefaultUseBehavior>();
+            CreateDefault<DefaultCollideBehavior>();
+            CreateDefault<DefaultCardGameBehavior>();
+            CreateDefault<DefaultHealthBehavior>();
             
             for (int i = 0; i < behaviors.Count; i++)
             {
                 behaviors[i] = Instantiate(behaviors[i]);
                 behaviors[i].Init(this);
             }
+            _initialized = true;
         }
 
         public void UpdateActive()
@@ -57,7 +69,7 @@ namespace Cards.Core
             return false;
         }
 
-        private void CreateDefault<T>() where T : BaseBehavior
+        private void CreateDefault<T>() where T : Behavior
         {
             if (!TryGetBehavior(out T _)) behaviors.Add(ScriptableObject.CreateInstance<T>());
         }

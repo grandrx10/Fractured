@@ -354,7 +354,6 @@ public class GrassComputeScript : MonoBehaviour
             OnDisable();
             OnEnable();
         }
-
         // If not initialized, do nothing (creating zero-length buffer will crash)
         if (!m_Initialized)
         {
@@ -449,6 +448,11 @@ public class GrassComputeScript : MonoBehaviour
         OnDisable();
         MainSetup(false);
     }
+
+    public void UpdateInteractors()
+    {
+        interactors = (ShaderInteractor[])FindObjectsOfType(typeof(ShaderInteractor));
+    }
     private void SetGrassDataUpdate()
     {
         // variables sent to the shader every frame
@@ -456,16 +460,17 @@ public class GrassComputeScript : MonoBehaviour
         m_InstantiatedComputeShader.SetMatrix("_LocalToWorld", transform.localToWorldMatrix);
         if (interactors.Length > 0)
         {
-            Vector4[] positions = new Vector4[interactors.Length];
+            int s = Mathf.Min(interactors.Length, 128);
+            Vector4[] positions = new Vector4[s];
 
-            for (int i = 0; i < interactors.Length; i++)
+            for (int i = 0; i < s; i++)
             {
                 positions[i] = new Vector4(interactors[i].transform.position.x, interactors[i].transform.position.y, interactors[i].transform.position.z,
                 interactors[i].radius);
 
             }
             m_InstantiatedComputeShader.SetVectorArray(shaderID, positions);
-            m_InstantiatedComputeShader.SetFloat("_InteractorsLength", interactors.Length);
+            m_InstantiatedComputeShader.SetFloat("_InteractorsLength", s);
         }
         if (m_MainCamera != null)
         {

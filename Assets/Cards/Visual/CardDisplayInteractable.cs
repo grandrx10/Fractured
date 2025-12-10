@@ -8,9 +8,8 @@ namespace Cards.Visual
 {
     public class CardDisplayInteractable : MonoBehaviour,
         IPointerEnterHandler, IPointerExitHandler,
-        IBeginDragHandler, IDragHandler, IEndDragHandler
+        IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
     {
-        public int index;
         private CardInteractionContainer _container;
         private CardDisplay _attachedCardDisplay;
 
@@ -26,10 +25,9 @@ namespace Cards.Visual
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
 
-        public void Init(CardInteractionContainer layout, int index)
+        public void Init(CardInteractionContainer layout)
         {
-            this._container = layout;
-            this.index = index;
+            _container = layout;
         }
 
         // --------------------------
@@ -38,13 +36,18 @@ namespace Cards.Visual
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (!_isDragging)
-                _container.OnCardHover(index);
+                _container.OnCardStartHover(this);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (!_isDragging)
-                _container.OnCardExit(index);
+                _container.OnCardStopHover(this);
+        }
+        
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            _container.OnCardClick(this);
         }
 
         // --------------------------
@@ -55,7 +58,7 @@ namespace Cards.Visual
         public void OnBeginDrag(PointerEventData eventData)
         {
             _isDragging = true;
-            _container.OnCardExit(index);     // stop hover effects
+            _container.OnCardStopHover(this);     // stop hover effects
             _canvasGroup.blocksRaycasts = false;
 
             // Find a top-level canvas to drag under
@@ -63,7 +66,7 @@ namespace Cards.Visual
             _originalParent = transform.parent;
 
             transform.SetParent(_dragCanvas.transform, true);
-            print(transform.parent);
+            //print(transform.parent);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -94,14 +97,20 @@ namespace Cards.Visual
                 if (dropTarget != null)
                     break;
             }
-
+            
+            bool handled = false;
             if (dropTarget != null)
             {
-                dropTarget.OnCardDropped(this);
+                handled = dropTarget.OnCardDropped(_container, this);
+                
             }
 
             // Return back to original layout (HandLayout will re-position it)
-            transform.SetParent(_originalParent, false);
+            if (!handled)
+            {
+                transform.SetParent(_originalParent, true);
+                _container.RefreshLayout();
+            }
 
             //_container.RequestRebuild();
         }
@@ -120,5 +129,7 @@ namespace Cards.Visual
             // fallback
             return FindObjectOfType<Canvas>();
         }
+
+        
     }
 }

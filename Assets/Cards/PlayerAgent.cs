@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cards.Core;
 using Cards.Visual;
+using Characters;
 using UnityEngine;
 
 namespace Cards
@@ -10,29 +11,12 @@ namespace Cards
     {
         public Card mainHandCard;
         public Card offHandCard;
-        
-        public HandLayout handLayout;
+
+        public PlayerStatsHolder Stats {get; private set;}
 
         private void Awake()
         {
-            handLayout.CardUsed += card =>
-            {
-                SubmitCard(card);
-            };
-            handLayout.PopulateCards(hand);
-        }
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0) && CardRequested)
-            {
-                handLayout.UseCard();
-            }
-
-            if (Input.mouseScrollDelta.y != 0)
-            {
-                handLayout.OnScroll(Input.mouseScrollDelta.y);
-            }
+            Stats = FindFirstObjectByType<PlayerStatsHolder>();
         }
 
         /*

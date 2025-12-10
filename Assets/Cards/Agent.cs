@@ -15,6 +15,7 @@ namespace Cards
         private int _cardsRequested;
         public bool CardRequested => _callback != null;
         protected Card RandomCard => hand[Random.Range(0, hand.Count)];
+        public Action<Card> OnAddCard;
         
         /*
          * For selecting cards normally
@@ -41,7 +42,8 @@ namespace Cards
 
         public void AddCard(Card card)
         {
-            hand.Add(card);
+            deck.Add(card);
+            OnAddCard?.Invoke(card);
         }
 
         public void AddCards(List<Card> cards)

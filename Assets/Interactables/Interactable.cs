@@ -4,7 +4,7 @@ public class Interactable : MonoBehaviour
 {
     public bool canInteract = true;
 
-    virtual public void Interact(GameObject player)
+    public virtual void Interact(GameObject player)
     {
         
     }

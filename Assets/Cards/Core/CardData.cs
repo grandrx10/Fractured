@@ -11,20 +11,53 @@ namespace Cards.Core
         // should be fixed
         public new string name;
         public string flavorText;
+        public CardCollection collection;
         public CardRarity rarity;
         public CardStyle style;
         public Sprite icon;
         // only for initialization!!!!
         public CardStats stats;
         public CardTier tier;
-        public List<BaseBehavior> behaviors;
-        public CardVisuals Visuals => new (){Name = name, FlavorText = flavorText, Style = style, Rarity = rarity, Icon = icon};
+        public List<Behavior> behaviors;
+        public CardVisuals Visuals => new ()
+        {
+            Name = name,
+            FlavorText = flavorText,
+            Style = style,
+            Rarity = rarity,
+            Icon = icon,
+            CollectionName = GetCollectionName(collection),
+        };
+        
+        public string GetCollectionName(CardCollection c)
+        {
+            switch (collection)
+            {
+                case CardCollection.TarotTrump:
+                    return "Tarot-Trump";
+                case CardCollection.TarotSuit:
+                    return "Tarot-Suits";
+                case CardCollection.RPS:
+                    return "RPS";
+                case CardCollection.Plants:
+                    return "Plants";
+                case CardCollection.Tools:
+                    return "Tools";
+                case CardCollection.Fruits:
+                    return "Fruits";
+                case CardCollection.SetTheory:
+                    return "Set Theory";
+                default:
+                    return "huh";
+            }
+        }
     }
 
     public struct CardVisuals
     {
         public string Name;
         public string FlavorText;
+        public string CollectionName;
         public CardStyle Style;
         public CardRarity Rarity;
         public Sprite Icon;
@@ -38,6 +71,18 @@ namespace Cards.Core
         
     }
     
+    [Serializable]
+    public enum CardCollection
+    {
+        TarotTrump,
+        TarotSuit,
+        RPS,
+        Plants,
+        Tools,
+        Fruits,
+        SetTheory
+    }
+
     [Serializable]
     public struct CardStats
     {

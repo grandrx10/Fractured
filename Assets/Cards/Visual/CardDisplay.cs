@@ -29,7 +29,7 @@ namespace Cards.Visual
         private string MakeDescription()
         {
             string t = "";
-            foreach (var behavior in card.GetAllBehaviors<BaseBehavior>())
+            foreach (var behavior in card.GetAllBehaviors<Behavior>())
             {
                 string s = behavior.GetDescription();
                 if (s=="") continue;

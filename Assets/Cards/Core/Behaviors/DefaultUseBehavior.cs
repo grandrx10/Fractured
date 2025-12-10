@@ -1,0 +1,22 @@
+﻿using Cards.Core.BehaviorTags;
+using Cards.Environments;
+using UnityEngine;
+
+namespace Cards.Core.Behaviors
+{
+    public class DefaultUseBehavior: Behavior, IBehaviorUseListener
+    {
+        public void Use(CardEnv env, Agent agent)
+        {
+            //TODO: make a base env that defines throwing cards
+            if (env is OpenWorldEnv opEnv)
+            {
+                opEnv.ThrowCard(AttachedCard, Quaternion.identity, 30);
+            }
+            else
+            {
+                Debug.LogError("Env Does not support throwing");
+            }
+        }
+    }
+}

@@ -18,7 +18,7 @@ namespace Cards.Environments
         {
             playerAgent.GetCards().ForEach(c =>
             {
-                c.GetAllBehaviors<IBehaviorRTUpdateListener>().ForEach(h => h.EndMatch());
+                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
             playerAgent.SelectCardAsync(UseCard, -1);
         }
@@ -39,7 +39,7 @@ namespace Cards.Environments
             playerAgent.CancelSelection();
             playerAgent.GetCards().ForEach(c =>
             {
-                c.GetAllBehaviors<IBehaviorRTUpdateListener>().ForEach(h => h.EndMatch());
+                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch());
             });
             Debug.Log("Done");
         }

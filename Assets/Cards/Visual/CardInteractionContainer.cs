@@ -10,24 +10,47 @@ namespace Cards.Visual
 
         public virtual void PopulateCards(List<Card> c)
         {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void AddCard(Card card)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void RefreshLayout()
+        {
             
         }
         
-        public virtual void OnCardDropped(CardDisplayInteractable cardDisplay)
+        public virtual bool OnCardDropped(CardInteractionContainer source, CardDisplayInteractable card)
         {
-            
+            if (source == this) return false;
+            if (source.OnCardRemoved(card))
+            {
+                AddCard(card.AttachedCard);
+                Destroy(card.gameObject);
+                RefreshLayout();
+                return true;
+            }
+            return false;
         }
         
-        public virtual void OnCardRemoved(CardDisplayInteractable cardDisplay)
+        public virtual bool OnCardRemoved(CardDisplayInteractable card)
+        {
+            cards.Remove(card);
+            RefreshLayout();
+            return true;
+        }
+        public virtual void OnCardClick(CardDisplayInteractable card)
         {
 
         }
-        
-        public virtual void OnCardExit(int index)
+        public virtual void OnCardStopHover(CardDisplayInteractable card)
         {
 
         }
-        public virtual void OnCardHover(int index)
+        public virtual void OnCardStartHover(CardDisplayInteractable card)
         {
 
         }
