@@ -16,7 +16,7 @@ public class Warning : MonoBehaviour
     private float radius = 1f;
     private float duration = 1f;
     private WarningType type = WarningType.Grounded;
-    private float fadeTime = 0.3f; // duration of fade in/out
+    public float fadeTime = 0.3f; // duration of fade in/out
 
     private void Awake()
     {
@@ -28,11 +28,12 @@ public class Warning : MonoBehaviour
     /// <summary>
     /// Initialize the warning
     /// </summary>
-    public void Initialize(float radius, float duration, WarningType type)
+    public void Initialize(float radius, float duration, WarningType type, float fadeTime)
     {
         this.radius = radius;
         this.duration = duration;
         this.type = type;
+        this.fadeTime = fadeTime;
 
         ApplySettings();
         StartCoroutine(FadeRoutine());

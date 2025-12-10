@@ -52,7 +52,7 @@ public class StompAttack : BossAttack
             if (warningPrefab != null)
             {
                 Warning w = Instantiate(warningPrefab, targetPos, Quaternion.identity).GetComponent<Warning>();
-                w.Initialize(warningRadius, jumpDuration, Warning.WarningType.Grounded);
+                w.Initialize(warningRadius, jumpDuration, Warning.WarningType.Grounded, 0.3f);
             }
 
             // Smooth rotation
