@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class Health : MonoBehaviour
+namespace Game.Health
 {
-    public int health;
-    private int maxHealth;
-
-    void Start()
+    public class Health : MonoBehaviour
     {
-        maxHealth = health;
-    }
+        public int health;
+        private int maxHealth;
 
-    // Clamp health whenever it changes
-    public virtual void takeDamage(int damage)
-    {
-        health -= damage;
-        health = Mathf.Clamp(health, 0, maxHealth); // Ensure health stays within 0 and maxHealth
+        void Start()
+        {
+            maxHealth = health;
+        }
+
+        // Clamp health whenever it changes
+        public virtual void takeDamage(int damage)
+        {
+            health -= damage;
+            health = Mathf.Clamp(health, 0, maxHealth); // Ensure health stays within 0 and maxHealth
+        }
     }
 }

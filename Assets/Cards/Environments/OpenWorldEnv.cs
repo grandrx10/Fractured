@@ -3,7 +3,9 @@ using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.PhysicalProperties;
+using Characters;
 using UnityEngine;
+using Utils;
 
 namespace Cards.Environments
 {
@@ -11,13 +13,13 @@ namespace Cards.Environments
     {
         public Agent player;
         private PlayerInteractController _playerInteract;
-        public PhysicalCard cardPrefab;
         public float mana, maxMana;
+        public float minCardDelay = 0.2f;
         
         public float manaRegen;
         public void Awake()
         {
-            player.SelectCardAsync(UseCard, -1);
+            player.SelectCardAsync(UseCard, 1);
             _playerInteract = FindAnyObjectByType<PlayerInteractController>();
         }
 
@@ -36,29 +38,20 @@ namespace Cards.Environments
                 {
                     useBehavior.Use(this, player);
                 }
+                Delay.Call(this, minCardDelay, () =>
+                {
+                    player.SelectCardAsync(UseCard, 1);
+                });
+                
                 return CardSubmitState.Success;
             }
             
             return CardSubmitState.Failure;
         }
 
-        public void ThrowCard(Card card, Quaternion rotation, float speed)
+        public Vector3 GetPlayerLook()
         {
-            var p = player.transform.position;
-            var pLook = rotation * player.transform.forward;
-            var d = rotation * (_playerInteract.GetCameraRaycastTarget() - p).normalized;
-            var c = Instantiate(cardPrefab, p, Quaternion.LookRotation(d));
-            c.card = card;
-            c.InitState = new PhysicalCardObject.PhysicalCardInitState()
-            {
-                CenterPosition = p,
-                StartDirection = pLook,
-                StartPosition = p + pLook,
-                TargetDirection = d,
-                Speed = speed,
-                Target = player.transform,
-            };
-            //c.GetComponent<Rigidbody>().linearVelocity = d;
+            return (_playerInteract.GetCameraRaycastTarget() - player.transform.position).normalized;
         }
     }
 }

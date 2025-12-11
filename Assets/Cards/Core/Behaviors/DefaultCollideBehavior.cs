@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using Cards.Core.BehaviorTags;
+using Cards.Environments;
+using UnityEngine;
 
 namespace Cards.Core.Behaviors
 {
-    public class DefaultCollideBehavior: Behavior
+    [CreateAssetMenu(fileName = "Collide", menuName = "Behaviors/DefaultCollide")]
+    public class DefaultCollideBehavior: Behavior, IBehaviorHitListener
     {
-        public virtual void Collide()
+        public void Hit(CardEnv env, Agent agent, GameObject target)
         {
             Debug.Log("the card colided");
         }

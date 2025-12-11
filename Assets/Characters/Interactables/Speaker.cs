@@ -1,15 +1,19 @@
+using Characters.Dialogue;
 using UnityEngine;
 
-public class Speaker : Interactable
+namespace Characters.Interactables
 {
-    [Header("Conversation to Trigger")]
-    public string conversationName;
-
-    public override void Interact(GameObject player)
+    public class Speaker : Interactable
     {
-        if (!string.IsNullOrEmpty(conversationName))
+        [Header("Conversation to Trigger")]
+        public string conversationName;
+
+        public override void Interact(GameObject player)
         {
-            DialogueManager.Instance.StartConversation(conversationName);
+            if (!string.IsNullOrEmpty(conversationName))
+            {
+                DialogueManager.Instance.StartConversation(conversationName);
+            }
         }
     }
 }

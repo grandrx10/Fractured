@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace Cards.PhysicalProperties
 {
-    public class PhysicalCard: PhysicalCardObject
+    public class PhysicalCard: PhysicalObject
     {
-        public Card card;
         private Rigidbody _rb;
         public float lifetime;
         

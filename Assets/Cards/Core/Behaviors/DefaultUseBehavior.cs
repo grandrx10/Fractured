@@ -1,22 +1,44 @@
 ﻿using Cards.Core.BehaviorTags;
 using Cards.Environments;
+using Cards.PhysicalProperties;
 using UnityEngine;
 
 namespace Cards.Core.Behaviors
 {
+    [CreateAssetMenu(fileName = "Use", menuName = "Behaviors/DefaultUse")]
     public class DefaultUseBehavior: Behavior, IBehaviorUseListener
     {
-        public void Use(CardEnv env, Agent agent)
+        [PrefabComponent] public PhysicalObject cardPrefab;
+        public float speed;
+        public virtual void Use(CardEnv env, Agent agent)
         {
-            //TODO: make a base env that defines throwing cards
             if (env is OpenWorldEnv opEnv)
             {
-                opEnv.ThrowCard(AttachedCard, Quaternion.identity, 30);
+                ThrowCard(agent, opEnv, Quaternion.identity);
             }
             else
             {
                 Debug.LogError("Env Does not support throwing");
             }
+        }
+        
+        public void ThrowCard(Agent player, OpenWorldEnv env, Quaternion rotation)
+        {
+            var p = player.transform.position;
+            var pLook = rotation * player.transform.forward;
+            var d = rotation * env.GetPlayerLook();
+            var c = Instantiate(cardPrefab, p, Quaternion.LookRotation(d));
+            c.card = AttachedCard;
+            c.InitState = new PhysicalObject.PhysicalInitState()
+            {
+                CenterPosition = p,
+                StartDirection = pLook,
+                StartPosition = p + pLook,
+                TargetDirection = d,
+                Speed = speed,
+                Target = player.transform,
+            };
+            //c.GetComponent<Rigidbody>().linearVelocity = d;
         }
     }
 }

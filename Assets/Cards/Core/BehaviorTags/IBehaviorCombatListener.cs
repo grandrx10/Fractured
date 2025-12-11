@@ -4,5 +4,6 @@
     {
         public void StartMatch();
         public void EndMatch();
+        public void TakeDamage(int value);
     }
 }

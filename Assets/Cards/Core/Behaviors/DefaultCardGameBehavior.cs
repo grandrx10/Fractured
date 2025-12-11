@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using Cards.Core.BehaviorTags;
+using UnityEngine;
 
 namespace Cards.Core.Behaviors
 {
-    public class DefaultCardGameBehavior: Behavior
+    [CreateAssetMenu(fileName = "Card Game", menuName = "Behaviors/DefaultCardGame")]
+    public class DefaultCardGameBehavior: Behavior, IBehaviorTurnListener
     {
         public virtual (int, int) Collide(Card opponent)
         {

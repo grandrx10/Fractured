@@ -1,100 +1,103 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-public class NpcCommands : MonoBehaviour
+namespace Game.Bosses
 {
-    [SerializeField] private float rotationDuration = 0.5f;
-    private Transform lookingAt;
-    private Coroutine currentRotation;
-
-    /// <summary>
-    /// Continuously look at this target while set
-    /// </summary>
-    public Transform LookingAt
+    public class NpcCommands : MonoBehaviour
     {
-        get => lookingAt;
-        set
+        [SerializeField] private float rotationDuration = 0.5f;
+        private Transform lookingAt;
+        private Coroutine currentRotation;
+
+        /// <summary>
+        /// Continuously look at this target while set
+        /// </summary>
+        public Transform LookingAt
         {
-            if (lookingAt != value)
+            get => lookingAt;
+            set
             {
-                lookingAt = value;
-                if (lookingAt != null)
+                if (lookingAt != value)
                 {
-                    StartContinuousRotation();
-                }
-                else
-                {
-                    StopContinuousRotation();
+                    lookingAt = value;
+                    if (lookingAt != null)
+                    {
+                        StartContinuousRotation();
+                    }
+                    else
+                    {
+                        StopContinuousRotation();
+                    }
                 }
             }
         }
-    }
 
-    public void SetLookingAt(Transform target)
-    {
-        LookingAt = target;
-    }
-
-    private void StartContinuousRotation()
-    {
-        if (currentRotation != null)
-            StopCoroutine(currentRotation);
-
-        currentRotation = StartCoroutine(RotateContinuously());
-    }
-
-    private void StopContinuousRotation()
-    {
-        if (currentRotation != null)
+        public void SetLookingAt(Transform target)
         {
-            StopCoroutine(currentRotation);
-            currentRotation = null;
+            LookingAt = target;
         }
-    }
 
-    private IEnumerator RotateContinuously()
-    {
-        while (lookingAt != null)
+        private void StartContinuousRotation()
         {
-            Vector3 lookDir = lookingAt.position - transform.position;
-            lookDir.y = 0; // XZ plane only
-            if (lookDir.sqrMagnitude > 0.001f)
+            if (currentRotation != null)
+                StopCoroutine(currentRotation);
+
+            currentRotation = StartCoroutine(RotateContinuously());
+        }
+
+        private void StopContinuousRotation()
+        {
+            if (currentRotation != null)
             {
-                Quaternion targetRot = Quaternion.LookRotation(lookDir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime / rotationDuration);
+                StopCoroutine(currentRotation);
+                currentRotation = null;
             }
-            yield return null;
         }
-    }
 
-    /// <summary>
-    /// Rotate once toward a target over rotationDuration
-    /// </summary>
-    public void RotateOnceTowards(Transform target)
-    {
-        if (target == null) return;
-
-        StopContinuousRotation(); // stop any continuous rotation
-        StartCoroutine(RotateOnceCoroutine(target));
-    }
-
-    private IEnumerator RotateOnceCoroutine(Transform target)
-    {
-        Quaternion startRot = transform.rotation;
-        Vector3 lookDir = target.position - transform.position;
-        lookDir.y = 0;
-        if (lookDir.sqrMagnitude < 0.001f) yield break;
-
-        Quaternion targetRot = Quaternion.LookRotation(lookDir);
-
-        float elapsed = 0f;
-        while (elapsed < rotationDuration)
+        private IEnumerator RotateContinuously()
         {
-            transform.rotation = Quaternion.Slerp(startRot, targetRot, elapsed / rotationDuration);
-            elapsed += Time.deltaTime;
-            yield return null;
+            while (lookingAt != null)
+            {
+                Vector3 lookDir = lookingAt.position - transform.position;
+                lookDir.y = 0; // XZ plane only
+                if (lookDir.sqrMagnitude > 0.001f)
+                {
+                    Quaternion targetRot = Quaternion.LookRotation(lookDir);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime / rotationDuration);
+                }
+                yield return null;
+            }
         }
 
-        transform.rotation = targetRot;
+        /// <summary>
+        /// Rotate once toward a target over rotationDuration
+        /// </summary>
+        public void RotateOnceTowards(Transform target)
+        {
+            if (target == null) return;
+
+            StopContinuousRotation(); // stop any continuous rotation
+            StartCoroutine(RotateOnceCoroutine(target));
+        }
+
+        private IEnumerator RotateOnceCoroutine(Transform target)
+        {
+            Quaternion startRot = transform.rotation;
+            Vector3 lookDir = target.position - transform.position;
+            lookDir.y = 0;
+            if (lookDir.sqrMagnitude < 0.001f) yield break;
+
+            Quaternion targetRot = Quaternion.LookRotation(lookDir);
+
+            float elapsed = 0f;
+            while (elapsed < rotationDuration)
+            {
+                transform.rotation = Quaternion.Slerp(startRot, targetRot, elapsed / rotationDuration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.rotation = targetRot;
+        }
     }
 }

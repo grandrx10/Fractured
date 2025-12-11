@@ -1,8 +1,7 @@
 ﻿using Cards.Core.Behaviors;
-using Cards.Environments;
 using UnityEngine;
 
-namespace Cards.Behaviors
+namespace Cards.Card_Assets.General_Behaviors
 {
     [CreateAssetMenu(fileName = "Temporary", menuName = "Behaviors/Temporary")]
     public class TemporaryBehavior : Behavior

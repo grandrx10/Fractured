@@ -1,20 +1,22 @@
-using System;
 using UnityEngine;
- 
-public class ShaderInteractor : MonoBehaviour
+
+namespace World.Grass
 {
-    public float radius = 1f;
-
-    private void Awake()
+    public class ShaderInteractor : MonoBehaviour
     {
-        var c = FindFirstObjectByType<GrassComputeScript>();
-        if (c) c.UpdateInteractors();
-        else Destroy(this);
-    }
+        public float radius = 1f;
 
-    private void OnDestroy()
-    {
-        var c = FindFirstObjectByType<GrassComputeScript>();
-        if (c) c.UpdateInteractors();
+        private void Awake()
+        {
+            var c = FindFirstObjectByType<GrassComputeScript>();
+            if (c) c.UpdateInteractors();
+            else Destroy(this);
+        }
+
+        private void OnDestroy()
+        {
+            var c = FindFirstObjectByType<GrassComputeScript>();
+            if (c) c.UpdateInteractors();
+        }
     }
 }

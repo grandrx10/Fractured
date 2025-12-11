@@ -1,12 +1,12 @@
-using UnityEngine;
-using System.Collections;
-
-public class FollowEvent : DialogueEvent
+namespace Characters.Dialogue
 {
-    public Follower follower;
-    public Followable followable;
-    public override void Execute()
+    public class FollowEvent : DialogueEvent
     {
-        follower.SetFollowable(followable);
+        public Follower follower;
+        public Followable followable;
+        public override void Execute()
+        {
+            follower.SetFollowable(followable);
+        }
     }
 }

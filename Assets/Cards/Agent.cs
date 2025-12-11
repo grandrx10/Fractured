@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cards.Core;
 using Cards.Environments;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace Cards
         public bool CardRequested => _callback != null;
         protected Card RandomCard => hand[Random.Range(0, hand.Count)];
         public Action<Card> OnAddCard;
+        
+        public int TotalHealth => hand.Sum(h => h.stats.health);
         
         /*
          * For selecting cards normally
@@ -61,7 +64,7 @@ namespace Cards
             if (_callback == null) return CardSubmitState.Invalid;
             var s = _callback.Invoke(card);
             
-            if (s != CardSubmitState.Failure) return CardSubmitState.Failure;
+            if (s == CardSubmitState.Failure) return CardSubmitState.Failure;
             _cardsRequested--;
             if (_cardsRequested == 0) _callback = null;
             return s;

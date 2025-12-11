@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 using System.Reflection;
+using Utils;
 
 [CustomPropertyDrawer(typeof(FloatBindingDefinition))]
 public class FloatBindingDefinitionDrawer : PropertyDrawer

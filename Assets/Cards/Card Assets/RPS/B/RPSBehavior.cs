@@ -1,8 +1,7 @@
 ﻿using Cards.Core.Behaviors;
-using Cards.Environments;
 using UnityEngine;
 
-namespace Cards.Behaviors
+namespace Cards.Card_Assets.RPS.B
 {
     [CreateAssetMenu(fileName = "RPS", menuName = "Behaviors/RPS")]
     public class RPSBehavior: Behavior

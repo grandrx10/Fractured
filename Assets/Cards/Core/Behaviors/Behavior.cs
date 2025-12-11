@@ -2,10 +2,11 @@
 
 namespace Cards.Core.Behaviors
 {
-    public class Behavior: ScriptableObject
+    public abstract class Behavior: ScriptableObject
     {
         protected Card AttachedCard;
         public bool Active {get; set;}
+
         public virtual void Init(Card card)
         {
             AttachedCard = card;

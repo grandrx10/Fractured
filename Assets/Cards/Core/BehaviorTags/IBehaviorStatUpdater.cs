@@ -1,4 +1,5 @@
 ﻿using Characters;
+using Characters.Player;
 
 namespace Cards.Core.BehaviorTags
 {

@@ -1,10 +1,12 @@
 ﻿using Cards.Core.BehaviorTags;
+using UnityEngine;
 
 namespace Cards.Core.Behaviors
 {
-    public class DefaultHealthBehavior: Behavior, IBehaviorCombatListener, IBehaviorDamageListener
+    [CreateAssetMenu(fileName = "Health", menuName = "Behaviors/DefaultHealth")]
+    public class DefaultHealthBehavior: Behavior, IBehaviorCombatListener, IBehaviorHasStateTag
     {
-        public int health;
+        private int _health;
         
         public virtual void StartMatch()
         {
@@ -13,8 +15,8 @@ namespace Cards.Core.Behaviors
 
         private void ResetValues()
         {
-            health = AttachedCard.stats.health;
-            Active = health >= 0;
+            _health = AttachedCard.stats.health;
+            Active = _health >= 0;
             AttachedCard.UpdateActive();
         }
         
@@ -25,8 +27,8 @@ namespace Cards.Core.Behaviors
 
         public virtual void TakeDamage(int damage)
         {
-            health -= damage;
-            if (health >= 0)
+            _health -= damage;
+            if (_health >= 0)
             {
                 Active = false;
                 AttachedCard.UpdateActive();

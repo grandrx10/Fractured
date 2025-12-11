@@ -1,94 +1,99 @@
-using UnityEngine;
 using System.Collections;
+using Characters;
+using Game.Bosses.Projectiles;
+using UnityEngine;
 
-[CreateAssetMenu(menuName = "BossAttacks/Sylph/WaterFountainAttack")]
-public class WaterFountainAttack : BossAttack
+namespace Game.Bosses.Sylph
 {
-    [Header("Fountain Settings")]
-    public GameObject fountainPrefab;
-    public float spawnRadius = 6f;
-
-    [Header("Warning Settings")]
-    public GameObject warningPrefab;
-    public float warningDelay = 1.0f;
-    public int warningRadius = 2;
-    public float warningDuration = 1.0f;
-
-    [Header("Timing")]
-    public float interval = 0.5f;
-
-    public override void StartAttack(GameObject boss)
+    [CreateAssetMenu(menuName = "BossAttacks/Sylph/WaterFountainAttack")]
+    public class WaterFountainAttack : BossAttack
     {
-        base.StartAttack(boss);
+        [Header("Fountain Settings")]
+        public GameObject fountainPrefab;
+        public float spawnRadius = 6f;
 
-        NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
-        if (npcCommands != null && PlayerSingleton.Instance != null)
+        [Header("Warning Settings")]
+        public GameObject warningPrefab;
+        public float warningDelay = 1.0f;
+        public int warningRadius = 2;
+        public float warningDuration = 1.0f;
+
+        [Header("Timing")]
+        public float interval = 0.5f;
+
+        public override void StartAttack(GameObject boss)
         {
-            npcCommands.SetLookingAt(PlayerSingleton.Instance.transform);
-        }
+            base.StartAttack(boss);
 
-        var runner = boss.GetComponent<RoutineRunner>();
-        if (runner != null)
-        {
-            runner.RunRoutine(FountainRoutine(boss, runner, npcCommands));
-        }
-        else
-        {
-            Debug.LogWarning("Boss missing RoutineRunner component!");
-        }
-    }
-
-    private IEnumerator FountainRoutine(GameObject boss, RoutineRunner runner, NpcCommands npcCommands)
-    {
-        while (isActive && PlayerSingleton.Instance != null)
-        {
-            Vector3 basePos = PlayerSingleton.Instance.GetPositionBelow();
-
-            // Random point around player
-            Vector2 offset = Random.insideUnitCircle * spawnRadius;
-            Vector3 targetPos = basePos + new Vector3(offset.x, 0f, offset.y);
-
-            // Spawn warning (does NOT block interval)
-            if (warningPrefab != null)
+            NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
+            if (npcCommands != null && PlayerSingleton.Instance != null)
             {
-                Warning w = Instantiate(warningPrefab, targetPos, Quaternion.identity)
-                    .GetComponent<Warning>();
-                w.Initialize(warningRadius, warningDelay, Warning.WarningType.Grounded, warningDuration);
+                npcCommands.SetLookingAt(PlayerSingleton.Instance.transform);
             }
 
-            // Spawn fountain after warningDelay asynchronously
-            if (fountainPrefab != null)
+            var runner = boss.GetComponent<RoutineRunner>();
+            if (runner != null)
             {
-                runner.RunRoutine(SpawnFountainDelayed(targetPos, warningDelay));
+                runner.RunRoutine(FountainRoutine(boss, runner, npcCommands));
+            }
+            else
+            {
+                Debug.LogWarning("Boss missing RoutineRunner component!");
+            }
+        }
+
+        private IEnumerator FountainRoutine(GameObject boss, RoutineRunner runner, NpcCommands npcCommands)
+        {
+            while (isActive && PlayerSingleton.Instance != null)
+            {
+                Vector3 basePos = PlayerSingleton.Instance.GetPositionBelow();
+
+                // Random point around player
+                Vector2 offset = Random.insideUnitCircle * spawnRadius;
+                Vector3 targetPos = basePos + new Vector3(offset.x, 0f, offset.y);
+
+                // Spawn warning (does NOT block interval)
+                if (warningPrefab != null)
+                {
+                    Warning w = Instantiate(warningPrefab, targetPos, Quaternion.identity)
+                        .GetComponent<Warning>();
+                    w.Initialize(warningRadius, warningDelay, Warning.WarningType.Grounded, warningDuration);
+                }
+
+                // Spawn fountain after warningDelay asynchronously
+                if (fountainPrefab != null)
+                {
+                    runner.RunRoutine(SpawnFountainDelayed(targetPos, warningDelay));
+                }
+
+                // Wait for the attack interval before next fountain
+                yield return new WaitForSeconds(interval);
             }
 
-            // Wait for the attack interval before next fountain
-            yield return new WaitForSeconds(interval);
+            // Stop looking at player when attack ends
+            if (npcCommands != null)
+            {
+                npcCommands.SetLookingAt(null);
+            }
         }
 
-        // Stop looking at player when attack ends
-        if (npcCommands != null)
+        private IEnumerator SpawnFountainDelayed(Vector3 targetPos, float delay)
         {
-            npcCommands.SetLookingAt(null);
-        }
-    }
+            yield return new WaitForSeconds(delay);
 
-    private IEnumerator SpawnFountainDelayed(Vector3 targetPos, float delay)
-    {
-        yield return new WaitForSeconds(delay);
+            GameObject fountain = Instantiate(fountainPrefab, targetPos, Quaternion.identity);
 
-        GameObject fountain = Instantiate(fountainPrefab, targetPos, Quaternion.identity);
-
-        // Align Top child to targetPos
-        Transform top = fountain.transform.Find("Top");
-        if (top != null)
-        {
-            Vector3 worldOffset = top.position - fountain.transform.position;
-            fountain.transform.position = targetPos - worldOffset;
-        }
-        else
-        {
-            Debug.LogWarning("WaterFountain prefab missing child named 'Top'");
+            // Align Top child to targetPos
+            Transform top = fountain.transform.Find("Top");
+            if (top != null)
+            {
+                Vector3 worldOffset = top.position - fountain.transform.position;
+                fountain.transform.position = targetPos - worldOffset;
+            }
+            else
+            {
+                Debug.LogWarning("WaterFountain prefab missing child named 'Top'");
+            }
         }
     }
 }

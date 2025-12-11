@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class Lifetime : MonoBehaviour
+namespace Game.Bosses.Projectiles
 {
-    [SerializeField] private float lifetime = 3f; // Time in seconds before destruction
-
-    void Start()
+    public class Lifetime : MonoBehaviour
     {
-        Destroy(gameObject, lifetime);
+        [SerializeField] private float lifetime = 3f; // Time in seconds before destruction
+
+        void Start()
+        {
+            Destroy(gameObject, lifetime);
+        }
     }
 }

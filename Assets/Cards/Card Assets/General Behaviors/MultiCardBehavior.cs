@@ -1,20 +1,18 @@
 ﻿using Cards.Core.Behaviors;
-using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 
-namespace Cards.Behaviors
+namespace Cards.Card_Assets.General_Behaviors
 {
     [CreateAssetMenu(fileName = "MultiCard", menuName = "Behaviors/MultiCard")]
-    public class MultiCardBehavior : Behavior, IBehaviorUseListener
+    public class MultiCardBehavior : DefaultUseBehavior
     {
         public float angle = 30f; // total spread in degrees
         public int count = 3;     // number of cards to throw
-        public TextMeshProUGUI menuDesc;
-
-        public void Use(CardEnv env, Agent agent)
+        public string objectName = "cards";
+        
+        public override void Use(CardEnv env, Agent agent)
         {
             if (env is OpenWorldEnv opEnv)
             {
@@ -32,7 +30,7 @@ namespace Cards.Behaviors
                 {
                     float currentAngle = startAngle + i * step;
                     Quaternion rot = Quaternion.Euler(0f, currentAngle, 0f);
-                    opEnv.ThrowCard(AttachedCard, rot, 30); // 30 can be replaced with a speed parameter
+                    ThrowCard(agent, opEnv, rot); // 30 can be replaced with a speed parameter
                 }
             }
             else
@@ -43,14 +41,14 @@ namespace Cards.Behaviors
         
         public override string GetDescription()
         {
-            return $"<b>Multishot</b>: Throws {count} cards.";
+            return $"<b>Multishot</b>: On Use, Throws {count} {objectName}.";
         }
 
-        public override GameObject GetMenuObject()
-        {
-            var o = Instantiate(menuDesc);
-            o.text = $"Multishot: Throws {count} cards.";
-            return o.gameObject;
-        }
+        //public override GameObject GetMenuObject()
+        //{
+        //    var o = Instantiate(menuDesc);
+        //    o.text = $"Multishot: On Use, Throws {count} {objectName}.";
+        //    return o.gameObject;
+        //}
     }
 }

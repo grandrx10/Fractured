@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Cards.Core;
+using Extras.LeanTween.Framework;
 using UnityEngine.Serialization;
 
 namespace Cards.Visual

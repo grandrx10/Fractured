@@ -1,32 +1,35 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class PlayerInteractUi : MonoBehaviour
+namespace Characters
 {
-    private PlayerInteractController playerInteract;
-    private TextMeshProUGUI interactText;
-
-    void Start()
+    public class PlayerInteractUi : MonoBehaviour
     {
-        playerInteract = GetComponentInParent<PlayerInteractController>();
+        private PlayerInteractController playerInteract;
+        private TextMeshProUGUI interactText;
 
-        // Find TMP on this object
-        interactText = GetComponent<TextMeshProUGUI>();
-
-        // Hide text at start
-        interactText.gameObject.SetActive(false);
-
-    }
-
-    void Update()
-    {
-        if (playerInteract != null && playerInteract.currentInteractable != null)
+        void Start()
         {
-            interactText.gameObject.SetActive(true);
-        }
-        else
-        {
+            playerInteract = GetComponentInParent<PlayerInteractController>();
+
+            // Find TMP on this object
+            interactText = GetComponent<TextMeshProUGUI>();
+
+            // Hide text at start
             interactText.gameObject.SetActive(false);
+
+        }
+
+        void Update()
+        {
+            if (playerInteract != null && playerInteract.currentInteractable != null)
+            {
+                interactText.gameObject.SetActive(true);
+            }
+            else
+            {
+                interactText.gameObject.SetActive(false);
+            }
         }
     }
 }

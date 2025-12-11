@@ -12,11 +12,13 @@ namespace Cards.Visual
     {
         public RectTransform content;
         public RectTransform infoCard;
+        public CardPreview preview;
         public TextMeshProUGUI infoCardName;
         public TextMeshProUGUI infoCardColl;
         
         public CardDisplay cardPrefab;
         private CardDisplayInteractable _selectedCard;
+        private CardPreview _currentPreview;
         public override void PopulateCards(List<Card> c)
         {
             for (int i = 0; i < c.Count; i++)
@@ -48,9 +50,14 @@ namespace Cards.Visual
                 infoCardColl.text = v.CollectionName;
                 
                 var cc = Instantiate(cardPrefab, content);
+                cc.transform.localScale *= 1.3f;
+                cc.interactable = true;
                 cc.card = _selectedCard.AttachedCard;
                 cc.transform.SetParent(infoCard, false);
-                
+                cc.DisplayClicked += () =>
+                {
+                    CreatePreview(_selectedCard.AttachedCard);
+                };
                 foreach (var behavior in _selectedCard.AttachedCard.GetAllBehaviors<Behavior>())
                 {
                     var desc = behavior.GetMenuObject();
@@ -65,6 +72,19 @@ namespace Cards.Visual
                 infoCardName.text = "";
                 infoCardColl.text = "";
             }
+        }
+
+        private void OnDisable()
+        {
+            if (_currentPreview) Destroy(_currentPreview.gameObject);
+        }
+
+        private void CreatePreview(Card c)
+        {
+            _currentPreview = Instantiate(preview);
+            _currentPreview.transform.SetParent(transform.parent, true);
+            _currentPreview.cardDisplay.card = c;
+            _currentPreview.cardDisplay.interactable = true;
         }
 
         private void ValidateSelectedCard()

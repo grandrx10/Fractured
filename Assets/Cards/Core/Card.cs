@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cards.Core.Behaviors;
+using Cards.Core.BehaviorTags;
 using UnityEngine;
 
 namespace Cards.Core
@@ -32,14 +33,14 @@ namespace Cards.Core
             stats = data.stats;
             behaviors = data.behaviors.ToList();
             
-            CreateDefault<DefaultUseBehavior>();
-            CreateDefault<DefaultCollideBehavior>();
-            CreateDefault<DefaultCardGameBehavior>();
-            CreateDefault<DefaultHealthBehavior>();
+            CreateDefault<IBehaviorUseListener, DefaultUseBehavior>("DefaultUseBehavior");
+            CreateDefault<IBehaviorHitListener, DefaultCollideBehavior>("DefaultCollideBehavior");
+            CreateDefault<IBehaviorTurnListener, DefaultCardGameBehavior>("DefaultCardGameBehavior");
+            CreateDefault<IBehaviorCombatListener, DefaultHealthBehavior>("DefaultHealthBehavior");
             
             for (int i = 0; i < behaviors.Count; i++)
             {
-                behaviors[i] = Instantiate(behaviors[i]);
+                if (behaviors[i] is IBehaviorHasStateTag) behaviors[i] = Instantiate(behaviors[i]);
                 behaviors[i].Init(this);
             }
             _initialized = true;
@@ -69,9 +70,24 @@ namespace Cards.Core
             return false;
         }
 
-        private void CreateDefault<T>() where T : Behavior
+        private static readonly Dictionary<Type, Behavior> _behaviorCache = new Dictionary<Type, Behavior>();
+
+        private void CreateDefault<T, D>(string path) where D : Behavior where T : class
         {
-            if (!TryGetBehavior(out T _)) behaviors.Add(ScriptableObject.CreateInstance<T>());
+            if (!TryGetBehavior(out T _))
+            {
+                D d;
+                if (!_behaviorCache.ContainsKey(typeof(T)))
+                {
+                    d = Resources.Load(path, typeof(D)) as D;
+                    _behaviorCache.Add(typeof(T), d);
+                }
+                else
+                {
+                    d = (D)_behaviorCache[typeof(T)];
+                }
+                behaviors.Add(d);
+            }
         }
         
         public List<T> GetAllBehaviors<T>() where T : class

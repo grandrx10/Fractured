@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cards.Core;
 using Cards.Visual;
 using Characters;
+using Characters.Player;
 using UnityEngine;
 
 namespace Cards

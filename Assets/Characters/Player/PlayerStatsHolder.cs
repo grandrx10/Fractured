@@ -1,9 +1,8 @@
-﻿using System;
-using Cards;
+﻿using Cards;
 using Cards.Core.BehaviorTags;
 using UnityEngine;
 
-namespace Characters
+namespace Characters.Player
 {
     public class PlayerStatsHolder : MonoBehaviour
     {

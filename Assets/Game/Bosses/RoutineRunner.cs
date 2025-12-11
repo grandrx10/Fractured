@@ -1,14 +1,17 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-public class RoutineRunner : MonoBehaviour
+namespace Game.Bosses
 {
-    /// <summary>
-    /// Run a coroutine from a ScriptableObject or any other non-MonoBehaviour class.
-    /// </summary>
-    /// <param name="routine">The IEnumerator coroutine to run.</param>
-    public void RunRoutine(IEnumerator routine)
+    public class RoutineRunner : MonoBehaviour
     {
-        StartCoroutine(routine);
+        /// <summary>
+        /// Run a coroutine from a ScriptableObject or any other non-MonoBehaviour class.
+        /// </summary>
+        /// <param name="routine">The IEnumerator coroutine to run.</param>
+        public void RunRoutine(IEnumerator routine)
+        {
+            StartCoroutine(routine);
+        }
     }
 }

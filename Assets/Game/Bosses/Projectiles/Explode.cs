@@ -1,42 +1,45 @@
 using UnityEngine;
 
-public class Explode : MonoBehaviour
+namespace Game.Bosses.Projectiles
 {
-    [Header("Explosion Prefab")]
-    public GameObject explosionPrefab;
-
-    [Header("Explosion Settings")]
-    public bool explodeOnTouch = false;     // If true → trigger explosion on any trigger enter
-
-    // Public call to explode manually
-    public void ExplodeNow()
+    public class Explode : MonoBehaviour
     {
-        // Spawn explosion effect
-        if (explosionPrefab != null)
+        [Header("Explosion Prefab")]
+        public GameObject explosionPrefab;
+
+        [Header("Explosion Settings")]
+        public bool explodeOnTouch = false;     // If true → trigger explosion on any trigger enter
+
+        // Public call to explode manually
+        public void ExplodeNow()
         {
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            // Spawn explosion effect
+            if (explosionPrefab != null)
+            {
+                Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            }
+
+            // Destroy this object after explosion
+            Destroy(gameObject);
         }
 
-        // Destroy this object after explosion
-        Destroy(gameObject);
-    }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!explodeOnTouch) return;
 
-    private void OnTriggerEnter(Collider other)
-{
-    if (!explodeOnTouch) return;
-
-    // Debug.Log($"Trigger entered by: {other.gameObject.name} on layer: {LayerMask.LayerToName(other.gameObject.layer)}");
+            // Debug.Log($"Trigger entered by: {other.gameObject.name} on layer: {LayerMask.LayerToName(other.gameObject.layer)}");
     
-    // Only explode if the object we touched is on the "Player" layer
-    if (other.gameObject.layer != LayerMask.NameToLayer("Player") && 
-    other.gameObject.layer != LayerMask.NameToLayer("Ground")) return;
+            // Only explode if the object we touched is on the "Player" layer
+            if (other.gameObject.layer != LayerMask.NameToLayer("Player") && 
+                other.gameObject.layer != LayerMask.NameToLayer("Ground")) return;
 
-    // Debug.Log("Touched Player");
+            // Debug.Log("Touched Player");
 
-    // Prevent multiple explosions
-    explodeOnTouch = false;
+            // Prevent multiple explosions
+            explodeOnTouch = false;
 
-    ExplodeNow();
-}
+            ExplodeNow();
+        }
 
+    }
 }

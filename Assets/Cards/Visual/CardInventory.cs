@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Characters;
+using UnityEngine;
 
 namespace Cards.Visual
 {
@@ -50,8 +51,7 @@ namespace Cards.Visual
                 deckMenu.SetActive(false);
                 handLayout.layout = HandLayout.LayoutMode.Hand;
                 handLayout.RefreshLayout();
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                ThirdPersonCam.Instance.CursorUnlock -= "Inventory";
             }
             else
             {
@@ -60,7 +60,7 @@ namespace Cards.Visual
                 deckLayout.RefreshLayout();
                 handLayout.RefreshLayout();
                 Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                ThirdPersonCam.Instance.CursorUnlock += "Inventory";
             }
 
             if (targetAgent is PlayerAgent player)

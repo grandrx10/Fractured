@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace Game.Bosses.Projectiles
 {
-    
-    private void OnTriggerEnter(Collider other)
+    public class Projectile : MonoBehaviour
     {
-        // Check if the collided object has the "Player" tag
-        if (other.CompareTag("Player"))
+    
+        private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"{gameObject.name} hit the Player!");
+            // Check if the collided object has the "Player" tag
+            if (other.CompareTag("Player"))
+            {
+                Debug.Log($"{gameObject.name} hit the Player!");
+            }
         }
     }
 }

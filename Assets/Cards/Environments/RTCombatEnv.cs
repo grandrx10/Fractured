@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cards.Behaviors;
 using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
@@ -9,24 +8,18 @@ using UnityEngine.Serialization;
 
 namespace Cards.Environments
 {
-    public class RTCombatEnv: CardEnv
+    public class RTCombatEnv: OpenWorldEnv
     {
-        public Agent playerAgent;
-        [FormerlySerializedAs("currentMana")] public float mana;
+        public int health;
         
         private void Start()
         {
-            playerAgent.GetCards().ForEach(c =>
+            player.GetCards().ForEach(c =>
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
-            playerAgent.SelectCardAsync(UseCard, -1);
-        }
-
-        private CardSubmitState UseCard(Card card)
-        {
-            if (card.stats.mana < mana) return CardSubmitState.Failure;
-            return CardSubmitState.Success;
+            health = player.TotalHealth;
+            player.SelectCardAsync(UseCard, -1);
         }
         
         private void Update()
@@ -36,8 +29,8 @@ namespace Cards.Environments
 
         public void Terminate()
         {
-            playerAgent.CancelSelection();
-            playerAgent.GetCards().ForEach(c =>
+            player.CancelSelection();
+            player.GetCards().ForEach(c =>
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch());
             });

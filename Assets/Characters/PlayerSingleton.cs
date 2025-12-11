@@ -1,39 +1,38 @@
 using UnityEngine;
 
-public class PlayerSingleton : MonoBehaviour
+namespace Characters
 {
-    public static PlayerSingleton Instance { get; private set; }
-    public LayerMask groundLayer;      // Set this to your ground layer(s)
-    public float maxRayDistance = 10f; // How far down to check for ground
-    private void Awake()
+    public class PlayerSingleton : MonoBehaviour
     {
-        // If another instance exists, destroy this one
-        if (Instance != null && Instance != this)
+        public static PlayerSingleton Instance { get; private set; }
+        public LayerMask groundLayer;      // Set this to your ground layer(s)
+        public float maxRayDistance = 10f; // How far down to check for ground
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+            transform.parent = null;
+            DontDestroyOnLoad(gameObject);
         }
 
-        // Register this instance
-        Instance = this;
-
-        // Optional: keep player between scene loads
-        // DontDestroyOnLoad(gameObject);
-    }
-
-    /// <summary>
-    /// Returns the world position directly under the player's feet by raycasting down.
-    /// If no ground is found within maxRayDistance, returns the player's current position.
-    /// </summary>
-    public Vector3 GetPositionBelow()
-    {
-        Ray ray = new Ray(transform.position, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit hit, maxRayDistance, groundLayer))
+        /// <summary>
+        /// Returns the world position directly under the player's feet by raycasting down.
+        /// If no ground is found within maxRayDistance, returns the player's current position.
+        /// </summary>
+        public Vector3 GetPositionBelow()
         {
-            return hit.point;
-        }
+            Ray ray = new Ray(transform.position, Vector3.down);
+            if (Physics.Raycast(ray, out RaycastHit hit, maxRayDistance, groundLayer))
+            {
+                return hit.point;
+            }
 
-        // Fallback: return current position if no ground detected
-        return transform.position;
+            // Fallback: return current position if no ground detected
+            return transform.position;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Characters
+namespace Characters.Player
 {
     [CreateAssetMenu(fileName = "New Player Stats", menuName = "Characters/Player Stats")]
     public class PlayerStats : ScriptableObject
