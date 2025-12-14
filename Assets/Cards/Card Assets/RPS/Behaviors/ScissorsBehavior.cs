@@ -4,11 +4,11 @@ using UnityEngine;
 namespace Cards.Card_Assets.RPS.B
 {
     [CreateAssetMenu(fileName = "Scissors", menuName = "Behaviors/Scissors")]
-    public class ScissorsBehavior: Behavior
+    public class ScissorsBehavior: DefaultUseBehavior
     {
         public override string GetDescription()
         {
-            return $"<b>Snip Snip</b>: On Hit, [Cut](Cuts) twice.";
+            return $"<b>Snip Snip</b>: On Hit, [Cut](Cuts).";
         }
     }
 }

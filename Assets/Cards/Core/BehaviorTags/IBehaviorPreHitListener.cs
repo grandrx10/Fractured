@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Cards.Core.BehaviorTags
 {
-    public interface IBehaviorHitListener
+    public interface IBehaviorPreHitListener
     {
         public void Hit(CardEnv env, Agent agent, GameObject target);
     }

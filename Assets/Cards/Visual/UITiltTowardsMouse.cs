@@ -22,8 +22,8 @@ namespace Cards.Visual
             // Normalize to screen range approx
             dir /= Screen.height;
 
-            float tiltX = -dir.y * maxTilt;
-            float tiltY =  dir.x * maxTilt;
+            float tiltX = dir.y * maxTilt;
+            float tiltY =  -dir.x * maxTilt;
 
             Quaternion targetRot = Quaternion.Euler(tiltX, tiltY, 0);
             rt.localRotation = Quaternion.Lerp(rt.localRotation, targetRot, Time.deltaTime * smooth);

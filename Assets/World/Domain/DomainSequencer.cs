@@ -17,9 +17,9 @@ namespace World.Domain
             bool ok = URPRendererFeatureUtility.SetFeatureEnabled<FullScreenPassRendererFeature>(Camera.main, true);
         }
 
-        public void Interact(BaseInteractable I, GameObject player)
+        public void Interact(BaseInteractable I, GameObject player, bool b)
         {
-            animator.enabled = true;
+            if (!b) animator.enabled = true;
         }
 
         // Update is called once per frame

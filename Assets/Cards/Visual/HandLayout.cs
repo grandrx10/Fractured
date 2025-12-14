@@ -108,7 +108,16 @@ namespace Cards.Visual
             if (_selectedCard && !cards.Contains(_selectedCard)) _selectedCard = null;
         }
 
-        void LayoutHandMode()
+        public void SetSelectedCard(int index)
+        {
+            if (layout == LayoutMode.Hand && index >= 0 && index < cards.Count)
+            {
+                _selectedCard = cards[index];
+                RefreshLayout();
+            }
+        }
+
+        private void LayoutHandMode()
         {
             if (cards.Count == 0)
                 return;

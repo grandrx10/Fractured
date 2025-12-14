@@ -5,6 +5,7 @@ using Cards.Core;
 using Cards.Core.Behaviors;
 using TMPro;
 using UnityEngine.Serialization;
+using Utils;
 
 namespace Cards.Visual
 {
@@ -81,10 +82,10 @@ namespace Cards.Visual
 
         private void CreatePreview(Card c)
         {
-            _currentPreview = Instantiate(preview);
-            _currentPreview.transform.SetParent(transform.parent, true);
+            _currentPreview = Instantiate(preview, UIHelper.GetRootCanvas(transform).transform);
             _currentPreview.cardDisplay.card = c;
             _currentPreview.cardDisplay.interactable = true;
+            _currentPreview.cardDisplay.hasDepth = true;
         }
 
         private void ValidateSelectedCard()

@@ -5,6 +5,7 @@ using Cards.Core.Behaviors;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Utils;
 
 namespace Cards.Visual
 {
@@ -12,7 +13,7 @@ namespace Cards.Visual
     {
         public Card card;
         public List<CardDisplayPrefab> cardContainers;
-        public bool interactable;
+        public bool interactable, hasDepth;
         private int _selectedLink;
         public RectTransform m_TextPopup_RectTransform;
         public TextMeshProUGUI m_TextPopup_TMPComponent;
@@ -34,13 +35,18 @@ namespace Cards.Visual
             _cc.flavor.text = v.FlavorText;
             _cc.description.text = MakeDescription();
             _cc.SetBg(v.Rarity);
+            if (!hasDepth)
+            {
+                UIHelper.FlattenChildrenZ(_cc.transform);
+            }
         }
 
         private void LateUpdate()
         {
             if (interactable)
             {
-                int linkIndex = TMP_TextUtilities.FindIntersectingLink(_cc.description, Input.mousePosition, null);
+                Camera c = GameObject.FindGameObjectWithTag("UI Camera").GetComponent<Camera>();
+                int linkIndex = TMP_TextUtilities.FindIntersectingLink(_cc.description, Input.mousePosition, c);
 
                 if ((linkIndex == -1 && _selectedLink != -1) || linkIndex != _selectedLink)
                 {
@@ -58,7 +64,7 @@ namespace Cards.Visual
                     //Debug.Log("Link ID: \"" + linkInfo.GetLinkID() + "\"   Link Text: \"" + linkInfo.GetLinkText() + "\"");
 
                     Vector3 worldPointInRectangle;
-                    RectTransformUtility.ScreenPointToWorldPointInRectangle(_cc.description.rectTransform, Input.mousePosition, null, out worldPointInRectangle);
+                    RectTransformUtility.ScreenPointToWorldPointInRectangle(_cc.description.rectTransform, Input.mousePosition, c, out worldPointInRectangle);
                     
                     m_TextPopup_RectTransform.position = worldPointInRectangle;
                     m_TextPopup_RectTransform.gameObject.SetActive(true);

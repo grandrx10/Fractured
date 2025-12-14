@@ -36,7 +36,15 @@ namespace Cards.Visual
             {
                 ToggleMenu();
             }
-
+            
+            for (int i = 1; i <= 9; i++)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+                {
+                    handLayout.SetSelectedCard(i-1);
+                }
+            }
+            
             if (Input.mouseScrollDelta.y != 0)
             {
                 handLayout.OnScroll(Input.mouseScrollDelta.y);
