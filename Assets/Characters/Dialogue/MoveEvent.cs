@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Characters.Dialogue
@@ -6,46 +7,67 @@ namespace Characters.Dialogue
     public class MoveEvent : DialogueEvent
     {
         [Header("Movement Settings")]
-        public GameObject objectToMove;      // The object being moved
-        public Transform targetLocation;     // The destination transform
-        public float duration = 1f;          // Time to complete the movement
+        public GameObject objectToMove;                 // Object being moved
+        public List<Transform> targetLocations;         // Path points (in order)
+        public float movementSpeed = 2f;                // Units per second
 
         [Header("Rotation Settings")]
-        public bool faceMovementDirection = true;   // Should the object rotate while moving
-        public float rotationSpeed = 10f;           // How fast the object rotates towards movement direction
-        public Transform endLookingAt;              // Optional transform to look at after movement ends
+        public bool faceMovementDirection = true;       // Rotate while moving
+        public float rotationSpeed = 10f;               // Rotation speed
+        public Transform endLookingAt;                  // Optional final look-at
 
         public override void Execute()
         {
-            if (objectToMove == null || targetLocation == null)
+            if (objectToMove == null || targetLocations == null || targetLocations.Count == 0)
             {
-                Debug.LogError("MoveEvent missing objectToMove or targetLocation.");
+                Debug.LogError("MoveEvent missing objectToMove or targetLocations.");
                 return;
             }
 
-            DialogueManager.Instance.StartCoroutine(MoveCoroutine());
+            DialogueManager.Instance.StartCoroutine(MovePathCoroutine());
         }
 
-        private IEnumerator MoveCoroutine()
+        private IEnumerator MovePathCoroutine()
         {
-            Vector3 startPos = objectToMove.transform.position;
-            Vector3 endPos = targetLocation.position;
-
-            float elapsed = 0f;
-
-            while (elapsed < duration)
+            foreach (Transform target in targetLocations)
             {
-                elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / duration);
+                if (target == null)
+                    continue;
 
-                // Move position
-                objectToMove.transform.position = Vector3.Lerp(startPos, endPos, t);
+                yield return MoveToTargetCoroutine(target);
+            }
+
+            // Final rotation after completing the path
+            if (endLookingAt != null)
+            {
+                Vector3 lookDir = endLookingAt.position - objectToMove.transform.position;
+                lookDir.y = 0f;
+
+                if (lookDir.sqrMagnitude > 0.001f)
+                {
+                    objectToMove.transform.rotation = Quaternion.LookRotation(lookDir);
+                }
+            }
+        }
+
+        private IEnumerator MoveToTargetCoroutine(Transform target)
+        {
+            Vector3 endPos = target.position;
+
+            while (Vector3.Distance(objectToMove.transform.position, endPos) > 0.01f)
+            {
+                // Move
+                objectToMove.transform.position = Vector3.MoveTowards(
+                    objectToMove.transform.position,
+                    endPos,
+                    movementSpeed * Time.deltaTime
+                );
 
                 // Rotate to face movement direction (XZ plane only)
                 if (faceMovementDirection)
                 {
                     Vector3 direction = endPos - objectToMove.transform.position;
-                    direction.y = 0f; // Only rotate on XZ plane
+                    direction.y = 0f;
 
                     if (direction.sqrMagnitude > 0.001f)
                     {
@@ -61,20 +83,8 @@ namespace Characters.Dialogue
                 yield return null;
             }
 
-            // Final snap to position
+            // Snap exactly to target
             objectToMove.transform.position = endPos;
-
-            // Rotate at the end if endLookingAt is set (XZ plane only)
-            if (endLookingAt != null)
-            {
-                Vector3 lookDir = endLookingAt.position - objectToMove.transform.position;
-                lookDir.y = 0f; // Only rotate on XZ plane
-
-                if (lookDir.sqrMagnitude > 0.001f)
-                {
-                    objectToMove.transform.rotation = Quaternion.LookRotation(lookDir);
-                }
-            }
         }
     }
 }

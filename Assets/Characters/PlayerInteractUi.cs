@@ -7,6 +7,7 @@ namespace Characters
     {
         private PlayerInteractController playerInteract;
         private TextMeshProUGUI interactText;
+        private TextMeshProUGUI interactableName;
 
         void Start()
         {
@@ -25,10 +26,17 @@ namespace Characters
             if (playerInteract != null && playerInteract.currentInteractable != null)
             {
                 interactText.gameObject.SetActive(true);
+                if (playerInteract.currentInteractable.interactName != "")
+                {
+                    interactableName.text = playerInteract.currentInteractable.interactName;
+                }
+                
+                interactableName.gameObject.SetActive(true);
             }
             else
             {
                 interactText.gameObject.SetActive(false);
+                interactableName.gameObject.SetActive(false);
             }
         }
     }

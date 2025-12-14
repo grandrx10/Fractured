@@ -14,6 +14,7 @@ namespace Characters.Dialogue
         public string speaker;
         public string text;
         public List<string> events = new List<string>();
+        public List<string> flagsToSet = new List<string>(); // Flags to set when this line is shown
     }
 
     [System.Serializable]
@@ -22,6 +23,7 @@ namespace Characters.Dialogue
         public string choiceText;
         public string eventName;      // For <EventName> format
         public string conversationName; // For {ConvoName} format
+        public string requiredFlag;   // For (FlagName) format - flag must be true to show
     }
 
     [System.Serializable]
@@ -174,20 +176,25 @@ namespace Characters.Dialogue
 
                     DialogueChoice choice = new DialogueChoice();
 
-                    // Match [ChoiceText]<EventName> or [ChoiceText]{ConvoName}
-                    Match eventMatch = Regex.Match(trimmed, @"^\[(.*?)\]<([^>]+)>$");
-                    Match convoMatch = Regex.Match(trimmed, @"^\[(.*?)\]\{(.*?)\}$");
+                    // Match patterns with optional (FlagName):
+                    // [ChoiceText](FlagName)<EventName> or [ChoiceText](FlagName){ConvoName}
+                    // [ChoiceText]<EventName> or [ChoiceText]{ConvoName}
+                    
+                    Match eventMatch = Regex.Match(trimmed, @"^\[(.*?)\](?:\(([^)]+)\))?<([^>]+)>$");
+                    Match convoMatch = Regex.Match(trimmed, @"^\[(.*?)\](?:\(([^)]+)\))?\{(.*?)\}$");
 
                     if (eventMatch.Success)
                     {
                         choice.choiceText = eventMatch.Groups[1].Value.Trim();
-                        choice.eventName = eventMatch.Groups[2].Value.Trim();
+                        choice.requiredFlag = eventMatch.Groups[2].Success ? eventMatch.Groups[2].Value.Trim() : null;
+                        choice.eventName = eventMatch.Groups[3].Value.Trim();
                         convo.choices.Add(choice);
                     }
                     else if (convoMatch.Success)
                     {
                         choice.choiceText = convoMatch.Groups[1].Value.Trim();
-                        choice.conversationName = convoMatch.Groups[2].Value.Trim();
+                        choice.requiredFlag = convoMatch.Groups[2].Success ? convoMatch.Groups[2].Value.Trim() : null;
+                        choice.conversationName = convoMatch.Groups[3].Value.Trim();
                         convo.choices.Add(choice);
                     }
                 }
@@ -232,17 +239,32 @@ namespace Characters.Dialogue
                 DialogueLine dialogueLine = new DialogueLine();
                 int lineIndex = 0;
 
-                // Extract events at the start
+                // Extract events and flags at the start
                 while (lineIndex < dlgLines.Length)
                 {
                     string line = dlgLines[lineIndex].Trim();
-                    string withoutEvents = Regex.Replace(line, @"<([^>]+)>", "").Trim();
+                    
+                    // Check for flags first
+                    MatchCollection flagMatches = Regex.Matches(line, @">>!F\s+(\S+)");
+                    bool hasFlags = flagMatches.Count > 0;
+                    
+                    string withoutEventsAndFlags = Regex.Replace(line, @"<([^>]+)>", "").Trim();
+                    withoutEventsAndFlags = Regex.Replace(withoutEventsAndFlags, @">>!F\s+\S+", "").Trim();
 
-                    if (string.IsNullOrEmpty(withoutEvents))
+                    if (string.IsNullOrEmpty(withoutEventsAndFlags))
                     {
+                        // Extract events
                         MatchCollection eventMatches = Regex.Matches(line, @"<([^>]+)>");
                         foreach (Match match in eventMatches)
                             dialogueLine.events.Add(match.Groups[1].Value);
+
+                        // Extract flags
+                        foreach (Match match in flagMatches)
+                        {
+                            string flagName = match.Groups[1].Value.Trim();
+                            dialogueLine.flagsToSet.Add(flagName);
+                            Debug.Log($"Parsed flag to set: {flagName}");
+                        }
 
                         lineIndex++;
                     }
@@ -252,10 +274,10 @@ namespace Characters.Dialogue
                     }
                 }
 
-                // If we only have events and no more lines, still add the dialogue line
+                // If we only have events/flags and no more lines, still add the dialogue line
                 if (lineIndex >= dlgLines.Length)
                 {
-                    // This dialogue line only has events, no speaker or text
+                    // This dialogue line only has events/flags, no speaker or text
                     dialogueLine.speaker = "";
                     dialogueLine.text = "";
                     convo.lines.Add(dialogueLine);
@@ -264,13 +286,18 @@ namespace Characters.Dialogue
 
                 string firstLine = dlgLines[lineIndex];
 
-                // Remaining events in the first line
+                // Remaining events and flags in the first line
                 MatchCollection remainingEvents = Regex.Matches(firstLine, @"<([^>]+)>");
                 foreach (Match match in remainingEvents)
                     dialogueLine.events.Add(match.Groups[1].Value);
 
-                // Extract speaker
+                MatchCollection remainingFlags = Regex.Matches(firstLine, @">>!F\s+(\S+)");
+                foreach (Match match in remainingFlags)
+                    dialogueLine.flagsToSet.Add(match.Groups[1].Value.Trim());
+
+                // Extract speaker (remove events and flags first)
                 firstLine = Regex.Replace(firstLine, @"<([^>]+)>", "").Trim();
+                firstLine = Regex.Replace(firstLine, @">>!F\s+\S+", "").Trim();
                 Match speakerMatch = Regex.Match(firstLine, @"\[(.*?)\]");
                 dialogueLine.speaker = speakerMatch.Success ? speakerMatch.Groups[1].Value.Trim() : "";
 
@@ -367,6 +394,16 @@ namespace Characters.Dialogue
                 ExecuteEvent(eventName);   
             }
 
+            // Set flags for this line
+            if (UniversalFlags.Instance != null)
+            {
+                foreach (string flagName in line.flagsToSet)
+                {
+                    UniversalFlags.Instance.SetFlag(flagName, true);
+                    Debug.Log($"Set flag '{flagName}' to true");
+                }
+            }
+
             dialogueIndex++; // Increment index early to handle recursion correctly
 
             // If the line has no text, skip showing the dialogue box
@@ -389,10 +426,20 @@ namespace Characters.Dialogue
         {
             waitingForChoice = true;
             // Keep previous dialogue visible
-            ThirdPersonCam.Instance.CursorUnlock -= "Dialogue";
+            ThirdPersonCam.Instance.CursorUnlock += "Dialogue";
 
             foreach (DialogueChoice choice in currentConversation.choices)
             {
+                // Check if choice requires a flag
+                if (!string.IsNullOrEmpty(choice.requiredFlag))
+                {
+                    // Only show this choice if the flag is true
+                    if (UniversalFlags.Instance == null || !UniversalFlags.Instance.GetFlag(choice.requiredFlag))
+                    {
+                        continue; // Skip this choice
+                    }
+                }
+
                 GameObject choiceObj = Instantiate(choicePrefab, choiceParent);
                 TMP_Text choiceText = choiceObj.GetComponentInChildren<TMP_Text>();
                 if (choiceText != null)
@@ -429,7 +476,7 @@ namespace Characters.Dialogue
                 EndConversation();
             }
 
-            ThirdPersonCam.Instance.CursorUnlock += "Dialogue";
+            ThirdPersonCam.Instance.CursorUnlock -= "Dialogue";
         }
 
         private void ExecuteEvent(string eventName)

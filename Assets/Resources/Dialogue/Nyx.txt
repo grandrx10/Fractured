@@ -1,0 +1,142 @@
+NyxOpener
+===
+[Nyx]
+... a drop of agaricus, a bit of pleurotus, maybe some flammulina? No surely not.
+---
+[Ravenna]
+Excuse me-
+---
+[Nyx]
+Oh good, I was just looking for some assistants. My name is Nyx, and it is a pleasure to meet you. What might your names be?
+---
+[Ravenna]
+Ravenna and Dorian. You said you were looking for assistants?
+---
+[Nyx]
+Correct observation! You see, I'm in the midst of a scientific experiment, pushing the limits of the field. However, I afraid I do not have the dexterity to complete the task on my own. Are you two up for a small experiment?
+---
+[Ravenna]
+I'm down!
+---
+[Dorian]
+I was hoping to get back to the beach later today, so-
+---
+[Ravenna]
+*Ahem*
+---
+[Dorian]
+Nevermind, my schedule just freed up.
+---
+[Nyx]
+Great. What do you two know about brewing potions?
+---
+[Ravenna]
+Nada.
+---
+[Dorian]
+I can make orange juice.
+---
+[Nyx]
+Don't worry, it's quite simple, just follow the recipe to the letter, and you won't blow up, probably. The ingredients must be put in a quick succession. Any deviation in timing can cause disastrous side effects, capiche?
+---
+[Nyx]
+I have a brewing lab inside of my hut - that's where I'll need you two to operate. I'll toss in ingredients from out here, and you'll mix according to the recipe. Sound good?
+---
+[Ravenna]
+Sounds like a plan!
+---
+[Dorian]
+Sorry, did you say we could blow up?
+---
+[Nyx]
+Fabulous! When you're ready, go into my hut.
+===
+[Nyx]{NyxWait}
+###
+NyxWait
+===
+[Nyx]
+When you're ready to cook, go into my hut.
+---
+[Ravenna]
+Dorian, we need to cook!
+===
+[Nyx]{NyxWait}
+###
+NyxCookFail
+===
+[Nyx]
+Are you alright? You scared me for a moment back there.
+---
+[Dorian]
+What... what happened?
+---
+[Nyx]
+You blew up. Don't worry, you'll get used to it after the first dozen times. How do you think I got dark fur?
+---
+[Ravenna]
+Ow...
+---
+[Nyx]
+Well, when you're ready to give the experiment another try, just let me know!
+===
+[Nyx]{NyxWait}
+###
+NyxCookBegin
+===
+[Nyx]
+Remember, you have to stir in the correct motion, and insert ingredients at the correct timings. If you need to dice anything up, there are some work stations in there for that.
+---
+<RavennaMoveToEvent>
+[Ravenna]
+I'll handle the stirring. Knives are... knives aren't my thing.
+---
+[Dorian]
+Don't worry, I'll handle the ingredients.
+---
+[Ravenna]
+See if you can take a look at the stations - let me know when you're ready.
+===
+[Ravenna]{BeginCooking}
+###
+BeginCooking
+===
+[Ravenna]
+Nyx, we're ready!
+---
+[Nyx]
+Alright, prepare to cook! Remember, the instructions must be followed to the letter - any deviation will cause an explosion! No pressure.
+---
+[Dorian]
+Right.
+---
+<CookingStartEvent>
+===
+###
+NyxCookSuccess
+===
+[Nyx]
+Hmmm, that smells wonderful. It seems the experiment was a success!
+---
+[Ravenna]
+Hew! That was a sweat. So, what was this potion for anyways?
+---
+[Nyx]
+It's a potion that increases your fur growth by 0.1%.
+---
+[Dorian]
+... Are you serious?
+---
+[Nyx]
+Quite so! Someone's got to develop cutting edge technology like this. Anyways, thanks for the help. Here's your research reward.
+===
+[Nyx]{NyxTalk}
+###
+NyxTalk
+===
+[Nyx]
+What's on your mind today, assistants?
+???
+[How are you doing?]{}
+[Can you tell me a bit about yourself?]{}
+[]
