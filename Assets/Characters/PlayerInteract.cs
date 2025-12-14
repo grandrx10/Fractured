@@ -1,6 +1,7 @@
 using Characters.Interactables;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Characters
 {
@@ -18,11 +19,16 @@ namespace Characters
 
         [Header("UI Settings")]
         [SerializeField] private TextMeshProUGUI interactText; // assign in inspector
+        [SerializeField] private Slider interactSlider;        // assign in inspector
 
         [Header("Debug")]
         [SerializeField] private bool showDebugRay = true;
 
         public Interactable currentInteractable;
+
+        // Interaction progress
+        private float holdTimer = 0f;
+        private bool isHolding = false;
 
         private void Start()
         {
@@ -31,16 +37,73 @@ namespace Characters
 
             if (interactText != null)
                 interactText.gameObject.SetActive(false);
+
+            if (interactSlider != null)
+            {
+                interactSlider.gameObject.SetActive(false);
+                interactSlider.minValue = 0f;
+                interactSlider.maxValue = 1f;
+                interactSlider.value = 0f;
+                interactSlider.wholeNumbers = false;
+            }
         }
 
         private void Update()
         {
             CheckForInteractable();
-
-            if (Input.GetKeyDown(interactKey))
-                TryInteract();
-
             UpdateUi();
+
+            if (currentInteractable != null && currentInteractable.canInteract)
+            {
+                if (currentInteractable.interactTime <= 0f)
+                {
+                    // Instant interaction
+                    if (Input.GetKeyDown(interactKey))
+                        currentInteractable.Interact(gameObject);
+                }
+                else
+                {
+                    // Hold to interact
+                    if (Input.GetKey(interactKey))
+                    {
+                        isHolding = true;
+                        holdTimer += Time.deltaTime;
+
+                        if (interactSlider != null)
+                        {
+                            interactSlider.gameObject.SetActive(true);
+                            interactSlider.value = Mathf.Clamp01(holdTimer / currentInteractable.interactTime);
+                        }
+
+                        if (holdTimer >= currentInteractable.interactTime)
+                        {
+                            currentInteractable.Interact(gameObject);
+                            ResetHold();
+                        }
+                    }
+                    else
+                    {
+                        if (isHolding)
+                            ResetHold();
+                    }
+                }
+            }
+            else
+            {
+                ResetHold();
+            }
+        }
+
+        private void ResetHold()
+        {
+            isHolding = false;
+            holdTimer = 0f;
+
+            if (interactSlider != null)
+            {
+                interactSlider.value = 0f;
+                interactSlider.gameObject.SetActive(false);
+            }
         }
 
         private void CheckForInteractable()
@@ -94,35 +157,24 @@ namespace Characters
                 Debug.DrawRay(raycastOrigin.position, raycastOrigin.forward * interactRange, Color.red);
         }
 
-        private void TryInteract()
-        {
-            if (currentInteractable != null && currentInteractable.canInteract)
-                currentInteractable.Interact(gameObject);
-        }
-
         private void UpdateUi()
         {
-            if (interactText == null) return;
-
-            bool visible = currentInteractable != null;
-            interactText.gameObject.SetActive(visible);
+            if (interactText != null) {}
+                interactText.gameObject.SetActive(currentInteractable != null);
         }
 
+        // Keep original function intact
         public Vector3 GetCameraRaycastTarget()
         {
             Ray ray = new Ray(raycastOrigin.position, raycastOrigin.forward);
             RaycastHit hit;
 
-            // Build mask: ignore Projectile layer
             int ignoreProjectileMask = ~(1 << LayerMask.NameToLayer("Projectile"));
 
             if (Physics.Raycast(ray, out hit, 500f, ignoreProjectileMask))
-            {
                 return hit.point;
-            }
 
             return raycastOrigin.position + raycastOrigin.forward * 500f;
         }
-
     }
 }
