@@ -1,63 +1,65 @@
 using UnityEngine;
-using UnityEngine.TestTools;
 
-public class BigPlaneSlicer : MonoBehaviour
+namespace Game.Effects
 {
-    public float RotationSensitivity = 1f;
-
-    // public void OnTriggerStay(Collider collider)
-    // {
-    //     var material = collider.gameObject.GetComponent<MeshRenderer>().material;
-    //     if (material.name.StartsWith("HighlightSlice"))
-    //     {
-    //         material.SetVector("CutPlaneNormal", this.transform.up);
-    //         material.SetVector("CutPlaneOrigin", this.transform.position);
-    //     }
-    // }
-    //
-    // public void OnTriggerExit(Collider collider)
-    // {
-    //     var material = collider.gameObject.GetComponent<MeshRenderer>().material;
-    //     if (material.name.StartsWith("HighlightSlice"))
-    //     {
-    //         material.SetVector("CutPlaneOrigin", Vector3.positiveInfinity);
-    //     }
-    // }
-
-    // Update is called once per frame
-    void Update()
+    public class BigPlaneSlicer : MonoBehaviour
     {
-        if (Input.GetKey(KeyCode.R))
-        {
-            this.transform.Rotate(Vector3.forward, RotationSensitivity, Space.Self);
-        }
-        if (Input.GetKey(KeyCode.F))
-        {
-            this.transform.Rotate(Vector3.forward, -RotationSensitivity, Space.Self);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            var mesh = this.GetComponent<MeshFilter>().sharedMesh;
-            var center = mesh.bounds.center;
-            var extents = mesh.bounds.extents;
+        public float RotationSensitivity = 1f;
 
-            extents = new Vector3(extents.x * this.transform.localScale.x,
-                                  extents.y * this.transform.localScale.y,
-                                  extents.z * this.transform.localScale.z);
-                                  
-            // Cast a ray and find the nearest object
-            RaycastHit[] hits = Physics.BoxCastAll(this.transform.position, extents, this.transform.forward, this.transform.rotation, extents.z);
-            
-            foreach(RaycastHit hit in hits)
+        // public void OnTriggerStay(Collider collider)
+        // {
+        //     var material = collider.gameObject.GetComponent<MeshRenderer>().material;
+        //     if (material.name.StartsWith("HighlightSlice"))
+        //     {
+        //         material.SetVector("CutPlaneNormal", this.transform.up);
+        //         material.SetVector("CutPlaneOrigin", this.transform.position);
+        //     }
+        // }
+        //
+        // public void OnTriggerExit(Collider collider)
+        // {
+        //     var material = collider.gameObject.GetComponent<MeshRenderer>().material;
+        //     if (material.name.StartsWith("HighlightSlice"))
+        //     {
+        //         material.SetVector("CutPlaneOrigin", Vector3.positiveInfinity);
+        //     }
+        // }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (Input.GetKey(KeyCode.R))
             {
-                var obj = hit.collider.gameObject;
-                var sliceObj = obj.GetComponent<Slice>();
+                this.transform.Rotate(Vector3.forward, RotationSensitivity, Space.Self);
+            }
+            if (Input.GetKey(KeyCode.F))
+            {
+                this.transform.Rotate(Vector3.forward, -RotationSensitivity, Space.Self);
+            }
+        
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                var mesh = this.GetComponent<MeshFilter>().sharedMesh;
+                var center = mesh.bounds.center;
+                var extents = mesh.bounds.extents;
 
-                if (sliceObj != null)
+                extents = new Vector3(extents.x * this.transform.localScale.x,
+                    extents.y * this.transform.localScale.y,
+                    extents.z * this.transform.localScale.z);
+                                  
+                // Cast a ray and find the nearest object
+                RaycastHit[] hits = Physics.BoxCastAll(this.transform.position, extents, this.transform.forward, this.transform.rotation, extents.z);
+            
+                foreach(RaycastHit hit in hits)
                 {
-                    sliceObj.GetComponent<MeshRenderer>()?.material.SetVector("CutPlaneOrigin", Vector3.positiveInfinity);
-                    sliceObj.ComputeSlice(this.transform.up, this.transform.position);
+                    var obj = hit.collider.gameObject;
+                    var sliceObj = obj.GetComponent<Slice>();
+
+                    if (sliceObj != null)
+                    {
+                        sliceObj.GetComponent<MeshRenderer>()?.material.SetVector("CutPlaneOrigin", Vector3.positiveInfinity);
+                        sliceObj.ComputeSlice(this.transform.up, this.transform.position);
+                    }
                 }
             }
         }

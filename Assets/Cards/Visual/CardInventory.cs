@@ -25,7 +25,7 @@ namespace Cards.Visual
             deckLayout.PopulateCards(targetAgent.deck);
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (Input.GetMouseButtonDown(0) && targetAgent.CardRequested)
             {

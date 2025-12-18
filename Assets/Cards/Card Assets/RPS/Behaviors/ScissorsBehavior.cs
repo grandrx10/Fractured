@@ -1,7 +1,7 @@
 ﻿using Cards.Core.Behaviors;
 using UnityEngine;
 
-namespace Cards.Card_Assets.RPS.B
+namespace Cards.Card_Assets.RPS.Behaviors
 {
     [CreateAssetMenu(fileName = "Scissors", menuName = "Behaviors/Scissors")]
     public class ScissorsBehavior: DefaultUseBehavior

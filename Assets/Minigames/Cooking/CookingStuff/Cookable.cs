@@ -1,58 +1,61 @@
-using UnityEngine;
 using Characters.Interactables;
+using UnityEngine;
 
-public class Cookable : Interactable
+namespace Minigames.Cooking.CookingStuff
 {
-    private Rigidbody rb;
-    private Collider[] colliders;
-
-    private void Awake()
+    public class Cookable : Interactable
     {
-        rb = GetComponent<Rigidbody>();
-        colliders = GetComponentsInChildren<Collider>();
-    }
+        private Rigidbody rb;
+        private Collider[] colliders;
 
-    public override void Interact(GameObject player)
-    {
-        Cook cook = player.GetComponent<Cook>();
-        if (cook == null) return;
-
-        // Swap / pick up the cookable via the cook
-        Cookable previous = cook.heldObject;
-        cook.InteractWithCookable(this);
-
-        // Make this object kinematic and disable collisions
-        if (rb != null)
+        private void Awake()
         {
-            rb.isKinematic = true;
+            rb = GetComponent<Rigidbody>();
+            colliders = GetComponentsInChildren<Collider>();
         }
 
-        foreach (Collider col in colliders)
+        public override void Interact(GameObject player)
         {
-            col.enabled = false;
+            Cook cook = player.GetComponent<Cook>();
+            if (cook == null) return;
+
+            // Swap / pick up the cookable via the cook
+            Cookable previous = cook.heldObject;
+            cook.InteractWithCookable(this);
+
+            // Make this object kinematic and disable collisions
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+            }
+
+            foreach (Collider col in colliders)
+            {
+                col.enabled = false;
+            }
+
+            // If there was a previously held object, re-enable its colliders and Rigidbody
+            if (previous != null && previous != this)
+            {
+                previous.OnDropped();
+            }
+
+            canInteract = false;
         }
 
-        // If there was a previously held object, re-enable its colliders and Rigidbody
-        if (previous != null && previous != this)
+        /// <summary>
+        /// Call this when the object is dropped
+        /// </summary>
+        public void OnDropped()
         {
-            previous.OnDropped();
+            if (rb != null)
+                rb.isKinematic = false;
+
+            foreach (Collider col in colliders)
+                col.enabled = true;
+
+            transform.SetParent(null);
+            canInteract = true;
         }
-
-        canInteract = false;
-    }
-
-    /// <summary>
-    /// Call this when the object is dropped
-    /// </summary>
-    public void OnDropped()
-    {
-        if (rb != null)
-            rb.isKinematic = false;
-
-        foreach (Collider col in colliders)
-            col.enabled = true;
-
-        transform.SetParent(null);
-        canInteract = true;
     }
 }

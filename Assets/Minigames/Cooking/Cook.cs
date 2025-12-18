@@ -1,64 +1,67 @@
+using Minigames.Cooking.CookingStuff;
 using UnityEngine;
-using Characters.Interactables;
 
-public class Cook : MonoBehaviour
+namespace Minigames.Cooking
 {
-    [Header("Hand Settings")]
-    [Tooltip("Transform representing where the cook holds items")]
-    public Transform handTransform;
-
-    [Header("Debug")]
-    [Tooltip("Currently held object")]
-    public Cookable heldObject;
-
-    /// <summary>
-    /// Call this to interact with a cookable object
-    /// </summary>
-    public void InteractWithCookable(Cookable cookable)
+    public class Cook : MonoBehaviour
     {
-        if (cookable == null) return;
+        [Header("Hand Settings")]
+        [Tooltip("Transform representing where the cook holds items")]
+        public Transform handTransform;
 
-        // If holding an object, drop it first
-        if (heldObject != null)
+        [Header("Debug")]
+        [Tooltip("Currently held object")]
+        public Cookable heldObject;
+
+        /// <summary>
+        /// Call this to interact with a cookable object
+        /// </summary>
+        public void InteractWithCookable(Cookable cookable)
         {
-            DropCurrentObject();
+            if (cookable == null) return;
+
+            // If holding an object, drop it first
+            if (heldObject != null)
+            {
+                DropCurrentObject();
+            }
+
+            // Pick up the new cookable
+            heldObject = cookable;
+
+            // Parent to hand
+            heldObject.transform.SetParent(handTransform);
+
+            // Move to hand position
+            heldObject.transform.localPosition = Vector3.zero;
+            heldObject.transform.localRotation = Quaternion.identity;
+
+            // Make rigidbody kinematic
+            Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+            }
         }
 
-        // Pick up the new cookable
-        heldObject = cookable;
-
-        // Parent to hand
-        heldObject.transform.SetParent(handTransform);
-
-        // Move to hand position
-        heldObject.transform.localPosition = Vector3.zero;
-        heldObject.transform.localRotation = Quaternion.identity;
-
-        // Make rigidbody kinematic
-        Rigidbody rb = heldObject.GetComponent<Rigidbody>();
-        if (rb != null)
+        /// <summary>
+        /// Drops the currently held object
+        /// </summary>
+        public void DropCurrentObject()
         {
-            rb.isKinematic = true;
+            if (heldObject == null) return;
+
+            // Unparent
+            heldObject.transform.SetParent(null);
+
+            // Make rigidbody non-kinematic
+            Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+            }
+
+            heldObject = null;
         }
-    }
-
-    /// <summary>
-    /// Drops the currently held object
-    /// </summary>
-    public void DropCurrentObject()
-    {
-        if (heldObject == null) return;
-
-        // Unparent
-        heldObject.transform.SetParent(null);
-
-        // Make rigidbody non-kinematic
-        Rigidbody rb = heldObject.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-        }
-
-        heldObject = null;
     }
 }

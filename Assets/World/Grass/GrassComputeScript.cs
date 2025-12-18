@@ -23,6 +23,9 @@ namespace World.Grass
         public SO_GrassSettings currentPresets;
 
         // interactors
+        public static HashSet<GrassComputeScript> computesSet = new HashSet<GrassComputeScript>();
+        public static HashSet<ShaderInteractor> interactorSet = new HashSet<ShaderInteractor>();
+        private bool _interactorDirty = true;
         ShaderInteractor[] interactors;
 
         // base data lists
@@ -149,6 +152,7 @@ namespace World.Grass
                 OnDisable();
             }
 
+            computesSet.Add(this);
             MainSetup(true);
         }
 
@@ -344,6 +348,7 @@ namespace World.Grass
                 m_ArgsBuffer?.Release();
                 m_VisibleIDBuffer?.Release();
             }
+            computesSet.Remove(this);
             m_Initialized = false;
         }
 
@@ -366,8 +371,13 @@ namespace World.Grass
             }
             // get the data from the camera for culling
             GetFrustumData();
+            if (_interactorDirty)
+            {
+                interactors = interactorSet.ToArray();
+            }
             // Update the shader with frame specific data
             SetGrassDataUpdate();
+            
             // Clear the draw and indirect args buffers of last frame's data
             m_DrawBuffer.SetCounterValue(0);
             m_ArgsBuffer.SetData(argsBufferReset);
@@ -454,7 +464,7 @@ namespace World.Grass
 
         public void UpdateInteractors()
         {
-            interactors = (ShaderInteractor[])FindObjectsOfType(typeof(ShaderInteractor));
+            _interactorDirty = true;
         }
         private void SetGrassDataUpdate()
         {

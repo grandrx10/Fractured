@@ -103,5 +103,13 @@ namespace Cards.Core
             }
             return targ;
         }
+
+        public static Card MakeCard(CardData data)
+        {
+            GameObject cardGo = new GameObject("Card");
+            Card c = cardGo.AddComponent<Card>();
+            c.AssignData(data);
+            return c;
+        }
     }
 }

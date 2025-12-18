@@ -23,7 +23,7 @@ namespace Cards.Environments
             _playerInteract = FindAnyObjectByType<PlayerInteractController>();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             mana += manaRegen * Time.deltaTime;
             mana = Mathf.Clamp(mana, 0, maxMana);

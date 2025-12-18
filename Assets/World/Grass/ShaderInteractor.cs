@@ -8,15 +8,29 @@ namespace World.Grass
 
         private void Awake()
         {
-            var c = FindFirstObjectByType<GrassComputeScript>();
-            if (c) c.UpdateInteractors();
-            else Destroy(this);
+            if (GrassComputeScript.computesSet.Count == 0)
+            {
+                Destroy(this);
+                return;
+            }
+            GrassComputeScript.interactorSet.Add(this);
+            foreach (var c in GrassComputeScript.computesSet)
+            {
+                c.UpdateInteractors();
+            }
         }
 
         private void OnDestroy()
         {
-            var c = FindFirstObjectByType<GrassComputeScript>();
-            if (c) c.UpdateInteractors();
+            if (GrassComputeScript.computesSet.Count == 0)
+            {
+                return;
+            }
+            GrassComputeScript.interactorSet.Remove(this);
+            foreach (var c in GrassComputeScript.computesSet)
+            {
+                c.UpdateInteractors();
+            }
         }
     }
 }

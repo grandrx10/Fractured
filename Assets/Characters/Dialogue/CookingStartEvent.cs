@@ -1,21 +1,24 @@
+using Minigames.Cooking.Stations;
 using UnityEngine;
-using Characters.Dialogue;
 
-public class CookingStartEvent : DialogueEvent
+namespace Characters.Dialogue
 {
-    [Header("Cooking")]
-    [Tooltip("Pot station to start cooking on")]
-    public PotStation pot;
-
-    public override void Execute()
+    public class CookingStartEvent : DialogueEvent
     {
-        if (pot == null)
-        {
-            Debug.LogWarning("CookingStartEvent: No PotStation assigned.");
-            return;
-        }
+        [Header("Cooking")]
+        [Tooltip("Pot station to start cooking on")]
+        public PotStation pot;
 
-        pot.StartPot();
-        Debug.Log($"Cooking started on pot: {pot.name}");
+        public override void Execute()
+        {
+            if (pot == null)
+            {
+                Debug.LogWarning("CookingStartEvent: No PotStation assigned.");
+                return;
+            }
+
+            pot.StartPot();
+            Debug.Log($"Cooking started on pot: {pot.name}");
+        }
     }
 }

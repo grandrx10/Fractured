@@ -50,6 +50,7 @@ namespace Cards.PhysicalProperties
 
         void FixedUpdate()
         {
+            if (!rb) return;
             _preCollisionVelocity = rb.linearVelocity;
         }
 

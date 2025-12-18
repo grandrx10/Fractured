@@ -1,29 +1,32 @@
 using UnityEngine;
 
-public class GumprootChoppable : Choppable
+namespace Minigames.Cooking.CookingStuff
 {
-    [Header("Chop Settings")]
-    [Tooltip("Prefab to spawn when chopped")]
-    public GameObject spawnPrefab;
-
-    public override void Chop()
+    public class GumprootChoppable : Choppable
     {
-        base.Chop(); // Call base if there is shared behavior
+        [Header("Chop Settings")]
+        [Tooltip("Prefab to spawn when chopped")]
+        public GameObject spawnPrefab;
 
-        if (spawnPrefab != null)
+        public override void Chop()
         {
-            Instantiate(
-                spawnPrefab,
-                transform.position,
-                Quaternion.identity
-            );
-        }
-        else
-        {
-            Debug.LogWarning("Spawn prefab not assigned for " + name);
-        }
+            base.Chop(); // Call base if there is shared behavior
 
-        // Optionally, destroy the original object after chopping
-        Destroy(gameObject);
+            if (spawnPrefab != null)
+            {
+                Instantiate(
+                    spawnPrefab,
+                    transform.position,
+                    Quaternion.identity
+                );
+            }
+            else
+            {
+                Debug.LogWarning("Spawn prefab not assigned for " + name);
+            }
+
+            // Optionally, destroy the original object after chopping
+            Destroy(gameObject);
+        }
     }
 }

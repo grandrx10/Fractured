@@ -10,7 +10,8 @@ namespace Cards.Environments
 {
     public class RTCombatEnv: OpenWorldEnv
     {
-        public int health;
+        public float health;
+        public float maxHealth;
         
         private void Start()
         {
@@ -19,12 +20,20 @@ namespace Cards.Environments
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
             health = player.TotalHealth;
+            maxHealth = health;
             player.SelectCardAsync(UseCard, -1);
         }
-        
-        private void Update()
+
+        public bool TakeDamage(float damage)
         {
-            //throw new NotImplementedException();
+            health -= damage;
+            health = Mathf.Clamp(health, 0, maxHealth);
+            return true;
+        }
+        
+        protected override void Update()
+        {
+            base.Update();
         }
 
         public void Terminate()

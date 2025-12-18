@@ -1,3 +1,6 @@
 ﻿using UnityEngine;
 
-public class PrefabComponentAttribute : PropertyAttribute { }
+namespace Utils
+{
+    public class PrefabComponentAttribute : PropertyAttribute { }
+}

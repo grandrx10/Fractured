@@ -1,5 +1,5 @@
 ﻿using System;
-using Cards.Card_Assets.RPS.B;
+using Cards.Card_Assets.RPS.Behaviors;
 using Cards.Core;
 using Cards.Core.Util;
 using UnityEngine;

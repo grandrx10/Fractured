@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class StabilizationStation : MonoBehaviour
+namespace Minigames.Cooking.Stations
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class StabilizationStation : MonoBehaviour
     {
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start()
+        {
         
-    }
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
         
+        }
     }
 }

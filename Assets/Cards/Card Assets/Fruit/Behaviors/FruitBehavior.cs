@@ -1,7 +1,7 @@
 ﻿using Cards.Core.Behaviors;
 using UnityEngine;
 
-namespace Cards.Card_Assets.Fruit.B
+namespace Cards.Card_Assets.Fruit.Behaviors
 {
     [CreateAssetMenu(fileName = "Fruit", menuName = "Behaviors/Fruit")]
     public class FruitBehavior : Behavior

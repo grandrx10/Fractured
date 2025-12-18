@@ -4,6 +4,8 @@ namespace Utils
 {
     public static class UIHelper
     {
+        
+        public static Camera UICamera => GameObject.FindWithTag("UI Camera").GetComponent<Camera>();
         /// <summary>
         /// Returns the top-level Canvas that contains this UI element
         /// </summary>
