@@ -1,0 +1,244 @@
+SylphOpener
+===
+[Ravenna]
+Hey there!
+---
+[Sylph]
+Eeek! Who are you and what are you doing here? State your business!
+---
+[Ravenna]
+I'm Ravenna, and he is Dorian. And you are?
+---
+[Sylph]
+You ... you don't even know who I am?
+---
+[Dorian]
+Are we... supposed to?
+---
+[Sylph]
+It is I, Sylph Ribbiton, guardian of the Pond Temple, protector of the lilypads, and holder of the infamous Water technique! Does that ring a bell?
+---
+[Dorian]
+No, not really. Sorry.
+---
+[Sylph]
+Who do you think has been protecting this temple the whole time, then!?!
+---
+[Dorian]
+I just thought it was some abandoned shack at the top of the mountain. I've never heard of anyone living here.
+---
+[Sylph]
+Are you kidding me? The temple provides safety for the island, warding off the terrors in the surrounding seas. It is a beacon of hope and a bastion of purity for all!
+---
+[Ravenna]
+Sorry, we don't mean to intrude. We were just exploring; we'll show ourselves out.
+---
+[Sylph]
+Wait!!!!!!!!!
+---
+[Ravenna]
+?
+---
+[Sylph]
+I haven't talked to anyone in .... some 10 years... so... it's okay if you stay for a bit.
+???
+[I suppose we can stay]{SylphHangout}
+[No, we're leaving]{SylphLeave}
+===
+[Sylph]{}
+###
+SylphLeave
+===
+[Sylph]
+Oh... Well, I'll be here, in case you ever want to... you know. Come back.
+===
+[Sylph]{SylphReturn}
+###
+SylphHangout
+===
+[Sylph]
+Great! I'll make us some tea! Meet me in the temple once you want to talk.
+---
+<SylphMoveToTableEvent>
+===
+[Sylph]{SylphTea}
+###
+SylphReturn
+===
+[Sylph]
+You came back!!!
+---
+[Sylph]
+Ahem, I mean, welcome back!
+---
+[Ravenna]
+Is your offer still good?
+---
+[Sylph]
+Of course! I'll make us some tea. Meet me in the temple once you want to talk.
+---
+<SylphMoveToTableEvent>
+===
+[Sylph]{SylphTea}
+###
+SylphTea
+===
+[Ravenna]
+This is some nice tea.
+---
+[Sylph]
+Thank you! My mother used to brew it all the time for me.
+---
+[Ravenna]
+Where is she, by the way? I've never heard of anyone living up here, and I've never seen you down at the town.
+---
+[Sylph]
+She ... moved on some years ago, along with the rest of my family. They left me in charge of protecting the temple.
+---
+[Ravenna]
+Oh. Well, this place is pretty clean, you've taken good care of it.
+---
+[Sylph]
+Thanks.
+---
+[Sylph]
+You said that nobody in the town even knows about this place?
+---
+[Dorian]
+Unfortunately not to my knowledge.
+---
+[Sylph]
+They don't even know that I'm protecting them then?
+---
+[Dorian]
+What are you protecting them from?
+---
+[Sylph]
+You know, the monsters out there.
+---
+[Dorian]
+What monsters?
+---
+[Sylph]
+The... you know... the... well, I've never seen one, but there are monsters out there. That's what my parents told me, and they're always right.
+---
+[Sylph]
+"Sylph, you are the clan's last hope. You must protect this temple with all your heart." That's what they told me from birth. So, that's what I've been doing. Protecting this place. Protecting this island.
+---
+[Ravenna]
+You've never left?
+---
+[Sylph]
+What? Are you crazy? If I left, then the monsters would come!
+---
+[Dorian]
+Doesn't it get lonely?
+---
+[Sylph]
+Lonely? Ha. the guardian of the Pond Temple doesn't get lonely. She just gets really... really... sad sometimes. But that's normal, right?
+???
+[Yes]{SylphTeaYes}
+[No]{SylphTeaNo}
+===
+[Sylph]{}
+###
+SylphTeaYes
+===
+[Sylph]
+Thats... that's good to know. Thanks.
+---
+[Ravenna]
+It's okay to be sad some of the time. But people are meant to interact with each other, so too much solitude isn't good for you.
+---
+[Sylph]
+Then what do I do?
+---
+[Ravenna]
+Tell you what, we'll pay you a visit every now and then. Right, Dorian?
+---
+[Dorian]
+Yeah.
+---
+[Sylph]
+Really? That'd be great!
+===
+>>SylphChallenge
+###
+SylphTeaNo
+===
+[Sylph]
+Oh. Okay...
+---
+[Ravenna]
+People are meant to interact with others. Solitude can't be good for you!
+---
+[Sylph]
+Then what do I do?
+---
+[Ravenna]
+Tell you what, we'll pay you a visit every now and then. Right, Dorian?
+---
+[Dorian]
+Yeah.
+---
+[Sylph]
+Really? That'd be great!
+===
+>>SylphChallenge
+###
+SylphChallenge
+===
+[Sylph]
+You have my gratitude. In order to repay you, I would like to make you an offer.
+---
+[Ravenna]
+No no, it's alright.
+---
+[Sylph]
+I insist. You see, the Ribbiton family has a technique that has been passed down for generations. I have no one to pass it onto, so if you two would like to learn it, I won't be opposed.
+---
+[Sylph]
+However, the technique requires the user to have a certain agility to wield. If you prove that you are strong enough, I will pass the technique onto you.
+---
+[Dorian]
+How will you test strength?
+---
+[Sylph]
+We'll participate in a simple spar. If you can avoid my attacks for a minute, you'll be strong enough.
+???
+[I accept]{SylphChallengeStart}
+[No thanks, another time]{SylphChallengeDecline}
+===
+###
+SylphChallengeStart
+===
+[Sylph]
+Alright. Prepare yourself.
+===
+###
+SylphChallengeDecline
+===
+[Sylph]
+That's alright. Feel free to accept my invitation at any time.
+---
+[Dorian]
+I won't forget it.
+===
+[Sylph]{SylphVisitChallenge}
+###
+SylphVisitChallenge
+===
+[Sylph]
+Welcome back!
+???
+[I'm here for the challenge]{SylphChallengeStart}
+[I'm just here to visit]{SylphVisit}
+===
+###
+SylphVisit
+===
+[Sylph]
+Thanks for coming. With you two here, this place feels a lot warmer. Like how it was, all those years ago.
+===
+[Sylph]{SylphVisitChallenge}
+###

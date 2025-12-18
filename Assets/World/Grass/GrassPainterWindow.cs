@@ -110,7 +110,7 @@ namespace World.Grass
 
             if (grassObject == null)
             {
-                grassObject = FindObjectOfType<GrassComputeScript>()?.gameObject;
+                grassObject = FindAnyObjectByType<GrassComputeScript>()?.gameObject;
 
             }
 
