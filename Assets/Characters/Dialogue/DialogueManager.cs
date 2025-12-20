@@ -46,6 +46,8 @@ namespace Characters.Dialogue
 
     public class DialogueManager : MonoBehaviour
     {
+        public System.Action OnConversationEnded;
+
         public static DialogueManager Instance { get; private set; }
 
         [Header("UI References")]
@@ -523,6 +525,9 @@ namespace Characters.Dialogue
             if (!string.IsNullOrEmpty(nextConvo))
             {
                 StartConversation(nextConvo);
+            } else
+            {
+                OnConversationEnded?.Invoke(); 
             }
         }
     }

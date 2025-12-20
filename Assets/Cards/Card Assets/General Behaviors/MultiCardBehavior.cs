@@ -12,7 +12,7 @@ namespace Cards.Card_Assets.General_Behaviors
         public int count = 3;     // number of cards to throw
         public string objectName = "cards";
         
-        public override void Use(CardEnv env, Agent agent)
+        public override bool Use(CardEnv env, Agent agent)
         {
             if (env is OpenWorldEnv opEnv)
             {
@@ -37,6 +37,8 @@ namespace Cards.Card_Assets.General_Behaviors
             {
                 Debug.LogError("Env does not support throwing");
             }
+
+            return true;
         }
         
         public override string GetDescription()

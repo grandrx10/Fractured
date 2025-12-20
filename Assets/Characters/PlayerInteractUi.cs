@@ -26,10 +26,10 @@ namespace Characters
             if (playerInteract != null && playerInteract.currentInteractable != null)
             {
                 interactText.gameObject.SetActive(true);
-                if (playerInteract.currentInteractable.interactName != "")
-                {
-                    interactableName.text = playerInteract.currentInteractable.interactName;
-                }
+                // if (playerInteract.currentInteractable.interactName != "")
+                // {
+                //     interactableName.text = playerInteract.currentInteractable.interactName;
+                // }
                 
                 interactableName.gameObject.SetActive(true);
             }

@@ -1,0 +1,127 @@
+GusOpener
+===
+[Gus]
+What can I do for you fine lady and gentleman today?
+???
+[I want to buy from the store]{GusStore}
+[I want to talk to you]{GusTalk}
+===
+[Gus]{GusOpener}
+###
+GusStore
+===
+[Gus]
+Of course, I have only the best wares from across the sea.
+---
+<StoreEvent>
+===
+###
+GusTalk
+===
+[Gus]
+Oh? Do my ears decieve me? Who is this charming fox that cares for the greedy merchant?
+---
+[Dorian]
+Dorian, sir.
+---
+[Gus]
+And I am Gus Swinehart. It is a pleasure to meet you.
+===
+>>GusAsk
+###
+GusAsk
+===
+[Gus]
+So, what did you want to ask me?
+???
+[Where do you get your merchandise?]{GusTravels}
+[Can I get a discount?]{GusDiscount}
+[How are you?]{GusHowAreYou}
+[That's all I wanted to ask]{GusLeave}
+===
+###
+GusTravels
+===
+[Gus]
+I acquire them from beyond the sea, from an island larger you could imagine. A place of growth, arcanum, and most importantly, wealth.
+---
+[Gus]
+The journey is perilous, and that is why my prices are steeper than I would like them to be. Every trip could be my last.
+---
+[Dorian]
+A large island...?
+---
+[Ravenna]
+I've been there before, it's quite a wonderful place.
+---
+[Dorian]
+Maybe we should take a trip sometime?
+---
+[Ravenna]
+Ah, sorry... I'm not welcome there.
+---
+[Dorian]
+Oh.
+===
+>>GusAsk
+###
+GusLeave
+===
+[Gus]
+Farewell. If you have spare coin, you know where to find me.
+===
+[Gus]{GusOpener}
+###
+GusDiscount
+===
+[Gus]
+Oh heavens no! If I gave you both a discount, I'd have to give everyone a discount! No one gets a discount from me, not even my own mother.
+---
+[Dorian]
+Well, you can't blame a fox for trying.
+---
+[Gus]
+You're probably wondering why I need all this coin. I promise it's not just my greed, though I will say, that is partially to blame.
+---
+[Dorian]
+Then why?
+---
+[Gus]
+I'm becoming rich so I can save this island. This place was my home for most of my youth, and it is disheartening to see it in its current state. Only a few people live here now, and in a few generations, there'll be even fewer people.
+---
+[Gus]
+And so, to stop that grim future from becoming a reality, I have to earn enough coin for my plan.
+---
+[Ravenna]
+Your plan?
+---
+[Gus]
+I'm going to build...
+---
+[Gus]
+A massive theme park!!!!!!
+---
+[Gus]
+And then - people will flock from across the sea to visit this island, keeping it alive for centuries to come.
+---
+[Ravenna]
+Wow.
+---
+[Gus]
+Genius, I know.
+---
+[Dorian]
+How's that plan coming along?
+---
+[Gus]
+I would be lying if I didn't say that I was struggling. But with the patronage of the fine individuals of this island, I will be fine. If not in this life, then my children's.
+===
+>>GusAsk
+###
+GusHowAreYou
+===
+[Gus]
+I'm doing quite fine on this fine summer afternoon. I would be doing even finer, if you would purchased some wares. Eh?
+===
+>>GusAsk
+###

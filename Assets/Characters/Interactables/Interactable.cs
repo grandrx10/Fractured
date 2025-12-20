@@ -4,7 +4,7 @@ namespace Characters.Interactables
 {
     public class Interactable : MonoBehaviour
     {
-        public string interactName = "";
+        // public string interactName = "";
         public bool canInteract = true;
         public float interactTime = 0;
 
