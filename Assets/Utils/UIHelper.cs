@@ -28,13 +28,11 @@ namespace Utils
         
         public static void FlattenChildrenZ(Transform parent)
         {
-            float parentZ = parent.position.z;
-
             foreach (Transform child in parent)
             {
-                Vector3 pos = child.position;
-                pos.z = parentZ;
-                child.position = pos;
+                Vector3 pos = child.localPosition;
+                pos.z = 0;
+                child.localPosition = pos;
 
                 // Recursive call for grandchildren
                 FlattenChildrenZ(child);

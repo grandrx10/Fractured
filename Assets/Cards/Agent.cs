@@ -47,11 +47,7 @@ namespace Cards
         {
             deck.Add(card);
             OnAddCard?.Invoke(card);
-        }
-
-        public void AddCards(List<Card> cards)
-        {
-            hand.AddRange(cards);
+            card.transform.parent = transform;
         }
 
         public List<Card> GetCards()

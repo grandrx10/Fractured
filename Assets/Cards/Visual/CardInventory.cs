@@ -59,7 +59,7 @@ namespace Cards.Visual
                 deckMenu.SetActive(false);
                 handLayout.layout = HandLayout.LayoutMode.Hand;
                 handLayout.RefreshLayout();
-                ThirdPersonCam.Instance.CursorUnlock -= "Inventory";
+                PlayerCamera.Instance.CursorUnlock -= "Inventory";
             }
             else
             {
@@ -68,7 +68,7 @@ namespace Cards.Visual
                 deckLayout.RefreshLayout();
                 handLayout.RefreshLayout();
                 Cursor.lockState = CursorLockMode.None;
-                ThirdPersonCam.Instance.CursorUnlock += "Inventory";
+                PlayerCamera.Instance.CursorUnlock += "Inventory";
             }
 
             if (targetAgent is PlayerAgent player)

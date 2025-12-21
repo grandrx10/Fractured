@@ -13,15 +13,15 @@ namespace Cards.Environments
         public float health;
         public float maxHealth;
         
-        private void Start()
+        public override void Initialize(PlayerAgent playerAgent)
         {
-            player.GetCards().ForEach(c =>
+            playerAgent.GetCards().ForEach(c =>
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
-            health = player.TotalHealth;
+            health = playerAgent.TotalHealth;
             maxHealth = health;
-            player.SelectCardAsync(UseCard, -1);
+            base.Initialize(playerAgent);
         }
 
         public bool TakeDamage(float damage)
@@ -33,7 +33,14 @@ namespace Cards.Environments
         
         protected override void Update()
         {
+            if (!initialized) return;
             base.Update();
+        }
+
+        public override void Destroy()
+        {
+            Terminate();
+            base.Destroy();
         }
 
         public void Terminate()

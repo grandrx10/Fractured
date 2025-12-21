@@ -17,14 +17,24 @@ namespace Cards.Environments
         public float minCardDelay = 0.2f;
         
         public float manaRegen;
-        public void Awake()
+        public bool initialized;
+        
+        public override void Initialize(PlayerAgent playerAgent)
         {
-            player.SelectCardAsync(UseCard, 1);
+            player = playerAgent;
+            playerAgent.SelectCardAsync(UseCard, 1);
             _playerInteract = FindAnyObjectByType<PlayerInteractController>();
+            initialized = true;
+        }
+
+        public override void Destroy()
+        {
+            player.CancelSelection();
         }
 
         protected virtual void Update()
         {
+            if (!initialized) return;
             mana += manaRegen * Time.deltaTime;
             mana = Mathf.Clamp(mana, 0, maxMana);
         }

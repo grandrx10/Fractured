@@ -426,7 +426,7 @@ namespace Characters.Dialogue
         {
             waitingForChoice = true;
             // Keep previous dialogue visible
-            ThirdPersonCam.Instance.CursorUnlock += "Dialogue";
+            PlayerCamera.Instance.CursorUnlock += "Dialogue";
 
             foreach (DialogueChoice choice in currentConversation.choices)
             {
@@ -476,7 +476,7 @@ namespace Characters.Dialogue
                 EndConversation();
             }
 
-            ThirdPersonCam.Instance.CursorUnlock -= "Dialogue";
+            PlayerCamera.Instance.CursorUnlock -= "Dialogue";
         }
 
         private void ExecuteEvent(string eventName)

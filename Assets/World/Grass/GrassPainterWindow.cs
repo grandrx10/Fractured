@@ -101,6 +101,7 @@ namespace World.Grass
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
             if (GUILayout.Button("Manual Update"))
             {
+                grassCompute.SetGrassPaintedDataList = grassData;
                 grassCompute.Reset();
             }
             grassObject = (GameObject)EditorGUILayout.ObjectField("Grass Compute Object", grassObject, typeof(GameObject), true);

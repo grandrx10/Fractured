@@ -15,6 +15,7 @@
             };
             struct VertexOutput {
                 float4 pos : SV_POSITION;
+                float3 positionWS : WPOS;
                 float2 uv0 : TEXCOORD0;
                 float3 normalDir : TEXCOORD1;
                 float3 tangentDir : TEXCOORD2;
@@ -27,6 +28,9 @@
 
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+                
+                o.positionWS = GetAbsolutePositionWS(TransformObjectToWorld(v.vertex.xyz));
+                
 
                 o.uv0 = v.texcoord0;
                 float4 objPos = mul (GetObjectToWorldMatrix(), float4(0,0,0,1) );
@@ -89,7 +93,16 @@
                 float3 _Is_BlendBaseColor_var = lerp( _Outline_Color.rgb*lightColor, (_Outline_Color.rgb*Set_BaseColor*Set_BaseColor*lightColor), _Is_BlendBaseColor );
                 //
                 float3 _OutlineTex_var = tex2D(_OutlineTex,TRANSFORM_TEX(Set_UV0, _OutlineTex)).rgb;
-//v.2.0.7.5
+
+                if (_NoDissolve < 0.5)
+                {
+                    float3 wp = i.positionWS;
+                    float p = distance(wp, _DissolveCenter.xyz) + (snoise(wp * _DissolveData.z) + 1) / 2 * _DissolveData.y;
+                    float edge_main = step(p, _DissolveData.x);
+                    float p2 = lerp(edge_main, 1-edge_main, _Flipped);
+                    if (p2 > 0.5) discard;
+                }
+//v.2.0.7.5     
 #ifdef _IS_OUTLINE_CLIPPING_NO
                 float3 Set_Outline_Color = lerp(_Is_BlendBaseColor_var, _OutlineTex_var.rgb*_Outline_Color.rgb*lightColor, _Is_OutlineTex );
                 return float4(Set_Outline_Color,1.0);
