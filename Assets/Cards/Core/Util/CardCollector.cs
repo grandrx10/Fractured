@@ -10,7 +10,10 @@ namespace Cards.Core.Util
         {
             List<Card> c = GetComponentsInChildren<Card>().ToList();
             Agent attached = GetComponent<Agent>();
-            attached.AddCards(c);
+            foreach (Card card in c)
+            {
+                attached.AddCard(card);
+            }
             Destroy(this);
         }
     }

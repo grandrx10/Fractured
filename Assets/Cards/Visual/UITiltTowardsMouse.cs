@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Utils;
 
 namespace Cards.Visual
 {
@@ -17,13 +18,15 @@ namespace Cards.Visual
         void Update()
         {
             Vector2 mouse = Input.mousePosition;
-            Vector2 dir = (mouse - (Vector2)rt.position);
+            Camera cam = UIHelper.UICamera;
+            Vector2 rtWorld = cam.WorldToScreenPoint(rt.position);
+            Vector2 dir = (mouse - rtWorld);
 
             // Normalize to screen range approx
             dir /= Screen.height;
 
-            float tiltX = -dir.y * maxTilt;
-            float tiltY =  dir.x * maxTilt;
+            float tiltX = dir.y * maxTilt;
+            float tiltY =  -dir.x * maxTilt;
 
             Quaternion targetRot = Quaternion.Euler(tiltX, tiltY, 0);
             rt.localRotation = Quaternion.Lerp(rt.localRotation, targetRot, Time.deltaTime * smooth);

@@ -25,7 +25,7 @@ namespace Cards.Visual
             deckLayout.PopulateCards(targetAgent.deck);
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (Input.GetMouseButtonDown(0) && targetAgent.CardRequested)
             {
@@ -36,7 +36,15 @@ namespace Cards.Visual
             {
                 ToggleMenu();
             }
-
+            
+            for (int i = 1; i <= 9; i++)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+                {
+                    handLayout.SetSelectedCard(i-1);
+                }
+            }
+            
             if (Input.mouseScrollDelta.y != 0)
             {
                 handLayout.OnScroll(Input.mouseScrollDelta.y);
@@ -51,7 +59,7 @@ namespace Cards.Visual
                 deckMenu.SetActive(false);
                 handLayout.layout = HandLayout.LayoutMode.Hand;
                 handLayout.RefreshLayout();
-                ThirdPersonCam.Instance.CursorUnlock -= "Inventory";
+                PlayerCamera.Instance.CursorUnlock -= "Inventory";
             }
             else
             {
@@ -60,7 +68,7 @@ namespace Cards.Visual
                 deckLayout.RefreshLayout();
                 handLayout.RefreshLayout();
                 Cursor.lockState = CursorLockMode.None;
-                ThirdPersonCam.Instance.CursorUnlock += "Inventory";
+                PlayerCamera.Instance.CursorUnlock += "Inventory";
             }
 
             if (targetAgent is PlayerAgent player)

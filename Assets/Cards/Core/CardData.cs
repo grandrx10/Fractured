@@ -19,15 +19,18 @@ namespace Cards.Core
         public CardStats stats;
         public CardTier tier;
         public List<Behavior> behaviors;
-        public CardVisuals Visuals => new ()
+        public virtual CardVisuals GetVisuals(Card baseCard)
         {
-            Name = name,
-            FlavorText = flavorText,
-            Style = style,
-            Rarity = rarity,
-            Icon = icon,
-            CollectionName = GetCollectionName(collection),
-        };
+            return new CardVisuals()
+            {
+                Name = name,
+                FlavorText = flavorText,
+                Style = style,
+                Rarity = rarity,
+                Icon = icon,
+                CollectionName = GetCollectionName(collection),
+            };
+        }
         
         public string GetCollectionName(CardCollection c)
         {
@@ -47,6 +50,8 @@ namespace Cards.Core
                     return "Fruits";
                 case CardCollection.SetTheory:
                     return "Set Theory";
+                case CardCollection.Elements:
+                    return "Elements";
                 default:
                     return "huh";
             }
@@ -80,7 +85,8 @@ namespace Cards.Core
         Plants,
         Tools,
         Fruits,
-        SetTheory
+        SetTheory,
+        Elements
     }
 
     [Serializable]

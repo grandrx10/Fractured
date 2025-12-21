@@ -1,5 +1,5 @@
 ﻿using System;
-using Cards.Card_Assets.RPS.B;
+using Cards.Card_Assets.RPS.Behaviors;
 using Cards.Core;
 using Cards.Core.Util;
 using UnityEngine;
@@ -9,6 +9,11 @@ namespace Cards.Environments
     public class RPSEnv: CardEnv
     {
         private Agent _agent1, _agent2;
+        
+        public override void Initialize(PlayerAgent player)
+        {
+            throw new System.NotImplementedException();
+        }
         
         [ContextMenu("test")]
         private void TestRps()

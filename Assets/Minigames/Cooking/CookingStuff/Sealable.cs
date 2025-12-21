@@ -1,37 +1,38 @@
 using UnityEngine;
-using Characters;
-using Characters.Interactables;
 
-public class Sealable : MonoBehaviour
+namespace Minigames.Cooking.CookingStuff
 {
-    [Header("Sealing Settings")]
-    public float timeToSeal = 5f;  // Time after spawn to seal before exploding
-    [HideInInspector] public bool isSealed = false;
-
-    private float timer = 0f;
-
-    private void Awake()
+    public class Sealable : MonoBehaviour
     {
-        timer = 0f;
-    }
+        [Header("Sealing Settings")]
+        public float timeToSeal = 5f;  // Time after spawn to seal before exploding
+        [HideInInspector] public bool isSealed = false;
 
-    private void Update()
-    {
-        if (isSealed) return;
+        private float timer = 0f;
 
-        timer += Time.deltaTime;
-        if (timer >= timeToSeal)
+        private void Awake()
         {
-            Explode();
+            timer = 0f;
         }
-    }
 
-    private void Explode()
-    {
-        if (ExplodeManager.Instance != null)
+        private void Update()
         {
-            ExplodeManager.Instance.Explode(transform);
+            if (isSealed) return;
+
+            timer += Time.deltaTime;
+            if (timer >= timeToSeal)
+            {
+                Explode();
+            }
         }
-        Destroy(gameObject);
+
+        private void Explode()
+        {
+            if (ExplodeManager.Instance != null)
+            {
+                ExplodeManager.Instance.Explode(transform);
+            }
+            Destroy(gameObject);
+        }
     }
 }

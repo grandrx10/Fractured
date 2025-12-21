@@ -10,8 +10,9 @@ namespace Cards.Core
     public class Card : MonoBehaviour
     {
         [SerializeField] private CardData data;
-        public CardVisuals Visuals => data.Visuals;
+        public CardVisuals Visuals => data.GetVisuals(this);
         public bool Active { get; private set; }
+        
         public CardTier tier;
         public CardStats stats;
         public List<Behavior> behaviors;
@@ -34,7 +35,7 @@ namespace Cards.Core
             behaviors = data.behaviors.ToList();
             
             CreateDefault<IBehaviorUseListener, DefaultUseBehavior>("DefaultUseBehavior");
-            CreateDefault<IBehaviorHitListener, DefaultCollideBehavior>("DefaultCollideBehavior");
+            CreateDefault<IBehaviorPostHitListener, DefaultCollideBehavior>("DefaultCollideBehavior");
             CreateDefault<IBehaviorTurnListener, DefaultCardGameBehavior>("DefaultCardGameBehavior");
             CreateDefault<IBehaviorCombatListener, DefaultHealthBehavior>("DefaultHealthBehavior");
             
@@ -101,6 +102,14 @@ namespace Cards.Core
                 }
             }
             return targ;
+        }
+
+        public static Card MakeCard(CardData data)
+        {
+            GameObject cardGo = new GameObject("Card");
+            Card c = cardGo.AddComponent<Card>();
+            c.AssignData(data);
+            return c;
         }
     }
 }

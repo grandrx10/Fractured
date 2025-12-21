@@ -13,7 +13,7 @@ namespace Cards.Visual
             throw new System.NotImplementedException();
         }
 
-        public virtual void AddCard(Card card)
+        public virtual void AddCard(Card card, int position=0)
         {
             throw new System.NotImplementedException();
         }

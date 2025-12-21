@@ -93,7 +93,7 @@ float _MinFadeDist, _MaxFadeDist;
 uniform float4 _PositionsMoving[128];
 uniform float _InteractorsLength;
 uniform float3 _CameraPositionWS;
-
+uniform float3 _WorldOffset;
 
 float3x3 _LocalToWorld;
 
@@ -136,7 +136,7 @@ DrawVertex GrassVertex(float3 positionWS, float width, float height,
 float offset, float curve, float2 uv, float3x3 rotation)
 {
     DrawVertex output = (DrawVertex)0;
-    float3 newPosOS = positionWS + mul(rotation, float3(width, height, curve + offset));
+    float3 newPosOS = positionWS + mul(rotation, float3(width, height, curve + offset)) + _WorldOffset;
     output.positionWS = newPosOS;
     output.uv = uv;
     return output;

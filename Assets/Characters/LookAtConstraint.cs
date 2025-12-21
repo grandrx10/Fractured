@@ -25,7 +25,7 @@ namespace Characters
             GameObject lookAtObj = new GameObject("Dynamic LookAt Point");
             dynamicLookAtPoint = lookAtObj.transform;
             dynamicLookAtPoint.position = originalLookAtPoint.position;
-        
+            DontDestroyOnLoad(dynamicLookAtPoint);
             // Set the vcam to look at our dynamic point
             virtualCamera.LookAt = dynamicLookAtPoint;
         }

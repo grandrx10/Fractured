@@ -10,21 +10,37 @@ namespace Cards.Environments
 {
     public class RTCombatEnv: OpenWorldEnv
     {
-        public int health;
+        public float health;
+        public float maxHealth;
         
-        private void Start()
+        public override void Initialize(PlayerAgent playerAgent)
         {
-            player.GetCards().ForEach(c =>
+            playerAgent.GetCards().ForEach(c =>
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
-            health = player.TotalHealth;
-            player.SelectCardAsync(UseCard, -1);
+            health = playerAgent.TotalHealth;
+            maxHealth = health;
+            base.Initialize(playerAgent);
+        }
+
+        public bool TakeDamage(float damage)
+        {
+            health -= damage;
+            health = Mathf.Clamp(health, 0, maxHealth);
+            return true;
         }
         
-        private void Update()
+        protected override void Update()
         {
-            //throw new NotImplementedException();
+            if (!initialized) return;
+            base.Update();
+        }
+
+        public override void Destroy()
+        {
+            Terminate();
+            base.Destroy();
         }
 
         public void Terminate()

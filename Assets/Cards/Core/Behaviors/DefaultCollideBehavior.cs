@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Cards.Core.Behaviors
 {
     [CreateAssetMenu(fileName = "Collide", menuName = "Behaviors/DefaultCollide")]
-    public class DefaultCollideBehavior: Behavior, IBehaviorHitListener
+    public class DefaultCollideBehavior: Behavior, IBehaviorPostHitListener
     {
         public void Hit(CardEnv env, Agent agent, GameObject target)
         {

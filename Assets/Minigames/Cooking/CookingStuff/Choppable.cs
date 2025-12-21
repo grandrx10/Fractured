@@ -1,16 +1,18 @@
 using UnityEngine;
-using Characters.Interactables;
 
-public class Choppable : MonoBehaviour
+namespace Minigames.Cooking.CookingStuff
 {
-    // Called when the object is chopped
-    public virtual void Chop()
+    public class Choppable : MonoBehaviour
     {
-        Debug.Log($"{gameObject.name} has been chopped!");
+        // Called when the object is chopped
+        public virtual void Chop()
+        {
+            Debug.Log($"{gameObject.name} has been chopped!");
 
-        // Example: destroy the object after chopping
-        // Destroy(gameObject);
+            // Example: destroy the object after chopping
+            // Destroy(gameObject);
 
-        // You can also trigger particle effects, animations, etc.
+            // You can also trigger particle effects, animations, etc.
+        }
     }
 }

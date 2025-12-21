@@ -29,6 +29,7 @@ namespace Cards.Visual
         }
         
         private CardDisplayInteractable _selectedCard;
+        public CardDisplayInteractable SelectedCard => _selectedCard;
         private RectTransform _rect;
 
         public enum InteractMode
@@ -52,13 +53,13 @@ namespace Cards.Visual
             RefreshLayout();
         }
         
-        public override void AddCard(Card card)
+        public override void AddCard(Card card, int position=0)
         {
             var cc = Instantiate(cardPrefab, content);
             cc.card = card;
             var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
             hcc.Init(this);
-            cards.Add(hcc);
+            cards.Insert(position, hcc);
         }
 
         public void UseCard()
@@ -108,7 +109,16 @@ namespace Cards.Visual
             if (_selectedCard && !cards.Contains(_selectedCard)) _selectedCard = null;
         }
 
-        void LayoutHandMode()
+        public void SetSelectedCard(int index)
+        {
+            if (layout == LayoutMode.Hand && index >= 0 && index < cards.Count)
+            {
+                _selectedCard = cards[index];
+                RefreshLayout();
+            }
+        }
+
+        private void LayoutHandMode()
         {
             if (cards.Count == 0)
                 return;
@@ -125,7 +135,7 @@ namespace Cards.Visual
             for (int i = 0; i < cards.Count; i++)
             {
                 RectTransform rt = cards[i].GetComponent<RectTransform>();
-
+                rt.SetSiblingIndex(i);
                 float targetX = i * spacing + cardWidth / 2;
                 float targetY = baseY;
 

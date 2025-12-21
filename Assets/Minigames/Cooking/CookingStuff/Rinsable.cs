@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class Rinsable : MonoBehaviour
+namespace Minigames.Cooking.CookingStuff
 {
-    public bool rinsed = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public void Rinse()
+    public class Rinsable : MonoBehaviour
     {
-        rinsed = true;
+        public bool rinsed = false;
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        public void Rinse()
+        {
+            rinsed = true;
+        }
     }
 }
