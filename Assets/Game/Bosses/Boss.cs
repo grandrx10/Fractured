@@ -236,5 +236,22 @@ namespace Game.Bosses
             }
             return null;
         }
+
+        public void SetPointTransform(string pointName, Transform newTransform)
+        {
+            for (int i = 0; i < namedPoints.Length; i++)
+            {
+                if (namedPoints[i].name == pointName)
+                {
+                    namedPoints[i].transform = newTransform;
+                    return;
+                }
+            }
+
+            // If the point doesn't exist yet, optionally add it
+            List<NamedPoint> list = new List<NamedPoint>(namedPoints);
+            list.Add(new NamedPoint { name = pointName, transform = newTransform });
+            namedPoints = list.ToArray();
+        }
     }
 }

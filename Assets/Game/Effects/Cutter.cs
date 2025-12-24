@@ -52,7 +52,6 @@ namespace Cards.Card_Assets.RPS.Behaviors
                 cutRotation,
                 epsilonHeight * 2f
             );
-
             foreach (var hit in hits)
             {
                 var main = PhysicsHelper.MainObj(hit.collider);

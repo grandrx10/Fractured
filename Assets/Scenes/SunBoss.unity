@@ -1633,6 +1633,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d603ac5f869d0ac46a39a8ab8796d0c2, type: 2}
     - {fileID: 11400000, guid: e33cf080e061bdc4eae53446464adf71, type: 2}
     minHealthThreshold: 1000
+    phaseTime: 0
   bossHealth: {fileID: 540182829}
   namedPoints:
   - name: Throwing Arm
@@ -3227,6 +3228,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 71835b162865bd8409e1510b468aedf9, type: 2}
     - {fileID: 11400000, guid: 9ed732435cd800d418335b4881550609, type: 2}
     minHealthThreshold: 400
+    phaseTime: 0
   - phaseName: Waking Speech
     attacks:
     - {fileID: 11400000, guid: dc660b93bbaeba6419b9e97900992b2f, type: 2}
@@ -3236,6 +3238,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4f6a89dfebf5d4b42ae139934f79e2cb, type: 2}
     - {fileID: 11400000, guid: 23b1bb39edaebc14bb0a0b2904c7a1fa, type: 2}
     minHealthThreshold: 400
+    phaseTime: 0
   bossHealth: {fileID: 930106251}
   namedPoints:
   - name: SunSpawn
@@ -7623,11 +7626,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe4d0cec2cf0492eb695972b9239974b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  environmentExitTime: 0
+  environmentIntroTime: 0
+  environmentIntroRad: 0
+  environmentCenters: []
   player: {fileID: 4667258798282459273}
   mana: 0
   maxMana: 0
   minCardDelay: 0.2
   manaRegen: 0
+  initialized: 0
 --- !u!1 &177203349508683990
 GameObject:
   m_ObjectHideFlags: 0
@@ -7902,6 +7910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axisController: {fileID: 6087771665515823052}
+  uiGameObject: {fileID: 1229185671}
   orientation: {fileID: 6497710611764078754}
   player: {fileID: 2031196658817263069}
   playerObj: {fileID: 8587170044495418477}
