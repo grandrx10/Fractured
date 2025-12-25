@@ -8,7 +8,10 @@ namespace Game.Bosses
     {
         public string phaseName;
         public BossAttack[] attacks;
-        public int minHealthThreshold; // Switch to next phase when health drops below this
+
+        [Header("Phase End Conditions")]
+        public int minHealthThreshold;   // Used if phaseTime <= 0
+        public float phaseTime = 0f;     // If > 0, phase ends after this time
     }
 
     [System.Serializable]
@@ -34,16 +37,20 @@ namespace Game.Bosses
 
         private float attackTimer = 0f;
         private float delayTimer = 0f;
-        private bool waitingForNextAttack = false;
+        private float phaseTimer = 0f;
 
+        private bool waitingForNextAttack = false;
+        private bool phaseEndRequested = false;
+
+        // Tracks trigger-once attacks globally (per your current design)
         private HashSet<BossAttack> triggeredOnceAttacks = new HashSet<BossAttack>();
 
         private void Start()
         {
-            if (phases.Length == 0 || phases[0].attacks.Length == 0)
+            if (phases.Length == 0)
                 return;
 
-            StartAttack(phases[0].attacks[0]);
+            StartPhase(0);
         }
 
         private void Update()
@@ -52,6 +59,17 @@ namespace Game.Bosses
                 return;
 
             BossPhase phase = phases[currentPhaseIndex];
+
+            // =========================
+            // Phase Timer (request end)
+            // =========================
+            if (phase.phaseTime > 0f && !phaseEndRequested)
+            {
+                phaseTimer += Time.deltaTime;
+                if (phaseTimer >= phase.phaseTime)
+                    phaseEndRequested = true;
+            }
+
             if (phase.attacks.Length == 0)
                 return;
 
@@ -64,7 +82,6 @@ namespace Game.Bosses
                 if (!attack.manualSkip)
                 {
                     attackTimer += Time.deltaTime;
-
                     if (attackTimer >= attack.attackDuration)
                         EndCurrentAttack();
                 }
@@ -76,12 +93,58 @@ namespace Game.Bosses
                     AdvanceToNextAttack();
             }
 
-            CheckPhaseSwitch();
+            // =========================
+            // Health-Based Phase Check
+            // =========================
+            if (phase.phaseTime <= 0f && !phaseEndRequested)
+                CheckPhaseSwitch();
         }
+
+        // =========================
+        // Phase Management
+        // =========================
+
+        private void StartPhase(int phaseIndex)
+        {
+            currentPhaseIndex = phaseIndex;
+            currentAttackIndex = 0;
+
+            attackTimer = 0f;
+            delayTimer = 0f;
+            phaseTimer = 0f;
+            phaseEndRequested = false;
+            waitingForNextAttack = false;
+
+            BossPhase phase = phases[currentPhaseIndex];
+            if (phase.attacks.Length > 0)
+                StartAttack(phase.attacks[0]);
+        }
+
+        private void AdvanceToNextPhase()
+        {
+            if (currentPhaseIndex >= phases.Length - 1)
+                return;
+
+            StartPhase(currentPhaseIndex + 1);
+        }
+
+        private void CheckPhaseSwitch()
+        {
+            BossPhase phase = phases[currentPhaseIndex];
+            if (bossHealth.health > phase.minHealthThreshold)
+                return;
+
+            phaseEndRequested = true;
+        }
+
+        // =========================
+        // Attack Management
+        // =========================
 
         private void StartAttack(BossAttack attack)
         {
-            if (attack == null)
+            // Never start new attacks while the phase is ending
+            if (attack == null || phaseEndRequested)
                 return;
 
             if (attack.triggerOnce && triggeredOnceAttacks.Contains(attack))
@@ -94,7 +157,9 @@ namespace Game.Bosses
             delayTimer = 0f;
             waitingForNextAttack = false;
 
-            triggeredOnceAttacks.Add(attack);
+            if (attack.triggerOnce)
+                triggeredOnceAttacks.Add(attack);
+
             attack.StartAttack(gameObject);
         }
 
@@ -108,41 +173,49 @@ namespace Game.Bosses
             attackTimer = 0f;
             delayTimer = 0f;
             waitingForNextAttack = true;
+
+            // CRITICAL: decide trigger-once exhaustion HERE (correct timing)
+            if (!phaseEndRequested && AllTriggerOnceAttacksUsed(phase))
+            {
+                phaseEndRequested = true;
+            }
+
+            // Phase transition ONLY after attack ends
+            if (phaseEndRequested)
+                AdvanceToNextPhase();
         }
 
         private void AdvanceToNextAttack()
         {
+            // Freeze cycling if phase is ending
+            if (phaseEndRequested)
+                return;
+
             BossPhase phase = phases[currentPhaseIndex];
+            if (phase.attacks.Length == 0)
+                return;
 
             currentAttackIndex = (currentAttackIndex + 1) % phase.attacks.Length;
             StartAttack(phase.attacks[currentAttackIndex]);
         }
 
-        private void CheckPhaseSwitch()
+        private bool AllTriggerOnceAttacksUsed(BossPhase phase)
         {
-            BossPhase phase = phases[currentPhaseIndex];
+            for (int i = 0; i < phase.attacks.Length; i++)
+            {
+                BossAttack a = phase.attacks[i];
+                if (!a.triggerOnce)
+                    return false;
 
-            if (bossHealth.health > phase.minHealthThreshold)
-                return;
-
-            if (currentPhaseIndex >= phases.Length - 1)
-                return;
-
-            currentPhaseIndex++;
-            currentAttackIndex = 0;
-
-            attackTimer = 0f;
-            delayTimer = 0f;
-            waitingForNextAttack = false;
-
-            BossPhase newPhase = phases[currentPhaseIndex];
-            if (newPhase.attacks.Length > 0)
-                StartAttack(newPhase.attacks[0]);
+                if (!triggeredOnceAttacks.Contains(a))
+                    return false;
+            }
+            return true;
         }
 
-        // ================================
+        // =========================
         // Named Points
-        // ================================
+        // =========================
 
         public Vector3 GetPointPosition(string pointName)
         {
@@ -162,6 +235,23 @@ namespace Game.Bosses
                     return np.transform;
             }
             return null;
+        }
+
+        public void SetPointTransform(string pointName, Transform newTransform)
+        {
+            for (int i = 0; i < namedPoints.Length; i++)
+            {
+                if (namedPoints[i].name == pointName)
+                {
+                    namedPoints[i].transform = newTransform;
+                    return;
+                }
+            }
+
+            // If the point doesn't exist yet, optionally add it
+            List<NamedPoint> list = new List<NamedPoint>(namedPoints);
+            list.Add(new NamedPoint { name = pointName, transform = newTransform });
+            namedPoints = list.ToArray();
         }
     }
 }

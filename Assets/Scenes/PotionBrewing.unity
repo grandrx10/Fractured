@@ -2045,7 +2045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 764933e7d7f89ce40bddb1c85feb4093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactName: 
   canInteract: 1
   interactTime: 0
   conversationName: BeachConvo
@@ -5371,6 +5370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axisController: {fileID: 1125232989}
+  uiGameObject: {fileID: 768185202}
   orientation: {fileID: 347476596}
   player: {fileID: 1933226038}
   playerObj: {fileID: 281621508}
@@ -7970,6 +7970,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   maxRayDistance: 10
+  playerObj: {fileID: 0}
 --- !u!114 &1933226034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8296,11 +8297,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe4d0cec2cf0492eb695972b9239974b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  environmentExitTime: 0
+  environmentIntroTime: 0
+  environmentIntroRad: 0
+  environmentCenters: []
   player: {fileID: 281621509}
   mana: 0
   maxMana: 0
   minCardDelay: 0.2
   manaRegen: 0
+  initialized: 0
 --- !u!4 &2087431597
 Transform:
   m_ObjectHideFlags: 0
@@ -8511,6 +8517,10 @@ PrefabInstance:
       propertyPath: 'ingredientSpawnPoints.Array.data[2]'
       value: 
       objectReference: {fileID: 1029603010}
+    - target: {fileID: 3829641297452203825, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6810320788131952663, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: m_Name
       value: PotStation

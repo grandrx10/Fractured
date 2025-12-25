@@ -50,7 +50,6 @@ namespace Cards.Card_Assets.RPS.Behaviors
                 halfExtents,
                 cutRotation
             );
-
             foreach (var hit in hits)
             {
                 var main = PhysicsHelper.MainObj(hit);
