@@ -202,6 +202,7 @@ namespace Cards.Visual
         public override void AddCard(Card card, int position=-1)
         {
             if (position == -1) position = cards.Count - 1;
+            card.transform.SetParent(transform);
             var cc = Instantiate(cardPrefab, content);
             cc.card = card;
             var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();

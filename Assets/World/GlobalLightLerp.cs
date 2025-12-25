@@ -7,15 +7,14 @@ public class GlobalLightLerp : MonoBehaviour
     [Header("This light's properties")]
     public Light targetLight;
 
-    private LightProperties? incomingProperties;
+    private LightProperties? fromProperties;
+    private LightProperties? toProperties;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            // Let the existing instance handle the new light
             Instance.StartLerpToNewLight(this.targetLight);
-
             Destroy(gameObject);
         }
         else
@@ -27,60 +26,76 @@ public class GlobalLightLerp : MonoBehaviour
 
     private void Update()
     {
-        if (incomingProperties.HasValue)
-        {
-            float t = GlobalWorldManager.Instance.TransitionTime;
+        if (!fromProperties.HasValue || !toProperties.HasValue)
+            return;
 
-            if (t == -1f)
-            {
-                // Instantly copy properties
-                CopyProperties(incomingProperties.Value, targetLight);
-                incomingProperties = null;
-            }
-            else
-            {
-                // Lerp properties smoothly
-                LerpProperties(incomingProperties.Value, targetLight, t);
-            }
+        float t = GlobalWorldManager.Instance.CurvedTransitionTime;
+
+        if (t == -1f)
+        {
+            ApplyProperties(toProperties.Value, targetLight);
+            fromProperties = null;
+            toProperties = null;
+        }
+        else
+        {
+            LerpProperties(fromProperties.Value, toProperties.Value, targetLight, t);
         }
     }
 
     public void StartLerpToNewLight(Light newLight)
     {
-        if (newLight == null) return;
+        if (newLight == null || targetLight == null)
+            return;
 
-        // Save the light's properties
-        incomingProperties = new LightProperties
-        {
-            color = newLight.color,
-            intensity = newLight.intensity,
-            range = newLight.range,
-            spotAngle = newLight.spotAngle
-        };
+        // Snapshot CURRENT light (past)
+        fromProperties = LightProperties.FromLight(targetLight);
+
+        // Snapshot TARGET light
+        toProperties = LightProperties.FromLight(newLight);
     }
 
-    private void LerpProperties(LightProperties from, Light to, float t)
+    private void LerpProperties(
+        LightProperties from,
+        LightProperties to,
+        Light light,
+        float t)
     {
-        to.color = Color.Lerp(to.color, from.color, t);
-        to.intensity = Mathf.Lerp(to.intensity, from.intensity, t);
-        to.range = Mathf.Lerp(to.range, from.range, t);
-        to.spotAngle = Mathf.Lerp(to.spotAngle, from.spotAngle, t);
+        light.color = Color.Lerp(from.color, to.color, t);
+        light.intensity = Mathf.Lerp(from.intensity, to.intensity, t);
+        light.range = Mathf.Lerp(from.range, to.range, t);
+        light.spotAngle = Mathf.Lerp(from.spotAngle, to.spotAngle, t);
+        light.transform.rotation =
+            Quaternion.Slerp(from.rotation, to.rotation, t);
     }
 
-    private void CopyProperties(LightProperties from, Light to)
+    private void ApplyProperties(LightProperties props, Light light)
     {
-        to.color = from.color;
-        to.intensity = from.intensity;
-        to.range = from.range;
-        to.spotAngle = from.spotAngle;
+        light.color = props.color;
+        light.intensity = props.intensity;
+        light.range = props.range;
+        light.spotAngle = props.spotAngle;
+        light.transform.rotation = props.rotation;
     }
 
-    // Struct to store light properties
     private struct LightProperties
     {
         public Color color;
         public float intensity;
         public float range;
         public float spotAngle;
+        public Quaternion rotation;
+
+        public static LightProperties FromLight(Light light)
+        {
+            return new LightProperties
+            {
+                color = light.color,
+                intensity = light.intensity,
+                range = light.range,
+                spotAngle = light.spotAngle,
+                rotation = light.transform.rotation
+            };
+        }
     }
 }

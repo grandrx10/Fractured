@@ -13,16 +13,19 @@ public class GlobalWorldManager : MonoBehaviour
 {
     public static GlobalWorldManager Instance { get; private set; }
     public static event Action OnAfterMove;
-    public float TransitionTime { get; private set; }
+    public float RawTransitionTime { get; private set; }
+    public float CurvedTransitionTime => transitionCurve.Evaluate(RawTransitionTime);
+    public AnimationCurve transitionCurve;
     public CardEnv CurrentEnvironment;
     public PlayerAgent playerAgent;
     public float newDomainOffset;
     public GameObject sphereEffect;
     
     private bool _transitioning;
+    public string TransitionTag { private set; get; }
     private GameObject[] _newObjects, _oldObjects;
     private Scene _oldScene, _newScene;
-    private float _dissolveRad, _dissolveRate;
+    private float _dissolveRad;
     private float _transitionSpeed;
     private bool _flipped;
     private Vector3 _startPosition;
@@ -53,18 +56,19 @@ public class GlobalWorldManager : MonoBehaviour
         }
         
     }
-    public void Transition(string newSceneName, Vector3 startPosition, string startName)
+    public void Transition(string newSceneName, Vector3 startPosition, string startName, string tags)
     {
         if (_transitioning) return;
         _startPosition = startPosition;
         _startName = startName;
+        TransitionTag = tags;
         _ = LoadSceneAsyncWithCallback(newSceneName);
     }
     
     public async Task LoadSceneAsyncWithCallback(string sceneName)
     {
         _oldScene = SceneManager.GetActiveScene();
-        TransitionTime = 0;
+        RawTransitionTime = 0;
         
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         while (!op.isDone)
@@ -75,9 +79,6 @@ public class GlobalWorldManager : MonoBehaviour
         _newObjects = _newScene.GetRootGameObjects();
         _oldObjects = _oldScene.GetRootGameObjects();
         _flipped = false;
-        
-        
-        Shader.SetGlobalVector("_DissolveCenter", playerAgent.transform.position);
         
         var mpb = new MaterialPropertyBlock();
         mpb.SetFloat("_Flipped", 1);
@@ -110,8 +111,6 @@ public class GlobalWorldManager : MonoBehaviour
                 rend.SetPropertyBlock(mpb);
             }
         }
-        
-        _dissolveRad = 0;
         Debug.Log("Scene loaded!");
     }
 
@@ -125,12 +124,13 @@ public class GlobalWorldManager : MonoBehaviour
         else
         {
             CurrentEnvironment.Destroy();
-            _dissolveRate = env.environmentIntroRad / env.environmentIntroTime;
+            _dissolveRad = env.environmentIntroRad;
             float introTime = env.environmentIntroTime;
             _transitioning = true;
             float flipTime = Mathf.Min(introTime, env.environmentExitTime);
             float stopTime = introTime;
             _transitionSpeed = 1 / env.environmentIntroTime;
+            Shader.SetGlobalVector("_DissolveCenter", _startPosition);
             Delay.Call(0.01f, () =>
             {
                 var center = env.GetEnvCenter(_startName);
@@ -141,7 +141,6 @@ public class GlobalWorldManager : MonoBehaviour
                     {
                         if (go) go.transform.position += disp;
                     }
-                    
                 }
             });
             
@@ -174,7 +173,7 @@ public class GlobalWorldManager : MonoBehaviour
     public void EndTransition()
     {
         _transitioning = false;
-        TransitionTime = -1;
+        RawTransitionTime = -1;
         Shader.SetGlobalVector("_DissolveData", new Vector4(-5, 0, 0, 0));
         
         var mpb = new MaterialPropertyBlock();
@@ -199,7 +198,7 @@ public class GlobalWorldManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TransitionTime += Time.deltaTime * _transitionSpeed;
+        if (_transitioning) RawTransitionTime += Time.deltaTime * _transitionSpeed;
     }
 
     void OnDestroy()
@@ -227,14 +226,15 @@ public class GlobalWorldManager : MonoBehaviour
     {
         if (_transitioning)
         {
-            _dissolveRad += _dissolveRate * Time.deltaTime;
-            sphereEffect.transform.localScale = _dissolveRad * Vector3.one * 2;
+            
+            var r = transitionCurve.Evaluate(RawTransitionTime) * _dissolveRad;
+            sphereEffect.transform.localScale = r * Vector3.one * 2;
             
             foreach (var go in _flipped? _oldObjects : _newObjects)
             {
                 if (go) go.transform.position -= Vector3.right * newDomainOffset;
             }
-            Shader.SetGlobalVector("_DissolveData", new Vector4(_dissolveRad, shaders[1], shaders[2], 0));
+            Shader.SetGlobalVector("_DissolveData", new Vector4(r, shaders[1], shaders[2], 0));
         }
         OnAfterMove?.Invoke();
     }

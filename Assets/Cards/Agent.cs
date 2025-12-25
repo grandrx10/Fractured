@@ -12,6 +12,7 @@ namespace Cards
     {
         public List<Card> hand;
         public List<Card> deck;
+        public Card selectedCard;
         private Func<Card, CardSubmitState> _callback;
         private int _cardsRequested;
         public bool CardRequested => _callback != null;

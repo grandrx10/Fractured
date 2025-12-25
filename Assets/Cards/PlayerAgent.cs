@@ -11,14 +11,13 @@ namespace Cards
 {
     public class PlayerAgent: Agent
     {
-        public Card mainHandCard;
         public Card offHandCard;
         
         public PlayerStatsHolder Stats {get; private set;}
 
         public void SetMainHand(Card card)
         {
-            if (card == mainHandCard) return;
+            if (card == selectedCard) return;
 
             if (card)
             {
@@ -27,13 +26,16 @@ namespace Cards
                     hold.StartHold();
                 }
             }
-            
-            mainHandCard = card;
-            foreach (var hold in mainHandCard.GetAllBehaviors<IBehaviorHoldListener>())
+
+            if (selectedCard)
             {
-                hold.StopHold();
+                foreach (var hold in selectedCard.GetAllBehaviors<IBehaviorHoldListener>())
+                {
+                    hold.StopHold();
+                }
             }
             
+            selectedCard = card;
         }
         
         private void Awake()

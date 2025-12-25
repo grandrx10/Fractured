@@ -57,6 +57,7 @@ namespace Cards.Visual
         {
             var cc = Instantiate(cardPrefab, content);
             cc.card = card;
+            card.transform.SetParent(transform);
             var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
             hcc.Init(this);
             cards.Insert(position, hcc);

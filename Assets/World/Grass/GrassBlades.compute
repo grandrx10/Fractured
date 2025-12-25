@@ -164,7 +164,7 @@ void Main(uint id : SV_DispatchThreadID)
     SourceVertex sv = _SourceVertices[usableID];
 
     // fading on max distance
-    float distanceFromCamera = distance(sv.positionWS, _CameraPositionWS);
+    float distanceFromCamera = distance(sv.positionWS + _WorldOffset, _CameraPositionWS);
     float distanceFade = 1 - saturate((distanceFromCamera - _MinFadeDist) / (_MaxFadeDist - _MinFadeDist));
 
     // skip if out of fading range too
@@ -180,8 +180,8 @@ void Main(uint id : SV_DispatchThreadID)
     int numTrianglesPerBlade = (numSegmentsPerBlade - 1) * 2 + 1;
     
     // normal
-    float3 perpendicularAngle = float3(0, 0, 1);
-    float3 faceNormal = sv.normalOS;
+    float3 perpendicularAngle = float3(0, 1, 0);
+    float3 faceNormal = perpendicularAngle;//sv.normalOS;
   
     _WindSpeed *= saturate(distanceFade * 2 - 1);
     // Wind

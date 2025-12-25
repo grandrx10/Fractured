@@ -29,6 +29,7 @@ namespace Cards.Environments
 
         public override void Destroy()
         {
+            StopAllCoroutines();
             player.CancelSelection();
         }
 
@@ -37,6 +38,14 @@ namespace Cards.Environments
             if (!initialized) return;
             mana += manaRegen * Time.deltaTime;
             mana = Mathf.Clamp(mana, 0, maxMana);
+            var ticks = player.selectedCard?.GetAllBehaviors<IBehaviorTickListener>();
+            if (ticks != null)
+            {
+                foreach (var t in ticks)
+                {
+                    t.Tick(this, player);
+                }
+            }
         }
 
         public CardSubmitState UseCard(Card card)
@@ -62,6 +71,11 @@ namespace Cards.Environments
         public Vector3 GetPlayerLook()
         {
             return (_playerInteract.GetCameraRaycastTarget() - player.transform.position).normalized;
+        }
+        
+        public GameObject GetPlayerLookTarget()
+        {
+            return _playerInteract.currentLookTarget;
         }
     }
 }

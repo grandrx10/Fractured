@@ -25471,6 +25471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axisController: {fileID: 3701870784114654693}
+  uiGameObject: {fileID: 0}
   orientation: {fileID: 8564037248183743581}
   player: {fileID: 3400161551847654013}
   playerObj: {fileID: 6359937007908856817}
@@ -25982,11 +25983,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe4d0cec2cf0492eb695972b9239974b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  environmentExitTime: 0
+  environmentIntroTime: 0
+  environmentIntroRad: 0
+  environmentCenters: []
   player: {fileID: 5356517433199488583}
   mana: 100
   maxMana: 100
   minCardDelay: 0.2
   manaRegen: 100
+  initialized: 0
 --- !u!4 &6674575099889270198
 Transform:
   m_ObjectHideFlags: 0
@@ -27003,9 +27009,9 @@ SceneRoots:
   - {fileID: 2000667662}
   - {fileID: 1799829573}
   - {fileID: 368396217}
+  - {fileID: 960084756}
   - {fileID: 8155817948667499371}
   - {fileID: 2614453706861963451}
-  - {fileID: 960084756}
   - {fileID: 1703404547}
   - {fileID: 867071440}
   - {fileID: 2726694}

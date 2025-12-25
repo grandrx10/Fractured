@@ -271,7 +271,7 @@ Camera:
   m_Depth: 5
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1911
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1027,7 +1027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hand: []
   deck: []
-  mainHandCard: {fileID: 0}
+  selectedCard: {fileID: 0}
   offHandCard: {fileID: 0}
 --- !u!1 &5299371967232557730
 GameObject:
@@ -1464,7 +1464,7 @@ MonoBehaviour:
   interactText: {fileID: 8159835039736561410}
   interactSlider: {fileID: 0}
   showDebugRay: 1
-  currentInteractable: {fileID: 0}
+  currentLookTarget: {fileID: 0}
 --- !u!114 &1445567868739458306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1500,6 +1500,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   maxRayDistance: 10
+  playerObj: {fileID: 0}
 --- !u!114 &7658400312699198486
 MonoBehaviour:
   m_ObjectHideFlags: 0
