@@ -26,7 +26,7 @@ namespace Game.Bosses
                 EndSelf();
                 return;
             }
-
+            Debug.Log("BEGAN");
             DialogueManager.Instance.OnConversationEnded += OnDialogueFinished;
             DialogueManager.Instance.StartConversation(conversationName);
         }

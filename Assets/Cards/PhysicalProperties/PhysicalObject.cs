@@ -43,7 +43,16 @@ namespace Cards.PhysicalProperties
         public virtual void Start()
         {
             rb = GetComponent<Rigidbody>();
+            
+            // Initialize OnInit
             OnInit?.Invoke(InitState);
+
+            // Auto-assign card to Damaging component if it exists
+            var damaging = GetComponent<Damaging>();
+            if (damaging != null && card != null)
+            {
+                damaging.card = card;
+            }
         }
         
         Vector3 _preCollisionVelocity;

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8256709634585219535}
   - component: {fileID: 747394866718153924}
   - component: {fileID: 2518142330745676812}
+  - component: {fileID: -447475965732959961}
   m_Layer: 13
   m_Name: Physical Card
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MonoBehaviour:
   card: {fileID: 0}
   hitLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 320
   lifetime: 2
 --- !u!54 &6020067382194454152
 Rigidbody:
@@ -158,6 +159,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 1.2
+--- !u!114 &-447475965732959961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2632151516306853168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa27d833bc5f1d1479541256202a33d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  dealDamageOnce: 1
 --- !u!1 &3138109282539732412
 GameObject:
   m_ObjectHideFlags: 0

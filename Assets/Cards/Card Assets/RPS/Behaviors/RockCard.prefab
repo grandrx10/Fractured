@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2518142330745676812}
   - component: {fileID: -8002415487346624067}
   - component: {fileID: 3919590235601543343}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: RockCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,6 +54,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 0}
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
   lifetime: 2
 --- !u!54 &6020067382194454152
 Rigidbody:
@@ -183,7 +186,7 @@ GameObject:
   - component: {fileID: 3237961770503723567}
   - component: {fileID: 1827799179729569804}
   - component: {fileID: 3197438754781939741}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7387843339924436813}
   - component: {fileID: 7679615833669324448}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +436,7 @@ GameObject:
   - component: {fileID: 2025507546102795460}
   - component: {fileID: 7249167945262360594}
   - component: {fileID: 265735079367365302}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: Physical Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -542,7 +545,7 @@ GameObject:
   - component: {fileID: 5487203572108450975}
   - component: {fileID: 982403425217261864}
   - component: {fileID: 3305315653581948307}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: TempDoubleVisible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,6 +633,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 0}
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
   lifetime: 0
 --- !u!65 &3305315653581948307
 BoxCollider:
@@ -660,17 +666,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3157765865110281730}
     m_Modifications:
+    - target: {fileID: 355814093989839400, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 3907866815185089934, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
       propertyPath: m_Name
       value: Card Prefab
       objectReference: {fileID: 0}
     - target: {fileID: 3907866815185089934, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3907866815185089934, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767525878369089437, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8233113463454448935, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
       propertyPath: m_Pivot.x

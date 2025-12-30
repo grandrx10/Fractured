@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1262a4b5d520f5b4585b23398adcdf15, type: 3}
+  m_Name: RockToss2
+  m_EditorClassIdentifier: 
+  attackDuration: 5
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  headPointName: Head
+  headOutPointName: HeadOutRockToss
+  rockSpawnPointName: LaserOut
+  rockPrefab: {fileID: 750019182429538441, guid: 3c492ed871725904fb4371945269dfd9, type: 3}
+  targetRadius: 5
+  minPeakHeight: 8
+  maxPeakHeight: 10
+  tossDuration: 1
+  attackInterval: 1
+  extendTime: 0.5
+  warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  warningRadius: 2
+  warningDuration: 0.5

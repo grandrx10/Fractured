@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e951ffea5ec99f4091d1c4912ed61b7, type: 3}
+  m_Name: CircleBamboo
+  m_EditorClassIdentifier: 
+  attackDuration: 10
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  warningDuration: 0.2
+  spawnInterval: 3
+  projectilePrefab: {fileID: 2336451837071188969, guid: e8cf784efe358cc45b057997a4ead803, type: 3}
+  spawnOffset: {x: 0, y: 40, z: 0}
+  downwardVelocity: {x: 0, y: -100, z: 0}
+  totalBamboo: 32
+  radius: 10
+  exitCount: 6

@@ -7,13 +7,18 @@ public class Door : MonoBehaviour
     [Tooltip("The door object to move")]
     public GameObject doorObject;
 
+    [Tooltip("Vertical distance the door moves when opening")]
+    public float openHeight = 3f;
+
     [Tooltip("Time (seconds) it takes for the door to fully open/close")]
     public float moveDuration = 1.0f;
+
+    [Tooltip("If true, the door starts in the open position")]
+    public bool startOpen = false;
 
     protected bool isOpen = false;
     protected bool isMoving = false;
 
-    protected float doorHeight = 0f;
     protected Vector3 closedPosition;
     protected Vector3 openPosition;
 
@@ -23,18 +28,13 @@ public class Door : MonoBehaviour
             doorObject = gameObject;
 
         closedPosition = doorObject.transform.position;
+        openPosition = closedPosition + Vector3.up * openHeight;
 
-        Renderer renderer = doorObject.GetComponent<Renderer>();
-        if (renderer != null)
+        if (startOpen)
         {
-            doorHeight = renderer.bounds.size.y;
+            doorObject.transform.position = openPosition;
+            isOpen = true;
         }
-        else
-        {
-            Debug.LogWarning($"{name}: Door has no Renderer, height set to 0.");
-        }
-
-        openPosition = closedPosition + Vector3.up * doorHeight;
     }
 
     protected virtual void Update()
@@ -72,7 +72,6 @@ public class Door : MonoBehaviour
     protected IEnumerator MoveDoor(Vector3 from, Vector3 to, bool opening)
     {
         isMoving = true;
-
         float t = 0f;
 
         while (t < 1f)
@@ -87,13 +86,6 @@ public class Door : MonoBehaviour
         isMoving = false;
     }
 
-    public bool IsOpen()
-    {
-        return isOpen;
-    }
-
-    public bool IsMoving()
-    {
-        return isMoving;
-    }
+    public bool IsOpen() => isOpen;
+    public bool IsMoving() => isMoving;
 }
