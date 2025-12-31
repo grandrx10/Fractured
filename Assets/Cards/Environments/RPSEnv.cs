@@ -10,6 +10,11 @@ namespace Cards.Environments
     {
         private Agent _agent1, _agent2;
         
+        public override void Initialize(PlayerAgent player)
+        {
+            throw new System.NotImplementedException();
+        }
+        
         [ContextMenu("test")]
         private void TestRps()
         {

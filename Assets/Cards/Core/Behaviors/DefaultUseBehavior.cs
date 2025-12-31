@@ -1,6 +1,7 @@
 ﻿using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using Cards.PhysicalProperties;
+using Cards;
 using UnityEngine;
 using Utils;
 
@@ -11,7 +12,7 @@ namespace Cards.Core.Behaviors
     {
         [PrefabComponent] public PhysicalObject cardPrefab;
         public float speed;
-        public virtual void Use(CardEnv env, Agent agent)
+        public virtual bool Use(CardEnv env, Agent agent)
         {
             if (env is OpenWorldEnv opEnv)
             {
@@ -21,6 +22,8 @@ namespace Cards.Core.Behaviors
             {
                 Debug.LogError("Env Does not support throwing");
             }
+
+            return true;
         }
         
         public void ThrowCard(Agent player, OpenWorldEnv env, Quaternion rotation)

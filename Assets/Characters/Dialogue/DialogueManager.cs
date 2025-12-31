@@ -46,6 +46,8 @@ namespace Characters.Dialogue
 
     public class DialogueManager : MonoBehaviour
     {
+        public System.Action OnConversationEnded;
+
         public static DialogueManager Instance { get; private set; }
 
         [Header("UI References")]
@@ -426,7 +428,7 @@ namespace Characters.Dialogue
         {
             waitingForChoice = true;
             // Keep previous dialogue visible
-            ThirdPersonCam.Instance.CursorUnlock += "Dialogue";
+            PlayerCamera.Instance.CursorUnlock += "Dialogue";
 
             foreach (DialogueChoice choice in currentConversation.choices)
             {
@@ -476,7 +478,7 @@ namespace Characters.Dialogue
                 EndConversation();
             }
 
-            ThirdPersonCam.Instance.CursorUnlock -= "Dialogue";
+            PlayerCamera.Instance.CursorUnlock -= "Dialogue";
         }
 
         private void ExecuteEvent(string eventName)
@@ -523,6 +525,9 @@ namespace Characters.Dialogue
             if (!string.IsNullOrEmpty(nextConvo))
             {
                 StartConversation(nextConvo);
+            } else
+            {
+                OnConversationEnded?.Invoke(); 
             }
         }
     }

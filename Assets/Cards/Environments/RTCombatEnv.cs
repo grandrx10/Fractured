@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
+using Game.Health;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,16 +13,18 @@ namespace Cards.Environments
     {
         public float health;
         public float maxHealth;
+        private PlayerHealth _healthInstance;
         
-        private void Start()
+        public override void Initialize(PlayerAgent playerAgent)
         {
-            player.GetCards().ForEach(c =>
+            playerAgent.GetCards().ForEach(c =>
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
-            health = player.TotalHealth;
+            health = playerAgent.TotalHealth;
             maxHealth = health;
-            player.SelectCardAsync(UseCard, -1);
+            _healthInstance = player.gameObject.AddComponent<PlayerHealth>();
+            base.Initialize(playerAgent);
         }
 
         public bool TakeDamage(float damage)
@@ -33,7 +36,14 @@ namespace Cards.Environments
         
         protected override void Update()
         {
+            if (!initialized) return;
             base.Update();
+        }
+
+        public override void Destroy()
+        {
+            Terminate();
+            base.Destroy();
         }
 
         public void Terminate()
@@ -43,6 +53,7 @@ namespace Cards.Environments
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch());
             });
+            Destroy(_healthInstance);
             Debug.Log("Done");
         }
     }

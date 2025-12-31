@@ -4,6 +4,7 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
+#include "Packages/com.jimmycushnie.noisynodes/NoiseShader/HLSL/SimplexNoise3D.hlsl"
 
 #define fixed  half
 #define fixed3 half3
@@ -12,6 +13,12 @@
 CBUFFER_START(UnityPerMaterial)
 float _utsTechnique;
 float4 _MainTex_ST;
+
+float4 _DissolveColor;
+float4 _DissolveData;
+float4 _DissolveCenter;
+float _Flipped;
+float _NoDissolve;
 
 float4 _Color;
 fixed _Use_BaseAs1st;

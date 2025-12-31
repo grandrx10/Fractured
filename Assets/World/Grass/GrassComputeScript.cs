@@ -3,6 +3,7 @@
 // and  NedMakesGames https://gist.github.com/NedMakesGames/3e67fabe49e2e3363a657ef8a6a09838
 // for the base setup for compute shaders
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -11,7 +12,7 @@ using UnityEngine;
 namespace World.Grass
 {
     [ExecuteInEditMode]
-    public class GrassComputeScript : MonoBehaviour
+    public class GrassComputeScript : MonoBehaviour, IRenderable
     {
         // very slow, but will update always
         public bool autoUpdate;
@@ -48,6 +49,8 @@ namespace World.Grass
         // buffer that contains the ids of all visible instances
         private ComputeBuffer m_VisibleIDBuffer;
         [SerializeField] Material m_InstantiatedMaterial;
+        
+        private MaterialPropertyBlock _mpb;
         // The id of the kernel in the grass compute shader
         private int m_IdGrassKernel;
         // The x dispatch size for the grass compute shader
@@ -152,8 +155,10 @@ namespace World.Grass
                 OnDisable();
             }
 
+            GlobalWorldManager.OnAfterMove += Tick;
             computesSet.Add(this);
             MainSetup(true);
+            print(m_Initialized);
         }
 
         void MainSetup(bool full)
@@ -179,6 +184,7 @@ namespace World.Grass
             // or no vertex is put on the mesh.
             if (grassData.Count == 0)
             {
+                Debug.LogWarning("No grass?!", this);
                 return;
             }
 
@@ -308,15 +314,19 @@ namespace World.Grass
             }
             // get frustum data from the main camera
             cameraOriginalFarPlane = m_MainCamera.farClipPlane;
-            m_MainCamera.farClipPlane = currentPresets.maxDrawDistance;//allow drawDistance control    
+            m_MainCamera.transform.position -= transform.position;
+            m_MainCamera.farClipPlane = currentPresets.maxDrawDistance;//allow drawDistance control   
+            
             GeometryUtility.CalculateFrustumPlanes(m_MainCamera, cameraFrustumPlanes);
             m_MainCamera.farClipPlane = cameraOriginalFarPlane;//revert far plane edit
-
+            m_MainCamera.transform.position += transform.position;
+            
             if (!m_fastMode)
             {
                 BoundsListVis.Clear();
                 m_VisibleIDBuffer.SetData(empty);
                 grassVisibleIDList.Clear();
+                
                 cullingTree.RetrieveLeaves(cameraFrustumPlanes, BoundsListVis, grassVisibleIDList);
                 m_VisibleIDBuffer.SetData(grassVisibleIDList);
             }
@@ -348,12 +358,22 @@ namespace World.Grass
                 m_ArgsBuffer?.Release();
                 m_VisibleIDBuffer?.Release();
             }
+            GlobalWorldManager.OnAfterMove -= Tick;
             computesSet.Remove(this);
             m_Initialized = false;
+            interactors = Array.Empty<ShaderInteractor>();
+        }
+
+        private void Update()
+        {
+            if (!Application.isPlaying)
+            {
+                Tick();
+            }
         }
 
         // LateUpdate is called after all Update calls
-        private void Update()
+        private void Tick()
         {
             // If in edit mode, we need to update the shaders each Update to make sure settings changes are applied
             // Don't worry, in edit mode, Update isn't called each frame
@@ -362,6 +382,7 @@ namespace World.Grass
                 OnDisable();
                 OnEnable();
             }
+
             // If not initialized, do nothing (creating zero-length buffer will crash)
             if (!m_Initialized)
             {
@@ -393,7 +414,7 @@ namespace World.Grass
                 m_InstantiatedComputeShader.Dispatch(m_IdGrassKernel, m_DispatchSize, 1, 1);
                 // DrawProceduralIndirect queues a draw call up for our generated mesh
                 Graphics.DrawProceduralIndirect(m_InstantiatedMaterial, bounds, MeshTopology.Triangles,
-                    m_ArgsBuffer, 0, null, null, currentPresets.castShadow, true, gameObject.layer);
+                    m_ArgsBuffer, 0, null, _mpb, currentPresets.castShadow, true, gameObject.layer);
             }
         }
 
@@ -433,9 +454,7 @@ namespace World.Grass
             m_InstantiatedComputeShader.SetFloat("_BladeForward", currentPresets.bladeForwardAmount);
             m_InstantiatedComputeShader.SetFloat("_BladeCurve", Mathf.Max(0, currentPresets.bladeCurveAmount));
             m_InstantiatedComputeShader.SetFloat("_BottomWidth", currentPresets.bottomWidth);
-
-
-
+            
             m_InstantiatedComputeShader.SetInt("_MaxBladesPerVertex", currentPresets.allowedBladesPerVertex);
             m_InstantiatedComputeShader.SetInt("_MaxSegmentsPerBlade", currentPresets.allowedSegmentsPerBlade);
 
@@ -471,6 +490,7 @@ namespace World.Grass
             // variables sent to the shader every frame
             m_InstantiatedComputeShader.SetFloat("_Time", Time.time);
             m_InstantiatedComputeShader.SetMatrix("_LocalToWorld", transform.localToWorldMatrix);
+            m_InstantiatedComputeShader.SetVector("_WorldOffset", transform.position);
             if (interactors.Length > 0)
             {
                 int s = Mathf.Min(interactors.Length, 128);
@@ -516,6 +536,11 @@ namespace World.Grass
                 }
             }
 
+        }
+
+        public void SetPropertyBlock(MaterialPropertyBlock block)
+        {
+            _mpb = block;
         }
     }
 

@@ -1,0 +1,107 @@
+FennOpener
+===
+[Fenn]
+Heya there, Ravenna. Good to see you again!
+---
+[Ravenna]
+Hi, Mr. Fenn.
+---
+[Fenn]
+Who's your friend?
+---
+[Ravenna]
+His name is Dorian.
+---
+[Fenn]
+Dorian... that's a nice name. It's memorable, unlike Fenn. Damn, what were my parents thinking?
+---
+[Ravenna]
+I think it's a pretty good name!
+---
+[Fenn]
+Heh, you always know how to make me smile. What are you two up to today?
+---
+[Ravenna]
+We're just going for a walk around the island.
+---
+[Fenn]
+Are you interested in a little quest?
+---
+[Ravenna]
+Of course!
+---
+[Fenn]
+I've been trying to grow an apple tree for a while now, but all my apple seeds have expired. If you two could get me some more seeds, I'd be grateful. In fact, you can have some of the apples I grow.
+---
+[Ravenna]
+You can count on us, Mr. Fenn!
+---
+[Fenn]
+You should be able to find some in the forest. Good luck!
+===
+[Fenn]{FennQuestReturn}
+###
+FennQuestReturn
+===
+[Fenn]
+Did you find those seeds?
+???
+[Yes, here you go]{FennApplesFound}
+[No, not yet]{FennNoApples}
+===
+###
+FennApplesFound
+===
+[Fenn]
+Wonderful! Now I can finally grow the apple tree!
+---
+[Fenn]
+Thank you. Both of you.
+---
+[Ravenna]
+It's no problem, Mr. Fenn. It was actually Dorian that found it.
+---
+[Fenn]
+Thank you, Dorian. This... means a lot to me.
+---
+[Dorian]
+It's no problem.
+---
+[Fenn]
+Usually, I'd go out and look for seeds myself, but recently, I've been at a loss for energy. I'm not sure what's happening, but I always wake up tired. But planting and growing things always brought me joy. Hopefully, they can once again.
+---
+[Dorian]
+I'm just glad we could help.
+---
+[Fenn]
+Come back when the apple tree is fully grown. I'll have a gift basket waiting for you!
+===
+[Fenn]{FennReturn}
+###
+FennNoApples
+===
+[Fenn]
+Well, take your time. No rush. A good place to look would be in the forest.
+===
+[Fenn]{FennQuestReturn}
+###
+FennReturn
+===
+[Fenn]
+Welcome back! Here are the apples I promised.
+---
+[Ravenna]
+Thanks, Mr. Fenn, these are some of the reddest apples I've seen!
+---
+[Fenn]
+If you two ever find any interesting seeds, bring them to me. I can grow them for you anytime.
+===
+[Fenn]{FennGrowPlants}
+###
+FennGrowPlants
+===
+[Fenn]
+What do you have for me?
+===
+[Fenn]{FennGrowPlants}
+###

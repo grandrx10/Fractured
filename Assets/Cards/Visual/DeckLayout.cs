@@ -12,27 +12,13 @@ namespace Cards.Visual
 {
     public class DeckLayout : CardInteractionContainer
     {
-        public RectTransform content;
         public RectTransform infoCard;
         public CardPreview preview;
         public TextMeshProUGUI infoCardName;
         public TextMeshProUGUI infoCardColl;
         
-        public CardDisplay cardPrefab;
         private CardDisplayInteractable _selectedCard;
         private CardPreview _currentPreview;
-        public override void PopulateCards(List<Card> c)
-        {
-            for (int i = 0; i < c.Count; i++)
-            {
-                var cc = Instantiate(cardPrefab, content);
-                cc.card = c[i];
-                var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
-                hcc.Init(this);
-                cards.Add(hcc);
-            }
-            //RefreshLayout();
-        }
 
         public override void OnCardClick(CardDisplayInteractable card)
         {
@@ -96,6 +82,7 @@ namespace Cards.Visual
         
         public override bool OnCardDropped(CardInteractionContainer source, CardDisplayInteractable card)
         {
+            if (card.AttachedCard.IsTarot) return false;
             if (source.OnCardRemoved(card))
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -109,7 +96,7 @@ namespace Cards.Visual
                     content.GetComponent<GridLayoutGroup>(),
                     content, 
                     pointerLocal,
-                    cards.Count);
+                    CardDisplays.Count);
                 
                 AddCard(card.AttachedCard, targetIndex);
                 
@@ -197,17 +184,12 @@ namespace Cards.Visual
             // Clamp to insertion range
             return Mathf.Clamp(index, 0, itemCount);
         }
-
-
+        
         public override void AddCard(Card card, int position=-1)
         {
-            if (position == -1) position = cards.Count - 1;
-            var cc = Instantiate(cardPrefab, content);
-            cc.card = card;
-            var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
-            hcc.Init(this);
-            hcc.transform.SetSiblingIndex(position);
-            cards.Insert(position, hcc);
+            if (card.IsTarot) return;
+            if (position == -1) position = CardDisplays.Count - 1;
+            base.AddCard(card, position);
         }
     }
 }

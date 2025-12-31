@@ -52,6 +52,8 @@ namespace Cards.Core
                     return "Set Theory";
                 case CardCollection.Elements:
                     return "Elements";
+                case CardCollection.Common:
+                    return "Common";
                 default:
                     return "huh";
             }
@@ -86,7 +88,8 @@ namespace Cards.Core
         Tools,
         Fruits,
         SetTheory,
-        Elements
+        Elements,
+        Common
     }
 
     [Serializable]

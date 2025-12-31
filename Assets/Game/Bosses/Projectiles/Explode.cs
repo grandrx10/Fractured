@@ -8,38 +8,48 @@ namespace Game.Bosses.Projectiles
         public GameObject explosionPrefab;
 
         [Header("Explosion Settings")]
-        public bool explodeOnTouch = false;     // If true → trigger explosion on any trigger enter
+        public bool explodeOnTouch = false; // If true → explode on trigger OR collision
 
         // Public call to explode manually
         public void ExplodeNow()
         {
-            // Spawn explosion effect
             if (explosionPrefab != null)
             {
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             }
 
-            // Destroy this object after explosion
             Destroy(gameObject);
+        }
+
+        private bool IsValidLayer(GameObject obj)
+        {
+            int layer = obj.layer;
+            return layer == LayerMask.NameToLayer("Player") ||
+                   layer == LayerMask.NameToLayer("Ground");
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!explodeOnTouch) return;
+            if (!explodeOnTouch)
+                return;
 
-            // Debug.Log($"Trigger entered by: {other.gameObject.name} on layer: {LayerMask.LayerToName(other.gameObject.layer)}");
-    
-            // Only explode if the object we touched is on the "Player" layer
-            if (other.gameObject.layer != LayerMask.NameToLayer("Player") && 
-                other.gameObject.layer != LayerMask.NameToLayer("Ground")) return;
+            if (!IsValidLayer(other.gameObject))
+                return;
 
-            // Debug.Log("Touched Player");
-
-            // Prevent multiple explosions
             explodeOnTouch = false;
-
             ExplodeNow();
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!explodeOnTouch)
+                return;
+
+            if (!IsValidLayer(collision.gameObject))
+                return;
+
+            explodeOnTouch = false;
+            ExplodeNow();
+        }
     }
 }

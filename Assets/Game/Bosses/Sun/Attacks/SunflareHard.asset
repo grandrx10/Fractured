@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cee825baeba222545a92bd820a229512, type: 3}
+  m_Name: SunflareHard
+  m_EditorClassIdentifier: 
+  attackDuration: 4
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  spawnPointName: SunHand
+  maxDistanceFromBoss: 20
+  dnaSegmentLength: 50
+  dnaHeight: 2
+  dnaTwists: 3
+  warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  warningRadius: 3
+  warningDuration: 1
+  sunFlarePrefab: {fileID: 4226992968916193412, guid: d606c64bbc6a84241826e89910cec9f1, type: 3}
+  linePrefab: {fileID: 1855581637438106520, guid: a5cef7d9d3ef0924b97715d0b6261f30, type: 3}
+  attackInterval: 1
+  flareSpeed: 30
+  warningStagger: 0.1
+  lineDuration: 0.5

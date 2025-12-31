@@ -52,6 +52,10 @@ Shader "Toon/Toon" {
         _Range_Min ("BaseCol2or", Float) = 1
         _Range_Max ("BaseCol2or", Float) = 1
         _Normal ("BaseCol2or", Vector) = (0,0,1, 0)
+        _Flipped ("flippy", Float) = 0
+//        _DissolveColor ("BaseCol2or", Vector) = (1,1,1, 0)
+//        _DissolveData ("BaseCol2or", Vector) = (0,0,1, 0)
+//        _DissolveCenter ("BaseCol2or", Vector) = (0,0,1, 0)
 //        float _Rad;
 //float _Range_Min;
 //float _Range_Max;

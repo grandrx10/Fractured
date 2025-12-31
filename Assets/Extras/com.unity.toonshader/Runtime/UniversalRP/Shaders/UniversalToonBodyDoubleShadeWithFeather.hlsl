@@ -499,6 +499,21 @@
                 emissive = emissive_Color.rgb * _Emissive_Tex_var.rgb * emissiveMask;
 #endif
 
+            // NEW STUFF
+            if (_NoDissolve < 0.5)
+            {
+                float3 wp = GetAbsolutePositionWS(i.posWorld);
+                float p = distance(wp, _DissolveCenter.xyz) + (snoise(wp * _DissolveData.z) + 1) / 2 * _DissolveData.y;
+                float edge_main = step(p, _DissolveData.x);
+                float p2 = lerp(edge_main, 1-edge_main, _Flipped);
+                if (p2 > 0.5) discard;
+                float edge_hl = step(p, _DissolveData.x + _DissolveColor.w);
+                float edge_hlf = step(p, _DissolveData.x - _DissolveColor.w);
+                float p3 = lerp(edge_hl, 1-edge_hlf, _Flipped);
+                emissive = lerp(emissive, _DissolveColor.xyz, p3);
+            }
+            
+                
                 //Final Composition#if
                 finalColor = SATURATE_IF_SDR(finalColor) + (envLightColor*envLightIntensity*_GI_Intensity*smoothstep(1,0,envLightIntensity/2)) + emissive;
 
@@ -506,11 +521,12 @@
                 finalColor += pointLightColor;
 #endif
 
-
+            
+            
 //v.2.0.4
 #ifdef _IS_CLIPPING_OFF
 //DoubleShadeWithFeather
-
+                
                 finalRGBA = fixed4(finalColor,1);
 
 #elif _IS_CLIPPING_MODE
@@ -524,7 +540,7 @@
                 finalRGBA = fixed4(finalColor,Set_Opacity);
 
 #endif
-
+                
 #ifdef _WRITE_RENDERING_LAYERS
                 uint renderingLayers = GetMeshRenderingLayer();
                 outRenderingLayers = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);

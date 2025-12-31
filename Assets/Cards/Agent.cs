@@ -12,12 +12,13 @@ namespace Cards
     {
         public List<Card> hand;
         public List<Card> deck;
+        public Card selectedCard;
         private Func<Card, CardSubmitState> _callback;
         private int _cardsRequested;
         public bool CardRequested => _callback != null;
         protected Card RandomCard => hand[Random.Range(0, hand.Count)];
         public Action<Card> OnAddCard;
-        
+        public Action<Card> OnUseCard;
         public int TotalHealth => hand.Sum(h => h.stats.health);
         
         /*
@@ -47,11 +48,7 @@ namespace Cards
         {
             deck.Add(card);
             OnAddCard?.Invoke(card);
-        }
-
-        public void AddCards(List<Card> cards)
-        {
-            hand.AddRange(cards);
+            card.transform.parent = transform;
         }
 
         public List<Card> GetCards()
@@ -67,6 +64,7 @@ namespace Cards
             if (s == CardSubmitState.Failure) return CardSubmitState.Failure;
             _cardsRequested--;
             if (_cardsRequested == 0) _callback = null;
+            OnUseCard?.Invoke(card);
             return s;
         }
         

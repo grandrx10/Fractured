@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Utils;
 
 namespace Cards.Visual
 {
@@ -17,7 +18,9 @@ namespace Cards.Visual
         void Update()
         {
             Vector2 mouse = Input.mousePosition;
-            Vector2 dir = (mouse - (Vector2)rt.position);
+            Camera cam = UIHelper.UICamera;
+            Vector2 rtWorld = cam.WorldToScreenPoint(rt.position);
+            Vector2 dir = (mouse - rtWorld);
 
             // Normalize to screen range approx
             dir /= Screen.height;
