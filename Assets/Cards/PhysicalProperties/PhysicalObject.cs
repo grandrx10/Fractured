@@ -68,7 +68,7 @@ namespace Cards.PhysicalProperties
             var g = PhysicsHelper.MainObj(other.collider);
             if (PhysicsHelper.IsInMask(g.layer, hitLayers))
             {
-                OnHit.Invoke(new PhysicalHitState()
+                OnHit?.Invoke(new PhysicalHitState()
                 {
                     Other = other,
                     Position = g.transform.position,

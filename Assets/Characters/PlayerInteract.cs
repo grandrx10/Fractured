@@ -163,18 +163,17 @@ namespace Characters
                 interactText.gameObject.SetActive(currentInteractable != null);
         }
 
-        // Keep original function intact
         public Vector3 GetCameraRaycastTarget()
         {
             Ray ray = new Ray(raycastOrigin.position, raycastOrigin.forward);
             RaycastHit hit;
 
-            int ignoreProjectileMask = ~(1 << LayerMask.NameToLayer("Projectile"));
-
-            if (Physics.Raycast(ray, out hit, 500f, ignoreProjectileMask))
+            // Use the same layer mask as the interactables
+            if (Physics.Raycast(ray, out hit, 500f, interactableLayer))
                 return hit.point;
 
             return raycastOrigin.position + raycastOrigin.forward * 500f;
         }
+
     }
 }

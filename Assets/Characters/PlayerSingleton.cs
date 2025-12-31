@@ -8,6 +8,7 @@ namespace Characters
         public LayerMask groundLayer;      // Set this to your ground layer(s)
         public float maxRayDistance = 10f; // How far down to check for ground
         public GameObject playerObj;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -20,20 +21,28 @@ namespace Characters
             DontDestroyOnLoad(gameObject);
         }
 
-        /// <summary>
-        /// Returns the world position directly under the player's feet by raycasting down.
-        /// If no ground is found within maxRayDistance, returns the player's current position.
-        /// </summary>
         public Vector3 GetPositionBelow()
         {
             Ray ray = new Ray(transform.position, Vector3.down);
             if (Physics.Raycast(ray, out RaycastHit hit, maxRayDistance, groundLayer))
-            {
                 return hit.point;
+
+            return transform.position;
+        }
+
+        /// <summary>
+        /// Gets the PlayerInteractController component and returns the camera raycast target
+        /// </summary>
+        public Vector3 GetCameraForwardPositionFromController()
+        {
+            PlayerInteractController controller = GetComponent<PlayerInteractController>();
+            if (controller != null)
+            {
+                return controller.GetCameraRaycastTarget();
             }
 
-            // Fallback: return current position if no ground detected
-            return transform.position;
+            // Fallback: just forward from player if no controller exists
+            return transform.position + transform.forward * 10f;
         }
     }
 }
