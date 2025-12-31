@@ -18,7 +18,7 @@ namespace Cards
         public bool CardRequested => _callback != null;
         protected Card RandomCard => hand[Random.Range(0, hand.Count)];
         public Action<Card> OnAddCard;
-        
+        public Action<Card> OnUseCard;
         public int TotalHealth => hand.Sum(h => h.stats.health);
         
         /*
@@ -64,6 +64,7 @@ namespace Cards
             if (s == CardSubmitState.Failure) return CardSubmitState.Failure;
             _cardsRequested--;
             if (_cardsRequested == 0) _callback = null;
+            OnUseCard?.Invoke(card);
             return s;
         }
         

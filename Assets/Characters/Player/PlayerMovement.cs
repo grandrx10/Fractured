@@ -1,3 +1,5 @@
+using Cards;
+using Cards.Core;
 using UnityEngine;
 
 namespace Characters
@@ -19,9 +21,10 @@ namespace Characters
         public LayerMask whatIsGround;
         public Collider groundCheckCollider; // reference to your trigger collider
         bool grounded;
-
+        public Animator animator;
+        public PlayerAgent agent;
         public Transform orientation;
-
+        
         float horizontalInput;
         float verticalInput;
 
@@ -34,19 +37,27 @@ namespace Characters
             rb = GetComponent<Rigidbody>();
             rb.freezeRotation = true;
             readyToJump = true;
+            agent.OnUseCard += UseCard;
+        }
+
+        private void UseCard(Card c)
+        {
+            animator.SetTrigger("Throw");
         }
 
         private void Update()
         {
             MyInput();
             SpeedControl();
-
+            
             rb.linearDamping = grounded ? groundDrag : 0;
         }
 
         private void FixedUpdate()
         {
             MovePlayer();
+            animator.SetBool("MovingUp", rb.linearVelocity.y > 0);
+            animator.SetBool("Grounded", grounded);
         }
 
         private void MyInput()
@@ -66,6 +77,8 @@ namespace Characters
         {
             moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
+            animator.SetBool("Moving", moveDirection.magnitude >= 0.1f);
+            
             if (grounded)
                 rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
             else
@@ -86,6 +99,7 @@ namespace Characters
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            animator.SetTrigger("Jump");
         }
 
         private void ResetJump()

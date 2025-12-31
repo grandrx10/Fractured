@@ -13,7 +13,7 @@ namespace Cards.Environments
     {
         public float health;
         public float maxHealth;
-        public PlayerHealth healthInstance;
+        private PlayerHealth _healthInstance;
         
         public override void Initialize(PlayerAgent playerAgent)
         {
@@ -23,7 +23,7 @@ namespace Cards.Environments
             });
             health = playerAgent.TotalHealth;
             maxHealth = health;
-            healthInstance = player.gameObject.AddComponent<PlayerHealth>();
+            _healthInstance = player.gameObject.AddComponent<PlayerHealth>();
             base.Initialize(playerAgent);
         }
 
@@ -53,7 +53,7 @@ namespace Cards.Environments
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch());
             });
-            Destroy(healthInstance);
+            Destroy(_healthInstance);
             Debug.Log("Done");
         }
     }

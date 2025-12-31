@@ -11,6 +11,7 @@ namespace Cards.Card_Assets.Tarot.Behaviors
     public class Fool: Behavior, IBehaviorHoldListener, IBehaviorUseListener, IBehaviorTickListener, IBehaviorHasStateTag
     {
         [PrefabComponent] public Material foolMaterial;
+        public LayerMask foolLayer;
         private bool _effectActive;
         private float _lastUseTime;
         
@@ -31,7 +32,8 @@ namespace Cards.Card_Assets.Tarot.Behaviors
         {
             if (env is OpenWorldEnv opEnv)
             {
-                var look = opEnv.GetPlayerLookTarget();
+                var look = opEnv.GetPlayerLookTarget(foolLayer);
+                Debug.Log(look);
                 if (look && look.TryGetComponent(out DomainTrigger domain))
                 {
                     domain.Trigger();

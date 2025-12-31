@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SunDance : MonoBehaviour
 {
     [Header("Scaling")]
     public float targetScale = 5f;
     public float scaleDuration = 2f;
+    public float laserShrinkDuration = 1f;
     public float shrinkDuration = 2f; // time to shrink at the end
     public float lifetime = 20f; // total time before shrinking
 
@@ -21,7 +23,7 @@ public class SunDance : MonoBehaviour
     public float directionChangeInterval = 10f; // seconds
     private Vector3 currentRotationAxis;
     private float currentRotationSpeed = 0f;
-
+    private List<Transform> lasers = new List<Transform>();
     private bool isRotating = false;
 
     void Start()
@@ -72,7 +74,7 @@ public class SunDance : MonoBehaviour
 
         for (int i = 0; i < numberOfLasers; i++)
         {
-            GameObject laser = Instantiate(laserPrefab, transform.position, Random.rotation, transform);
+            lasers.Add(Instantiate(laserPrefab, transform.position, Random.rotation, transform).transform);
         }
     }
 
@@ -119,10 +121,28 @@ public class SunDance : MonoBehaviour
         yield return new WaitForSeconds(lifetime);
 
         // Shrink to 0.1 scale
-        Vector3 initialScale = transform.localScale;
-        Vector3 finalScale = Vector3.one * 0.1f;
+        Vector3 initialScale = lasers[0].localScale;
+        Vector3 finalScale = Vector3.up;
         float elapsed = 0f;
 
+        while (elapsed < laserShrinkDuration)
+        {
+            elapsed += Time.deltaTime;
+            foreach (var l in lasers)
+            {
+                l.localScale = Vector3.Lerp(initialScale,Vector3.Scale(initialScale, finalScale), elapsed / laserShrinkDuration);
+            }
+            yield return null;
+        }
+        
+        foreach (var l in lasers)
+        {
+            Destroy(l.gameObject);
+        }
+        
+        initialScale = transform.localScale;
+        finalScale = Vector3.one * 0.1f;
+        elapsed = 0f;
         while (elapsed < shrinkDuration)
         {
             elapsed += Time.deltaTime;

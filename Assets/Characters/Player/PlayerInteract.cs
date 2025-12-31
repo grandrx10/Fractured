@@ -8,6 +8,8 @@ namespace Characters
 {
     public class PlayerInteractController : MonoBehaviour
     {
+        public Transform head;
+        public float headTurnSpeed, headTurnCap;
         [Header("Interaction Settings")]
         [SerializeField] private float interactRange = 3f;
         [SerializeField] private LayerMask interactableLayer;
@@ -24,7 +26,7 @@ namespace Characters
 
         [Header("Debug")]
         [SerializeField] private bool showDebugRay = true;
-
+        
         public GameObject currentLookTarget;
 
         // Interaction progress
@@ -96,6 +98,39 @@ namespace Characters
             {
                 ResetHold();
             }
+
+            HeadAnimation();
+        }
+
+        private void HeadAnimation()
+        {
+            
+            Vector3 worldDir = raycastOrigin.forward;
+            Vector3 localDir = head.parent.InverseTransformDirection(worldDir);
+
+            // Flatten to local Y plane
+            localDir.y = 0f;
+            if (localDir.sqrMagnitude < 0.0001f)
+                return;
+
+            // Desired yaw (local space)
+            float targetYaw = Mathf.Atan2(localDir.x, localDir.z) * Mathf.Rad2Deg;
+
+            // Clamp yaw
+            float clampedYaw = Mathf.Clamp(targetYaw, -headTurnCap, headTurnCap);
+
+            // Smooth rotate
+            float currentYaw = head.localEulerAngles.y;
+            if (currentYaw > 180f) currentYaw -= 360f;
+
+            float newYaw = Mathf.MoveTowards(
+                currentYaw,
+                clampedYaw,
+                headTurnSpeed * Time.deltaTime
+            );
+
+            head.localRotation = Quaternion.Euler(0f, newYaw, 0f);
+            
         }
 
         private void ResetHold()
@@ -110,11 +145,11 @@ namespace Characters
             }
         }
 
-        private void CheckForInteractable()
+        public GameObject GetPlayerLookTarget(LayerMask layers)
         {
-            RaycastHit hit;
             bool hitSomething;
-
+            RaycastHit hit;
+            
             if (useSphereCast)
             {
                 hitSomething = Physics.SphereCast(
@@ -123,7 +158,7 @@ namespace Characters
                     raycastOrigin.forward,
                     out hit,
                     interactRange,
-                    interactableLayer
+                    layers
                 );
             }
             else
@@ -133,19 +168,21 @@ namespace Characters
                     raycastOrigin.forward,
                     out hit,
                     interactRange,
-                    interactableLayer
+                    layers
                 );
             }
+            if (hitSomething) return PhysicsHelper.MainObj(hit.collider);
+            return null;
+        }
 
-            if (hitSomething)
+        private void CheckForInteractable()
+        {
+            GameObject go = GetPlayerLookTarget(interactableLayer);
+
+            if (go)
             {
-                GameObject go = PhysicsHelper.MainObj(hit.collider);
-
-                if (go)
-                {
-                    currentLookTarget = go;
-                    return;
-                }
+                currentLookTarget = go;
+                return;
             }
 
             currentLookTarget = null;
