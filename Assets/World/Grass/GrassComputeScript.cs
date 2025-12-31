@@ -314,15 +314,19 @@ namespace World.Grass
             }
             // get frustum data from the main camera
             cameraOriginalFarPlane = m_MainCamera.farClipPlane;
-            m_MainCamera.farClipPlane = currentPresets.maxDrawDistance;//allow drawDistance control    
+            m_MainCamera.transform.position -= transform.position;
+            m_MainCamera.farClipPlane = currentPresets.maxDrawDistance;//allow drawDistance control   
+            
             GeometryUtility.CalculateFrustumPlanes(m_MainCamera, cameraFrustumPlanes);
             m_MainCamera.farClipPlane = cameraOriginalFarPlane;//revert far plane edit
-
+            m_MainCamera.transform.position += transform.position;
+            
             if (!m_fastMode)
             {
                 BoundsListVis.Clear();
                 m_VisibleIDBuffer.SetData(empty);
                 grassVisibleIDList.Clear();
+                
                 cullingTree.RetrieveLeaves(cameraFrustumPlanes, BoundsListVis, grassVisibleIDList);
                 m_VisibleIDBuffer.SetData(grassVisibleIDList);
             }
@@ -358,6 +362,14 @@ namespace World.Grass
             computesSet.Remove(this);
             m_Initialized = false;
             interactors = Array.Empty<ShaderInteractor>();
+        }
+
+        private void Update()
+        {
+            if (!Application.isPlaying)
+            {
+                Tick();
+            }
         }
 
         // LateUpdate is called after all Update calls

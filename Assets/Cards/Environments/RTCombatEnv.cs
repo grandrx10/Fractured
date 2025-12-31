@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
+using Game.Health;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,6 +13,7 @@ namespace Cards.Environments
     {
         public float health;
         public float maxHealth;
+        private PlayerHealth _healthInstance;
         
         public override void Initialize(PlayerAgent playerAgent)
         {
@@ -21,6 +23,7 @@ namespace Cards.Environments
             });
             health = playerAgent.TotalHealth;
             maxHealth = health;
+            _healthInstance = player.gameObject.AddComponent<PlayerHealth>();
             base.Initialize(playerAgent);
         }
 
@@ -50,6 +53,7 @@ namespace Cards.Environments
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch());
             });
+            Destroy(_healthInstance);
             Debug.Log("Done");
         }
     }

@@ -515,9 +515,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c6380cb16fc8414e8d489a987f7328d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   CurrentEnvironment: {fileID: 0}
   playerAgent: {fileID: 0}
-  newDomainOffset: 1000
+  newDomainOffset: 3000
   sphereEffect: {fileID: 5171707797180430754}
   shaders: {x: 0, y: 0, z: 0, w: 0}
   shaderColor: {x: 3, y: 7, z: 3, w: 1}

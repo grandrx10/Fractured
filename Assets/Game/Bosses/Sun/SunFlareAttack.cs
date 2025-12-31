@@ -13,7 +13,7 @@ namespace Game.Bosses.Cyra
         public float maxDistanceFromBoss = 20f;
         public float dnaSegmentLength = 20f;
         public float dnaHeight = 2f;
-        public int dnaTwists = 3;
+        public float dnaTwists = 3;
 
         public GameObject warningPrefab;
         public float warningRadius = 3f;

@@ -12,7 +12,7 @@ namespace Cards.Core
         [SerializeField] private CardData data;
         public CardVisuals Visuals => data.GetVisuals(this);
         public bool Active { get; private set; }
-        
+        public bool IsTarot => data.collection == CardCollection.TarotTrump;
         public CardTier tier;
         public CardStats stats;
         public List<Behavior> behaviors;

@@ -1,21 +1,46 @@
 ﻿using System.Collections.Generic;
 using Cards.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Cards.Visual
 {
     public class CardInteractionContainer : MonoBehaviour
     {
-        public List<CardDisplayInteractable> cards;
-
-        public virtual void PopulateCards(List<Card> c)
+        protected List<CardDisplayInteractable> CardDisplays = new();
+        protected List<Card> Cards;
+        public RectTransform content;
+        public CardDisplay cardPrefab;
+        
+        public void AssignCardList(List<Card> cards)
         {
-            throw new System.NotImplementedException();
+            Cards = cards;
+            PopulateCards();
+        }
+        
+        public virtual void PopulateCards()
+        {
+            for (int i = 0; i < Cards.Count; i++)
+            {
+                var cc = Instantiate(cardPrefab, content);
+                cc.card = Cards[i];
+                var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
+                hcc.Init(this);
+                CardDisplays.Add(hcc);
+            }
+            RefreshLayout();
         }
 
         public virtual void AddCard(Card card, int position=0)
         {
-            throw new System.NotImplementedException();
+            card.transform.SetParent(transform);
+            var cc = Instantiate(cardPrefab, content);
+            cc.card = card;
+            if (!Cards.Contains(card)) Cards.Add(card);
+            var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
+            hcc.Init(this);
+            cc.transform.SetSiblingIndex(position);
+            CardDisplays.Insert(position, hcc);
         }
 
         public virtual void RefreshLayout()
@@ -38,7 +63,8 @@ namespace Cards.Visual
         
         public virtual bool OnCardRemoved(CardDisplayInteractable card)
         {
-            cards.Remove(card);
+            CardDisplays.Remove(card);
+            Cards.Remove(card.AttachedCard);
             RefreshLayout();
             return true;
         }
