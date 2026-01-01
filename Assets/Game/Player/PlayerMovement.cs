@@ -44,6 +44,15 @@ namespace Characters
         {
             animator.SetTrigger("Throw");
         }
+        
+        public Vector3 GetPositionBelow(float distance)
+        {
+            Ray ray = new Ray(transform.position, Vector3.down);
+            if (Physics.Raycast(ray, out RaycastHit hit, distance, whatIsGround))
+                return hit.point;
+
+            return transform.position;
+        }
 
         private void Update()
         {

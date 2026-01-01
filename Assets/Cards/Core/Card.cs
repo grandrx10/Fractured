@@ -35,7 +35,7 @@ namespace Cards.Core
             behaviors = data.behaviors.ToList();
             
             CreateDefault<IBehaviorUseListener, DefaultUseBehavior>("DefaultUseBehavior");
-            CreateDefault<IBehaviorPostHitListener, DefaultCollideBehavior>("DefaultCollideBehavior");
+            CreateDefault<IBehaviorHitListener, DefaultCollideBehavior>("DefaultCollideBehavior");
             CreateDefault<IBehaviorTurnListener, DefaultCardGameBehavior>("DefaultCardGameBehavior");
             CreateDefault<IBehaviorCombatListener, DefaultHealthBehavior>("DefaultHealthBehavior");
             

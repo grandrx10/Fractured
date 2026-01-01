@@ -6,15 +6,35 @@ namespace Game.Health
     public class PlayerHealth : MonoBehaviour
     {
         public RTCombatEnv env;
+        private bool _initialized;
         void Start()
         {
-            env = FindAnyObjectByType<RTCombatEnv>();
+            if (!_initialized) GlobalWorldManager.OnLoadNewScene += Init;
         }
 
-        // Clamp health whenever it changes
-        public virtual bool TakeDamage(float damage)
+        public void Init(CardEnv environment)
         {
-            return env.TakeDamage(damage);
+            _initialized = true;
+            env = environment as RTCombatEnv;
+            GlobalWorldManager.OnLoadNewScene -= Init;
         }
+        
+        public virtual bool TakeDamage(float damage, GameObject instigator)
+        {
+            return env.TakeDamage(new PlayerDamageData()
+            {
+                Damage = damage,
+                Target = this,
+                Attacker = instigator
+            });
+        }
+    }
+    
+    public struct PlayerDamageData
+    {
+        public float Damage;
+        public PlayerHealth Target;
+        public GameObject Attacker;
+        public bool ForceIframes;
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cards.Environments;
 using UnityEngine;
 
 namespace Game.Bosses
@@ -47,6 +48,12 @@ namespace Game.Bosses
 
         private void Start()
         {
+            GlobalWorldManager.OnLoadNewScene += Init;
+        }
+        
+        private void Init(CardEnv environment)
+        {
+            GlobalWorldManager.OnLoadNewScene -= Init;
             if (phases.Length == 0)
                 return;
 

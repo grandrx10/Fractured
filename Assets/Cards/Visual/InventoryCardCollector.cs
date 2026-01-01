@@ -7,7 +7,7 @@ namespace Cards.Visual
     public class InventoryCardCollector : MonoBehaviour
     {
         public Agent agent;
-
+        public bool hand;
         private void Start()
         {
             foreach (var card in GetComponentsInChildren<Card>())

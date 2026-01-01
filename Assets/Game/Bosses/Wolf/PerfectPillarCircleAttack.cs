@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using UnityEngine;
 using Characters;
 
@@ -34,10 +35,10 @@ namespace Game.Bosses.Wolf
 
         private IEnumerator SpawnCircle()
         {
-            if (pillarPrefab == null || PlayerSingleton.Instance == null)
+            if (pillarPrefab == null)
                 yield break;
 
-            Vector3 playerPos = PlayerSingleton.Instance.GetPositionBelow();
+            Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
             float angleStep = 360f / pillarCount;
 
             for (int i = 0; i < pillarCount; i++)

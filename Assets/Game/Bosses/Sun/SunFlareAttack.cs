@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 using Game.Bosses.Projectiles;
@@ -31,17 +32,14 @@ namespace Game.Bosses.Cyra
         public override void StartAttack(GameObject boss)
         {
             base.StartAttack(boss);
-
-            if (PlayerSingleton.Instance != null)
-            {
-                boss.GetComponent<MonoBehaviour>()
-                    .StartCoroutine(ContinuousSunFlare(boss));
-            }
+            
+            boss.GetComponent<MonoBehaviour>()
+                .StartCoroutine(ContinuousSunFlare(boss));
         }
 
         private IEnumerator ContinuousSunFlare(GameObject boss)
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
                 boss.GetComponent<MonoBehaviour>()
                     .StartCoroutine(SpawnSunFlare(boss));
@@ -52,7 +50,7 @@ namespace Game.Bosses.Cyra
 
         private IEnumerator SpawnSunFlare(GameObject boss)
         {
-            Vector3 playerPos = PlayerSingleton.Instance.GetPositionBelow();
+            Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
 
             // Boss hand / spawn point
             Transform spawnPoint = boss.GetComponent<Boss>()

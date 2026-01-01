@@ -8,6 +8,7 @@ namespace Characters.Player
         public float maxMana;
         public float manaRegen;
         public float speed;
+        public int health;
 
         public static PlayerStats Empty => CreateInstance<PlayerStats>();
         
@@ -17,6 +18,7 @@ namespace Characters.Player
             s.maxMana = a.maxMana + b.maxMana;
             s.manaRegen = a.manaRegen + b.manaRegen;
             s.speed = a.speed + b.speed;
+            s.health = a.health + b.health;
             return s;
         }
     }

@@ -1,36 +1,34 @@
-﻿using Cards;
+﻿using System;
+using Cards;
 using Cards.Core.BehaviorTags;
 using UnityEngine;
 
 namespace Characters.Player
 {
-    public class PlayerStatsHolder : MonoBehaviour
+    [Serializable]
+    public class PlayerStatsHolder
     {
         [SerializeReference] private PlayerStats baseStats;
         private PlayerStats _calculatedStats;
         private PlayerStats _tempStats;
-        private PlayerAgent _playerAgent;
 
         public PlayerStats GetStats()
         {
+            
             return baseStats + _calculatedStats + _tempStats;
         }
-        
-        private void Awake()
-        {
-            _playerAgent = FindFirstObjectByType<PlayerAgent>();
-        }
 
-        public void RecomputeStats()
+        public void RecomputeStats(Agent player)
         {
             _calculatedStats = PlayerStats.Empty;
-            foreach (var card in _playerAgent.hand)
+            foreach (var card in player.hand)
             {
                 foreach (var stats in card.GetAllBehaviors<IBehaviorStatUpdater>())
                 {
                     _calculatedStats += stats.GetStats();
                 }
             }
+            if (!_tempStats) _tempStats = PlayerStats.Empty;
         }
     }
 }

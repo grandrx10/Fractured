@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 
@@ -36,9 +37,9 @@ namespace Game.Bosses.Wolf
             }
 
             NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
-            if (npcCommands != null && PlayerSingleton.Instance != null)
+            if (npcCommands != null)
             {
-                npcCommands.SetLookingAt(PlayerSingleton.Instance.transform);
+                npcCommands.SetLookingAt(OpenWorldEnv.Current.PlayerTransform);
             }
 
             boss.GetComponent<MonoBehaviour>()
@@ -58,7 +59,7 @@ namespace Game.Bosses.Wolf
 
         private IEnumerator FireLoop()
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
                 FireProjectile();
                 yield return new WaitForSeconds(attackInterval);
@@ -68,7 +69,7 @@ namespace Game.Bosses.Wolf
         private void FireProjectile()
         {
             Vector3 spawnPos = spawnPoint.position;
-            Vector3 targetPos = PlayerSingleton.Instance.transform.position;
+            Vector3 targetPos = OpenWorldEnv.Current.PlayerPos;
 
             // Base aim direction
             Vector3 direction = (targetPos - spawnPos).normalized;

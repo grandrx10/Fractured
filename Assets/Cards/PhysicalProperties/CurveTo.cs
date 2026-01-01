@@ -1,3 +1,4 @@
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 
@@ -39,30 +40,9 @@ namespace Cards.PhysicalProperties
         
             // Calculate forward position (after initial forward movement)
             forwardPosition = spawnPosition + spawnForward * initialForwardDistance;
-        
-            // Get player singleton
-            PlayerSingleton player = PlayerSingleton.Instance;
-            if (player == null)
-            {
-                Debug.LogError("PlayerSingleton.Instance not found!");
-                return;
-            }
-
-            // Get interact controller
-            PlayerInteractController pic = player.GetComponent<PlayerInteractController>();
-            if (pic == null)
-            {
-                Debug.LogError("PlayerInteractController not found on PlayerSingleton!");
-                return;
-            }
-
-            // Final target
-            finalTarget = pic.GetCameraRaycastTarget();
-
-            // MidPoint: in front of player toward final target, with height offset
-            Vector3 playerPos = player.transform.position;
-            Vector3 towardTarget = (finalTarget - playerPos).normalized;
-            midPoint = playerPos + towardTarget * midPointDistance + Vector3.up * midPointHeight;
+            
+            Vector3 towardTarget = OpenWorldEnv.Current.PlayerLook;
+            midPoint = OpenWorldEnv.Current.PlayerPos + towardTarget * midPointDistance + Vector3.up * midPointHeight;
         
             // Start with kinematic control
             rb.isKinematic = true;

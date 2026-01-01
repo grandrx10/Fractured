@@ -6,12 +6,12 @@ using Game.Health;
 namespace Cards.Core.Behaviors
 {
     [CreateAssetMenu(fileName = "TouchSummon", menuName = "Behaviors/TouchSummon")]
-    public class TouchSummonBehaviour : Behavior, IBehaviorPostHitListener
+    public class TouchSummonBehaviour : Behavior, IBehaviorHitListener
     {
         [Header("Prefab to Summon")]
         public GameObject prefabToSummon;
 
-        public void Hit(CardEnv env, Agent agent, GameObject target)
+        public void Hit(OpenWorldEnv env, Agent agent, GameObject target)
         {   
             Debug.Log("TOUCH!");
             if (AttachedCard == null)

@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 
@@ -58,8 +59,8 @@ namespace Game.Bosses.Wolf
             }
 
             NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
-            if (npcCommands != null && PlayerSingleton.Instance != null)
-                npcCommands.SetLookingAt(PlayerSingleton.Instance.transform);
+            if (npcCommands != null)
+                npcCommands.SetLookingAt(OpenWorldEnv.Current.PlayerTransform);
 
             MonoBehaviour runner = boss.GetComponent<MonoBehaviour>();
             if (runner != null)
@@ -95,7 +96,7 @@ namespace Game.Bosses.Wolf
 
 private IEnumerator FireLoop(MonoBehaviour runner, Transform bossTransform)
 {
-    while (isActive && PlayerSingleton.Instance != null)
+    while (isActive)
     {
         SpawnPillar(runner, bossTransform); // pass bossTransform
         yield return new WaitForSeconds(attackInterval);
@@ -104,7 +105,7 @@ private IEnumerator FireLoop(MonoBehaviour runner, Transform bossTransform)
 
 private void SpawnPillar(MonoBehaviour runner, Transform bossTransform)
 {
-    if (spawnPoint == null || PlayerSingleton.Instance == null || pillarPrefab == null)
+    if (spawnPoint == null || pillarPrefab == null)
         return;
 
     // Instantiate pillar at the spawn point
@@ -138,7 +139,7 @@ private void SpawnPillar(MonoBehaviour runner, Transform bossTransform)
     Vector3 targetPos = bossTransform.position + randomDir.normalized * distance + Vector3.up * heightOffset;
 
     // Rotate pillar so "up" points to player from the target hover position
-    Vector3 directionToPlayer = (PlayerSingleton.Instance.transform.position - targetPos).normalized;
+    Vector3 directionToPlayer = (OpenWorldEnv.Current.PlayerPos - targetPos).normalized;
     pillar.transform.rotation = Quaternion.FromToRotation(Vector3.up, directionToPlayer);
 
     // Move pillar to targetPos over pillarTravelTime
@@ -166,7 +167,7 @@ private void SpawnPillar(MonoBehaviour runner, Transform bossTransform)
             rb.position = targetPos;
 
             // After delay, launch toward player
-            runner.StartCoroutine(ShootAfterDelay(rb, delayBeforeShoot, PlayerSingleton.Instance.transform.position));
+            runner.StartCoroutine(ShootAfterDelay(rb, delayBeforeShoot, OpenWorldEnv.Current.PlayerPos));
         }
 
         private IEnumerator ShootAfterDelay(Rigidbody rb, float delay, Vector3 playerPos)

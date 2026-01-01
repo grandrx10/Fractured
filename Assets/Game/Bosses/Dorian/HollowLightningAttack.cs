@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using UnityEngine;
 using Characters;
 
@@ -59,13 +60,11 @@ namespace Game.Bosses.Dorian
             {
                 Quaternion initialRotation = spawnPoint.rotation;
 
-                // 🔹 Aim at player immediately
-                if (PlayerSingleton.Instance != null)
-                {
-                    Vector3 dir = PlayerSingleton.Instance.transform.position - spawnPoint.position;
-                    if (dir != Vector3.zero)
-                        initialRotation = Quaternion.LookRotation(dir);
-                }
+
+                Vector3 dir = OpenWorldEnv.Current.PlayerPos - spawnPoint.position;
+                if (dir != Vector3.zero)
+                    initialRotation = Quaternion.LookRotation(dir);
+                
 
                 activeProjectile = Object.Instantiate(
                     projectilePrefab,
@@ -98,9 +97,9 @@ namespace Game.Bosses.Dorian
             if (proj == null || context == null)
                 yield break;
 
-            while (proj != null && PlayerSingleton.Instance != null && isActive)
+            while (proj != null && isActive)
             {
-                Transform playerTransform = PlayerSingleton.Instance.transform;
+                Transform playerTransform = OpenWorldEnv.Current.PlayerTransform;
                 float playerY = playerTransform.position.y;
 
                 Vector3 direction = (playerTransform.position - proj.transform.position).normalized;

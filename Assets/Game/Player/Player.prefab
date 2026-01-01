@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 6004993054620026617}
   - component: {fileID: 3544240627703054989}
   - component: {fileID: 9160348794599522018}
+  - component: {fileID: 2863553929789452979}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -388,6 +389,25 @@ MonoBehaviour:
   playerObj: {fileID: 2060488939423351865}
   rb: {fileID: 7163056067678048503}
   rotationSpeed: 5
+--- !u!114 &2863553929789452979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2883721986354152233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abbe38f389f0f324aba3774c12cfd1db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 8369731385334872107}
+  player: {fileID: 7779007587187811765}
+  originalLookAtPoint: {fileID: 5513085612617730009}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  pullSpeed: 10
 --- !u!1 &4344658441374012731
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +910,6 @@ GameObject:
   - component: {fileID: 2256981193580553519}
   - component: {fileID: 7285095837631070322}
   - component: {fileID: 8696635044982150939}
-  - component: {fileID: 1048625115379337615}
   m_Layer: 9
   m_Name: PlayerObj
   m_TagString: Untagged
@@ -1014,22 +1033,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1048625115379337615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4900658407866886236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97abdf45e5e14bbeb2f8afcc60fdc0ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hand: []
-  deck: []
-  selectedCard: {fileID: 0}
-  offHandCard: {fileID: 0}
 --- !u!1 &5299371967232557730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1271,7 +1274,7 @@ Camera:
   m_GameObject: {fileID: 7129956001561433532}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1476,11 +1479,9 @@ GameObject:
   - component: {fileID: 7779007587187811765}
   - component: {fileID: 7163056067678048503}
   - component: {fileID: 802383673487177519}
-  - component: {fileID: 451360810416511443}
   - component: {fileID: 2074361823588793967}
-  - component: {fileID: 1445567868739458306}
-  - component: {fileID: 152580758364885518}
-  - component: {fileID: 7658400312699198486}
+  - component: {fileID: 451360810416511443}
+  - component: {fileID: 3267625878665347748}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1556,22 +1557,8 @@ MonoBehaviour:
     m_Bits: 65
   groundCheckCollider: {fileID: 1809290387569088553}
   animator: {fileID: 2654903112271777459}
-  agent: {fileID: 1048625115379337615}
+  agent: {fileID: 3267625878665347748}
   orientation: {fileID: 3603662854328374165}
---- !u!114 &451360810416511443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7953851183468556850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c5ce6e3ee4860e4d9d465b7cf48beb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDistanceBetweenNodes: 0.1
-  maxNodes: 500
 --- !u!114 &2074361823588793967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1599,7 +1586,7 @@ MonoBehaviour:
   interactSlider: {fileID: 0}
   showDebugRay: 1
   currentLookTarget: {fileID: 0}
---- !u!114 &1445567868739458306
+--- !u!114 &451360810416511443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1608,17 +1595,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7953851183468556850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abbe38f389f0f324aba3774c12cfd1db, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c5ce6e3ee4860e4d9d465b7cf48beb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 8369731385334872107}
-  player: {fileID: 7779007587187811765}
-  originalLookAtPoint: {fileID: 5513085612617730009}
-  collisionLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  pullSpeed: 10
---- !u!114 &152580758364885518
+  minDistanceBetweenNodes: 0.1
+  maxNodes: 500
+--- !u!114 &3267625878665347748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1627,27 +1609,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7953851183468556850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc02494ccda23da44ac6c8c2a972804e, type: 3}
+  m_Script: {fileID: 11500000, guid: 97abdf45e5e14bbeb2f8afcc60fdc0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  maxRayDistance: 10
-  playerObj: {fileID: 0}
---- !u!114 &7658400312699198486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7953851183468556850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7cd17f7c9b642ba8032b0eb7dc58a71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseStats: {fileID: 11400000, guid: 262ea9b263432c5498210fa1e8199428, type: 2}
+  hand: []
+  deck: []
+  selectedCard: {fileID: 0}
+  offHandCard: {fileID: 0}
+  stats:
+    baseStats: {fileID: 11400000, guid: 262ea9b263432c5498210fa1e8199428, type: 2}
 --- !u!1 &8213091640847989784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1734,7 +1704,7 @@ PrefabInstance:
     - target: {fileID: 1638375528983590548, guid: ea92dfcc94849094bbbb0e03023c2659, type: 3}
       propertyPath: targetAgent
       value: 
-      objectReference: {fileID: 1048625115379337615}
+      objectReference: {fileID: 3267625878665347748}
     - target: {fileID: 1943281285556467098, guid: ea92dfcc94849094bbbb0e03023c2659, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1819,10 +1789,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory
       objectReference: {fileID: 0}
-    - target: {fileID: 6582432362573960881, guid: ea92dfcc94849094bbbb0e03023c2659, type: 3}
-      propertyPath: targetAgent
-      value: 
-      objectReference: {fileID: 1048625115379337615}
     - target: {fileID: 8239775786209889708, guid: ea92dfcc94849094bbbb0e03023c2659, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0

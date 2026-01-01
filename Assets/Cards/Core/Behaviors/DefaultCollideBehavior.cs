@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Cards.Core.Behaviors
 {
     [CreateAssetMenu(fileName = "Collide", menuName = "Behaviors/DefaultCollide")]
-    public class DefaultCollideBehavior: Behavior, IBehaviorPostHitListener
+    public class DefaultCollideBehavior: Behavior, IBehaviorHitListener
     {
-        public void Hit(CardEnv env, Agent agent, GameObject target)
+        public void Hit(OpenWorldEnv env, Agent agent, GameObject target)
         {
             Debug.Log("the card colided");
         }

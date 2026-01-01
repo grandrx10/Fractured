@@ -1,3 +1,4 @@
+using Cards.Environments;
 using UnityEngine;
 using Characters;
 
@@ -81,9 +82,9 @@ public class SoulBall : MonoBehaviour
         // Unparent to move independently
         transform.parent = null;
 
-        if (PlayerSingleton.Instance == null || bossTransform == null) return;
+        if (bossTransform == null) return;
 
-        Vector3 playerPos = PlayerSingleton.Instance.transform.position;
+        Vector3 playerPos = OpenWorldEnv.Current.PlayerPos;
         Vector3 randomOffset = Random.insideUnitSphere * targetRadius;
         randomOffset.y = 0f;
 

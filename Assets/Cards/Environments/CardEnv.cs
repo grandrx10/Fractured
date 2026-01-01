@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Characters.Player;
+using Game.Health;
 using UnityEngine;
 
 namespace Cards.Environments
@@ -20,6 +22,13 @@ namespace Cards.Environments
         public float environmentIntroTime;
         public float environmentIntroRad;
         [SerializeField] private List<Transform> environmentCenters;
+        [HideInInspector] public bool initialized;
+        
+        [HideInInspector] public Agent player;
+        protected PlayerStats CurrentStats;
+        
+        private List<PlayerEffect> _effects = new List<PlayerEffect>();
+        
         private void Start()
         {
             GlobalWorldManager.Instance.Load(this);
@@ -30,10 +39,50 @@ namespace Cards.Environments
             var t = environmentCenters.Find(x => x.name == n);
             return t;
         }
-
-        public virtual void Initialize(PlayerAgent player)
+        
+        public bool TryGetEffect<T>(out T effect) where T : PlayerEffect
         {
-            throw new System.NotImplementedException();
+            var e = _effects.Find(e => e is T);
+            effect = e as T;
+            return e != null;
+        }
+        
+        public bool HasEffect<T>() where T : PlayerEffect
+        {
+            var e = _effects.Find(e => e is T);
+            return e != null;
+        }
+        
+        public void RemoveEffect<T>() where T : PlayerEffect
+        {
+            _effects.RemoveAll(e => e is T);
+        }
+        
+        public T AddEffect<T>() where T : PlayerEffect
+        {
+            if (_effects.Exists(e => e is T && e.Unique)) return null;
+            
+            var effect = gameObject.AddComponent<T>();
+            _effects.Add(effect);
+            return effect;
+        }
+        
+        protected virtual void Update()
+        {
+            foreach (var effect in _effects)
+            {
+                effect.TickEffect(Time.deltaTime);
+            }
+        }
+
+        public virtual void Initialize(PlayerAgent p)
+        {
+            initialized = true;
+            player = p;
+            p.OnStatsUpdate += () =>
+            {
+                CurrentStats = p.stats.GetStats();
+            };
         }
         
         public virtual void Destroy()

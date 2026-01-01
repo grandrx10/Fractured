@@ -39,12 +39,10 @@ namespace Cards.Card_Assets.Fishing.B
 
         public GameObject SpawnRod(Agent player, OpenWorldEnv env, Quaternion rotation)
         {
-            if (fishingRodPrefab == null || PlayerSingleton.Instance == null)
+            if (fishingRodPrefab == null)
                 return null;
 
-            Transform playerTransform = PlayerSingleton.Instance.playerObj != null
-                ? PlayerSingleton.Instance.playerObj.transform
-                : PlayerSingleton.Instance.transform;
+            Transform playerTransform = OpenWorldEnv.Current.PlayerTransform;
 
             Vector3 spawnPos = playerTransform.position;
             Quaternion spawnRot = playerTransform.rotation;
@@ -55,7 +53,7 @@ namespace Cards.Card_Assets.Fishing.B
             spawnedRod.transform.localPosition = Vector3.zero;
             spawnedRod.transform.localRotation = Quaternion.identity;
 
-            Vector3 lookDir = rotation * env.GetPlayerLook();
+            Vector3 lookDir = rotation * env.PlayerLook;
 
             FishingRod rod = spawnedRod.GetComponent<FishingRod>();
             if (rod != null)

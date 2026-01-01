@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using UnityEngine;
 using Game.Bosses;
 using Characters;
@@ -44,13 +45,10 @@ namespace Game.Bosses.Cyra
 
             sunRingRoutine = runner.StartCoroutine(SunRingSpawnRoutine());
             soulBallRoutine = runner.StartCoroutine(SoulBallSpawnRoutine(boss.transform));
-
-            if (PlayerSingleton.Instance != null)
-            {
-                lookAtPlayerRoutine = runner.StartCoroutine(
-                    LookAtPlayerCoroutine(boss.transform)
-                );
-            }
+            
+            lookAtPlayerRoutine = runner.StartCoroutine(
+                LookAtPlayerCoroutine(boss.transform)
+            );
         }
 
         private IEnumerator SunRingSpawnRoutine()
@@ -96,10 +94,10 @@ namespace Game.Bosses.Cyra
 
         private IEnumerator LookAtPlayerCoroutine(Transform bossTransform)
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
                 Vector3 dir =
-                    PlayerSingleton.Instance.transform.position - bossTransform.position;
+                    OpenWorldEnv.Current.PlayerPos - bossTransform.position;
                 dir.y = 0f;
 
                 if (dir.sqrMagnitude > 0.001f)

@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 
@@ -60,8 +61,8 @@ namespace Game.Bosses.Wolf
             }
 
             NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
-            if (npcCommands != null && PlayerSingleton.Instance != null)
-                npcCommands.SetLookingAt(PlayerSingleton.Instance.transform);
+            if (npcCommands != null)
+                npcCommands.SetLookingAt(OpenWorldEnv.Current.PlayerTransform);
 
             // Make boss face forward (its own local forward)
             boss.transform.forward = movePoint.forward;
@@ -101,7 +102,7 @@ namespace Game.Bosses.Wolf
 
         private IEnumerator FireLoop(MonoBehaviour runner)
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
                 // Calculate random offset
                 Vector3 offset = new Vector3(

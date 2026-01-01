@@ -31,7 +31,7 @@ namespace Game.Bosses.Dorian
 
         private IEnumerator AttackSequence(GameObject boss)
         {
-            if (!isActive || PlayerSingleton.Instance == null)
+            if (!isActive)
                 yield break;
 
             // Spawn warning at boss position

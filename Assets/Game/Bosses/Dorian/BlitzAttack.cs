@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 using Game.Bosses.Projectiles;
@@ -32,7 +33,7 @@ namespace Game.Bosses.Dorian
         {
             base.StartAttack(boss);
 
-            if (PlayerSingleton.Instance == null || lineRendererPrefab == null)
+            if (lineRendererPrefab == null)
                 return;
 
             GameObject lineObj = Object.Instantiate(lineRendererPrefab);
@@ -60,10 +61,8 @@ namespace Game.Bosses.Dorian
             // -------------------------------
             for (int i = 0; i < warningCount && isActive; i++)
             {
-                if (PlayerSingleton.Instance == null)
-                    break;
 
-                Vector3 playerPos = PlayerSingleton.Instance.GetPositionBelow();
+                Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
 
                 Vector3 warningPos;
                 int attempts = 0;

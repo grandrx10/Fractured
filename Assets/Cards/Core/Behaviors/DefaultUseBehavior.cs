@@ -30,7 +30,7 @@ namespace Cards.Core.Behaviors
         {
             var p = player.transform.position;
             var pLook = rotation * player.transform.forward;
-            var d = rotation * env.GetPlayerLook();
+            var d = rotation * env.PlayerLook;
             var c = Instantiate(cardPrefab, p, Quaternion.LookRotation(d));
             c.card = AttachedCard;
             c.InitState = new PhysicalObject.PhysicalInitState()

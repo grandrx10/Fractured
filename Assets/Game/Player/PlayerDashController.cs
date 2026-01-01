@@ -19,22 +19,6 @@ public class PlayerDashController : MonoBehaviour
     /// </summary>
     private Vector3 GetInputDirection()
     {
-        if (Characters.PlayerSingleton.Instance == null)
-        {
-            Debug.LogWarning("PlayerDashController: PlayerSingleton not found!");
-            return Vector3.forward; // fallback
-        }
-
-        // Get the camera's forward direction from the PlayerInteractController
-        Characters.PlayerInteractController interactController = 
-            Characters.PlayerSingleton.Instance.GetComponent<Characters.PlayerInteractController>();
-
-        if (interactController == null)
-        {
-            Debug.LogWarning("PlayerDashController: PlayerInteractController not found!");
-            return Vector3.forward; // fallback
-        }
-
         // Use main camera if raycastOrigin is not accessible
         Transform cameraTransform = Camera.main.transform;
 

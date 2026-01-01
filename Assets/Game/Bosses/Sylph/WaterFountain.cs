@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using Game.Bosses.Projectiles;
 using UnityEngine;
@@ -26,9 +27,9 @@ namespace Game.Bosses.Sylph
             base.StartAttack(boss);
 
             NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
-            if (npcCommands != null && PlayerSingleton.Instance != null)
+            if (npcCommands != null)
             {
-                npcCommands.SetLookingAt(PlayerSingleton.Instance.transform);
+                npcCommands.SetLookingAt(OpenWorldEnv.Current.PlayerTransform);
             }
 
             var runner = boss.GetComponent<RoutineRunner>();
@@ -44,9 +45,9 @@ namespace Game.Bosses.Sylph
 
         private IEnumerator FountainRoutine(GameObject boss, RoutineRunner runner, NpcCommands npcCommands)
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
-                Vector3 basePos = PlayerSingleton.Instance.GetPositionBelow();
+                Vector3 basePos = OpenWorldEnv.Current.GetBossTargetGrounded();
 
                 // Random point around player
                 Vector2 offset = Random.insideUnitCircle * spawnRadius;
