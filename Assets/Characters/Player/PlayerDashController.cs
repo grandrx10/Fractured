@@ -22,7 +22,7 @@ public class PlayerDashController : MonoBehaviour
         if (Characters.PlayerSingleton.Instance == null)
         {
             Debug.LogWarning("PlayerDashController: PlayerSingleton not found!");
-            return Vector3.zero;
+            return Vector3.forward; // fallback
         }
 
         // Get the camera's forward direction from the PlayerInteractController
@@ -32,18 +32,17 @@ public class PlayerDashController : MonoBehaviour
         if (interactController == null)
         {
             Debug.LogWarning("PlayerDashController: PlayerInteractController not found!");
-            return Vector3.zero;
+            return Vector3.forward; // fallback
         }
 
-        // Get the actual camera transform (raycastOrigin from PlayerInteractController)
-        // If raycastOrigin is not accessible, fall back to Camera.main
+        // Use main camera if raycastOrigin is not accessible
         Transform cameraTransform = Camera.main.transform;
 
-        // Get camera forward and right in world space
+        // Camera forward/right
         Vector3 cameraForward = cameraTransform.forward;
         Vector3 cameraRight = cameraTransform.right;
 
-        // Flatten camera directions to XZ plane
+        // Flatten to XZ plane
         cameraForward.y = 0f;
         cameraRight.y = 0f;
         cameraForward.Normalize();
@@ -57,12 +56,15 @@ public class PlayerDashController : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) horizontal -= 1f;
         if (Input.GetKey(KeyCode.D)) horizontal += 1f;
 
-        // Create direction vector on XZ plane, relative to camera orientation
         Vector3 direction = cameraForward * vertical + cameraRight * horizontal;
-        
-        // Normalize to prevent faster diagonal movement
+
+        // Default to forward if no input
+        if (direction == Vector3.zero)
+            direction = cameraForward; // W key forward
+
         return direction.normalized;
     }
+
 
     /// <summary>
     /// Start a dash in the current movement direction based on keyboard input.
