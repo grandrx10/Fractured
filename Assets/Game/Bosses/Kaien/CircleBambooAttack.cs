@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cards.Environments;
 using UnityEngine;
 using Game.Bosses;
 using Characters;
@@ -46,7 +47,7 @@ public class CircleBambooAttack : BossAttack
 
     public override void Tick(GameObject boss)
     {
-        if (!isRunning || PlayerSingleton.Instance == null)
+        if (!isRunning)
             return;
 
         timer += Time.deltaTime;
@@ -59,7 +60,7 @@ public class CircleBambooAttack : BossAttack
 
     private IEnumerator SpawnCircleBamboo()
     {
-        Vector3 playerPos = PlayerSingleton.Instance.GetPositionBelow();
+        Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
 
         int exitStart = Random.Range(0, totalBamboo);
 

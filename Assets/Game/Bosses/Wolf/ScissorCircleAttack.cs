@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using UnityEngine;
 using Characters;
 
@@ -48,7 +49,7 @@ namespace Game.Bosses
             // Run boss movement in parallel
             coroutineRunner.StartCoroutine(MoveTowardPlayer());
 
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
                 yield return ExecuteOneCircle();
             }
@@ -99,9 +100,9 @@ namespace Game.Bosses
 
         private IEnumerator MoveTowardPlayer()
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
-                Vector3 playerPos = PlayerSingleton.Instance.transform.position;
+                Vector3 playerPos = OpenWorldEnv.Current.PlayerPos;
                 Vector3 toPlayer = playerPos - bossTransform.position;
                 toPlayer.y = 0f;
 

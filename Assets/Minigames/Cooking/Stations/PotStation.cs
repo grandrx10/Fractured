@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cards.Environments;
 using Characters;
 using Minigames.Cooking.CookingStuff;
 using Minigames.Cooking.PotionIngrediets;
@@ -126,7 +127,7 @@ namespace Minigames.Cooking.Stations
             if (!potStarted)
                 return;
 
-            Cook cook = PlayerSingleton.Instance.GetComponent<Cook>();
+            Cook cook = OpenWorldEnv.Current.GetComponent<Cook>();
             if (cook == null || cook.heldObject == null)
                 return;
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 
@@ -81,9 +82,7 @@ namespace Game.Bosses.Sylph
             wave.transform.position += offset;
 
             // Get player's position to determine direction
-            Vector3 playerPos = PlayerSingleton.Instance != null
-                ? PlayerSingleton.Instance.GetPositionBelow()
-                : boss.transform.position + boss.transform.forward * 5f;
+            Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
 
             // Calculate direction
             Vector3 direction = (playerPos - bossStartPos).normalized;

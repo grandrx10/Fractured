@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using UnityEngine;
 using Characters;
 using Game.Bosses.Projectiles;
@@ -43,11 +44,11 @@ namespace Game.Bosses.Dorian
             // --------------------------
             // Phase 0: Fast initial rotation (~0.3s)
             // --------------------------
-            if (PlayerSingleton.Instance != null)
+            if (true)
             {
                 float elapsed = 0f;
                 Quaternion startRot = boss.transform.rotation;
-                Vector3 dir = (PlayerSingleton.Instance.GetPositionBelow() - boss.transform.position).normalized;
+                Vector3 dir = (OpenWorldEnv.Current.GetBossTargetGrounded() - boss.transform.position).normalized;
                 Quaternion targetRot = dir != Vector3.zero ? Quaternion.LookRotation(dir) : boss.transform.rotation;
 
                 while (elapsed < initialRotationTime && isActive)
@@ -72,9 +73,9 @@ namespace Game.Bosses.Dorian
             // Phase 1: Charge delay while rotating at rotationSpeed
             // --------------------------
             float chargeElapsed = 0f;
-            while (chargeElapsed < chargeDelay && isActive && PlayerSingleton.Instance != null)
+            while (chargeElapsed < chargeDelay && isActive)
             {
-                Vector3 playerPos = PlayerSingleton.Instance.transform.position;
+                Vector3 playerPos = OpenWorldEnv.Current.PlayerPos;
                 Vector3 dir = (playerPos - boss.transform.position).normalized;
                 if (dir != Vector3.zero)
                 {
@@ -104,9 +105,9 @@ namespace Game.Bosses.Dorian
             }
 
             float laserElapsed = 0f;
-            while (laserElapsed < laserDuration && isActive && PlayerSingleton.Instance != null)
+            while (laserElapsed < laserDuration && isActive)
             {
-                Vector3 playerPos = PlayerSingleton.Instance.transform.position;
+                Vector3 playerPos = OpenWorldEnv.Current.PlayerPos;
                 Vector3 dir = (playerPos - boss.transform.position).normalized;
                 if (dir != Vector3.zero)
                 {

@@ -14,7 +14,7 @@ public class BarrierBehavior : Behavior, IBehaviorUseListener
 
     public bool Use(CardEnv env, Agent agent)
     {
-        var player = PlayerSingleton.Instance;
+        var player = OpenWorldEnv.Current.PlayerTransform;
         if (player == null)
         {
             Debug.LogWarning("BarrierBehavior: PlayerSingleton.Instance is null");
@@ -28,8 +28,8 @@ public class BarrierBehavior : Behavior, IBehaviorUseListener
         }
 
         // Spawn the barrier and parent to the player
-        GameObject barrierInstance = GameObject.Instantiate(barrierPrefab, player.transform.position + localOffset, Quaternion.identity);
-        barrierInstance.transform.SetParent(player.transform);
+        GameObject barrierInstance = Instantiate(barrierPrefab, player.position + localOffset, Quaternion.identity);
+        barrierInstance.transform.SetParent(player);
         return true;
     }
 }

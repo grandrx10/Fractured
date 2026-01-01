@@ -1,3 +1,4 @@
+using Cards.Environments;
 using UnityEngine;
 using Characters;
 
@@ -16,14 +17,7 @@ public class MirrorPuzzle : MonoBehaviour
 
     private void Start()
     {
-        if (PlayerSingleton.Instance != null && PlayerSingleton.Instance.playerObj != null)
-        {
-            player = PlayerSingleton.Instance.playerObj.transform;
-        }
-        else
-        {
-            Debug.LogError("PlayerSingleton or playerObj not found in scene.");
-        }
+        player = OpenWorldEnv.Current.PlayerTransform;
 
         if (mirrorObject != null)
         {

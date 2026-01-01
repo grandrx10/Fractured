@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using Game.Bosses.Projectiles;
 using UnityEngine;
@@ -33,11 +34,10 @@ namespace Game.Bosses.Rock
         public override void Tick(GameObject boss)
         {
             if (!isActive || isJumping) return;
-            if (PlayerSingleton.Instance == null) return;
 
             if (Time.time - lastAttackTime >= cooldown)
             {
-                Vector3 playerPos = PlayerSingleton.Instance.transform.position;
+                Vector3 playerPos = OpenWorldEnv.Current.PlayerPos;
 
                 // Add randomness to target
                 Vector2 randomOffset = Random.insideUnitCircle * targetRadius;
@@ -62,7 +62,7 @@ namespace Game.Bosses.Rock
                 // Smooth rotation
                 NpcCommands npc = boss.GetComponent<NpcCommands>();
                 if (npc != null)
-                    npc.RotateOnceTowards(PlayerSingleton.Instance.transform);
+                    npc.RotateOnceTowards(OpenWorldEnv.Current.PlayerTransform);
 
                 // Start jump
                 boss.GetComponent<MonoBehaviour>().StartCoroutine(JumpParabola(boss, targetPos));

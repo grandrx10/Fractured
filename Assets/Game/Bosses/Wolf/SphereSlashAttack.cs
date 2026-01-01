@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 using Game.Bosses.Projectiles;
@@ -32,7 +33,7 @@ namespace Game.Bosses.Wolf
         {
             MonoBehaviour runner = boss.GetComponent<MonoBehaviour>();
 
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
                 // Fire-and-forget one slash sequence
                 runner.StartCoroutine(SpawnSingleSlash(boss));
@@ -45,7 +46,7 @@ namespace Game.Bosses.Wolf
         private IEnumerator SpawnSingleSlash(GameObject boss)
         {
             // Choose a random position around player
-            Vector3 playerPos = PlayerSingleton.Instance.GetPositionBelow();
+            Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
             Vector2 offset2D = Random.insideUnitCircle * spawnRadius;
             Vector3 targetPos = playerPos + new Vector3(offset2D.x, 0f, offset2D.y);
 

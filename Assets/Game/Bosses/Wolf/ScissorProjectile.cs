@@ -1,6 +1,7 @@
 using UnityEngine;
 using Characters;
 using Cards.Card_Assets.RPS.Behaviors;
+using Cards.Environments;
 
 namespace Game.Bosses
 {
@@ -62,7 +63,7 @@ namespace Game.Bosses
 
         private void FixedUpdate()
         {
-            if (isLaunched && PlayerSingleton.Instance != null)
+            if (isLaunched)
             {
                 HomeTowardsPlayer();
             }
@@ -84,7 +85,7 @@ namespace Game.Bosses
 
         private void HomeTowardsPlayer()
         {
-            Transform player = PlayerSingleton.Instance.transform;
+            Transform player = OpenWorldEnv.Current.PlayerTransform;
             
             // Calculate direction to player
             Vector3 directionToPlayer = (player.position - transform.position).normalized;

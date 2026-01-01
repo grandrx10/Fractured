@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using UnityEngine;
 using Characters;
 using Game.Bosses.Projectiles;
@@ -39,9 +40,9 @@ namespace Game.Bosses.Dorian
 
         private IEnumerator SpawnLoop(MonoBehaviour context)
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
-                Vector3 playerPos = PlayerSingleton.Instance.GetPositionBelow();
+                Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
 
                 // Random horizontal offset around player
                 Vector2 offset = Random.insideUnitCircle * targetRadius;

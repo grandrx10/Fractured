@@ -14,7 +14,7 @@ public class DashBehavior : Behavior, IBehaviorUseListener
 
     public bool Use(CardEnv env, Agent agent)
     {
-        var player = PlayerSingleton.Instance;
+        var player = OpenWorldEnv.Current.PlayerTransform;
         if (player == null) 
         {
             Debug.LogWarning("DashBehavior: PlayerSingleton.Instance is null");

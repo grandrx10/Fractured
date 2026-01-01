@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using Game.Bosses;
 using Game.Bosses.Projectiles;
@@ -33,7 +34,6 @@ namespace Game.Bosses.Rock
         public float warningDuration = 0.5f;
 
         private Transform bossTransform;
-        private Transform playerTransform;
 
         private Transform headTransform;
         private Transform headOutTransform;
@@ -51,7 +51,6 @@ namespace Game.Bosses.Rock
             base.StartAttack(boss);
 
             bossTransform = boss.transform;
-            playerTransform = PlayerSingleton.Instance.transform;
 
             Boss bossComp = boss.GetComponent<Boss>();
 
@@ -110,10 +109,10 @@ namespace Game.Bosses.Rock
                 yield return null;
             }
 
-            while (isActive && playerTransform != null)
+            while (isActive)
             {
                 // Pick random target around player
-                Vector3 playerPos = PlayerSingleton.Instance.GetPositionBelow();
+                Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
                 Vector2 offset = Random.insideUnitCircle * targetRadius;
                 Vector3 targetPos = playerPos + new Vector3(offset.x, 0f, offset.y);
 

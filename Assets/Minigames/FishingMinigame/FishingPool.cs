@@ -1,3 +1,4 @@
+using Cards.Environments;
 using UnityEngine;
 using Characters;
 
@@ -81,15 +82,7 @@ namespace Characters.Interactables
                 return;
             }
 
-            if (PlayerSingleton.Instance == null)
-            {
-                Debug.LogError("FishingPool: PlayerSingleton.Instance is NULL!");
-                return;
-            }
-
-            Transform playerTransform = PlayerSingleton.Instance.playerObj != null
-                ? PlayerSingleton.Instance.playerObj.transform
-                : PlayerSingleton.Instance.transform;
+            Transform playerTransform = OpenWorldEnv.Current.PlayerTransform;
 
             if (playerTransform == null)
             {

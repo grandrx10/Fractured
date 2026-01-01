@@ -1,3 +1,4 @@
+using Cards.Environments;
 using UnityEngine;
 using Game.Bosses;
 
@@ -165,10 +166,7 @@ public class BuildingAttack : BossAttack
 
     private Vector3 GetDirectionTowardsPlayerWithCone(Vector3 spawnPos, float angle)
     {
-        if (Characters.PlayerSingleton.Instance == null)
-            return Vector3.down;
-
-        Transform playerTransform = Characters.PlayerSingleton.Instance.transform;
+        Transform playerTransform = OpenWorldEnv.Current.PlayerTransform;
         Vector3 baseDir = (playerTransform.position - spawnPos).normalized;
         return RandomConeDirection(baseDir, angle);
     }

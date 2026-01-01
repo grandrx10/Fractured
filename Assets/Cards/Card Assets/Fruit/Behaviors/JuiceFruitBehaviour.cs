@@ -5,6 +5,7 @@ using Cards;
 using UnityEngine;
 using Utils;
 using Characters;
+using Game.Effects;
 
 namespace Cards.Core.Behaviors
 {
@@ -21,13 +22,8 @@ namespace Cards.Core.Behaviors
                 Debug.LogError("Env does not support throwing");
                 return false;
             }
-
-            var player = PlayerSingleton.Instance;
-            if (player == null)
-                return base.Use(env, agent);
-
-            PlayerStatusHolder statusHolder = player.GetComponent<PlayerStatusHolder>();
-            bool isJuiced = statusHolder != null && statusHolder.GetStatus("juiced") > 0f;
+            
+            bool isJuiced = env.HasEffect<JuicedEffect>();
 
             // Temporarily swap prefab if juiced
             PhysicalObject originalPrefab = cardPrefab;
@@ -45,9 +41,9 @@ namespace Cards.Core.Behaviors
             ThrowCard(agent, opEnv, Quaternion.identity);
 
             // Consume juiced status
-            if (isJuiced && statusHolder != null)
+            if (isJuiced)
             {
-                statusHolder.AddStatus("juiced", -statusHolder.GetStatus("juiced"));
+                env.RemoveEffect<JuicedEffect>();
             }
 
             // Restore original prefab

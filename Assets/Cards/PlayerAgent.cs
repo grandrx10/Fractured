@@ -13,8 +13,22 @@ namespace Cards
     {
         public Card offHandCard;
         
-        public PlayerStatsHolder Stats {get; private set;}
+        public PlayerStatsHolder stats;
+        public Action OnStatsUpdate;
 
+        private void Awake()
+        {
+            transform.SetParent(null);
+            DontDestroyOnLoad(gameObject);
+            if (FindObjectsByType<PlayerAgent>(FindObjectsSortMode.None).Length > 1) Destroy(gameObject);
+        }
+
+        public void UpdateStats()
+        {
+            stats.RecomputeStats(this);
+            OnStatsUpdate?.Invoke();
+        }
+        
         public void SetMainHand(Card card)
         {
             if (card == selectedCard) return;
@@ -36,11 +50,6 @@ namespace Cards
             }
             
             selectedCard = card;
-        }
-        
-        private void Awake()
-        {
-            Stats = FindFirstObjectByType<PlayerStatsHolder>();
         }
 
         /*

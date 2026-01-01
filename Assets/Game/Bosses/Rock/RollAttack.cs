@@ -1,3 +1,4 @@
+using Cards.Environments;
 using UnityEngine;
 using Characters;
 using Game.Bosses;
@@ -24,7 +25,7 @@ namespace Game.Bosses.Rock
             base.StartAttack(boss);
 
             bossTransform = boss.transform;
-            playerTransform = PlayerSingleton.Instance.transform;
+            playerTransform = OpenWorldEnv.Current.PlayerTransform;
 
             elapsed = 0f;
             currentSpeed = startSpeed;

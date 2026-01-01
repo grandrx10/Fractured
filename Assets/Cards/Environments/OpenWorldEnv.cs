@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.PhysicalProperties;
 using Characters;
+using Characters.Player;
+using Game.Health;
 using UnityEngine;
 using Utils;
 
@@ -11,20 +14,29 @@ namespace Cards.Environments
 {
     public class OpenWorldEnv: CardEnv
     {
-        [HideInInspector] public Agent player;
+        public static OpenWorldEnv Current => GlobalWorldManager.Instance.CurrentEnvironment as OpenWorldEnv;
         private PlayerInteractController _playerInteract;
         public float mana, maxMana;
         public float minCardDelay = 0.2f;
-        
-        public float manaRegen;
-        [HideInInspector] public bool initialized;
-        
+        protected PlayerMovement PlayerMovement;
         public override void Initialize(PlayerAgent playerAgent)
         {
             player = playerAgent;
             playerAgent.SelectCardAsync(UseCard, 1);
             _playerInteract = FindAnyObjectByType<PlayerInteractController>();
-            initialized = true;
+            base.Initialize(playerAgent);
+            
+            PlayerMovement = playerAgent.GetComponentInParent<PlayerMovement>();
+            playerAgent.OnStatsUpdate += () =>
+            {
+                PlayerMovement.moveSpeed = CurrentStats.speed;
+            };
+            playerAgent.UpdateStats();
+        }
+        
+        public Vector3 GetBossTargetGrounded(float distance = 10f)
+        {
+            return PlayerMovement.GetPositionBelow(distance);
         }
 
         public override void Destroy()
@@ -33,11 +45,11 @@ namespace Cards.Environments
             player.CancelSelection();
         }
 
-        protected virtual void Update()
+        protected override void Update()
         {
             if (!initialized) return;
-            mana += manaRegen * Time.deltaTime;
-            mana = Mathf.Clamp(mana, 0, maxMana);
+            mana += CurrentStats.manaRegen * Time.deltaTime;
+            mana = Mathf.Clamp(mana, 0, CurrentStats.maxMana);
             var ticks = player.selectedCard?.GetAllBehaviors<IBehaviorTickListener>();
             if (ticks != null)
             {
@@ -46,6 +58,7 @@ namespace Cards.Environments
                     t.Tick(this, player);
                 }
             }
+            base.Update();
         }
 
         public CardSubmitState UseCard(Card card)
@@ -67,17 +80,12 @@ namespace Cards.Environments
             
             return CardSubmitState.Failure;
         }
+        
+        public Transform PlayerTransform => player.transform;
+        public Vector3 PlayerPos => (_playerInteract.GetCameraRaycastTarget() - player.transform.position).normalized;
+        
+        public Vector3 PlayerLook => (_playerInteract.GetCameraRaycastTarget() - player.transform.position).normalized;
 
-        public Vector3 GetPlayerLook()
-        {
-            return (_playerInteract.GetCameraRaycastTarget() - player.transform.position).normalized;
-        }
-        
-        public GameObject GetPlayerLookTarget()
-        {
-            return _playerInteract.currentLookTarget;
-        }
-        
         public GameObject GetPlayerLookTarget(LayerMask layers)
         {
             return _playerInteract.GetPlayerLookTarget(layers);

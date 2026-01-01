@@ -1,7 +1,9 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 using Game.Bosses;
+using Minigames.Cooking;
 
 namespace Game.Bosses.Wolf
 {
@@ -61,7 +63,7 @@ namespace Game.Bosses.Wolf
 
         private IEnumerator SpawnLoop()
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
                 SpawnPillar();
                 yield return new WaitForSeconds(spawnInterval);
@@ -70,10 +72,10 @@ namespace Game.Bosses.Wolf
 
         private void SpawnPillar()
         {
-            if (coroutineRunner == null || PlayerSingleton.Instance == null || floorTransform == null)
+            if (coroutineRunner == null || floorTransform == null)
                 return;
 
-            Transform player = PlayerSingleton.Instance.transform;
+            Transform player = OpenWorldEnv.Current.PlayerTransform;
 
             // Random point in radius around player (XZ plane)
             Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;

@@ -87,7 +87,7 @@ namespace Cards.Visual
 
             if (targetAgent is PlayerAgent player)
             {
-                player.Stats.RecomputeStats();
+                player.UpdateStats();
             }
         }
     }

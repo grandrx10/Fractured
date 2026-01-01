@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
@@ -13,27 +14,51 @@ namespace Cards.Environments
     {
         public float health;
         public float maxHealth;
+        public int damageIframes = 30;
+        private int _iframes;
         private PlayerHealth _healthInstance;
         
         public override void Initialize(PlayerAgent playerAgent)
         {
+            base.Initialize(playerAgent);
+            
             playerAgent.GetCards().ForEach(c =>
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
-            health = playerAgent.TotalHealth;
+            health = playerAgent.TotalHealth + CurrentStats.health;
             maxHealth = health;
             _healthInstance = player.gameObject.AddComponent<PlayerHealth>();
-            base.Initialize(playerAgent);
+            _healthInstance.Init(this);
         }
 
-        public bool TakeDamage(float damage)
+        public bool TakeDamage(PlayerDamageData damage)
         {
-            health -= damage;
+            if (_iframes > 0) return false;
+            
+            var listeners = player.GetCards()
+                .SelectMany(c => c.GetAllBehaviors<IBehaviorTakeDamageListener>())
+                .OrderByDescending(b => b.Priority)
+                .ToList();
+            foreach (var l in listeners)
+            {
+                damage = l.Hit(this, player, damage);
+            }
+            health -= Mathf.Max(damage.Damage, 0);
             health = Mathf.Clamp(health, 0, maxHealth);
-            return true;
+            if (damage.Damage > 0 || damage.ForceIframes)
+            {
+                _iframes = damageIframes;
+                return true;
+            }
+            return false;
         }
-        
+
+        private void FixedUpdate()
+        {
+            _iframes--;
+        }
+
         protected override void Update()
         {
             if (!initialized) return;

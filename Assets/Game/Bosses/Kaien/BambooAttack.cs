@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using UnityEngine;
 using Game.Bosses;
 using Characters;
@@ -43,9 +44,6 @@ public class BambooAttack : BossAttack
 
     public override void Tick(GameObject boss)
     {
-        if (PlayerSingleton.Instance == null)
-            return;
-
         timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
@@ -57,7 +55,7 @@ public class BambooAttack : BossAttack
 
     private IEnumerator SpawnWithWarning()
     {
-        Vector3 basePos = PlayerSingleton.Instance.GetPositionBelow();
+        Vector3 basePos = OpenWorldEnv.Current.GetBossTargetGrounded();
 
         Vector2 rand = Random.insideUnitCircle * spreadRadius;
         Vector3 targetPos = basePos + new Vector3(rand.x, 0f, rand.y);

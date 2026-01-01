@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using UnityEngine;
 using Characters; // For PlayerSingleton
 
@@ -32,10 +33,9 @@ namespace Game.Bosses.Cyra
             spawnRoutine = boss.GetComponent<MonoBehaviour>().StartCoroutine(SpawnRoutine(boss.transform));
 
             // Start facing player
-            if (PlayerSingleton.Instance != null)
-            {
-                facePlayerRoutine = boss.GetComponent<MonoBehaviour>().StartCoroutine(FacePlayerRoutine(boss.transform));
-            }
+
+            facePlayerRoutine = boss.GetComponent<MonoBehaviour>().StartCoroutine(FacePlayerRoutine(boss.transform));
+            
         }
 
         private IEnumerator SpawnRoutine(Transform bossTransform)
@@ -84,9 +84,9 @@ namespace Game.Bosses.Cyra
 
         private IEnumerator FacePlayerRoutine(Transform bossTransform)
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
-                Vector3 direction = (PlayerSingleton.Instance.transform.position - bossTransform.position).normalized;
+                Vector3 direction = (OpenWorldEnv.Current.PlayerPos - bossTransform.position).normalized;
                 direction.y = 0f; // only rotate on Y axis
                 if (direction.sqrMagnitude > 0f)
                     bossTransform.forward = direction;

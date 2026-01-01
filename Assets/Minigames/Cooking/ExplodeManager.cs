@@ -1,3 +1,4 @@
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 
@@ -34,19 +35,18 @@ namespace Minigames.Cooking
             Debug.Log($"Explosion spawned at {target.position}");
 
             // Clear the player's hand if holding something
-            if (PlayerSingleton.Instance != null)
-            {
-                Cook cook = PlayerSingleton.Instance.GetComponent<Cook>();
-                if (cook != null && cook.heldObject != null)
-                {
-                    // Unparent and destroy the held object
-                    cook.heldObject.transform.parent = null;
-                    Destroy(cook.heldObject.gameObject);
-                    cook.heldObject = null;
 
-                    Debug.Log("Player's hand cleared due to explosion.");
-                }
+            Cook cook = OpenWorldEnv.Current.player.GetComponent<Cook>();
+            if (cook != null && cook.heldObject != null)
+            {
+                // Unparent and destroy the held object
+                cook.heldObject.transform.parent = null;
+                Destroy(cook.heldObject.gameObject);
+                cook.heldObject = null;
+
+                Debug.Log("Player's hand cleared due to explosion.");
             }
+            
         }
     }
 }

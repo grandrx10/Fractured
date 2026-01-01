@@ -13,6 +13,7 @@ public class GlobalWorldManager : MonoBehaviour
 {
     public static GlobalWorldManager Instance { get; private set; }
     public static event Action OnAfterMove;
+    public static event Action<CardEnv> OnLoadNewScene;
     public float RawTransitionTime { get; private set; }
     public float CurvedTransitionTime => transitionCurve.Evaluate(RawTransitionTime);
     public AnimationCurve transitionCurve;
@@ -50,11 +51,10 @@ public class GlobalWorldManager : MonoBehaviour
         var mpb2 = new MaterialPropertyBlock();
         mpb2.SetFloat("_NoDissolve", 1);
         
-        foreach (var rend in PlayerSingleton.Instance.GetComponentsInChildren<Renderer>())
+        foreach (var rend in FindAnyObjectByType<PlayerAgent>().GetComponentsInChildren<Renderer>())
         {
             rend.SetPropertyBlock(mpb2);
         }
-        
     }
     public void Transition(string newSceneName, Vector3 startPosition, string startName, string tags)
     {
@@ -166,6 +166,7 @@ public class GlobalWorldManager : MonoBehaviour
                 CurrentEnvironment = env;
                 env.Initialize(playerAgent);
                 if (_transitioning) EndTransition();
+                OnLoadNewScene?.Invoke(CurrentEnvironment);
             });
         }
     }
