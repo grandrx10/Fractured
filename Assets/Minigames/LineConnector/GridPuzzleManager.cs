@@ -7,6 +7,7 @@ public class GridPuzzleManager : MonoBehaviour
     public int n = 5;
     public int pairCount = 2;
     public float spacing = 1.2f;
+    public int minDistance = 2;
 
     [Header("Prefabs")]
     public LinePressurePlate platePrefab;
@@ -37,11 +38,7 @@ public class GridPuzzleManager : MonoBehaviour
         for (int x = 0; x < n; x++)
         for (int y = 0; y < n; y++)
         {
-            Vector3 localPos = new Vector3(
-                x * spacing,
-                0f,
-                y * spacing
-            );
+            Vector3 localPos = new Vector3(x * spacing, 0f, y * spacing);
 
             var plate = Instantiate(
                 platePrefab,
@@ -59,32 +56,28 @@ public class GridPuzzleManager : MonoBehaviour
 
     void GeneratePairsSolvable()
     {
-        // Track which cells are occupied by solution paths
         bool[,] occupied = new bool[n, n];
+        HashSet<Vector2Int> reservedDots = new();
 
         for (int i = 0; i < pairCount; i++)
         {
-            // Find a valid path for this pair
-            List<Vector2Int> path = GenerateRandomPath(occupied);
-            
+            List<Vector2Int> path = GenerateRandomPath(occupied, reservedDots);
+
             if (path == null || path.Count < 2)
             {
                 Debug.LogError($"Failed to generate path for pair {i}");
                 continue;
             }
 
-            // Mark path cells as occupied
             foreach (var cell in path)
                 occupied[cell.x, cell.y] = true;
 
-            // Get start and end plates
             Vector2Int startPos = path[0];
-            Vector2Int endPos = path[path.Count - 1];
+            Vector2Int endPos = path[^1];
 
             var start = grid[startPos.x, startPos.y];
             var end = grid[endPos.x, endPos.y];
 
-            // Set up the pair
             start.isDot = true;
             end.isDot = true;
             start.pairId = i;
@@ -99,46 +92,51 @@ public class GridPuzzleManager : MonoBehaviour
                 start = start,
                 end = end
             };
-
-            Debug.Log($"Generated pair {i}: {startPos} -> {endPos} with path length {path.Count}");
         }
     }
 
-    List<Vector2Int> GenerateRandomPath(bool[,] occupied)
+    List<Vector2Int> GenerateRandomPath(bool[,] occupied, HashSet<Vector2Int> reservedDots)
     {
-        int maxAttempts = 100;
-        
+        int maxAttempts = 500;
+
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
-            // Pick random start position that's not occupied
             Vector2Int start = GetRandomUnoccupiedCell(occupied);
             if (start.x == -1) return null;
 
-            // Generate path using random walk
-            List<Vector2Int> path = new List<Vector2Int> { start };
+            List<Vector2Int> path = new() { start };
             bool[,] localOccupied = (bool[,])occupied.Clone();
             localOccupied[start.x, start.y] = true;
 
-            // Random walk for 3-8 steps (or until we get stuck)
-            int targetLength = Random.Range(3, Mathf.Min(9, n * n / pairCount));
-            
+            int targetLength = Random.Range(Mathf.Max(minDistance, 3), Mathf.Min(12, n * n / pairCount));
+
             for (int step = 0; step < targetLength; step++)
             {
-                Vector2Int current = path[path.Count - 1];
-                List<Vector2Int> neighbors = GetUnoccupiedNeighbors(current, localOccupied);
-                
-                if (neighbors.Count == 0)
-                    break; // Dead end
-                
-                // Pick random neighbor
+                Vector2Int current = path[^1];
+                var neighbors = GetUnoccupiedNeighbors(current, localOccupied);
+                if (neighbors.Count == 0) break;
+
                 Vector2Int next = neighbors[Random.Range(0, neighbors.Count)];
                 path.Add(next);
                 localOccupied[next.x, next.y] = true;
             }
 
-            // Valid path if it's at least 2 cells long
-            if (path.Count >= 2)
-                return path;
+            if (path.Count < 2) continue;
+
+            Vector2Int end = path[^1];
+
+            // Check if start and end meet minimum distance requirement
+            int distance = Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y);
+            if (distance < minDistance)
+                continue;
+
+            if (IsAdjacentToAnyDot(start, reservedDots)) continue;
+            if (IsAdjacentToAnyDot(end, reservedDots)) continue;
+
+            reservedDots.Add(start);
+            reservedDots.Add(end);
+
+            return path;
         }
 
         return null;
@@ -146,86 +144,71 @@ public class GridPuzzleManager : MonoBehaviour
 
     Vector2Int GetRandomUnoccupiedCell(bool[,] occupied)
     {
-        List<Vector2Int> available = new List<Vector2Int>();
-        
+        List<Vector2Int> available = new();
+
         for (int x = 0; x < n; x++)
         for (int y = 0; y < n; y++)
-        {
             if (!occupied[x, y])
                 available.Add(new Vector2Int(x, y));
-        }
 
-        if (available.Count == 0)
-            return new Vector2Int(-1, -1);
-
-        return available[Random.Range(0, available.Count)];
+        return available.Count == 0
+            ? new Vector2Int(-1, -1)
+            : available[Random.Range(0, available.Count)];
     }
 
     List<Vector2Int> GetUnoccupiedNeighbors(Vector2Int pos, bool[,] occupied)
     {
-        List<Vector2Int> neighbors = new List<Vector2Int>();
-        Vector2Int[] directions = {
-            new Vector2Int(0, 1),   // up
-            new Vector2Int(0, -1),  // down
-            new Vector2Int(1, 0),   // right
-            new Vector2Int(-1, 0)   // left
-        };
+        List<Vector2Int> neighbors = new();
+        Vector2Int[] dirs = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
 
-        foreach (var dir in directions)
+        foreach (var d in dirs)
         {
-            Vector2Int neighbor = pos + dir;
-            
-            if (neighbor.x >= 0 && neighbor.x < n &&
-                neighbor.y >= 0 && neighbor.y < n &&
-                !occupied[neighbor.x, neighbor.y])
+            Vector2Int npos = pos + d;
+            if (npos.x >= 0 && npos.x < n &&
+                npos.y >= 0 && npos.y < n &&
+                !occupied[npos.x, npos.y])
             {
-                neighbors.Add(neighbor);
+                neighbors.Add(npos);
             }
         }
-
         return neighbors;
+    }
+
+    bool IsAdjacentToAnyDot(Vector2Int pos, HashSet<Vector2Int> dots)
+    {
+        foreach (var d in dots)
+            if (Mathf.Abs(pos.x - d.x) + Mathf.Abs(pos.y - d.y) == 1)
+                return true;
+        return false;
     }
 
     // ---------------- INPUT ----------------
 
     public void OnPlateStepped(LinePressurePlate plate)
     {
-        // Don't allow any input if puzzle is completed
-        if (puzzleCompleted)
-            return;
+        if (puzzleCompleted) return;
 
         if (currentPath == null)
         {
-            if (!plate.isDot)
-                return;
-            
-            // Don't allow starting a path if this pair is already completed
-            if (completedPaths.ContainsKey(plate.pairId))
-            {
-                Debug.Log($"Pair {plate.pairId} is already completed");
-                return;
-            }
-            
-            Debug.Log($"Started path for pair {plate.pairId}");
+            if (!plate.isDot) return;
+            if (completedPaths.ContainsKey(plate.pairId)) return;
+
             StartPath(plate);
             return;
         }
 
         LinePressurePlate last = currentPath.plates[^1];
 
-        if (plate == last)
-            return;
+        if (plate == last) return;
 
         if (!IsAdjacent(last, plate))
         {
-            Debug.Log("Not adjacent - canceling path");
             CancelCurrentPath();
             return;
         }
 
         if (plate.occupied && plate.occupiedByPair != currentPath.pairId)
         {
-            Debug.Log($"Plate occupied by different pair - canceling path");
             CancelCurrentPath();
             return;
         }
@@ -238,7 +221,7 @@ public class GridPuzzleManager : MonoBehaviour
         currentPath = new PathState
         {
             pairId = start.pairId,
-            startPlate = start  // Remember which dot we started from
+            startPlate = start
         };
 
         AddPlateToPath(start);
@@ -249,25 +232,11 @@ public class GridPuzzleManager : MonoBehaviour
         plate.SetOccupied(currentPath.pairId);
         currentPath.plates.Add(plate);
 
-        Debug.Log($"Added plate {plate.gridPos} to path for pair {currentPath.pairId}");
-
-        // Check if we've reached a dot
-        if (plate.isDot)
+        if (plate.isDot &&
+            plate.pairId == currentPath.pairId &&
+            plate != currentPath.startPlate)
         {
-            // Make sure it's the correct pair's endpoint, not a different pair's dot
-            if (plate.pairId != currentPath.pairId)
-            {
-                Debug.Log("Reached wrong pair's dot - canceling path");
-                CancelCurrentPath();
-                return;
-            }
-            
-            // Make sure it's not the dot we started from
-            if (plate != currentPath.startPlate)
-            {
-                Debug.Log("Path completed!");
-                CompletePath();
-            }
+            CompletePath();
         }
     }
 
@@ -282,11 +251,9 @@ public class GridPuzzleManager : MonoBehaviour
 
     void CancelCurrentPath()
     {
-        if (currentPath != null)
-        {
-            currentPath.Reset();
-            currentPath = null;
-        }
+        if (currentPath == null) return;
+        currentPath.Reset();
+        currentPath = null;
     }
 
     // ---------------- VALIDATION ----------------
@@ -302,54 +269,47 @@ public class GridPuzzleManager : MonoBehaviour
         if (completedPaths.Count == pairCount)
         {
             puzzleCompleted = true;
-            Debug.Log("🎉 PUZZLE SOLVED! 🎉");
+            ReleaseAllPlates();
         }
     }
 
-    public bool IsPuzzleCompleted()
+    void ReleaseAllPlates()
     {
-        return puzzleCompleted;
+        float destroyDelay = 3f;
+
+        for (int x = 0; x < n; x++)
+        for (int y = 0; y < n; y++)
+            if (grid[x, y] != null)
+                grid[x, y].ReleaseAndDestroy(destroyDelay);
     }
+
+    public bool IsPuzzleCompleted() => puzzleCompleted;
 
     // ---------------- RESET ----------------
 
     public void ResetPuzzle()
     {
-        // Don't allow reset if puzzle is completed
         if (puzzleCompleted)
         {
-            Debug.Log("Cannot reset - puzzle is completed!");
+            Debug.Log("Cannot reset - puzzle already completed");
             return;
         }
 
-        Debug.Log("Resetting puzzle...");
-        
-        // Cancel any current path
         if (currentPath != null)
         {
             currentPath.Reset();
             currentPath = null;
         }
 
-        // Reset all completed paths
-        foreach (var pathState in completedPaths.Values)
-        {
-            pathState.Reset();
-        }
+        foreach (var p in completedPaths.Values)
+            p.Reset();
+
         completedPaths.Clear();
 
-        // Clear all non-dot plates
         for (int x = 0; x < n; x++)
         for (int y = 0; y < n; y++)
-        {
-            var plate = grid[x, y];
-            if (plate != null && !plate.isDot)
-            {
-                plate.Clear();
-            }
-        }
-
-        Debug.Log("Puzzle reset complete!");
+            if (grid[x, y] != null && !grid[x, y].isDot)
+                grid[x, y].Clear();
     }
 
     // ---------------- COLORS ----------------
@@ -367,8 +327,6 @@ public class GridPuzzleManager : MonoBehaviour
     Color GenerateColor(int pairId)
     {
         float h = (pairId * 0.6180339887f) % 1f;
-        float s = 0.75f;
-        float v = 0.9f;
-        return Color.HSVToRGB(h, s, v);
+        return Color.HSVToRGB(h, 0.75f, 0.9f);
     }
 }

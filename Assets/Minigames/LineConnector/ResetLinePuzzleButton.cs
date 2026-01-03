@@ -6,14 +6,13 @@ public class PuzzleResetButton : Interactable
     [Header("Reset Button Settings")]
     [SerializeField] private GridPuzzleManager puzzleManager;
     
-    [Header("Press Animation")]
-    [SerializeField] private Transform buttonTransform;
-    [SerializeField] private float pressDepth = 0.1f;
-    [SerializeField] private float pressSpeed = 10f;
+    [Header("Visual Feedback")]
+    [SerializeField] private Renderer buttonRenderer;
+    [SerializeField] private Color normalColor = Color.red;
+    [SerializeField] private Color pressedColor = Color.yellow;
+    [SerializeField] private float pressAnimationDuration = 0.2f;
     
-    private Vector3 originalPosition;
-    private Vector3 pressedPosition;
-    private bool isPressed = false;
+    private Material buttonMaterial;
     private bool isAnimating = false;
 
     private void Start()
@@ -29,12 +28,13 @@ public class PuzzleResetButton : Interactable
             return;
         }
 
-        // Set up button transform
-        if (buttonTransform == null)
-            buttonTransform = transform;
-
-        originalPosition = buttonTransform.localPosition;
-        pressedPosition = originalPosition + Vector3.down * pressDepth;
+        // Set up button material
+        if (buttonRenderer != null)
+        {
+            buttonMaterial = new Material(buttonRenderer.material);
+            buttonRenderer.material = buttonMaterial;
+            buttonMaterial.color = normalColor;
+        }
     }
 
     public override void Interact(GameObject player)
@@ -42,17 +42,11 @@ public class PuzzleResetButton : Interactable
         if (!canInteract || isAnimating)
             return;
 
-        // Check if puzzle is already completed
-        if (puzzleManager.IsPuzzleCompleted())
-        {
-            Debug.Log("Puzzle is already completed - reset button disabled");
-            return;
-        }
-
         Debug.Log("Resetting puzzle...");
         
-        // Press animation
-        StartCoroutine(PressAnimation());
+        // Visual feedback
+        if (buttonRenderer != null)
+            StartCoroutine(PressAnimation());
         
         // Reset the puzzle
         puzzleManager.ResetPuzzle();
@@ -63,33 +57,18 @@ public class PuzzleResetButton : Interactable
         isAnimating = true;
         
         // Press down
-        isPressed = true;
-        while (Vector3.Distance(buttonTransform.localPosition, pressedPosition) > 0.001f)
-        {
-            buttonTransform.localPosition = Vector3.Lerp(
-                buttonTransform.localPosition, 
-                pressedPosition, 
-                Time.deltaTime * pressSpeed
-            );
-            yield return null;
-        }
-        buttonTransform.localPosition = pressedPosition;
-        
-        yield return new WaitForSeconds(0.1f);
+        buttonMaterial.color = pressedColor;
+        yield return new WaitForSeconds(pressAnimationDuration);
         
         // Return to normal
-        isPressed = false;
-        while (Vector3.Distance(buttonTransform.localPosition, originalPosition) > 0.001f)
-        {
-            buttonTransform.localPosition = Vector3.Lerp(
-                buttonTransform.localPosition, 
-                originalPosition, 
-                Time.deltaTime * pressSpeed
-            );
-            yield return null;
-        }
-        buttonTransform.localPosition = originalPosition;
+        buttonMaterial.color = normalColor;
         
         isAnimating = false;
+    }
+
+    private void OnDestroy()
+    {
+        if (buttonMaterial != null)
+            Destroy(buttonMaterial);
     }
 }
