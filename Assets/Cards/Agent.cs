@@ -17,7 +17,7 @@ namespace Cards
         private int _cardsRequested;
         public bool CardRequested => _callback != null;
         protected Card RandomCard => hand[Random.Range(0, hand.Count)];
-        public Action<Card> OnAddCard;
+        public Action<Card> OnAddCard, OnRemoveCard;
         public Action<Card> OnUseCard;
         public int TotalHealth => hand.Sum(h => h.stats.health);
         
@@ -49,6 +49,13 @@ namespace Cards
             deck.Add(card);
             OnAddCard?.Invoke(card);
             card.transform.parent = transform;
+        }
+        
+        public void RemoveCard(Card card)
+        {
+            deck.Remove(card);
+            hand.Remove(card);
+            OnRemoveCard?.Invoke(card);
         }
 
         public List<Card> GetCards()

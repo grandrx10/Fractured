@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cards.Card_Assets.General_Behaviors;
 using Characters.Player;
 using Game.Health;
 using UnityEngine;
@@ -87,7 +88,12 @@ namespace Cards.Environments
         
         public virtual void Destroy()
         {
-            throw new System.NotImplementedException();
+            foreach (var card in player.GetCards().
+                         FindAll(c => c.TryGetBehavior(out TemporaryBehavior temp) && !temp.persistent))
+            {
+                player.RemoveCard(card);
+                Destroy(card.gameObject);
+            }
         }
 
         private void OnDrawGizmos()

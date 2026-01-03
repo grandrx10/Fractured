@@ -10,7 +10,17 @@ namespace World.Domain
 
         public void Trigger()
         {
-            GlobalWorldManager.Instance.Transition(domainName, transform.position, domainPoint, domainTag);
+            Trigger(transform.position);
+        }
+        
+        public void TriggerInteract(BaseInteractable __, GameObject _, bool init)
+        {
+            if (!init) Trigger(transform.position);
+        }
+        
+        public void Trigger(Vector3 startPoint)
+        {
+            GlobalWorldManager.Instance.Transition(domainName, startPoint, domainPoint, domainTag);
         }
     }
 }

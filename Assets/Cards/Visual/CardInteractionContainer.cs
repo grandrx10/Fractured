@@ -42,6 +42,14 @@ namespace Cards.Visual
             cc.transform.SetSiblingIndex(position);
             CardDisplays.Insert(position, hcc);
         }
+        
+        public virtual void RemoveCard(Card card)
+        {
+            if (Cards.Contains(card)) Cards.Remove(card);
+            var c = CardDisplays.Find(c => c.AttachedCard == card);
+            if (c != null) CardDisplays.Remove(c);
+            RefreshLayout();
+        }
 
         public virtual void RefreshLayout()
         {

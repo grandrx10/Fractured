@@ -742,6 +742,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8991806161972079500}
   - component: {fileID: 1676729584742642380}
+  - component: {fileID: 7697353345037001635}
   m_Layer: 0
   m_Name: Combat Env
   m_TagString: Untagged
@@ -789,6 +790,22 @@ MonoBehaviour:
   health: 0
   maxHealth: 0
   damageIframes: 30
+  onDeath: {fileID: 7697353345037001635}
+--- !u!114 &7697353345037001635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144740217174136976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6e3fe05f864ac48b9b78ccd9519e7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  domainName: 
+  domainPoint: 
+  domainTag: 
 --- !u!1 &7676634388053963709
 GameObject:
   m_ObjectHideFlags: 0

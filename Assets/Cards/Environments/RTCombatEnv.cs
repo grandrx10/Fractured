@@ -7,6 +7,7 @@ using Cards.Core.BehaviorTags;
 using Game.Health;
 using UnityEngine;
 using UnityEngine.Serialization;
+using World.Domain;
 
 namespace Cards.Environments
 {
@@ -15,6 +16,7 @@ namespace Cards.Environments
         public float health;
         public float maxHealth;
         public int damageIframes = 30;
+        public DomainTrigger onDeath;
         private int _iframes;
         private PlayerHealth _healthInstance;
         
@@ -51,6 +53,11 @@ namespace Cards.Environments
                 _iframes = damageIframes;
                 return true;
             }
+
+            if (health <= 0)
+            {
+                Die();
+            }
             return false;
         }
 
@@ -63,6 +70,11 @@ namespace Cards.Environments
         {
             if (!initialized) return;
             base.Update();
+        }
+
+        public void Die()
+        {
+            onDeath.Trigger(player.transform.position);
         }
 
         public override void Destroy()

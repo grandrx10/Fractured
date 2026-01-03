@@ -43,6 +43,7 @@ namespace Cards.Environments
         {
             StopAllCoroutines();
             player.CancelSelection();
+            base.Destroy();
         }
 
         protected override void Update()

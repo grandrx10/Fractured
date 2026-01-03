@@ -22,6 +22,12 @@ namespace Cards.Visual
                 deckLayout.AddCard(card);
                 tarotLayout.AddCard(card);
             };
+            targetAgent.OnRemoveCard += card =>
+            {
+                deckLayout.RemoveCard(card);
+                handLayout.RemoveCard(card);
+                tarotLayout.RemoveCard(card);
+            };
             handLayout.AssignCardList(targetAgent.hand);
             deckLayout.AssignCardList(targetAgent.deck);
             tarotLayout.AssignCardList(targetAgent.deck);
