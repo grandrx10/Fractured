@@ -49,7 +49,7 @@ public class BuildingAttack : BossAttack
     {
         base.StartAttack(bossGO);
         spawnTimer = 0f;
-
+        Debug.Log("What the");
         bossRef = bossGO.GetComponent<Boss>();
         if (bossRef == null)
             return;
@@ -71,14 +71,14 @@ public class BuildingAttack : BossAttack
             Debug.LogWarning("BuildingAttack: RiseTrigger not found on NamedPoint.");
             return;
         }
-
+        Debug.Log("added for on rise trigger");
         boundTrigger.OnTriggered += OnRiseTriggered;
     }
 
     public override void Tick(GameObject boss)
     {
         spawnTimer += Time.deltaTime;
-
+        // Debug.Log("WE SKIPPED THE STARTING?");
         if (spawnTimer >= spawnInterval)
         {
             spawnTimer = 0f;
@@ -88,6 +88,7 @@ public class BuildingAttack : BossAttack
 
     private void OnRiseTriggered()
     {
+        Debug.Log("Rise Triggered");
         if (bossRef != null)
             bossRef.EndCurrentAttack();
     }

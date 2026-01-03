@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cards.Environments;
 using UnityEngine;
+using System.Collections;
 
 namespace Game.Bosses
 {
@@ -40,8 +41,9 @@ namespace Game.Bosses
         private float delayTimer = 0f;
         private float phaseTimer = 0f;
 
-        private bool waitingForNextAttack = false;
+        private bool waitingForNextAttack = true;
         private bool phaseEndRequested = false;
+        private bool started = false;
 
         // Tracks trigger-once attacks globally (per your current design)
         private HashSet<BossAttack> triggeredOnceAttacks = new HashSet<BossAttack>();
@@ -53,12 +55,19 @@ namespace Game.Bosses
         
         private void Init(CardEnv environment)
         {
+            Debug.Log("Init");
             GlobalWorldManager.OnLoadNewScene -= Init;
             if (phases.Length == 0)
                 return;
-
             StartPhase(0);
         }
+
+        // private IEnumerator StartPhaseAfterDelay(int phaseIndex)
+        // {   
+        //     yield return new WaitForSeconds(3f);
+        //     StartPhase(phaseIndex);
+        // }
+
 
         private void Update()
         {
@@ -78,6 +87,9 @@ namespace Game.Bosses
             }
 
             if (phase.attacks.Length == 0)
+                return;
+
+            if (!started)
                 return;
 
             BossAttack attack = phase.attacks[currentAttackIndex];
@@ -121,6 +133,7 @@ namespace Game.Bosses
             phaseTimer = 0f;
             phaseEndRequested = false;
             waitingForNextAttack = false;
+            started = true;
 
             BossPhase phase = phases[currentPhaseIndex];
             if (phase.attacks.Length > 0)
@@ -161,7 +174,6 @@ namespace Game.Bosses
             }
 
             attackTimer = 0f;
-            delayTimer = 0f;
             waitingForNextAttack = false;
 
             if (attack.triggerOnce)

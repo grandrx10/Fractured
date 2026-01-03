@@ -13,6 +13,7 @@ namespace Game.Bosses
 
         public virtual void StartAttack(GameObject boss)
         {
+            Debug.Log("This fired...?");
             isActive = true;
         }
 
