@@ -101,6 +101,10 @@ namespace Cards.Environments
             foreach (var v in environmentCenters)
             {
                 Gizmos.DrawWireSphere(v.position, environmentIntroRad);
+#if UNITY_EDITOR
+                UnityEditor.Handles.Label(v.position, v.name);
+                Gizmos.DrawSphere(v.position, 0.05f);
+#endif
             }
         }
     }

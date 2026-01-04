@@ -29,7 +29,7 @@ namespace Game.Bosses.Sylph
                 Debug.LogError("WaveAttack: Wave prefab not assigned!");
                 return;
             }
-
+            SetTrigger(boss, "wave");
             MonoBehaviour mono = boss.GetComponent<MonoBehaviour>();
             if (attackCoroutine != null)
             {
@@ -48,6 +48,7 @@ namespace Game.Bosses.Sylph
                 mono.StopCoroutine(attackCoroutine);
                 attackCoroutine = null;
             }
+            SetTrigger(boss, "next");
         }
 
         private IEnumerator RepeatingWaveAttack(GameObject boss)

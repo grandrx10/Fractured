@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cards;
@@ -21,6 +22,7 @@ public class GlobalWorldManager : MonoBehaviour
     public PlayerAgent playerAgent;
     public float newDomainOffset;
     public GameObject sphereEffect;
+    public Material fadeMaterial;
     
     private bool _transitioning;
     public string TransitionTag { private set; get; }
@@ -31,6 +33,7 @@ public class GlobalWorldManager : MonoBehaviour
     private bool _flipped;
     private Vector3 _startPosition;
     private string _startName;
+    private bool _fade;
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -62,15 +65,46 @@ public class GlobalWorldManager : MonoBehaviour
         _startPosition = startPosition;
         _startName = startName;
         TransitionTag = tags;
-        _ = LoadSceneAsyncWithCallback(newSceneName);
+        _fade = tags.Contains("fade");
+        Debug.Log($"FADE{_fade}");
+        var delay = TextHelper.GetFloatTag(tags, "delay");
+        _ = LoadSceneAsyncWithCallback(newSceneName, delay);
+    }
+
+    public IEnumerator Fade(bool reverse=false, float duration = 1)
+    {
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime / duration;
+            fadeMaterial.SetFloat("_t", reverse? t : 1-t);
+            yield return null;
+        }
+        fadeMaterial.SetFloat("_t", reverse? 1 : 0);
     }
     
-    public async Task LoadSceneAsyncWithCallback(string sceneName)
+    public async Task LoadSceneAsyncWithCallback(string sceneName, float delay)
     {
         _oldScene = SceneManager.GetActiveScene();
         RawTransitionTime = 0;
+        if (_fade) StartCoroutine(Fade());
         
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        
+        op.allowSceneActivation = false;
+        while (op.progress < 0.9f)
+            await Task.Yield();
+        
+        float wait = 0;
+
+        while (wait < delay)
+        {
+            wait += Time.deltaTime;
+            await Task.Yield();
+        }
+        
+        op.allowSceneActivation = true;
+        
         while (!op.isDone)
             await Task.Yield();
         
@@ -120,6 +154,7 @@ public class GlobalWorldManager : MonoBehaviour
         {
             CurrentEnvironment = env;
             env.Initialize(playerAgent);
+            OnLoadNewScene?.Invoke(CurrentEnvironment);
         }
         else
         {
@@ -194,6 +229,7 @@ public class GlobalWorldManager : MonoBehaviour
         }
         
         _ = SceneManager.UnloadSceneAsync(_oldScene);
+        if (_fade) StartCoroutine(Fade(reverse:true));
     }
 
     // Update is called once per frame
@@ -206,6 +242,7 @@ public class GlobalWorldManager : MonoBehaviour
     {
         RenderPipelineManager.beginContextRendering -= Move;
         RenderPipelineManager.endContextRendering -= MoveBack;
+        if (Instance == this) fadeMaterial.SetFloat("_t", 1);
     }
 
     public Vector4 shaders, shaderColor;

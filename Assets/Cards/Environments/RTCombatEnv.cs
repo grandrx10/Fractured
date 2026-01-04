@@ -48,15 +48,14 @@ namespace Cards.Environments
             }
             health -= Mathf.Max(damage.Damage, 0);
             health = Mathf.Clamp(health, 0, maxHealth);
+            if (health <= 0)
+            {
+                Die();
+            }
             if (damage.Damage > 0 || damage.ForceIframes)
             {
                 _iframes = damageIframes;
                 return true;
-            }
-
-            if (health <= 0)
-            {
-                Die();
             }
             return false;
         }

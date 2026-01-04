@@ -12,7 +12,7 @@ namespace Cards.Card_Assets.General_Behaviors
         
         public override string GetDescription()
         {
-            return $"<b>{abilityName}</b>: On Use, throws {ArticleHelper.WithIndefiniteArticle(objectName)}.";
+            return $"<b>{abilityName}</b>: On Use, throws {TextHelper.WithIndefiniteArticle(objectName)}.";
         }
     }
 }

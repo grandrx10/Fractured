@@ -23,5 +23,10 @@ namespace Game.Bosses
         {
             isActive = false;
         }
+
+        public void SetTrigger(GameObject boss, string eventName)
+        {
+            boss.GetComponentInChildren<Animator>().SetTrigger(eventName);
+        }
     }
 }

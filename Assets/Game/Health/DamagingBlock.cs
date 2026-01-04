@@ -6,11 +6,12 @@ namespace Game.Health
 {
     public class DamagingBlock : MonoBehaviour
     {
+        public int damage;
         private void OnCollisionEnter(Collision other)
         {
             if (PhysicsHelper.MainObj(other.collider).TryGetComponent(out PlayerHealth playerHealth))
             {
-                playerHealth.TakeDamage(1, gameObject);
+                playerHealth.TakeDamage(damage, gameObject);
             }
         }
     }

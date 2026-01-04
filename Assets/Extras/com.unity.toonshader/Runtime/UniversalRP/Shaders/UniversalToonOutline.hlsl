@@ -8,6 +8,7 @@
             struct VertexInput {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
+                float3 normal2 : TEXCOORD1;
                 float4 tangent : TANGENT;
                 float2 texcoord0 : TEXCOORD0;
 
@@ -37,7 +38,9 @@
                 float2 Set_UV0 = o.uv0;
                 float4 _Outline_Sampler_var = tex2Dlod(_Outline_Sampler,float4(TRANSFORM_TEX(Set_UV0, _Outline_Sampler),0.0,0));
                 //v.2.0.4.3 baked Normal Texture for Outline
+                v.normal = lerp(v.normal, v.normal2, 1-_OutlineBaked);
                 o.normalDir = UnityObjectToWorldNormal(v.normal);
+                
                 o.tangentDir = normalize( mul( GetObjectToWorldMatrix(), float4( v.tangent.xyz, 0.0 ) ).xyz );
                 o.bitangentDir = normalize(cross(o.normalDir, o.tangentDir) * v.tangent.w);
                 float3x3 tangentTransform = float3x3( o.tangentDir, o.bitangentDir, o.normalDir);

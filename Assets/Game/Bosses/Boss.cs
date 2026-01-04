@@ -42,11 +42,11 @@ namespace Game.Bosses
 
         private bool waitingForNextAttack = false;
         private bool phaseEndRequested = false;
-
+        private bool _initialized;
         // Tracks trigger-once attacks globally (per your current design)
         private HashSet<BossAttack> triggeredOnceAttacks = new HashSet<BossAttack>();
 
-        private void Start()
+        private void Awake()
         {
             GlobalWorldManager.OnLoadNewScene += Init;
         }
@@ -56,15 +56,16 @@ namespace Game.Bosses
             GlobalWorldManager.OnLoadNewScene -= Init;
             if (phases.Length == 0)
                 return;
-
+            _initialized = true;
+            Debug.Log("bos start");
             StartPhase(0);
         }
 
         private void Update()
         {
-            if (phases.Length == 0)
+            if (phases.Length == 0 || !_initialized)
                 return;
-
+        
             BossPhase phase = phases[currentPhaseIndex];
 
             // =========================

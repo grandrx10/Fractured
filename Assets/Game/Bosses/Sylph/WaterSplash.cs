@@ -32,7 +32,7 @@ namespace Game.Bosses.Sylph
         public override void StartAttack(GameObject boss)
         {
             base.StartAttack(boss);
-
+            SetTrigger(boss, "splash");
             // Get spawn transform the same way RockToss does
             spawnPoint = boss.GetComponent<Boss>().GetPointTransform(spawnPointName);
 
@@ -96,6 +96,8 @@ namespace Game.Bosses.Sylph
             {
                 npcCommands.SetLookingAt(null);
             }
+            
+            SetTrigger(boss, "next");
         }
 
         private IEnumerator LerpParabola(GameObject projectile, Rigidbody rb,

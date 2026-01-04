@@ -91,7 +91,5 @@ namespace Cards.Environments
         {
             return _playerInteract.GetPlayerLookTarget(layers);
         }
-        
-        
     }
 }
