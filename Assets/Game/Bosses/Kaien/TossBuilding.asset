@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05dafb76e4af7d64b8462b9bbf0300b7, type: 3}
   m_Name: TossBuilding
   m_EditorClassIdentifier: 
-  attackDuration: 100
+  attackDuration: 10000
   delayAfter: 1
   triggerOnce: 1
   manualSkip: 1
@@ -21,6 +21,7 @@ MonoBehaviour:
   - {fileID: 1316686809228774187, guid: 152ee2693709c4946876028a14c81da3, type: 3}
   - {fileID: 2508459100724795257, guid: 28602b2451f924044a5d64251c58855d, type: 3}
   - {fileID: 9133921693367462048, guid: 6fbdbf42a9cb0434688a51a91338301b, type: 3}
+  spawnCenterPointName: 
   minSpawnRadius: 10
   maxSpawnRadius: 20
   spawnHeightOffset: -4
@@ -33,4 +34,5 @@ MonoBehaviour:
   minMaxScale: 3
   maxMaxScale: 5
   scaleGrowTime: 0.25
+  buildingLifetime: 10
   riseTriggerPointName: TriggerPhase2

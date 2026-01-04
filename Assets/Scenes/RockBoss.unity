@@ -1274,6 +1274,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 802383673487177519, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: moveSpeed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.99061877
@@ -1332,15 +1336,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.459999
+      value: 2.0699997
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.6726341
+      value: 2.6900005
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.4299984
+      value: -7.999998
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1776,11 +1780,9 @@ MonoBehaviour:
   phases:
   - phaseName: Opener
     attacks:
-    - {fileID: 11400000, guid: 38e0ac7fbd5f04942bbfcb53095a1e87, type: 2}
-    - {fileID: 11400000, guid: 2f80250f70437f24193e0bdaf330800a, type: 2}
-    - {fileID: 11400000, guid: 38e0ac7fbd5f04942bbfcb53095a1e87, type: 2}
-    - {fileID: 11400000, guid: 29797f5e348ef284782578e16ad086bc, type: 2}
-    minHealthThreshold: 400
+    - {fileID: 11400000, guid: 30b4ac7f5a2716a4080f8a69665ef963, type: 2}
+    - {fileID: 11400000, guid: 91594734412520b478d3183570c3c47c, type: 2}
+    minHealthThreshold: 0
     phaseTime: 0
   bossHealth: {fileID: 930106251}
   namedPoints:
@@ -1792,6 +1794,8 @@ MonoBehaviour:
     transform: {fileID: 858349017}
   - name: HeadOutRockToss
     transform: {fileID: 889227870}
+  - name: RollRoot
+    transform: {fileID: 116474524}
 --- !u!4 &930106254
 Transform:
   m_ObjectHideFlags: 0

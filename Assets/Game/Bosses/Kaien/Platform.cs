@@ -40,8 +40,6 @@ public class Platform : MonoBehaviour
         originalMaterial = platformRenderer.material;
 
         rb.isKinematic = true;
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
     }
 
     public void Activate()

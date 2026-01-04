@@ -1,7 +1,5 @@
 using Cards.Environments;
 using UnityEngine;
-using Characters;
-using Game.Bosses;
 
 namespace Game.Bosses.Rock
 {
@@ -13,12 +11,21 @@ namespace Game.Bosses.Rock
         public float maxSpeed = 12f;
         public float turnSpeed = 5f;
 
+        [Header("Rolling")]
+        public string rollPointName = "RollRoot";
+        public float rollDegreesPerMeter = 360f;
+
+        [Header("Raycast Settings")]
+        public LayerMask groundMask; // layers considered "ground"
+        public float rayDistance = 2f; // distance to check forward
+
         private float currentSpeed;
         private float elapsed;
         private float lockedY;
 
         private Transform bossTransform;
         private Transform playerTransform;
+        private Transform rollTransform;
 
         public override void StartAttack(GameObject boss)
         {
@@ -27,10 +34,12 @@ namespace Game.Bosses.Rock
             bossTransform = boss.transform;
             playerTransform = OpenWorldEnv.Current.PlayerTransform;
 
+            Boss bossComp = boss.GetComponent<Boss>();
+            if (bossComp != null)
+                rollTransform = bossComp.GetPointTransform(rollPointName);
+
             elapsed = 0f;
             currentSpeed = startSpeed;
-
-            // Lock Y level at attack start
             lockedY = bossTransform.position.y;
         }
 
@@ -42,56 +51,68 @@ namespace Game.Bosses.Rock
             elapsed += Time.deltaTime;
 
             // =========================
-            // Turn toward player (Y-only)
+            // SPEED PROFILE
+            // =========================
+            float t = Mathf.Clamp01(elapsed / attackDuration);
+            if (t <= 0.75f)
+                currentSpeed = Mathf.Lerp(startSpeed, maxSpeed, t / 0.75f);
+            else
+                currentSpeed = Mathf.Lerp(maxSpeed, 0f, (t - 0.75f) / 0.25f);
+
+            currentSpeed = Mathf.Max(0f, currentSpeed);
+
+            // =========================
+            // ROTATION TOWARD PLAYER
             // =========================
             Vector3 toPlayer = playerTransform.position - bossTransform.position;
             toPlayer.y = 0f;
 
             if (toPlayer.sqrMagnitude > 0.001f)
             {
-                Quaternion targetRot = Quaternion.LookRotation(toPlayer.normalized);
-                bossTransform.rotation = Quaternion.Slerp(
-                    bossTransform.rotation,
-                    targetRot,
-                    turnSpeed * Time.deltaTime
-                );
+                Quaternion targetRotation = Quaternion.LookRotation(toPlayer.normalized);
+                
+                // Check if hitting a wall ahead
+                RaycastHit hit;
+                bool hitWall = Physics.Raycast(bossTransform.position, bossTransform.forward, out hit, rayDistance, groundMask);
+                
+                if (hitWall)
+                {
+                    // Instant turn when hitting wall
+                    bossTransform.rotation = targetRotation;
+                }
+                else
+                {
+                    // Smooth turn during normal movement
+                    bossTransform.rotation = Quaternion.RotateTowards(
+                        bossTransform.rotation, 
+                        targetRotation, 
+                        turnSpeed * Time.deltaTime
+                    );
+                }
             }
 
             // =========================
-            // Speed profile
-            // Peak at 75%, stop at end
+            // MOVEMENT
             // =========================
-            float normalizedTime = Mathf.Clamp01(elapsed / attackDuration);
+            Vector3 movement = bossTransform.forward * currentSpeed * Time.deltaTime;
+            bossTransform.position += movement;
+            
+            // Lock Y position
+            bossTransform.position = new Vector3(
+                bossTransform.position.x, 
+                lockedY, 
+                bossTransform.position.z
+            );
 
-            if (normalizedTime <= 0.75f)
+            // =========================
+            // VISUAL ROLLING
+            // =========================
+            if (rollTransform != null && currentSpeed > 0.01f)
             {
-                // Accelerate to max speed
-                float t = normalizedTime / 0.75f;
-                currentSpeed = Mathf.Lerp(startSpeed, maxSpeed, t);
+                float distanceMoved = currentSpeed * Time.deltaTime;
+                float rotationDegrees = distanceMoved * rollDegreesPerMeter;
+                rollTransform.Rotate(Vector3.right, rotationDegrees, Space.Self);
             }
-            else
-            {
-                // Decelerate to full stop
-                float t = (normalizedTime - 0.75f) / 0.25f;
-                currentSpeed = Mathf.Lerp(maxSpeed, 0f, t);
-            }
-
-            currentSpeed = Mathf.Max(0f, currentSpeed);
-
-            // =========================
-            // Move forward
-            // =========================
-            Vector3 move = bossTransform.forward * currentSpeed * Time.deltaTime;
-            Vector3 newPos = bossTransform.position + move;
-
-            // Lock Y
-            newPos.y = lockedY;
-            bossTransform.position = newPos;
-        }
-
-        public override void EndAttack(GameObject boss)
-        {
-            base.EndAttack(boss);
         }
     }
 }
