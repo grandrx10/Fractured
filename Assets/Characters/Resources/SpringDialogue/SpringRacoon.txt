@@ -1,0 +1,409 @@
+SpringTobinOpener
+===
+[Tobin]
+Hello there, Dorian and Ravenna. It's a lovely day, isn't it?
+---
+[Ravenna]
+It's quite... lovely here.
+---
+[Tobin]
+Would you care to have a meal in my restaurant? As always, the food is free.
+---
+[Ravenna]
+Free? How are you going to keep the restaurant running?
+---
+[Tobin]
+The happiness I find in my customers will be more than enough payment.
+---
+[Ravenna]
+I don't think we can...
+---
+[Tobin]
+Please, I insist. It would be the perfect date for you two.
+---
+[Ravenna]
+Date...?
+---
+[Tobin]
+Yes.
+===
+###
+InnerTobinOpener
+===
+[Ravenna]
+Where... where are we?
+---
+[Dorian]
+Something... something happened. We were standing outside the restaurant and then... we... what was it again?
+---
+[Ravenna]
+I... I can't remember either.
+---
+[Tobin]
+Why, you two decided to have a lovely date, with my restaurant as the dine in location!
+---
+[Ravenna]
+Date...?
+---
+[Dorian]
+Well I...
+---
+[Ravenna]
+Dorian, do you want to go on a date with me?
+???
+[Yes]{InnerTobinDate}
+[Something is wrong]{InnerTobinDate}
+===
+###
+InnerTobinDate
+===
+[Dorian]
+I...
+---
+[Dorian]
+I would love to.
+---
+[Ravenna]
+Really?
+---
+[Dorian]
+Yeah, I've always thought that you were really cute.
+---
+[Tobin]
+What would you two lovebirds like for your entree?
+---
+[Ravenna]
+Do you have any worms?
+---
+[Dorian]
+And I'll have some lumpfruit, please.
+---
+[Tobin]
+Of course. I will be back shortly.
+---
+[Ravenna]
+So... a date, huh?
+---
+[Dorian]
+Yeah. A date. I've known you for so long, it's a wonder why we didn't do this sooner.
+---
+[Ravenna]
+Well, I've been waiting for you to ask me, but... years passed and you never spoke up. I was thinking about moving on, but... I suppose I procrastinated too much on that. I tried to drop you hints like crazy!
+---
+[Dorian]
+You call those hints? Ha!
+---
+[Ravenna]
+You wouldn't even know a hint if I kissed you.
+---
+[Dorian]
+I suppose I got the feeling from you.
+---
+[Ravenna]
+Then why didn't you do anything?
+???
+[I was too complacent]{InnerTobinLazy}
+[I was too scared]{InnerTobinScared}
+[You were out of my league]{InnerTobinLeague}
+===
+###
+InnerTobinLazy
+---
+[Dorian]
+I didn't want anything to change. I liked things the way they were. If we messed something up, I may not have gotten to see you again.
+===
+>>InnerTobinContinued
+###
+InnerTobinScared
+===
+[Dorian]
+I was too scared that I'd mess something up, like I always do. If things got bad between us, we might have ended up never seeing each other again.
+===
+>>InnerTobinContinued
+###
+InnerTobinLeague
+===
+[Ravenna]
+Are you kidding me? I'm a complete failure! I couldn't inherit my family's talent, and I was so disappointing that they left me behind!
+---
+[Dorian]
+But you work so hard to pick yourself up despite the disadvantages you were born with. Me on the other hand, I can barely bring myself to lift a finger. I'm chronically lazy.
+---
+[Dorian]
+I was worried that if I dated you, you would become just like me.
+===
+>>InnerTobinContinued
+###
+InnerTobinContinued
+===
+[Ravenna]
+Dorian... No matter what happens, I'll always be your friend.
+---
+[Dorian]
+People always say that, but... can I really believe them? Feelings are something beyond control.
+---
+[Ravenna]
+Well, that doesn't matter anymore, because we're here.
+---
+[Dorian]
+Right. So... What do people ask each other on dates?
+---
+[Ravenna]
+Beats me, I've never been on one. Since you asked me out, why don't you start us off?
+???
+[What's your favourite colour?]{InnerTobinColour}
+[Do you ever miss your family?]{InnerTobinFamily}
+[How do you keep your hair like that?]{InnerTobinHair}
+===
+###
+InnerTobinColour
+===
+[Ravenna]
+Hm, starting of strong, I see.
+---
+[Dorian]
+Sorry, I couldn't think of anything else.
+---
+[Ravenna]
+Ha! No worries. My favourite colour is white.
+---
+[Dorian]
+Oh? Why?
+---
+[Ravenna]
+When white light is shot through a prism, it scatters into the rainbow of colours. It can become any colour it wants, and I want that. It's a shame that no matter how hard I try, I can't do certain things.
+---
+[Ravenna]
+What about you?
+---
+[Dorian]
+It's orange.
+---
+[Ravenna]
+Why is that?
+---
+[Dorian]
+I dunno. I just like it.
+---
+[Ravenna]
+Pffft! Hahahahaha! That's funny.
+===
+>>InnerTobinEntree
+###
+InnerTobinFamily
+===
+[Ravenna]
+I miss them more than anything. When I was with them, I hated them with all my heart. My father was strict and harsh while my mother was colder than ice. Growing up, they punished me a lot, mostly for how I failed at everything I tried.
+---
+[Ravenna]
+I suppose they just wanted to see me succeed, as I was an extension of them. But in the end, they couldn't change who I was. When my sister was born, they switched all their attention to her, and blessed her with a kindess I never knew.
+---
+[Ravenna]
+To say I was jealous is an understatement. I... I wanted to be her so badly.
+---
+[Ravenna]
+And then they left. Just like that.
+---
+[Ravenna]
+I had no one.
+---
+[Dorian]
+Sorry, I didn't mean to bring up bad memories.
+---
+[Ravenna]
+That's alright, life is just a series of memories, isn't it? Remembering the bad ones just makes the good ones all the more better!
+===
+>>InnerTobinEntree
+###
+InnerTobinHair
+===
+[Ravenna]
+My hair? Oh my hair is just naturally this colour, being a raven and all.
+---
+[Ravenna]
+I'll tell you a little secret: I wear this hoodie so i don't have to style my hair. When I drop this hoodie, it goes poof like one of Fenn's berry bushes!
+---
+[Dorian]
+Hah. Can I see?
+---
+[Ravenna]
+No, you silly goose! Not until our third date at least... it makes me look really ugly.
+---
+[Dorian]
+No, I don't think so. You're like 5 times pretty right now, so without the hoodie, it'll be just 2 times pretty, but still pretty.
+---
+[Ravenna]
+Pffft, hahahahah! What are you even saying?
+===
+>>InnerTobinEntree
+###
+InnerTobinEntree
+===
+[Tobin]
+Here's your food. I'm cooking my special pie, so save some stomach for the main course, will you?
+---
+[Dorian]
+Of course, Tobin. Thank you.
+---
+[Ravenna]
+Hey. My turn to ask questions now.
+---
+[Dorian]
+Go for it.
+---
+[Ravenna]
+How long?
+---
+[Dorian]
+I'm sorry?
+---
+[Ravenna]
+How long has it been since you've seen your parents? You almost never talk about them.
+---
+[Dorian]
+They disappeared a decade ago. I don't remember them too well. I don't talk about them because there's not much to talk about.
+---
+[Ravenna]
+Have you never gone looking for them?
+---
+[Dorian]
+I don't think... I don't think I'll ever find them. They left me a note and...
+---
+[Ravenna]
+Dorian, you don't have to talk about them, if you don't want to.
+---
+[Dorian]
+Alright.
+---
+[Ravenna]
+Next question. What do you like about me?
+???
+[Your smile]{InnerTobinSmile}
+[Your intellect]{InnerTobinIntellect}
+[Your uselessness]{InnerTobinUselessness}
+===
+###
+InnerTobinSmile
+===
+[Ravenna]
+You can't even see my smile behind this mask, silly!
+---
+[Dorian]
+I... I don't know why I said that.
+???
+[Where are we?]{InnerTobinEnder}
+===
+###
+InnerTobinIntellect
+===
+[Ravenna]
+Really?
+---
+[Dorian]
+Yeah. You're super smart.
+---
+[Ravenna]
+Super... smart... say... what... what are we doing here?
+???
+[Where are we?]{InnerTobinEnder}
+===
+###
+InnerTobinUselessness
+===
+[Ravenna]
+W-what?
+---
+[Dorian]
+I... I didn't mean that. I don't know why I said that.
+???
+[Where are we?]{InnerTobinEnder}
+===
+###
+InnerTobinEnder
+===
+[Ravenna]
+We went to Tobin's restaurant... then we... we talked to him and...
+---
+[Dorian]
+We're in his domain. He's trapped us.
+---
+[Tobin]
+Why are the two of you in such a hurry? You haven't even had the main course yet!
+---
+[Dorian]
+Why are you doing this? Release us at once.
+---
+[Tobin]
+I'm just trying to cultivate a blossom of love between you two! You deserve it.
+---
+[Ravenna]
+Love is nothing that can be forced. This... this is wrong.
+---
+[Tobin]
+Love can't be forced? Do you know what I would have given to feel the love I once felt again? When I met her, I thought I had gone to heaven. I thought the rest of my life would be as good as our first moment - only to have her torn from me.
+---
+[Tobin]
+I thought she was gone forever... but then, I met her. The one who could bring her back to me. Now, I hear her voice in the back of my head, always. Now, she will never leave me.
+???
+[That is not love. That is obsession]{InnerTobinObsession}
+[Your insane; that is not her, that is delusion]{InnerTobinDelusion}
+===
+###
+InnerTobinObsession
+===
+[Tobin]
+Obsession? All love is obsession! Otherwise, how can you call it real love?
+---
+[Ravenna]
+No. That's wrong. There's a balance to it. A river provides life, but a flood takes it. Snap out of it, Tobin! Think about your daughter!
+===
+###
+InnerTobinDelusion
+===
+[Tobin]
+She is real! Real as it can be! I see her, I hear her, I feel her!
+---
+[Tobin]
+She... she can't be gone. No, no!
+---
+[Ravenna]
+Snap out of it, Tobin! Think about your daughter!
+===
+>>InnerTobinChild
+###
+InnerTobinChild
+===
+[Tobin]
+Right... My child. Kiki. My everything.
+---
+[Tobin]
+She looks just like her mother.
+---
+[Tobin]
+I.....
+---
+[Tobin]
+She's really gone, isn't she? My wife?
+---
+[Ravenna]
+I'm afraid so. Sometimes, we lose the ones we love. We can never go back to the past, so we shouldn't stay trapped in it.
+---
+[Tobin]
+What... what have I been doing? I'm so sorry...
+===
+###
+SpringTobinEnder
+===
+[Tobin]
+What happened to me? It felt like I was sinking in a deep pool. I'm... I'm back. Dorian... Dorian? I thought she took you. 
+---
+[Tobin]
+Kiki. Where's Kiki? I have to take care of her. Thank you for waking me up, but you really shouldn't be here. If you stay for too long, she'll notice you.
+---
+[Ravenna]
+Who?
+---
+[Tobin]
+The Widow. You must go. Now.
+===
+###
