@@ -14,17 +14,19 @@ namespace Cards.Visual
     {
         public Card card;
         public List<CardDisplayPrefab> cardContainers;
-        public bool interactable, hasDepth;
+        public bool interactable, hasDepth, noPreview;
         private int _selectedLink;
         [FormerlySerializedAs("m_TextPopup_RectTransform")] public RectTransform mTextPopupRectTransform;
         [FormerlySerializedAs("m_TextPopup_TMPComponent")] public TextMeshProUGUI mTextPopupTMPComponent;
+        public CardPreview preview;
         private CardDisplayPrefab _cc;
-
+        private CardPreview _currentPreview;
         public Action DisplayClicked;
         void Start()
         {
             var v = card.Visuals;
             var container = cardContainers[(int)v.Style];
+            if (card.GetData() is TarotCardData tarotData) container = tarotData.customDisplay;
             _cc = Instantiate(container, transform);
             _cc.transform.SetAsFirstSibling();
             _cc.transform.localPosition = Vector3.zero;
@@ -35,10 +37,31 @@ namespace Cards.Visual
             _cc.dmg.text = $"{card.stats.strength}";
             _cc.SetFlavor(v.FlavorText);
             _cc.SetDesc(MakeDescription());
+            if (!noPreview) {
+                DisplayClicked += () =>
+                {
+                    _currentPreview = CreatePreview(card);
+                };
+                
+            }
             if (!hasDepth)
             {
                 UIHelper.FlattenChildrenZ(_cc.transform);
             }
+        }
+
+        private void OnDisable()
+        {
+            if (_currentPreview) Destroy(_currentPreview.gameObject);
+        }
+
+        public CardPreview CreatePreview(Card c)
+        {
+            var cardPrev = Instantiate(preview, UIHelper.GetRootCanvas(transform).transform);
+            cardPrev.cardDisplay.card = c;
+            cardPrev.cardDisplay.interactable = true;
+            cardPrev.cardDisplay.hasDepth = true;
+            return cardPrev;
         }
 
         private void LateUpdate()

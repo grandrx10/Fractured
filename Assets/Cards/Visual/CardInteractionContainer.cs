@@ -46,8 +46,19 @@ namespace Cards.Visual
         public virtual void RemoveCard(Card card)
         {
             if (Cards.Contains(card)) Cards.Remove(card);
-            var c = CardDisplays.Find(c => c.AttachedCard == card);
-            if (c != null) CardDisplays.Remove(c);
+            CardDisplayInteractable c = null;
+            foreach (var cc in CardDisplays)
+            {
+                if (ReferenceEquals(cc.AttachedCard, card))
+                {
+                    c = cc;
+                }
+            }
+            if (c != null)
+            {
+                CardDisplays.Remove(c);
+                Destroy(c.gameObject);
+            }
             RefreshLayout();
         }
 

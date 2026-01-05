@@ -5,7 +5,7 @@ namespace Characters.Player
     [CreateAssetMenu(fileName = "New Player Stats", menuName = "Characters/Player Stats")]
     public class PlayerStats : ScriptableObject
     {
-        public float maxMana;
+        public int maxMana;
         public float manaRegen;
         public float speed;
         public int health;

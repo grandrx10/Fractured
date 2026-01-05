@@ -59,8 +59,9 @@ namespace Characters
 
             // If camera is NOT locked → do nothing
             if (!CameraLocked)
+            {
                 return;
-
+            }
             // --- Existing camera movement ---
             Vector3 viewDir = player.position - new Vector3(
                 transform.position.x,

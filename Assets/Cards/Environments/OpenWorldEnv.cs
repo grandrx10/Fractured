@@ -16,7 +16,7 @@ namespace Cards.Environments
     {
         public static OpenWorldEnv Current => GlobalWorldManager.Instance.CurrentEnvironment as OpenWorldEnv;
         private PlayerInteractController _playerInteract;
-        public float mana, maxMana;
+        
         public float minCardDelay = 0.2f;
         protected PlayerMovement PlayerMovement;
         public override void Initialize(PlayerAgent playerAgent)
@@ -51,6 +51,7 @@ namespace Cards.Environments
             if (!initialized) return;
             mana += CurrentStats.manaRegen * Time.deltaTime;
             mana = Mathf.Clamp(mana, 0, CurrentStats.maxMana);
+           
             var ticks = player.selectedCard?.GetAllBehaviors<IBehaviorTickListener>();
             if (ticks != null)
             {

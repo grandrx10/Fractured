@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 0.5
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
@@ -545,6 +545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   interactTime: 0
+  interactText: (E) Interact
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -620,9 +621,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cec3efd91b76854eb6d7a8ec2ac4721, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -673,9 +671,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 914998dd1b86dcb4b983c009e630e538, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -924,7 +919,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0a7381f6a14b24b3125ebb0c70ba5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLight: {fileID: 593258324}
 --- !u!1001 &600429270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1098,9 +1092,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cc6cde98cec5b24f825d3f63dbc5d82, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -1486,9 +1477,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cec3efd91b76854eb6d7a8ec2ac4721, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -1539,9 +1527,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a29e910cdca74694c9815cc94d24810b, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -1997,9 +1982,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 75486609bd669374eb4dc8250003077c, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -2664,9 +2646,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a29e910cdca74694c9815cc94d24810b, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -2901,9 +2880,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 75486609bd669374eb4dc8250003077c, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3061,9 +3037,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 914998dd1b86dcb4b983c009e630e538, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3114,9 +3087,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 1a9b8c8d018c203409393fb5512a7cec, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3162,9 +3132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cc6cde98cec5b24f825d3f63dbc5d82, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3230,9 +3197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 1a9b8c8d018c203409393fb5512a7cec, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
