@@ -75,7 +75,7 @@ namespace Cards.Core
     {
         Standard,
         Tarot,
-        
+        FullText
     }
     
     [Serializable]

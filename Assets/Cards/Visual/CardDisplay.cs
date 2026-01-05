@@ -5,6 +5,7 @@ using Cards.Core.Behaviors;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Cards.Visual
@@ -15,8 +16,8 @@ namespace Cards.Visual
         public List<CardDisplayPrefab> cardContainers;
         public bool interactable, hasDepth;
         private int _selectedLink;
-        public RectTransform m_TextPopup_RectTransform;
-        public TextMeshProUGUI m_TextPopup_TMPComponent;
+        [FormerlySerializedAs("m_TextPopup_RectTransform")] public RectTransform mTextPopupRectTransform;
+        [FormerlySerializedAs("m_TextPopup_TMPComponent")] public TextMeshProUGUI mTextPopupTMPComponent;
         private CardDisplayPrefab _cc;
 
         public Action DisplayClicked;
@@ -28,13 +29,12 @@ namespace Cards.Visual
             _cc.transform.SetAsFirstSibling();
             _cc.transform.localPosition = Vector3.zero;
             _cc.icon.sprite = v.Icon;
-            _cc.title.text = $"{v.Name}";
+            _cc.SetTitle($"{v.Name}");
             _cc.hp.text = $"{card.stats.health}";
             _cc.mp.text = $"{card.stats.mana}";
             _cc.dmg.text = $"{card.stats.strength}";
-            _cc.flavor.text = v.FlavorText;
-            _cc.description.text = MakeDescription();
-            _cc.SetBg(v.Rarity);
+            _cc.SetFlavor(v.FlavorText);
+            _cc.SetDesc(MakeDescription());
             if (!hasDepth)
             {
                 UIHelper.FlattenChildrenZ(_cc.transform);
@@ -50,7 +50,7 @@ namespace Cards.Visual
 
                 if ((linkIndex == -1 && _selectedLink != -1) || linkIndex != _selectedLink)
                 {
-                    m_TextPopup_RectTransform.gameObject.SetActive(false);
+                    mTextPopupRectTransform.gameObject.SetActive(false);
                     _selectedLink = -1;
                 }
 
@@ -66,9 +66,9 @@ namespace Cards.Visual
                     Vector3 worldPointInRectangle;
                     RectTransformUtility.ScreenPointToWorldPointInRectangle(_cc.description.rectTransform, Input.mousePosition, c, out worldPointInRectangle);
                     
-                    m_TextPopup_RectTransform.position = worldPointInRectangle;
-                    m_TextPopup_RectTransform.gameObject.SetActive(true);
-                    m_TextPopup_TMPComponent.text = AbilityDescriptions.GetDescription(linkInfo.GetLinkID());
+                    mTextPopupRectTransform.position = worldPointInRectangle;
+                    mTextPopupRectTransform.gameObject.SetActive(true);
+                    mTextPopupTMPComponent.text = AbilityDescriptions.GetDescription(linkInfo.GetLinkID());
                 }
             }
         }

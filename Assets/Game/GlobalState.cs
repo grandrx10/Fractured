@@ -34,6 +34,7 @@ namespace Game
         // ============================================================
 
         public HashSet<string> events = new HashSet<string>();
+        public Dictionary<string, string> quests = new();
         public Dictionary<string, int> ints = new Dictionary<string, int>();
         public Dictionary<string, string> strs = new Dictionary<string, string>();
         public Dictionary<string, List<int>> tups = new Dictionary<string, List<int>>();
@@ -44,6 +45,9 @@ namespace Game
         public void AddEvent(string name) => events.Add(name);
         public void RemoveEvent(string name) => events.Remove(name);
         public bool HasEvent(string name) => events.Contains(name);
+        public void AddQuest(string key, string value) => quests[key] = value;
+        public bool TryGetQuest(string key, out string value) => quests.TryGetValue(key, out value);
+        public void RemoveQuest(string key) => quests.Remove(key);
 
         // ============================================================
         // INT
@@ -103,6 +107,9 @@ namespace Game
             // EVT (no colon)
             foreach (var evt in events)
                 writer.WriteLine($"EVT -- {evt}");
+            
+            foreach (var qst in quests)
+                writer.WriteLine($"QST -- {qst.Key} : {qst.Value}");
 
             // INT
             foreach (var kv in ints)
@@ -154,7 +161,7 @@ namespace Game
                     }
                     continue;
                 }
-
+                
                 // Everything else has a colon
                 var parts2 = line.Split(new[] { "--", ":" }, StringSplitOptions.None);
                 if (parts2.Length < 3) continue;
@@ -172,6 +179,10 @@ namespace Game
 
                     case "STR":
                         strs[name] = data;
+                        break;
+                    
+                    case "QST":
+                        quests[name] = data;
                         break;
 
                     case "TUP":

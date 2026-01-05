@@ -11,5 +11,11 @@ namespace Cards.Visual
             if (!card.IsTarot) return;
             base.AddCard(card, position);
         }
+
+        public override bool OnCardDropped(CardInteractionContainer source, CardDisplayInteractable card)
+        {
+            if (!card.AttachedCard.IsTarot) return false;
+            return base.OnCardDropped(source, card);
+        }
     }
 }
