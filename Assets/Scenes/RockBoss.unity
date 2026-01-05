@@ -926,6 +926,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationDuration: 0.5
+--- !u!114 &546498439 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 121575625316043635, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+  m_PrefabInstance: {fileID: 604671198}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &565389149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1629,6 +1640,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 797786996}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!224 &802033534 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5862789751986474696, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+  m_PrefabInstance: {fileID: 604671198}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &858349016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,6 +1721,7 @@ GameObject:
   - component: {fileID: 930106251}
   - component: {fileID: 930106250}
   - component: {fileID: 930106255}
+  - component: {fileID: 930106256}
   m_Layer: 8
   m_Name: RockGolem
   m_TagString: Untagged
@@ -1780,8 +1797,10 @@ MonoBehaviour:
   phases:
   - phaseName: Opener
     attacks:
-    - {fileID: 11400000, guid: 30b4ac7f5a2716a4080f8a69665ef963, type: 2}
     - {fileID: 11400000, guid: 91594734412520b478d3183570c3c47c, type: 2}
+    - {fileID: 11400000, guid: 30b4ac7f5a2716a4080f8a69665ef963, type: 2}
+    - {fileID: 11400000, guid: 30b4ac7f5a2716a4080f8a69665ef963, type: 2}
+    - {fileID: 11400000, guid: 30b4ac7f5a2716a4080f8a69665ef963, type: 2}
     minHealthThreshold: 0
     phaseTime: 0
   bossHealth: {fileID: 930106251}
@@ -1828,6 +1847,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00eb18bd46e2d04985fa3d3060a4b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &930106256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930106249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8110847834f645d0b136e0c09eee586b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
 --- !u!1 &985110693
 GameObject:
   m_ObjectHideFlags: 0
@@ -2066,6 +2098,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1213075506}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1249551894 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8256348357588962946, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+  m_PrefabInstance: {fileID: 604671198}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1261140350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2484,17 +2521,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9ac8858e658f8439f1938a3f3e65eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueBox: {fileID: 0}
-  characterNameText: {fileID: 0}
-  characterSpeechText: {fileID: 0}
-  choiceParent: {fileID: 0}
+  dialogueBox: {fileID: 1249551894}
+  characterNameText: {fileID: 2055862237}
+  characterSpeechText: {fileID: 546498439}
+  choiceParent: {fileID: 802033534}
   choicePrefab: {fileID: 9082769651056350315, guid: dfe71c0c3853cc84c978fe9f84e6f6bf, type: 3}
   lettersPerSecond: 30
   dialogueFilePaths:
-  - Dialogue/Cyra
-  characterMappings:
-  - characterName: Cyra
-    characterObject: {fileID: 930106249}
+  - Dialogue/Rock
+  characterMappings: []
   eventHandlerObject: {fileID: 284594244}
 --- !u!4 &1596872124
 Transform:
@@ -2806,6 +2841,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948608392}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2055862237 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6672908464763130422, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+  m_PrefabInstance: {fileID: 604671198}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2074110630
 GameObject:
   m_ObjectHideFlags: 0

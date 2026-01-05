@@ -31,6 +31,9 @@ public class Platform : MonoBehaviour
 
     private bool isActivated = false;
     private bool isInCycle = false;
+    [Header("Permanent Fall")]
+    public bool noRecovery = false;
+
 
     private void Awake()
     {
@@ -102,11 +105,15 @@ public class Platform : MonoBehaviour
 
         yield return new WaitForSeconds(7f);
 
+        if (noRecovery)
+            yield break;
+
         ResetPhysics();
         yield return StartCoroutine(ReturnToStart());
 
         platformRenderer.material = originalMaterial;
         isInCycle = false;
+
     }
 
     /* =======================
@@ -129,11 +136,15 @@ public class Platform : MonoBehaviour
 
         yield return new WaitForSeconds(7f);
 
+        if (noRecovery)
+            yield break;
+
         ResetPhysics();
         yield return StartCoroutine(ReturnToStart());
 
         platformRenderer.material = originalMaterial;
         isInCycle = false;
+
     }
 
     /* =======================
@@ -180,10 +191,24 @@ public class Platform : MonoBehaviour
         StartCoroutine(FallRoutineImmediate(hits[0].transform));
     }
 
+    public void ForcePermanentFall()
+    {
+        if (isInCycle)
+            return;
+
+        noRecovery = true;
+        isActivated = true;
+        isInCycle = true;
+
+        StopAllCoroutines();
+        StartCoroutine(FallRoutineDelayed());
+    }
+
+
     private void ResetPhysics()
     {
         rb.isKinematic = true;
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+        // rb.linearVelocity = Vector3.zero;
+        // rb.angularVelocity = Vector3.zero;
     }
 }

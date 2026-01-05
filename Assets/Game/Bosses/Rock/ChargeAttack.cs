@@ -4,7 +4,7 @@ using Game.Bosses.Projectiles;
 
 namespace Game.Bosses
 {
-    [CreateAssetMenu(menuName = "BossAttacks/Common/ChargeAttack")]
+    [CreateAssetMenu(menuName = "BossAttacks/Rock/ChargeAttack")]
     public class ChargeAttack : BossAttack
     {
         [Header("Charge-Up Facing")]
