@@ -4,14 +4,14 @@ public class GlobalLightLerp : MonoBehaviour
 {
     public static GlobalLightLerp Instance;
 
-    [Header("This light's properties")]
-    public Light targetLight;
+    private Light targetLight;
 
     private LightProperties? fromProperties;
     private LightProperties? toProperties;
 
     private void Awake()
     {
+        targetLight = GetComponent<Light>();
         if (Instance != null && Instance != this)
         {
             Instance.StartLerpToNewLight(this.targetLight);

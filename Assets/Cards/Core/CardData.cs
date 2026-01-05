@@ -12,12 +12,10 @@ namespace Cards.Core
         public new string name;
         public string flavorText;
         public CardCollection collection;
-        public CardRarity rarity;
         public CardStyle style;
         public Sprite icon;
         // only for initialization!!!!
         public CardStats stats;
-        public CardTier tier;
         public List<Behavior> behaviors;
         public virtual CardVisuals GetVisuals(Card baseCard)
         {
@@ -26,7 +24,6 @@ namespace Cards.Core
                 Name = name,
                 FlavorText = flavorText,
                 Style = style,
-                Rarity = rarity,
                 Icon = icon,
                 CollectionName = GetCollectionName(collection),
             };
@@ -54,6 +51,8 @@ namespace Cards.Core
                     return "Elements";
                 case CardCollection.Common:
                     return "Common";
+                case CardCollection.Books:
+                    return "Books";
                 default:
                     return "huh";
             }
@@ -66,7 +65,6 @@ namespace Cards.Core
         public string FlavorText;
         public string CollectionName;
         public CardStyle Style;
-        public CardRarity Rarity;
         public Sprite Icon;
     }
     
@@ -75,7 +73,8 @@ namespace Cards.Core
     {
         Standard,
         Tarot,
-        
+        FullText,
+        FullSprite
     }
     
     [Serializable]
@@ -89,7 +88,8 @@ namespace Cards.Core
         Fruits,
         SetTheory,
         Elements,
-        Common
+        Common,
+        Books
     }
 
     [Serializable]

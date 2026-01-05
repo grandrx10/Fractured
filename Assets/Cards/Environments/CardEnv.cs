@@ -25,7 +25,10 @@ namespace Cards.Environments
         [SerializeField] private List<Transform> environmentCenters;
         [HideInInspector] public bool initialized;
         
-        [HideInInspector] public Agent player;
+        [SerializeField] private DiscreteContainer manaDisplay;
+        public float mana;
+        
+        [HideInInspector] public PlayerAgent player;
         protected PlayerStats CurrentStats;
         
         private List<PlayerEffect> _effects = new List<PlayerEffect>();
@@ -74,26 +77,32 @@ namespace Cards.Environments
             {
                 effect.TickEffect(Time.deltaTime);
             }
+            manaDisplay.SetMaxValue(CurrentStats.maxMana);
+            manaDisplay.SetValue(mana);
         }
 
         public virtual void Initialize(PlayerAgent p)
         {
             initialized = true;
             player = p;
-            p.OnStatsUpdate += () =>
-            {
-                CurrentStats = p.stats.GetStats();
-            };
+            p.OnStatsUpdate += UpdateStats;
+        }
+
+        private void UpdateStats()
+        {
+            CurrentStats = player.stats.GetStats();
         }
         
         public virtual void Destroy()
         {
-            foreach (var card in player.GetCards().
+            foreach (var card in player.GetAllCards().
                          FindAll(c => c.TryGetBehavior(out TemporaryBehavior temp) && !temp.persistent))
             {
+                Debug.Log($"lost {card.Visuals.Name}");
                 player.RemoveCard(card);
                 Destroy(card.gameObject);
             }
+            player.OnStatsUpdate -= UpdateStats;
         }
 
         private void OnDrawGizmos()

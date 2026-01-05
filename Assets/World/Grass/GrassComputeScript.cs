@@ -89,6 +89,7 @@ namespace World.Grass
         Vector3 m_cachedCamPos;
         Quaternion m_cachedCamRot;
         bool m_fastMode;
+        [SerializeField] private bool noCull;
         int shaderID;
 
         // max buffer size can depend on platform and your draw stride, you may have to change it
@@ -308,18 +309,17 @@ namespace World.Grass
                 return;
             }
             // if the camera didnt move, we dont need to change the culling;
-            if (m_cachedCamRot == m_MainCamera.transform.rotation && m_cachedCamPos == m_MainCamera.transform.position && Application.isPlaying)
+            if (m_cachedCamRot == m_MainCamera.transform.rotation && m_cachedCamPos == m_MainCamera.transform.position + transform.position && Application.isPlaying)
             {
                 return;
             }
             // get frustum data from the main camera
             cameraOriginalFarPlane = m_MainCamera.farClipPlane;
-            m_MainCamera.transform.position -= transform.position;
+            m_MainCamera.transform.position += transform.position;
             m_MainCamera.farClipPlane = currentPresets.maxDrawDistance;//allow drawDistance control   
             
             GeometryUtility.CalculateFrustumPlanes(m_MainCamera, cameraFrustumPlanes);
             m_MainCamera.farClipPlane = cameraOriginalFarPlane;//revert far plane edit
-            m_MainCamera.transform.position += transform.position;
             
             if (!m_fastMode)
             {
@@ -327,13 +327,15 @@ namespace World.Grass
                 m_VisibleIDBuffer.SetData(empty);
                 grassVisibleIDList.Clear();
                 
-                cullingTree.RetrieveLeaves(cameraFrustumPlanes, BoundsListVis, grassVisibleIDList);
+                cullingTree.RetrieveLeaves(cameraFrustumPlanes, BoundsListVis, grassVisibleIDList, noCull);
                 m_VisibleIDBuffer.SetData(grassVisibleIDList);
             }
 
             // cache camera position to skip culling when not moved
             m_cachedCamPos = m_MainCamera.transform.position;
             m_cachedCamRot = m_MainCamera.transform.rotation;
+            
+            m_MainCamera.transform.position -= transform.position;
         }
 
         private void OnDisable()
@@ -398,7 +400,7 @@ namespace World.Grass
             }
             // Update the shader with frame specific data
             SetGrassDataUpdate();
-            
+            //Debug.Log(grassVisibleIDList.Count);
             // Clear the draw and indirect args buffers of last frame's data
             m_DrawBuffer.SetCounterValue(0);
             m_ArgsBuffer.SetData(argsBufferReset);
@@ -413,7 +415,9 @@ namespace World.Grass
                 // Dispatch the grass shader. It will run on the GPU
                 m_InstantiatedComputeShader.Dispatch(m_IdGrassKernel, m_DispatchSize, 1, 1);
                 // DrawProceduralIndirect queues a draw call up for our generated mesh
-                Graphics.DrawProceduralIndirect(m_InstantiatedMaterial, bounds, MeshTopology.Triangles,
+                Bounds b = bounds;
+                b.center += transform.position;
+                Graphics.DrawProceduralIndirect(m_InstantiatedMaterial, b, MeshTopology.Triangles,
                     m_ArgsBuffer, 0, null, _mpb, currentPresets.castShadow, true, gameObject.layer);
             }
         }

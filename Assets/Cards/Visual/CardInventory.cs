@@ -1,5 +1,7 @@
-﻿using Characters;
+﻿using Cards.Core;
+using Characters;
 using UnityEngine;
+using Utils;
 
 namespace Cards.Visual
 {
@@ -11,6 +13,7 @@ namespace Cards.Visual
         public GameObject deckMenu;
         public Agent targetAgent;
         public GameObject cardTab, tarotTab;
+        public CardPreview preview;
         private void Awake()
         {
             handLayout.CardUsed += card =>
@@ -21,6 +24,7 @@ namespace Cards.Visual
             {
                 deckLayout.AddCard(card);
                 tarotLayout.AddCard(card);
+                CreatePreview(card);
             };
             targetAgent.OnRemoveCard += card =>
             {
@@ -31,6 +35,14 @@ namespace Cards.Visual
             handLayout.AssignCardList(targetAgent.hand);
             deckLayout.AssignCardList(targetAgent.deck);
             tarotLayout.AssignCardList(targetAgent.deck);
+        }
+        
+        public void CreatePreview(Card c)
+        {
+            var cardPrev = Instantiate(preview, UIHelper.GetRootCanvas(transform).transform);
+            cardPrev.cardDisplay.card = c;
+            cardPrev.cardDisplay.interactable = true;
+            cardPrev.cardDisplay.hasDepth = true;
         }
         
         public void SwitchCardsTab()
@@ -47,14 +59,16 @@ namespace Cards.Visual
 
         protected virtual void Update()
         {
+            if (!PlayerInteractController.PlayerInputs.IsInputAllowed(InputBlockPrio.Inventory)) return;
+            if (Input.GetKeyDown(KeyCode.Q) && !PlayerInteractController.PlayerInputs.InCombat)
+            {
+                ToggleMenu();
+            }
+            
+            if (!PlayerInteractController.PlayerInputs.IsInputAllowed(InputBlockPrio.StandardInput)) return;
             if (Input.GetMouseButtonDown(0) && targetAgent.CardRequested)
             {
                 handLayout.UseCard();
-            }
-            
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                ToggleMenu();
             }
             
             for (int i = 1; i <= 9; i++)
@@ -79,6 +93,7 @@ namespace Cards.Visual
                 deckMenu.SetActive(false);
                 handLayout.layout = HandLayout.LayoutMode.Hand;
                 handLayout.RefreshLayout();
+                PlayerInteractController.PlayerInputs.RemoveBlocker("Inventory");
                 PlayerCamera.Instance.CursorUnlock -= "Inventory";
             }
             else
@@ -87,7 +102,7 @@ namespace Cards.Visual
                 handLayout.layout = HandLayout.LayoutMode.Inventory;
                 deckLayout.RefreshLayout();
                 handLayout.RefreshLayout();
-                Cursor.lockState = CursorLockMode.None;
+                PlayerInteractController.PlayerInputs.AddBlocker("Inventory", InputBlockPrio.Inventory);
                 PlayerCamera.Instance.CursorUnlock += "Inventory";
             }
 

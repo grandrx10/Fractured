@@ -13,7 +13,6 @@ namespace Cards.Core
         public CardVisuals Visuals => data.GetVisuals(this);
         public bool Active { get; private set; }
         public bool IsTarot => data.collection == CardCollection.TarotTrump;
-        public CardTier tier;
         public CardStats stats;
         public List<Behavior> behaviors;
         private bool _initialized;
@@ -21,6 +20,11 @@ namespace Cards.Core
         {
             data = d;
             Initialize();
+        }
+
+        public CardData GetData()
+        {
+            return data;
         }
         private void Awake()
         {
@@ -30,7 +34,6 @@ namespace Cards.Core
 
         private void Initialize()
         {
-            tier = data.tier;
             stats = data.stats;
             behaviors = data.behaviors.ToList();
             

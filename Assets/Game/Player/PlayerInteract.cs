@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Characters.Interactables;
 using TMPro;
 using UnityEngine;
@@ -26,16 +27,24 @@ namespace Characters
 
         [Header("Debug")]
         [SerializeField] private bool showDebugRay = true;
-        
-        public GameObject currentLookTarget;
 
+        public static InputBlockerManager PlayerInputs = new InputBlockerManager();
+        public GameObject currentLookTarget;
+        
         // Interaction progress
         private float holdTimer = 0f;
         private bool isHolding = false;
-
-        public bool IsLookingAtInteractable =>
-            currentLookTarget && currentLookTarget.TryGetComponent(out Interactable i) && i.canInteract;
-
+        
+        public Interactable LookingAtInteractable
+        {
+            get
+            {
+                if (currentLookTarget && currentLookTarget.TryGetComponent(out Interactable i) &&
+                    i.canInteract) return i;
+                return null;
+            }
+        }
+        
         private void Start()
         {
             if (raycastOrigin == null)
@@ -193,7 +202,19 @@ namespace Characters
 
         private void UpdateUi()
         {
-            if (interactText != null) interactText.gameObject.SetActive(IsLookingAtInteractable);
+            if (interactText != null)
+            {
+                var i = LookingAtInteractable;
+                if (i)
+                {
+                    interactText.gameObject.SetActive(true);
+                    interactText.text = i.interactText;
+                }
+                else
+                {
+                    interactText.gameObject.SetActive(false);
+                }
+            }
         }
 
         public Vector3 GetCameraRaycastTarget()

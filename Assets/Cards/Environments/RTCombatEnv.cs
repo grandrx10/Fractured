@@ -4,6 +4,7 @@ using System.Linq;
 using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
+using Characters;
 using Game.Health;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -14,7 +15,9 @@ namespace Cards.Environments
     public class RTCombatEnv: OpenWorldEnv
     {
         public float health;
-        public float maxHealth;
+        public int maxHealth;
+        [SerializeField] private DiscreteContainer healthDisplay;
+        
         public int damageIframes = 30;
         public DomainTrigger onDeath;
         private int _iframes;
@@ -28,10 +31,12 @@ namespace Cards.Environments
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
-            health = playerAgent.TotalHealth + CurrentStats.health;
-            maxHealth = health;
+            maxHealth = playerAgent.TotalHealth + CurrentStats.health;
+            health = maxHealth;
             _healthInstance = player.gameObject.AddComponent<PlayerHealth>();
             _healthInstance.Init(this);
+            PlayerInteractController.PlayerInputs.InCombat = true;
+            UpdateHealth();
         }
 
         public bool TakeDamage(PlayerDamageData damage)
@@ -48,16 +53,23 @@ namespace Cards.Environments
             }
             health -= Mathf.Max(damage.Damage, 0);
             health = Mathf.Clamp(health, 0, maxHealth);
-            if (health <= 0)
-            {
-                Die();
-            }
+            UpdateHealth();
             if (damage.Damage > 0 || damage.ForceIframes)
             {
                 _iframes = damageIframes;
                 return true;
             }
             return false;
+        }
+
+        private void UpdateHealth()
+        {
+            healthDisplay.SetMaxValue(maxHealth);
+            healthDisplay.SetValue(health);
+            if (health <= 0)
+            {
+                Die();
+            }
         }
 
         private void FixedUpdate()
@@ -90,6 +102,7 @@ namespace Cards.Environments
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch());
             });
             Destroy(_healthInstance);
+            PlayerInteractController.PlayerInputs.InCombat = false;
             Debug.Log("Done");
         }
     }

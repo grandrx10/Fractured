@@ -23,7 +23,7 @@ namespace Characters
 
         void Update()
         {
-            if (playerInteract && playerInteract.IsLookingAtInteractable)
+            if (playerInteract && playerInteract.LookingAtInteractable)
             {
                 interactText.gameObject.SetActive(true);
                 // if (playerInteract.currentInteractable.interactName != "")

@@ -113,10 +113,10 @@ namespace Cards.Visual
         int CircularOffset(int i, int center, int count)
         {
             int offset = i - center;
-
-            if (offset > count / 2f)
+            int d = Mathf.FloorToInt(count / 2f);
+            if (offset > d)
                 offset -= count;
-            else if (offset < -count / 2f)
+            else if (offset < -d)
                 offset += count;
 
             return offset;
@@ -151,7 +151,11 @@ namespace Cards.Visual
                 // Rotation
                 float rotZ = -t * cardRotation;
 
-                // Hover behavior
+                if (!_selectedCard)
+                {
+                    SetSelectedCard(0);
+                }
+
                 if (_selectedCard != null)
                 {
                     if (i == centerIndex)
@@ -179,16 +183,14 @@ namespace Cards.Visual
                 if (offset == 0)
                     priority = 0;
                 else if (offset < 0)
-                    priority = (-offset * 2) - 1;
+                    priority = (-offset * 2) - (centerIndex < count / 2 ? 0 : 1);
                 else
-                    priority = offset * 2;
+                    priority = offset * 2 - (centerIndex < count / 2 ? 1 : 0);
 
                 int siblingIndex = count - 1 - priority;
                 rt.SetSiblingIndex(siblingIndex);
             }
         }
-
-
         
         void LayoutInventoryMode()
         {

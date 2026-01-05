@@ -329,7 +329,7 @@ namespace Characters.Dialogue
                 Debug.LogError("Conversation not found: " + conversationName);
                 return;
             }
-
+            PlayerInteractController.PlayerInputs.AddBlocker("Conversation", InputBlockPrio.Dialogue);
             inConversation = true;
             waitingForChoice = false;
             disabledSpeakers.Clear();
@@ -357,7 +357,10 @@ namespace Characters.Dialogue
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) && inConversation && !waitingForChoice)
+            if (Input.GetMouseButtonDown(0) &&
+                inConversation &&
+                !waitingForChoice &&
+                PlayerInteractController.PlayerInputs.IsInputAllowed(InputBlockPrio.Dialogue))
             {
                 if (isTyping)
                 {
@@ -512,7 +515,7 @@ namespace Characters.Dialogue
 
             disabledSpeakers.Clear();
             inConversation = false;
-
+            PlayerInteractController.PlayerInputs.RemoveBlocker("Conversation");
             string nextConvo = currentConversation?.nextConversation;
             currentConversation = null;
             dialogueIndex = 0;

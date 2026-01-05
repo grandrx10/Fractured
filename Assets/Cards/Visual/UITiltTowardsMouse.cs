@@ -8,18 +8,18 @@ namespace Cards.Visual
         public float maxTilt = 10f;       // degrees
         public float smooth = 8f;         // lerp speed
 
-        RectTransform rt;
+        RectTransform _rt;
 
         private void Awake()
         {
-            rt = GetComponent<RectTransform>();
+            _rt = GetComponent<RectTransform>();
         }
 
         void Update()
         {
             Vector2 mouse = Input.mousePosition;
             Camera cam = UIHelper.UICamera;
-            Vector2 rtWorld = cam.WorldToScreenPoint(rt.position);
+            Vector2 rtWorld = cam.WorldToScreenPoint(_rt.position);
             Vector2 dir = (mouse - rtWorld);
 
             // Normalize to screen range approx
@@ -29,7 +29,7 @@ namespace Cards.Visual
             float tiltY =  -dir.x * maxTilt;
 
             Quaternion targetRot = Quaternion.Euler(tiltX, tiltY, 0);
-            rt.localRotation = Quaternion.Lerp(rt.localRotation, targetRot, Time.deltaTime * smooth);
+            _rt.localRotation = Quaternion.Lerp(_rt.localRotation, targetRot, Time.deltaTime * smooth);
         }
     }
 }

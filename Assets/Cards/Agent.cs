@@ -62,6 +62,11 @@ namespace Cards
         {
             return hand;
         }
+        
+        public List<Card> GetAllCards()
+        {
+            return new List<Card>(deck).Concat(hand).ToList();
+        }
 
         public CardSubmitState SubmitCard(Card card)
         {

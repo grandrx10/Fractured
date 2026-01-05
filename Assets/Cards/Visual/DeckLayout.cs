@@ -12,68 +12,44 @@ namespace Cards.Visual
 {
     public class DeckLayout : CardInteractionContainer
     {
-        public RectTransform infoCard;
-        public CardPreview preview;
-        public TextMeshProUGUI infoCardName;
-        public TextMeshProUGUI infoCardColl;
-        
-        private CardDisplayInteractable _selectedCard;
-        private CardPreview _currentPreview;
 
         public override void OnCardClick(CardDisplayInteractable card)
         {
-            _selectedCard = card;
             RefreshLayout();
         }
 
-        public override void RefreshLayout()
-        {
-            ValidateSelectedCard();
-            foreach (Transform child in infoCard) Destroy(child.gameObject);
-            
-            if (_selectedCard)
-            {
-                var v = _selectedCard.AttachedCard.Visuals;
-                infoCardName.text = v.Name;
-                infoCardColl.text = v.CollectionName;
-                
-                var cc = Instantiate(cardPrefab, content);
-                cc.transform.localScale *= 1.3f;
-                cc.interactable = true;
-                cc.card = _selectedCard.AttachedCard;
-                cc.transform.SetParent(infoCard, false);
-                cc.DisplayClicked += () =>
-                {
-                    CreatePreview(_selectedCard.AttachedCard);
-                };
-                foreach (var behavior in _selectedCard.AttachedCard.GetAllBehaviors<Behavior>())
-                {
-                    var desc = behavior.GetMenuObject();
-                    if (desc != null)
-                    {
-                        desc.transform.SetParent(infoCard);
-                    }
-                }
-            }
-            else
-            {
-                infoCardName.text = "";
-                infoCardColl.text = "";
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (_currentPreview) Destroy(_currentPreview.gameObject);
-        }
-
-        private void CreatePreview(Card c)
-        {
-            _currentPreview = Instantiate(preview, UIHelper.GetRootCanvas(transform).transform);
-            _currentPreview.cardDisplay.card = c;
-            _currentPreview.cardDisplay.interactable = true;
-            _currentPreview.cardDisplay.hasDepth = true;
-        }
+        // public override void RefreshLayout()
+        // {
+        //     ValidateSelectedCard();
+        //     foreach (Transform child in infoCard) Destroy(child.gameObject);
+        //     
+        //     if (_selectedCard)
+        //     {
+        //         var v = _selectedCard.AttachedCard.Visuals;
+        //         infoCardName.text = v.Name;
+        //         infoCardColl.text = v.CollectionName;
+        //         
+        //         var cc = Instantiate(cardPrefab, content);
+        //         cc.transform.localScale *= 1.3f;
+        //         cc.interactable = true;
+        //         cc.card = _selectedCard.AttachedCard;
+        //         cc.transform.SetParent(infoCard, false);
+        //         
+        //         foreach (var behavior in _selectedCard.AttachedCard.GetAllBehaviors<Behavior>())
+        //         {
+        //             var desc = behavior.GetMenuObject();
+        //             if (desc != null)
+        //             {
+        //                 desc.transform.SetParent(infoCard);
+        //             }
+        //         }
+        //     }
+        //     else
+        //     {
+        //         infoCardName.text = "";
+        //         infoCardColl.text = "";
+        //     }
+        // }
 
         private void ValidateSelectedCard()
         {
