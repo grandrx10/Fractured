@@ -57,10 +57,11 @@ namespace Characters.Dialogue
         {
             if (hasTriggered && triggerOnlyOnce)
                 return;
-
+            Debug.Log("TRIGGERING step 2");
             if (other.CompareTag("Player"))
             {
                 TryTrigger();
+                Debug.Log("TRIGGERING");
             }
         }
     }
