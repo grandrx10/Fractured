@@ -10,6 +10,7 @@ namespace Game
     {
         public static GlobalState instance;
         public bool saveOnExit = true;
+        public bool saveOnChanged = true;
         private void Awake()
         {
             if (instance) Destroy(gameObject);
@@ -42,31 +43,55 @@ namespace Game
         // ============================================================
         // EVT
         // ============================================================
-        public void AddEvent(string name) => events.Add(name);
+        public void AddEvent(string name)
+        {
+            events.Add(name);
+            if (saveOnChanged) Save("Assets/Game/save.txt");
+        }
+
         public void RemoveEvent(string name) => events.Remove(name);
         public bool HasEvent(string name) => events.Contains(name);
-        public void AddQuest(string key, string value) => quests[key] = value;
+        public void AddQuest(string key, string value)
+        {
+            quests[key] = value;
+            if (saveOnChanged) Save("Assets/Game/save.txt");
+        }
+
         public bool TryGetQuest(string key, out string value) => quests.TryGetValue(key, out value);
         public void RemoveQuest(string key) => quests.Remove(key);
 
         // ============================================================
         // INT
         // ============================================================
-        public void SetInt(string key, int value) => ints[key] = value;
+        public void SetInt(string key, int value)
+        {
+            ints[key] = value;
+            if (saveOnChanged) Save("Assets/Game/save.txt");
+        }
+
         public bool TryGetInt(string key, out int value) => ints.TryGetValue(key, out value);
         public void RemoveInt(string key) => ints.Remove(key);
 
         // ============================================================
         // STR
         // ============================================================
-        public void SetStr(string key, string value) => strs[key] = value;
+        public void SetStr(string key, string value)
+        {
+            strs[key] = value;
+            if (saveOnChanged) Save("Assets/Game/save.txt");
+        }
+
         public bool TryGetStr(string key, out string value) => strs.TryGetValue(key, out value);
         public void RemoveStr(string key) => strs.Remove(key);
 
         // ============================================================
         // TUP (List<int>)
         // ============================================================
-        public void SetTup(string key, List<int> values) => tups[key] = new List<int>(values);
+        public void SetTup(string key, List<int> values)
+        {
+            tups[key] = new List<int>(values);
+            if (saveOnChanged) Save("Assets/Game/save.txt");
+        }
 
         public bool TryGetTup(string key, out List<int> values)
         {
@@ -95,6 +120,7 @@ namespace Game
 
             if (!list.Contains(value))   // set behavior
                 list.Add(value);
+            if (saveOnChanged) Save("Assets/Game/save.txt");
         }
 
         // ============================================================

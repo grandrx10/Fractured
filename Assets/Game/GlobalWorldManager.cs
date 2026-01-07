@@ -23,7 +23,7 @@ public class GlobalWorldManager : MonoBehaviour
     public float newDomainOffset;
     public GameObject sphereEffect;
     public Material fadeMaterial;
-    
+    public GameObject worldCanvas;
     private bool _transitioning;
     public string TransitionTag { private set; get; }
     private GameObject[] _newObjects, _oldObjects;

@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 49241946344824684}
   - component: {fileID: 8349549169934879427}
   - component: {fileID: 885052569970423971}
+  - component: {fileID: -2320550242290349778}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -162,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 49241946344824684}
   card: {fileID: 11400000, guid: a29e910cdca74694c9815cc94d24810b, type: 2}
-  chestId: 
+  id: {fileID: -2320550242290349778}
 --- !u!95 &49241946344824684
 Animator:
   serializedVersion: 7
@@ -242,6 +243,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-2320550242290349778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4137843336833312786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a1ea405ffd446492e9d7c15d9fbe93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: c8295521-b598-4d05-8350-7c2bcd98dee3
 --- !u!1 &7829093066844103071
 GameObject:
   m_ObjectHideFlags: 0

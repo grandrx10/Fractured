@@ -2,6 +2,7 @@ using Cards;
 using Cards.Core;
 using Game;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace World.Objects
 {
@@ -9,10 +10,11 @@ namespace World.Objects
     {
         public Animator animator;
         public CardData card;
-        public string chestId;
+        public PersistentID id;
+            
         private void Init(BaseInteractable I)
         {
-            if (chestId != "" && GlobalState.instance.HasEvent($"CHEST_{chestId}_OPEN"))
+            if (id.ID != "" && GlobalState.instance.HasEvent($"CHEST_{id.ID}_OPEN"))
             {
                 animator.Play("Open", -1, 1);
                 I.canInteract = false;
@@ -34,9 +36,9 @@ namespace World.Objects
             c.AssignData(card);
             player.GetComponentInChildren<PlayerAgent>().AddCard(c);
         
-            if (chestId != "")
+            if (id.ID != "")
             {
-                GlobalState.instance.AddEvent($"CHEST_{chestId}_OPEN");
+                GlobalState.instance.AddEvent($"CHEST_{id.ID}_OPEN");
             }
         }
     }

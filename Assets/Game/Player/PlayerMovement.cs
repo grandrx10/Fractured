@@ -12,6 +12,7 @@ namespace Characters
         public float jumpForce;
         public float jumpCooldown;
         public float airMultiplier;
+        public float rotationSpeed = 5;
         bool readyToJump;
 
         [Header("Keybinds")]
@@ -71,9 +72,24 @@ namespace Characters
 
         private void MyInput()
         {
+            if (!PlayerInteractController.PlayerInputs.IsInputAllowed(InputBlockPrio.StandardInput))
+            {
+                horizontalInput = 0;
+                verticalInput = 0;
+                return;
+            }
             horizontalInput = Input.GetAxisRaw("Horizontal");
             verticalInput = Input.GetAxisRaw("Vertical");
+            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
+            if (inputDir != Vector3.zero)
+            {
+                transform.forward = Vector3.Slerp(
+                    transform.forward,
+                    inputDir.normalized,
+                    Time.deltaTime * rotationSpeed
+                );
+            }
             if (Input.GetKey(jumpKey) && readyToJump && grounded)
             {
                 readyToJump = false;
@@ -119,7 +135,7 @@ namespace Characters
         // Trigger-based ground detection
         private void OnTriggerStay(Collider other)
         {
-            if (((1 << other.gameObject.layer) & whatIsGround) != 0)
+            if (((1 << other.gameObject.layer) & whatIsGround) != 0 && !other.isTrigger)
             {
                 grounded = true;
             }
@@ -127,7 +143,7 @@ namespace Characters
 
         private void OnTriggerExit(Collider other)
         {
-            if (((1 << other.gameObject.layer) & whatIsGround) != 0)
+            if (((1 << other.gameObject.layer) & whatIsGround) != 0 && !other.isTrigger)
             {
                 grounded = false;
             }

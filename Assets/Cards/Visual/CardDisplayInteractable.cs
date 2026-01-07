@@ -16,7 +16,7 @@ namespace Cards.Visual
         private CanvasGroup _canvasGroup;
         private Transform _originalParent;
         private Canvas _dragCanvas;
-
+        public bool dragAllowed = true;
         public Card AttachedCard => _attachedCardDisplay.card;
 
         private void Awake()
@@ -57,6 +57,7 @@ namespace Cards.Visual
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (!dragAllowed) return;
             _isDragging = true;
             _container.OnCardStopHover(this);     // stop hover effects
             _canvasGroup.blocksRaycasts = false;
@@ -71,6 +72,7 @@ namespace Cards.Visual
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (!dragAllowed) return;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 _dragCanvas.transform as RectTransform,
                 eventData.position,
@@ -83,6 +85,7 @@ namespace Cards.Visual
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (!dragAllowed) return;
             _isDragging = false;
             _canvasGroup.blocksRaycasts = true;
 
@@ -129,7 +132,5 @@ namespace Cards.Visual
             // fallback
             return FindObjectOfType<Canvas>();
         }
-
-        
     }
 }
