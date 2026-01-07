@@ -64,6 +64,7 @@ namespace Cards.Environments
 
         private void UpdateHealth()
         {
+            if (!initialized) return;
             healthDisplay.SetMaxValue(maxHealth);
             healthDisplay.SetValue(health);
             if (health <= 0)
@@ -85,6 +86,7 @@ namespace Cards.Environments
 
         public void Die()
         {
+            initialized = false;
             onDeath.Trigger(player.transform.position);
         }
 

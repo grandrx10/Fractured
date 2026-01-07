@@ -32,7 +32,7 @@ namespace Cards.Card_Assets.Tarot.Behaviors
         {
             if (env is OpenWorldEnv opEnv)
             {
-                var look = opEnv.GetPlayerLookTarget(foolLayer);
+                var look = PhysicsHelper.MainObj(opEnv.GetPlayerLookTarget(foolLayer).collider);
                 Debug.Log(look);
                 if (look && look.TryGetComponent(out DomainTrigger domain))
                 {

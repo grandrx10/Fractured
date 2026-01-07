@@ -67,28 +67,34 @@ namespace Cards.Environments
         {
             if (card.stats.mana <= mana)
             {
-                mana -= card.stats.mana;
+                bool used = false;
                 foreach (var useBehavior in card.GetAllBehaviors<IBehaviorUseListener>())
                 {
-                    useBehavior.Use(this, player);
+                    used = useBehavior.Use(this, player) || used;
                 }
-                Delay.Call(this, minCardDelay, () =>
+
+                if (used)
                 {
-                    player.SelectCardAsync(UseCard, 1);
-                });
+                    mana -= card.stats.mana;
+                    Delay.Call(this, minCardDelay, () =>
+                    {
+                        player.SelectCardAsync(UseCard, 1);
+                    });
+                }
                 
-                return CardSubmitState.Success;
+                
+                return used ? CardSubmitState.Success : CardSubmitState.Failure;
             }
             
             return CardSubmitState.Failure;
         }
         
         public Transform PlayerTransform => player.transform;
-        public Vector3 PlayerPos => (_playerInteract.GetCameraRaycastTarget() - player.transform.position).normalized;
+        public Vector3 PlayerPos => player.transform.position;
         
         public Vector3 PlayerLook => (_playerInteract.GetCameraRaycastTarget() - player.transform.position).normalized;
 
-        public GameObject GetPlayerLookTarget(LayerMask layers)
+        public RaycastHit GetPlayerLookTarget(LayerMask layers)
         {
             return _playerInteract.GetPlayerLookTarget(layers);
         }
