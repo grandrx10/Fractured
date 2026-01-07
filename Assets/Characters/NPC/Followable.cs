@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +10,11 @@ namespace Characters
         [SerializeField] private float minDistanceBetweenNodes = 1.5f;
         [SerializeField] private int maxNodes = 100;
 
-        private readonly List<Vector3> pathNodes = new List<Vector3>();
+        private readonly List<Vector3> pathNodes = new();
 
-        public List<Vector3> PathNodes => pathNodes;
+        public IReadOnlyList<Vector3> PathNodes => pathNodes;
+
+        public event Action<int> OnNodesRemoved; // how many nodes were deleted
 
         void Start()
         {
@@ -25,22 +28,22 @@ namespace Characters
 
         private void RecordPosition()
         {
-            if (pathNodes.Count == 0)
-            {
-                pathNodes.Add(transform.position);
+            Vector3 lastNode = pathNodes[^1];
+
+            if (Vector3.Distance(transform.position, lastNode) < minDistanceBetweenNodes)
                 return;
-            }
 
-            Vector3 lastNode = pathNodes[pathNodes.Count - 1];
-            if (Vector3.Distance(transform.position, lastNode) >= minDistanceBetweenNodes)
+            pathNodes.Add(transform.position);
+
+            int removed = 0;
+            while (pathNodes.Count > maxNodes)
             {
-                pathNodes.Add(transform.position);
-
-                if (pathNodes.Count > maxNodes)
-                {
-                    pathNodes.RemoveAt(0);
-                }
+                pathNodes.RemoveAt(0);
+                removed++;
             }
+
+            if (removed > 0)
+                OnNodesRemoved?.Invoke(removed);
         }
 
         private void OnDrawGizmos()

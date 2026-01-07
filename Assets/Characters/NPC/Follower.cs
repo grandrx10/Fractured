@@ -17,21 +17,56 @@ namespace Characters
         [SerializeField] private float groundCheckDistance = 0.2f;
         [SerializeField] private float followerHeight = 1f;
 
+        [Header("Midair Settings")]
+        [SerializeField] private float nodeReachThreshold = 0.1f;
+        [SerializeField] private float airSpeedMultiplier = 1f;
+
         private Vector3 moveVelocity;
         private float groundedTimer;
         private const float groundedGraceTime = 0.1f;
 
-        void Update()
-        {
-            if (targetToFollow == null) return;
+        private int currentTargetNodeIndex;
+        private int lockedMidairTargetIndex = -1;
 
-            FollowPath();
+        void OnEnable()
+        {
+            if (targetToFollow != null)
+                targetToFollow.OnNodesRemoved += HandleNodesRemoved;
+        }
+
+        void OnDisable()
+        {
+            if (targetToFollow != null)
+                targetToFollow.OnNodesRemoved -= HandleNodesRemoved;
         }
 
         public void SetFollowable(Followable newTarget)
         {
+            if (targetToFollow != null)
+                targetToFollow.OnNodesRemoved -= HandleNodesRemoved;
+
             targetToFollow = newTarget;
+            currentTargetNodeIndex = 0;
+            lockedMidairTargetIndex = -1;
+
+            if (targetToFollow != null)
+                targetToFollow.OnNodesRemoved += HandleNodesRemoved;
+
             DisableAllColliders();
+        }
+
+        void Update()
+        {
+            if (targetToFollow == null) return;
+            FollowPath();
+        }
+
+        private void HandleNodesRemoved(int removedCount)
+        {
+            currentTargetNodeIndex = Mathf.Max(0, currentTargetNodeIndex - removedCount);
+            lockedMidairTargetIndex = lockedMidairTargetIndex < 0
+                ? -1
+                : Mathf.Max(0, lockedMidairTargetIndex - removedCount);
         }
 
         private void FollowPath()
@@ -40,43 +75,68 @@ namespace Characters
             if (pathNodes.Count == 0) return;
 
             bool groundedNow = CheckIfGrounded();
-            if (groundedNow)
-                groundedTimer = groundedGraceTime;
-            else
-                groundedTimer -= Time.deltaTime;
-
+            groundedTimer = groundedNow ? groundedGraceTime : groundedTimer - Time.deltaTime;
             bool isGrounded = groundedTimer > 0f;
 
-            int targetNodeIndex;
+            int lastIndex = pathNodes.Count - 1;
+            int desiredNodeIndex = currentTargetNodeIndex;
 
-            if (!isGrounded)
+            if (isGrounded)
             {
-                // Midair: catch up
-                targetNodeIndex = pathNodes.Count - 1;
+                int maxAllowedIndex = Mathf.Max(0, lastIndex - nodesToStayBehind);
+
+                if (currentTargetNodeIndex < maxAllowedIndex)
+                    desiredNodeIndex = maxAllowedIndex;
+
+                lockedMidairTargetIndex = -1;
             }
             else
             {
-                if (pathNodes.Count < nodesToStayBehind + 1) return;
-                targetNodeIndex = pathNodes.Count - nodesToStayBehind - 1;
+                if (lockedMidairTargetIndex < 0)
+                    lockedMidairTargetIndex = lastIndex;
+
+                desiredNodeIndex = lockedMidairTargetIndex;
             }
 
-            targetNodeIndex = Mathf.Clamp(targetNodeIndex, 0, pathNodes.Count - 1);
-
-            Vector3 targetPosition = pathNodes[targetNodeIndex];
-
-            float smoothTime = isGrounded ? 0.15f : 0.08f;
-            float maxSpeed = isGrounded ? moveSpeed : moveSpeed * 1.2f;
-
-            transform.position = Vector3.SmoothDamp(
-                transform.position,
-                targetPosition,
-                ref moveVelocity,
-                smoothTime,
-                maxSpeed
+            currentTargetNodeIndex = Mathf.Clamp(
+                Mathf.Max(currentTargetNodeIndex, desiredNodeIndex),
+                0,
+                lastIndex
             );
 
-            // Rotate using velocity (prevents jitter near nodes)
-            Vector3 flatVelocity = new Vector3(moveVelocity.x, 0f, moveVelocity.z);
+            Vector3 targetPosition = pathNodes[currentTargetNodeIndex];
+
+            // =========================
+            // MOVEMENT (KEY FIX)
+            // =========================
+            if (isGrounded)
+            {
+                transform.position = Vector3.SmoothDamp(
+                    transform.position,
+                    targetPosition,
+                    ref moveVelocity,
+                    0.15f,
+                    moveSpeed
+                );
+            }
+            else
+            {
+                Vector3 delta = targetPosition - transform.position;
+                float distance = delta.magnitude;
+
+                if (distance > 0.001f)
+                {
+                    Vector3 step = delta.normalized * (moveSpeed * airSpeedMultiplier * Time.deltaTime);
+                    if (step.magnitude > distance)
+                        step = delta;
+
+                    transform.position += step;
+                    moveVelocity = step / Time.deltaTime;
+                }
+            }
+
+            // Rotation
+            Vector3 flatVelocity = new(moveVelocity.x, 0f, moveVelocity.z);
             if (flatVelocity.sqrMagnitude > 0.001f)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(flatVelocity);
@@ -84,6 +144,16 @@ namespace Characters
                     transform.rotation,
                     targetRotation,
                     rotationSpeed * Time.deltaTime
+                );
+            }
+
+            // Advance midair index only when reaching node
+            if (!isGrounded &&
+                Vector3.Distance(transform.position, targetPosition) < nodeReachThreshold)
+            {
+                lockedMidairTargetIndex = Mathf.Min(
+                    lockedMidairTargetIndex + 1,
+                    lastIndex
                 );
             }
         }
@@ -101,21 +171,19 @@ namespace Characters
 
         private void DisableAllColliders()
         {
-            Collider[] colliders = GetComponentsInChildren<Collider>();
-            foreach (var col in colliders)
+            foreach (var col in GetComponentsInChildren<Collider>())
                 col.enabled = false;
         }
 
         private void OnDrawGizmos()
         {
             if (targetToFollow == null) return;
-
             var pathNodes = targetToFollow.PathNodes;
             if (pathNodes.Count == 0) return;
 
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, pathNodes[pathNodes.Count - 1]);
-            Gizmos.DrawWireSphere(pathNodes[pathNodes.Count - 1], 0.25f);
+            Gizmos.DrawWireSphere(pathNodes[currentTargetNodeIndex], 0.25f);
+            Gizmos.DrawLine(transform.position, pathNodes[currentTargetNodeIndex]);
         }
     }
 }

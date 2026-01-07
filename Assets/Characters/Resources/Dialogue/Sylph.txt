@@ -30,14 +30,14 @@ I just thought it was some abandoned shack at the top of the mountain. I've neve
 [Sylph]
 Are you kidding me? The temple provides safety for the island, warding off the terrors in the surrounding seas. It is a beacon of hope and a bastion of purity for all!
 ---
+[Sylph]
+You're intruding upon sacred ground!
+---
 [Ravenna]
-Sorry, we don't mean to intrude. We were just exploring; we'll show ourselves out.
+Sacred?! Sorry, we didn't mean to! We were just exploring; we'll show ourselves out.
 ---
 [Sylph]
 Wait!!!!!!!!!
----
-[Ravenna]
-?
 ---
 [Sylph]
 I haven't talked to anyone in .... some 10 years... so... it's okay if you stay for a bit.
@@ -207,7 +207,7 @@ How will you test strength?
 We'll participate in a simple spar. If you can avoid my attacks for a minute, you'll be strong enough.
 ???
 [I accept]{SylphChallengeStart}
-[No thanks, another time]{SylphChallengeDecline}
+[No thanks, maybe another time]{SylphChallengeDecline}
 ===
 ###
 SylphChallengeStart
@@ -247,4 +247,62 @@ SylphFinalPhase
 [Sylph]
 You're both quite nimble, aren't you? Dodge this attack, and you'll be worthy of my technique!
 ===
+###
+SylphFail
+===
+[Dorian]
+Oh wow. That was... overwhelming.
+---
+[Sylph]
+My family technique is wonderful, isn't it?
+---
+[Dorian]
+I've never seen anything like it. I'm not sure I'm ever going to be able to dodge that.
+---
+[Ravenna]
+You can do it, Dorian. I know you can.
+???
+[Run it back]{SylphChallengeStart}
+[That's enough for now]{SylphChallengeDecline}
+###
+SylphPass
+===
+[Sylph]
+Huff... Huff... you're talented, aren't you? I've never seen someone move like that. Well done.
+---
+[Sylph]
+As promised, here's the water technique.
+---
+[Dorian]
+Thank you, I will treasure it.
+---
+[Sylph]
+You better! And if you visit me a few more times, I'd call it even.
+---
+[Ravenna]
+We will!
+---
+[Ravenna]
+Dorian, you're lucky, you know that? I could never learn a technique like that...
+---
+[Ravenna]
+We'll see you later, Sylph.
+---
+[Dorian]
+Yeah, goodbye, Sylph.
+===
+[Sylph]{SylphVisitChallengeComplete}
+###
+SylphVisitChallengeComplete
+===
+[Sylph]
+Welcome back!
+---
+[Ravenna]
+Glad to be back. Just checking in on you.
+---
+[Sylph]
+Thanks for coming. With you two here, this place feels a lot warmer. Like how it was, all those years ago.
+===
+[Sylph]{SylphVisitChallengeComplete}
 ###

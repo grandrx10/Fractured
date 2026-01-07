@@ -4,7 +4,7 @@ FennOpener
 Heya there, Ravenna. Good to see you again!
 ---
 [Ravenna]
-Hi, Mr. Fenn.
+Hello there, Fenn.
 ---
 [Fenn]
 Who's your friend?
@@ -31,13 +31,25 @@ Are you interested in a little quest?
 Of course!
 ---
 [Fenn]
-I've been trying to grow an apple tree for a while now, but all my apple seeds have expired. If you two could get me some more seeds, I'd be grateful. In fact, you can have some of the apples I grow.
+I've been trying to grow an apple tree for a while now, but all my apple seeds have been stolen by those blasted crows. If you two could get me some more seeds, I'd be grateful. In fact, you can have some of the apples I grow.
 ---
 [Ravenna]
 You can count on us, Mr. Fenn!
 ---
 [Fenn]
-You should be able to find some in the forest. Good luck!
+You should be able to find some in the forest off yonder. However, I do have to warn you, do not go close to the ruins. Monsters live there.
+---
+[Ravenna]
+Hahaha, you're quite the joker, Fenn!
+---
+[Dorian]
+Ha... ha? That's a joke, right?
+---
+[Fenn]
+Heh, just a little old folk tale I heard from when I was a young hopper. I've never been there myself, but I'm sure it's empty, save for a spiderweb or two.
+---
+[Fenn]
+Anyways, good luck on your quest! Bring me those apple seeds when you can!
 ===
 [Fenn]{FennQuestReturn}
 ###
@@ -46,7 +58,7 @@ FennQuestReturn
 [Fenn]
 Did you find those seeds?
 ???
-[Yes, here you go]{FennApplesFound}
+[Yes, here you go](AppleSeedsFound){FennApplesFound}
 [No, not yet]{FennNoApples}
 ===
 ###

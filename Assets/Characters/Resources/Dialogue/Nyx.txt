@@ -122,7 +122,7 @@ Hmmm, that smells wonderful. It seems the experiment was a success!
 Hew! That was a sweat. So, what was this potion for anyways?
 ---
 [Nyx]
-It's a potion that increases your fur growth by 0.1%.
+It's a potion that increases your toenail growth by 0.1%.
 ---
 [Dorian]
 ... Are you serious?
@@ -137,6 +137,95 @@ NyxTalk
 [Nyx]
 What's on your mind today, assistants?
 ???
-[How are you doing?]{}
-[Can you tell me a bit about yourself?]{}
-[]
+[How are you doing?]{NyxDoing}
+[Can you tell me a bit about yourself?]{NyxAboutSelf}
+[You're brilliant, why don't you become a scholar?]{NyxScholar}
+[Can we buy some of your potions?]{NyxPotionsStore}
+[That's all I wanted to ask]{NyxFinishTalk}
+===
+###
+NyxDoing
+===
+[Nyx]
+How am I doing? Now that is an interesting question. Doing well, if I may say. I've been trying to complete that potion for quite some time now, and thanks to your help, I was successful.
+---
+[Nyx]
+Though, the last potion I made turned out to be a stomach ache potion that gives stomach aches. Who would've thought?
+---
+[Nyx]
+How are you two doing?
+---
+[Ravenna]
+Great!
+---
+[Dorian]
+Alright. It would be better if I had a smaller chance of blowing up.
+---
+[Nyx]
+What fun is science if there are no explosions?
+---
+[Dorian]
+Ha...
+===
+>>NyxTalk
+###
+NyxAboutSelf
+===
+[Nyx]
+I'm just a scientist, trying to discover the truths of the world, you know? As a kid, my parents were quite the superstitious bunch. They were always claiming things.
+---
+[Nyx]
+Don't touch that! It's cursed! Don't go near the ruins, there's monsters there! Don't dunk your head underwater, you can't breath!
+---
+[Nyx]
+They didn't really explain why, and whenever I asked, they would just get angry.
+---
+[Nyx]
+And that's why I never take anything at face value. I'll do anything I can to discover the truth!
+---
+[Ravenna]
+That's... inspiring, Nyx!
+===
+>>NyxTalk
+###
+NyxScholar
+===
+[Nyx]
+I've thought about that, but the best schools are off this island.
+---
+[Nyx]
+But... a part of me doesn't want to leave this place. I've grown comfortable here.
+---
+[Nyx]
+It's that, and I'm afraid that once this hobby of mine becomes a full time profession, I'll lose interest.
+---
+[Dorian]
+Ah, I see.
+===
+>>NyxTalk
+###
+NyxPotionsStore
+===
+[Nyx]
+Hm...
+===
+###
+NyxFinishTalk
+===
+[Nyx]
+Well, next time you want to earn some quick coin, come experiment with me, will you?
+---
+[Nyx]
+Ever since I made that potion that turns dirt into gold, I've had too much coin to throw around. Too bad that potion is way to boring to brew; hardly any explosions!
+---
+[Ravenna]
+See you next time, Nyx!
+---
+[Dorian]
+Sorry, did you say you could turn dirt into coin?
+---
+[Nyx]
+See you!
+===
+[Nyx]{NyxTalk}
+###
