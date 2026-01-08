@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Cards.Environments;
 using UnityEngine;
 using System.Collections;
+using Characters.Dialogue;
 
 namespace Game.Bosses
 {
@@ -34,6 +35,9 @@ namespace Game.Bosses
         [Header("Named Points")]
         public NamedPoint[] namedPoints;
 
+        [Header("Death Dialogue")]
+        public string deathConversationName;
+
         private int currentPhaseIndex = 0;
         private int currentAttackIndex = 0;
 
@@ -44,41 +48,43 @@ namespace Game.Bosses
         private bool waitingForNextAttack = true;
         private bool phaseEndRequested = false;
         private bool _initialized;
+        private bool isDead = false;
 
-        // Tracks trigger-once attacks globally (per your current design)
+        // Tracks trigger-once attacks globally
         private HashSet<BossAttack> triggeredOnceAttacks = new HashSet<BossAttack>();
 
         private void Awake()
         {
             GlobalWorldManager.OnLoadNewScene += Init;
         }
-        
+
         private void Init(CardEnv environment)
         {
             GlobalWorldManager.OnLoadNewScene -= Init;
             if (phases.Length == 0)
                 return;
             _initialized = true;
-            Debug.Log("bos start");
+            Debug.Log("Boss initialized");
             StartPhase(0);
         }
 
-        // private IEnumerator StartPhaseAfterDelay(int phaseIndex)
-        // {   
-        //     yield return new WaitForSeconds(3f);
-        //     StartPhase(phaseIndex);
-        // }
-
-
         private void Update()
         {
-            if (phases.Length == 0 || !_initialized)
+            if (!_initialized || phases.Length == 0 || isDead)
                 return;
-        
+
+            // ======= DEATH CHECK =======
+            if (bossHealth.health <= 0 && !isDead)
+            {
+                isDead = true;
+                OnBossDeath();
+                return;
+            }
+
             BossPhase phase = phases[currentPhaseIndex];
 
             // =========================
-            // Phase Timer (request end)
+            // Phase Timer
             // =========================
             if (phase.phaseTime > 0f && !phaseEndRequested)
             {
@@ -89,7 +95,6 @@ namespace Game.Bosses
 
             if (phase.attacks.Length == 0)
                 return;
-
 
             BossAttack attack = phase.attacks[currentAttackIndex];
 
@@ -121,7 +126,6 @@ namespace Game.Bosses
         // =========================
         // Phase Management
         // =========================
-
         private void StartPhase(int phaseIndex)
         {
             currentPhaseIndex = phaseIndex;
@@ -158,10 +162,8 @@ namespace Game.Bosses
         // =========================
         // Attack Management
         // =========================
-
         private void StartAttack(BossAttack attack)
         {
-            // Never start new attacks while the phase is ending
             if (attack == null || phaseEndRequested)
                 return;
 
@@ -192,20 +194,15 @@ namespace Game.Bosses
             delayTimer = 0f;
             waitingForNextAttack = true;
 
-            // CRITICAL: decide trigger-once exhaustion HERE (correct timing)
             if (!phaseEndRequested && AllTriggerOnceAttacksUsed(phase))
-            {
                 phaseEndRequested = true;
-            }
 
-            // Phase transition ONLY after attack ends
             if (phaseEndRequested)
                 AdvanceToNextPhase();
         }
 
         private void AdvanceToNextAttack()
         {
-            // Freeze cycling if phase is ending
             if (phaseEndRequested)
                 return;
 
@@ -234,7 +231,6 @@ namespace Game.Bosses
         // =========================
         // Named Points
         // =========================
-
         public Vector3 GetPointPosition(string pointName)
         {
             foreach (var np in namedPoints)
@@ -266,10 +262,36 @@ namespace Game.Bosses
                 }
             }
 
-            // If the point doesn't exist yet, optionally add it
             List<NamedPoint> list = new List<NamedPoint>(namedPoints);
             list.Add(new NamedPoint { name = pointName, transform = newTransform });
             namedPoints = list.ToArray();
+        }
+
+        // =========================
+        // Boss Death / Dialogue
+        // =========================
+        private void OnBossDeath()
+        {
+            Debug.Log("Boss defeated!");
+
+            // Stop current attack
+            if (phases.Length > 0 && currentAttackIndex < phases[currentPhaseIndex].attacks.Length)
+            {
+                BossAttack attack = phases[currentPhaseIndex].attacks[currentAttackIndex];
+                attack?.EndAttack(gameObject);
+            }
+
+            // Stop timers
+            attackTimer = 0f;
+            delayTimer = 0f;
+            waitingForNextAttack = true;
+            phaseEndRequested = true;
+
+            // Trigger death dialogue
+            if (!string.IsNullOrEmpty(deathConversationName) && DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.StartConversation(deathConversationName);
+            }
         }
     }
 }

@@ -212,8 +212,29 @@ We'll participate in a simple spar. If you can avoid my attacks for a minute, yo
 ###
 SylphChallengeStart
 ===
+<SetRavennaSpawnSylph>
+<SetSylphSpawnSylph>
 [Sylph]
 Alright. Prepare yourself.
+---
+<SylphTriggerDomainEvent>
+[Sylph]
+Domain expansion.
+===
+###
+SylphCombatBegin
+===
+[Dorian]
+Whoa. Ravenna? Where are you?
+---
+[Sylph]
+Don't worry, she's waiting outside. Right now, it's just the two of us.
+---
+[Sylph]
+Your test of strength begins now.
+---
+[Dorian]
+Bring it on.
 ===
 ###
 SylphChallengeDecline
@@ -270,6 +291,7 @@ SylphPass
 [Sylph]
 Huff... Huff... you're talented, aren't you? I've never seen someone move like that. Well done.
 ---
+<Return>
 [Sylph]
 As promised, here's the water technique.
 ---
@@ -280,16 +302,31 @@ Thank you, I will treasure it.
 You better! And if you visit me a few more times, I'd call it even.
 ---
 [Ravenna]
-We will!
+You're back!
+---
+[Dorian]
+That was... intense. I learned the technique though.
 ---
 [Ravenna]
-Dorian, you're lucky, you know that? I could never learn a technique like that...
+Lucky, I could never learn a technique like that...
+---
+[Dorian]
+Why not? Don't you want to give it a try? Maybe I could teach you?
 ---
 [Ravenna]
-We'll see you later, Sylph.
+No, it's alright. I already know what the result would be...
+---
+[Dorian]
+Oh.
+---
+[Ravenna]
+Anyways, Sylph, it was nice to meet you! We'll come visit you sometime!
 ---
 [Dorian]
 Yeah, goodbye, Sylph.
+---
+[Sylph]
+Goodbye! I suppose I'll go back to guarding this shrine.
 ===
 [Sylph]{SylphVisitChallengeComplete}
 ###

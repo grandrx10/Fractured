@@ -27,7 +27,7 @@ public class GlobalWorldManager : MonoBehaviour
     private bool _transitioning;
     public string TransitionTag { private set; get; }
     private GameObject[] _newObjects, _oldObjects;
-    private Scene _oldScene, _newScene;
+    public Scene _oldScene, _newScene;
     private float _dissolveRad;
     private float _transitionSpeed;
     private bool _flipped;
