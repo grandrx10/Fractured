@@ -52,6 +52,13 @@ Sorry, did you say we could blow up?
 Fabulous! When you're ready, go into my hut.
 ===
 [Nyx]{NyxWait}
+[NyxDoor]{NyxDoorEnter}
+###
+NyxDoorEnter
+===
+<NyxDoorEnter>
+===
+[NyxDoor]{}
 ###
 NyxWait
 ===
@@ -122,7 +129,7 @@ Hmmm, that smells wonderful. It seems the experiment was a success!
 Hew! That was a sweat. So, what was this potion for anyways?
 ---
 [Nyx]
-It's a potion that increases your toenail growth by 0.1%.
+It's a potion that allows your to taste the direction of the wind.
 ---
 [Dorian]
 ... Are you serious?
@@ -207,8 +214,9 @@ Ah, I see.
 NyxPotionsStore
 ===
 [Nyx]
-Hm...
+Hm... Maybe another time when I've tried and tested them some more.
 ===
+>>NyxTalk
 ###
 NyxFinishTalk
 ===
