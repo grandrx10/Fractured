@@ -19,6 +19,7 @@ namespace Cards.Environments
         
         public float minCardDelay = 0.2f;
         protected PlayerMovement PlayerMovement;
+        
         public override void Initialize(PlayerAgent playerAgent)
         {
             player = playerAgent;

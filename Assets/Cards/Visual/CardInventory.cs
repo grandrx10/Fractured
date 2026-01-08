@@ -22,15 +22,16 @@ namespace Cards.Visual
             };
             targetAgent.OnAddCard += card =>
             {
-                deckLayout.AddCard(card);
-                tarotLayout.AddCard(card);
+                deckLayout.AddCard(card, false);
+                tarotLayout.AddCard(card, false);
+                handLayout.AddCard(card, false);
                 CreatePreview(card);
             };
             targetAgent.OnRemoveCard += card =>
             {
-                deckLayout.RemoveCard(card);
-                handLayout.RemoveCard(card);
-                tarotLayout.RemoveCard(card);
+                deckLayout.RemoveCard(card, false);
+                handLayout.RemoveCard(card, false);
+                tarotLayout.RemoveCard(card, false);
             };
             handLayout.AssignCardList(targetAgent.hand);
             deckLayout.AssignCardList(targetAgent.deck);

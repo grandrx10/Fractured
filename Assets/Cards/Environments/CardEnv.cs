@@ -32,12 +32,7 @@ namespace Cards.Environments
         protected PlayerStats CurrentStats;
         
         private List<PlayerEffect> _effects = new List<PlayerEffect>();
-        
-        private void Start()
-        {
-            GlobalWorldManager.Instance.Load(this);
-        }
-
+        public Action OnLoad;
         public Transform GetEnvCenter(string n)
         {
             var t = environmentCenters.Find(x => x.name == n);
@@ -86,6 +81,7 @@ namespace Cards.Environments
             initialized = true;
             player = p;
             p.OnStatsUpdate += UpdateStats;
+            OnLoad.Invoke();
         }
 
         private void UpdateStats()

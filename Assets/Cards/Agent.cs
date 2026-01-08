@@ -44,9 +44,18 @@ namespace Cards
             return RandomCard;
         }
 
-        public void AddCard(Card card)
+        public void DeckToHand(Card card)
         {
-            deck.Add(card);
+            if (!deck.Contains(card)) Debug.LogError($"Deck doesn't have this card! {card}");
+            deck.Remove(card);
+            hand.Add(card);
+            OnAddCard?.Invoke(card);
+            OnRemoveCard?.Invoke(card);
+        }
+
+        public void AddCard(Card card, bool toHand=false)
+        {
+            (toHand ? hand : deck).Add(card);
             OnAddCard?.Invoke(card);
             card.transform.parent = transform;
         }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5311658788592760858}
   - component: {fileID: 8010771351883453294}
   - component: {fileID: 8846957157527495683}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: leaf_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1901451580655680016}
   - component: {fileID: 7639310841670515911}
-  m_Layer: 0
+  - component: {fileID: -2189647796101954079}
+  m_Layer: 6
   m_Name: tree 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,6 +143,29 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3e3c86b7a4e52074b89d2a0448a2774f, type: 2}
   - {fileID: 2100000, guid: 959f7c1e530006d4c881ad6685cf5012, type: 2}
   - {fileID: 2100000, guid: 959f7c1e530006d4c881ad6685cf5012, type: 2}
+--- !u!136 &-2189647796101954079
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2591947033929502587}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.83
+  m_Height: 6.9874115
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.424738, z: 0.089413166}
 --- !u!1 &7912119225570621623
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,7 +177,7 @@ GameObject:
   - component: {fileID: 4251531601651852456}
   - component: {fileID: 6156756266183754349}
   - component: {fileID: 9113033890522710089}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: tree_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}

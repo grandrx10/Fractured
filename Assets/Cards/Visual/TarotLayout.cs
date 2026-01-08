@@ -6,10 +6,10 @@ namespace Cards.Visual
 {
     public class TarotLayout: CardInteractionContainer
     {
-        public override void AddCard(Card card, int position=0)
+        public override void AddCard(Card card, bool force=true, int position=0)
         {
             if (!card.IsTarot) return;
-            base.AddCard(card, position);
+            base.AddCard(card, force, position);
         }
 
         public override bool OnCardDropped(CardInteractionContainer source, CardDisplayInteractable card)

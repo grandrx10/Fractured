@@ -1895,6 +1895,56 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28602b2451f924044a5d64251c58855d, type: 3}
+--- !u!1 &470400941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 470400943}
+  - component: {fileID: 470400942}
+  m_Layer: 0
+  m_Name: Mirror
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &470400942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470400941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f68f7f12ef2c54f85bc5c36b85c18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: a07952393e111cb428d9d2964e2f63ab, type: 2}
+  stats:
+    health: 0
+    mana: 0
+    strength: 0
+  behaviors: []
+--- !u!4 &470400943
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470400941}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &470662592
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2401,14 +2451,12 @@ MonoBehaviour:
   targetToFollow: {fileID: 0}
   moveSpeed: 11
   rotationSpeed: 10
-  nodeReachedThreshold: 0.05
   nodesToStayBehind: 30
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   groundCheckDistance: 1.05
   followerHeight: 2
-  showDebugLogs: 0
 --- !u!4 &573861772
 Transform:
   m_ObjectHideFlags: 0
@@ -3057,7 +3105,7 @@ GameObject:
   - component: {fileID: 621140716}
   - component: {fileID: 621140717}
   m_Layer: 0
-  m_Name: Mirror
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3090,7 +3138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f68f7f12ef2c54f85bc5c36b85c18b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 745ff8b67bab9404bb304be790b3a9f4, type: 2}
+  data: {fileID: 11400000, guid: 1a9b8c8d018c203409393fb5512a7cec, type: 2}
   stats:
     health: 0
     mana: 0
@@ -3493,8 +3541,41 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6515343998023977687, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 685420431}
   m_SourcePrefab: {fileID: 100100000, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
+--- !u!1 &685420429 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6515343998023977687, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
+  m_PrefabInstance: {fileID: 685420428}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &685420430 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
+  m_PrefabInstance: {fileID: 685420428}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685420429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4d0cec2cf0492eb695972b9239974b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &685420431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685420429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f91e6af40b3a4f29a680c4a46ce83f04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  env: {fileID: 685420430}
+  card: {fileID: 470400942}
 --- !u!1 &706337886
 GameObject:
   m_ObjectHideFlags: 0
@@ -6339,7 +6420,7 @@ GameObject:
   - component: {fileID: 1266671775}
   - component: {fileID: 1266671776}
   m_Layer: 0
-  m_Name: Mirror (1)
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6372,7 +6453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f68f7f12ef2c54f85bc5c36b85c18b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: a07952393e111cb428d9d2964e2f63ab, type: 2}
+  data: {fileID: 11400000, guid: 1a9b8c8d018c203409393fb5512a7cec, type: 2}
   stats:
     health: 0
     mana: 0
@@ -10059,6 +10140,7 @@ SceneRoots:
   - {fileID: 960084756}
   - {fileID: 848369395}
   - {fileID: 685420428}
+  - {fileID: 470400943}
   - {fileID: 867071440}
   - {fileID: 2726694}
   - {fileID: 2097984613}

@@ -73,6 +73,12 @@ namespace Cards.Visual
             RefreshLayout();
         }
 
+        public override void AddCard(Card card, bool force = true, int position = 0)
+        {
+            base.AddCard(card, force, position);
+            RefreshLayout();
+        }
+
         private int HoveredIndexClamped()
         {
             return Mathf.Max(CardDisplays.IndexOf(_selectedCard), 0);
