@@ -38,10 +38,6 @@ namespace Characters
         // ------------------------------
         public Transform orientation;
         public Transform player;
-        public Transform playerObj;
-        public Rigidbody rb;
-
-        public float rotationSpeed = 10f;
     
         public LockKeySet CursorUnlock = new LockKeySet();
 
@@ -69,19 +65,6 @@ namespace Characters
                 transform.position.z
             );
             orientation.forward = viewDir.normalized;
-
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
-            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-            if (inputDir != Vector3.zero)
-            {
-                playerObj.forward = Vector3.Slerp(
-                    playerObj.forward,
-                    inputDir.normalized,
-                    Time.deltaTime * rotationSpeed
-                );
-            }
         }
 
         void ApplyCursorState()

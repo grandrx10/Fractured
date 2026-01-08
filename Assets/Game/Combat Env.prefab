@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd71611332340ee8a55e0245399f277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 5250656892259349912, guid: c7c12675b17f677448c846e3de91ae51, type: 3}
+  itemPrefab: {fileID: 5250656892259349912, guid: 1a2f6c73d2d933f4cb16b7500c6b628c, type: 3}
   maxPerContainer: 2
   container: {fileID: 609397330667624655}
   flip: 0
@@ -339,8 +339,8 @@ MonoBehaviour:
   mana: 0
   player: {fileID: 0}
   minCardDelay: 0.2
-  health: 0
-  maxHealth: 0
+  maxHealth: -1
+  allowHeal: 1
   healthDisplay: {fileID: 3137787139339883955}
   damageIframes: 30
   onDeath: {fileID: 7697353345037001635}
@@ -358,7 +358,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   domainName: 
   domainPoint: 
-  domainTag: 
+  domainTag: 'fade
+
+    delay:2
+
+    fast'
 --- !u!1001 &811454227714832836
 PrefabInstance:
   m_ObjectHideFlags: 0

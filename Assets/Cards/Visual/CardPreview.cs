@@ -12,7 +12,7 @@ namespace Cards.Visual
         private void Awake()
         {
             PlayerCamera.Instance.CursorUnlock += $"preview {gameObject.GetInstanceID()}";
-            PlayerInteractController.PlayerInputs.AddBlocker($"preview {gameObject.GetInstanceID()}", InputBlockPrio.Dialogue);
+            PlayerInteractController.PlayerInputs.AddBlocker($"preview {gameObject.GetInstanceID()}", InputBlockPrio.Menu);
         }
 
         private void OnDestroy()

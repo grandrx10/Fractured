@@ -23,7 +23,7 @@ public class GlobalWorldManager : MonoBehaviour
     public float newDomainOffset;
     public GameObject sphereEffect;
     public Material fadeMaterial;
-    
+    public GameObject worldCanvas;
     private bool _transitioning;
     public string TransitionTag { private set; get; }
     private GameObject[] _newObjects, _oldObjects;
@@ -58,6 +58,8 @@ public class GlobalWorldManager : MonoBehaviour
         {
             rend.SetPropertyBlock(mpb2);
         }
+
+        Load(FindAnyObjectByType<CardEnv>(), 0);
     }
     public void Transition(string newSceneName, Vector3 startPosition, string startName, string tags)
     {
@@ -68,7 +70,7 @@ public class GlobalWorldManager : MonoBehaviour
         _fade = tags.Contains("fade");
         Debug.Log($"FADE{_fade}");
         var delay = TextHelper.GetFloatTag(tags, "delay");
-        _ = LoadSceneAsyncWithCallback(newSceneName, delay);
+        _ = LoadSceneAsyncWithCallback(newSceneName, delay, tags.Contains("fast"));
     }
 
     public IEnumerator Fade(bool reverse=false, float duration = 1)
@@ -83,7 +85,7 @@ public class GlobalWorldManager : MonoBehaviour
         fadeMaterial.SetFloat("_t", reverse? 1 : 0);
     }
     
-    public async Task LoadSceneAsyncWithCallback(string sceneName, float delay)
+    public async Task LoadSceneAsyncWithCallback(string sceneName, float delay, bool fast)
     {
         _oldScene = SceneManager.GetActiveScene();
         RawTransitionTime = 0;
@@ -116,6 +118,15 @@ public class GlobalWorldManager : MonoBehaviour
         
         var mpb = new MaterialPropertyBlock();
         mpb.SetFloat("_Flipped", 1);
+
+        foreach (var go in _newObjects)
+        {
+            if (go.TryGetComponent(out CardEnv env))
+            {
+                Load(env, fast ? .5f : env.environmentIntroTime);
+                break;
+            }
+        }
         
         foreach (GameObject go in _newObjects)
         {
@@ -148,7 +159,7 @@ public class GlobalWorldManager : MonoBehaviour
         Debug.Log("Scene loaded!");
     }
 
-    public void Load(CardEnv env)
+    public void Load(CardEnv env, float introTime)
     {
         if (CurrentEnvironment == null)
         {
@@ -160,22 +171,24 @@ public class GlobalWorldManager : MonoBehaviour
         {
             CurrentEnvironment.Destroy();
             _dissolveRad = env.environmentIntroRad;
-            float introTime = env.environmentIntroTime;
             _transitioning = true;
             float flipTime = Mathf.Min(introTime, env.environmentExitTime);
             float stopTime = introTime;
-            _transitionSpeed = 1 / env.environmentIntroTime;
+            _transitionSpeed = 1 / introTime;
             Shader.SetGlobalVector("_DissolveCenter", _startPosition);
             Delay.Call(0.01f, () =>
             {
                 var center = env.GetEnvCenter(_startName);
                 if (center)
                 {
+                    Debug.Log(center.gameObject.name);
                     var disp = _startPosition - (center.position - Vector3.right * newDomainOffset);
                     foreach (var go in _newObjects)
                     {
                         if (go) go.transform.position += disp;
                     }
+                    print(center.transform.position);
+                    print(_startPosition);
                 }
             });
             

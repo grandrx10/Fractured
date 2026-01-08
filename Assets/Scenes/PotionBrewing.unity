@@ -919,8 +919,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handLayout: {fileID: 1114327216}
   deckLayout: {fileID: 1170694582}
+  tarotLayout: {fileID: 0}
   deckMenu: {fileID: 744260515}
   targetAgent: {fileID: 281621509}
+  cardTab: {fileID: 0}
+  tarotTab: {fileID: 0}
+  preview: {fileID: 0}
 --- !u!1 &213292377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,9 +1109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 914998dd1b86dcb4b983c009e630e538, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -1177,6 +1178,8 @@ MonoBehaviour:
   deck: []
   selectedCard: {fileID: 0}
   offHandCard: {fileID: 0}
+  stats:
+    baseStats: {fileID: 0}
 --- !u!136 &281621510
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1597,9 +1600,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 75486609bd669374eb4dc8250003077c, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -2048,6 +2048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   interactTime: 0
+  interactText: (E) Interact
   conversationName: BeachConvo
 --- !u!114 &501515198
 MonoBehaviour:
@@ -2119,9 +2120,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a29e910cdca74694c9815cc94d24810b, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3404,7 +3402,7 @@ Transform:
   m_GameObject: {fileID: 772260433}
   serializedVersion: 2
   m_LocalRotation: {x: -0.15176322, y: -0.69062895, z: -0.15176336, w: 0.69062835}
-  m_LocalPosition: {x: -25.24, y: 1475.4949, z: 1645.69}
+  m_LocalPosition: {x: -26.09, y: 1477.89, z: 1646.66}
   m_LocalScale: {x: 0.1, y: 3.5589, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3454,7 +3452,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 191bb458cc8c504419c6e5dc8e0688aa, type: 2}
+  - {fileID: 2100000, guid: 84f2d19f81a507e4a8af4de991a0777b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4971,18 +4969,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 118e16d5a47f4ff98a36d64e0140cce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cards: []
+  content: {fileID: 853169477}
+  cardPrefab: {fileID: 8042818698268776292, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
   mode: 1
   layout: 0
-  content: {fileID: 853169477}
   cardWidth: 240
-  maxSpacing: 250
+  handWidth: 150
   baseY: 180
+  arcXOffset: 80
   hoverPopHeight: 240
   sideShift: 100
   sideMove: -20
   animTime: 0.15
-  cardPrefab: {fileID: 8042818698268776292, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
+  arcRadius: 400
+  arcAngle: 25
+  cardRotation: 10
 --- !u!1 &1125232986
 GameObject:
   m_ObjectHideFlags: 0
@@ -5314,9 +5315,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 1a9b8c8d018c203409393fb5512a7cec, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -5731,12 +5729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25a3e376bff4327854dde4a0750ba4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cards: []
   content: {fileID: 1433899186}
-  infoCard: {fileID: 2093418050}
-  preview: {fileID: 604307115200316361, guid: 2b13f455cdbbda24293922772e5994cd, type: 3}
-  infoCardName: {fileID: 1694692230}
-  infoCardColl: {fileID: 789444473}
   cardPrefab: {fileID: 8042818698268776292, guid: 4ab48a983c1b3d04bad0bb2256941a41, type: 3}
 --- !u!1 &1222514500
 GameObject:
@@ -6833,9 +6826,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cec3efd91b76854eb6d7a8ec2ac4721, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -7150,63 +7140,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 48886163}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!1001 &1630695682
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
-      propertyPath: m_Name
-      value: card_house
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e3365cdd63bfb0f4882c994b297c7ae0, type: 3}
 --- !u!1 &1640617288
 GameObject:
   m_ObjectHideFlags: 0
@@ -8084,6 +8017,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 387776823f4fb0144a8efc3f23463734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  head: {fileID: 0}
+  headTurnSpeed: 0
+  headTurnCap: 0
   interactRange: 15
   interactableLayer:
     serializedVersion: 2
@@ -8132,6 +8068,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2113
   groundCheckCollider: {fileID: 981259237}
+  animator: {fileID: 0}
+  agent: {fileID: 0}
   orientation: {fileID: 347476596}
 --- !u!4 &1933226038
 Transform:
@@ -8378,12 +8316,11 @@ MonoBehaviour:
   environmentIntroTime: 0
   environmentIntroRad: 0
   environmentCenters: []
-  player: {fileID: 281621509}
-  mana: 0
-  maxMana: 0
-  minCardDelay: 0.2
-  manaRegen: 0
   initialized: 0
+  manaDisplay: {fileID: 0}
+  mana: 0
+  player: {fileID: 281621509}
+  minCardDelay: 0.2
 --- !u!4 &2087431597
 Transform:
   m_ObjectHideFlags: 0
@@ -8686,15 +8623,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -37.13
+      value: -37.17
       objectReference: {fileID: 0}
     - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1474.2035
+      value: 1473.94
       objectReference: {fileID: 0}
     - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1650.48
+      value: 1650.71
       objectReference: {fileID: 0}
     - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8732,6 +8669,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoonWaterRinsing
       objectReference: {fileID: 0}
+    - target: {fileID: 4454719207738764636, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dd74705c20da6e64cbfb10e7c5e8e2d0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8925,4 +8866,3 @@ SceneRoots:
   - {fileID: 132529734}
   - {fileID: 4382322515624955258}
   - {fileID: 48886163}
-  - {fileID: 1630695682}

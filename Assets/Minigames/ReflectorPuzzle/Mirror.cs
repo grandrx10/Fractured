@@ -7,7 +7,6 @@ public class Mirror : Interactable
     [Header("Rotation")]
     public float rotationStepDegrees = 15f;
     public float rotationDuration = 0.25f;
-
     private bool isRotating = false;
 
     public override void Interact(GameObject player)

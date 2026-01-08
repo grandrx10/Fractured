@@ -154,7 +154,7 @@ namespace Characters
             }
         }
 
-        public GameObject GetPlayerLookTarget(LayerMask layers)
+        public RaycastHit GetPlayerLookTarget(LayerMask layers)
         {
             bool hitSomething;
             RaycastHit hit;
@@ -167,7 +167,8 @@ namespace Characters
                     raycastOrigin.forward,
                     out hit,
                     interactRange,
-                    layers
+                    layers,
+                    QueryTriggerInteraction.Ignore
                 );
             }
             else
@@ -177,16 +178,17 @@ namespace Characters
                     raycastOrigin.forward,
                     out hit,
                     interactRange,
-                    layers
+                    layers,
+                    QueryTriggerInteraction.Ignore
                 );
             }
-            if (hitSomething) return PhysicsHelper.MainObj(hit.collider);
-            return null;
+            if (hitSomething) return hit;
+            return new RaycastHit();
         }
 
         private void CheckForInteractable()
         {
-            GameObject go = GetPlayerLookTarget(interactableLayer);
+            GameObject go = PhysicsHelper.MainObj(GetPlayerLookTarget(interactableLayer).collider);
 
             if (go)
             {

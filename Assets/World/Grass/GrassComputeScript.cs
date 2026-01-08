@@ -315,7 +315,7 @@ namespace World.Grass
             }
             // get frustum data from the main camera
             cameraOriginalFarPlane = m_MainCamera.farClipPlane;
-            m_MainCamera.transform.position += transform.position;
+            m_MainCamera.transform.position -= transform.position;
             m_MainCamera.farClipPlane = currentPresets.maxDrawDistance;//allow drawDistance control   
             
             GeometryUtility.CalculateFrustumPlanes(m_MainCamera, cameraFrustumPlanes);
@@ -335,7 +335,7 @@ namespace World.Grass
             m_cachedCamPos = m_MainCamera.transform.position;
             m_cachedCamRot = m_MainCamera.transform.rotation;
             
-            m_MainCamera.transform.position -= transform.position;
+            m_MainCamera.transform.position += transform.position;
         }
 
         private void OnDisable()

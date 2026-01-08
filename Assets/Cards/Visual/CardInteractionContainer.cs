@@ -31,21 +31,24 @@ namespace Cards.Visual
             RefreshLayout();
         }
 
-        public virtual void AddCard(Card card, int position=0)
+        public virtual void AddCard(Card card, bool force=true, int position=0)
         {
+            if (!force && !Cards.Contains(card)) return;
+            
             card.transform.SetParent(transform);
             var cc = Instantiate(cardPrefab, content);
             cc.card = card;
-            if (!Cards.Contains(card)) Cards.Add(card);
+            if (force && !Cards.Contains(card)) Cards.Add(card);
             var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
             hcc.Init(this);
             cc.transform.SetSiblingIndex(position);
             CardDisplays.Insert(position, hcc);
         }
         
-        public virtual void RemoveCard(Card card)
+        public virtual void RemoveCard(Card card, bool force=true)
         {
-            if (Cards.Contains(card)) Cards.Remove(card);
+            if (force && Cards.Contains(card)) Cards.Remove(card);
+
             CardDisplayInteractable c = null;
             foreach (var cc in CardDisplays)
             {

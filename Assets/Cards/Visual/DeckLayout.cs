@@ -74,7 +74,7 @@ namespace Cards.Visual
                     pointerLocal,
                     CardDisplays.Count);
                 
-                AddCard(card.AttachedCard, targetIndex);
+                AddCard(card.AttachedCard, position:targetIndex);
                 
                 Destroy(card.gameObject);
                 RefreshLayout();
@@ -161,11 +161,11 @@ namespace Cards.Visual
             return Mathf.Clamp(index, 0, itemCount);
         }
         
-        public override void AddCard(Card card, int position=-1)
+        public override void AddCard(Card card, bool force=true, int position=-1)
         {
             if (card.IsTarot) return;
             if (position == -1) position = CardDisplays.Count - 1;
-            base.AddCard(card, position);
+            base.AddCard(card, force, position);
         }
     }
 }

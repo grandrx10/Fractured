@@ -6,10 +6,10 @@ public class SymbolChanger : ButtonInteractable
 {
     [Header("Symbol Settings")]
     [Tooltip("SpriteRenderer that displays the symbol")]
-    public SpriteRenderer symbolRenderer;
+    public Renderer symbolRenderer;
 
     [Tooltip("List of symbols to cycle through")]
-    public List<Sprite> symbols = new List<Sprite>();
+    public List<Texture2D> symbols = new List<Texture2D>();
 
     [Tooltip("Index to start at")]
     public int startingIndex = 0;
@@ -33,7 +33,7 @@ public class SymbolChanger : ButtonInteractable
         }
 
         currentIndex = Mathf.Clamp(startingIndex, 0, symbols.Count - 1);
-        symbolRenderer.sprite = symbols[currentIndex];
+        symbolRenderer.material.SetTexture("_MainTex", symbols[currentIndex]);
     }
 
     public override void Action()
@@ -46,6 +46,6 @@ public class SymbolChanger : ButtonInteractable
         if (currentIndex >= symbols.Count)
             currentIndex = 0;
 
-        symbolRenderer.sprite = symbols[currentIndex];
+        symbolRenderer.material.SetTexture("_MainTex", symbols[currentIndex]);
     }
 }

@@ -14,8 +14,9 @@ namespace Cards.Environments
 {
     public class RTCombatEnv: OpenWorldEnv
     {
-        public float health;
-        public int maxHealth;
+        private float _health;
+        public int maxHealth = -1;
+        public bool allowHeal = true;
         [SerializeField] private DiscreteContainer healthDisplay;
         
         public int damageIframes = 30;
@@ -31,11 +32,19 @@ namespace Cards.Environments
             {
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
-            maxHealth = playerAgent.TotalHealth + CurrentStats.health;
-            health = maxHealth;
+            if (maxHealth == -1) maxHealth = playerAgent.TotalHealth + CurrentStats.health;
+            _health = maxHealth;
             _healthInstance = player.gameObject.AddComponent<PlayerHealth>();
             _healthInstance.Init(this);
             PlayerInteractController.PlayerInputs.InCombat = true;
+            UpdateHealth();
+        }
+
+        public void Heal(int amount)
+        {
+            if (!allowHeal) return;
+            _health += amount;
+            _health = Mathf.Clamp(_health, 0, maxHealth);
             UpdateHealth();
         }
 
@@ -51,8 +60,8 @@ namespace Cards.Environments
             {
                 damage = l.Hit(this, player, damage);
             }
-            health -= Mathf.Max(damage.Damage, 0);
-            health = Mathf.Clamp(health, 0, maxHealth);
+            _health -= Mathf.Max(damage.Damage, 0);
+            _health = Mathf.Clamp(_health, 0, maxHealth);
             UpdateHealth();
             if (damage.Damage > 0 || damage.ForceIframes)
             {
@@ -64,9 +73,10 @@ namespace Cards.Environments
 
         private void UpdateHealth()
         {
+            if (!initialized) return;
             healthDisplay.SetMaxValue(maxHealth);
-            healthDisplay.SetValue(health);
-            if (health <= 0)
+            healthDisplay.SetValue(_health);
+            if (_health <= 0)
             {
                 Die();
             }
@@ -85,7 +95,8 @@ namespace Cards.Environments
 
         public void Die()
         {
-            onDeath.Trigger(player.transform.position);
+            initialized = false;
+            onDeath.Trigger(player.transform.position - Vector3.up * 1.5f);
         }
 
         public override void Destroy()
