@@ -81,7 +81,7 @@ namespace Cards.Environments
             initialized = true;
             player = p;
             p.OnStatsUpdate += UpdateStats;
-            OnLoad.Invoke();
+            OnLoad?.Invoke();
         }
 
         private void UpdateStats()
