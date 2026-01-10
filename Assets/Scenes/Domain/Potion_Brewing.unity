@@ -1216,8 +1216,9 @@ GameObject:
   - component: {fileID: 785655140}
   - component: {fileID: 785655139}
   - component: {fileID: 785655138}
+  - component: {fileID: 785655141}
   m_Layer: 6
-  m_Name: Garbage (1)
+  m_Name: GarbageBin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1232,8 +1233,8 @@ Transform:
   m_GameObject: {fileID: 785655136}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071071, z: -0, w: 0.7071065}
-  m_LocalPosition: {x: -24.0209, y: 1474.9119, z: 1646.298}
-  m_LocalScale: {x: 1.2662361, y: 3.1552458, z: 1.3447293}
+  m_LocalPosition: {x: -16.7, y: 1474.3787, z: 1654.45}
+  m_LocalScale: {x: 1.2662361, y: 2.0887728, z: 1.3447293}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 403231486}
@@ -1282,7 +1283,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7c51a9b0e9647b43a903265d6ab1f0f, type: 2}
+  - {fileID: 2100000, guid: 9799f958bec32924199f060146fc32f5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1312,6 +1313,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785655136}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &785655141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785655136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55e36373b918504684769b07eb980f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 1
+  interactTime: 0
+  interactText: (E) to Trash
+  stationPoint: {fileID: 1393639252}
 --- !u!1 &788595621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1957,7 +1974,7 @@ Transform:
   m_GameObject: {fileID: 1029603009}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.0000004768371, z: -0, w: 1}
-  m_LocalPosition: {x: 1.56, y: 1.83, z: -26.77}
+  m_LocalPosition: {x: 1.56, y: 1.83, z: -23.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2019,6 +2036,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1111938742 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7264865481011433192, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
+  m_PrefabInstance: {fileID: 3186662495648067556}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1129284306
 GameObject:
   m_ObjectHideFlags: 0
@@ -2563,6 +2591,52 @@ MonoBehaviour:
     mana: 0
     strength: 0
   behaviors: []
+--- !u!1 &1479207328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1479207329}
+  - component: {fileID: 1479207330}
+  m_Layer: 0
+  m_Name: GiveRecipeLumpfruit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1479207329
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479207328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.4, y: -0.69, z: -0.47}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1481173460}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1479207330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479207328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 11400000, guid: 759887b3c2af63d48b5afe513735b6af, type: 2}
+  giveToHand: 1
 --- !u!1 &1481173459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2595,6 +2669,7 @@ Transform:
   - {fileID: 1159486594}
   - {fileID: 573189001}
   - {fileID: 537957461}
+  - {fileID: 1479207329}
   - {fileID: 692487381}
   - {fileID: 948128522}
   - {fileID: 1770196406}
@@ -2734,12 +2809,23 @@ Transform:
   m_GameObject: {fileID: 1602531110}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071071, z: -0, w: 0.7071065}
-  m_LocalPosition: {x: 14.06, y: -0.77000046, z: -14.65}
+  m_LocalPosition: {x: 11.93, y: -0.77000046, z: -14.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 48886163}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1637509785 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5369220378875927690, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
+  m_PrefabInstance: {fileID: 3186662495648067556}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1646753611
 GameObject:
   m_ObjectHideFlags: 0
@@ -2796,7 +2882,7 @@ Transform:
   m_GameObject: {fileID: 1677659202}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071066, z: -0, w: -0.707107}
-  m_LocalPosition: {x: -11.783, y: -0.77000046, z: -14.65}
+  m_LocalPosition: {x: -6.04, y: -0.77000046, z: -14.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2983,6 +3069,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   domain: {fileID: 1770196407}
   TriggerAtPlayerFeet: 1
+--- !u!114 &1772401627 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 595252748692410353, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
+  m_PrefabInstance: {fileID: 3186662495648067556}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1820576092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3229,7 +3326,7 @@ PrefabInstance:
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: timerText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1637509785}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: tossForce
       value: 15
@@ -3253,11 +3350,11 @@ PrefabInstance:
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: nextIngredientImage
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1772401627}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: currentIngredientImage
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1111938742}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: recipeIngredients.Array.size
       value: 4
@@ -3269,19 +3366,19 @@ PrefabInstance:
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: 'recipeIngredients.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: d30272158abc5cf42815fae8e1135ade, type: 2}
+      objectReference: {fileID: 11400000, guid: 5cb584379c584a64584b3aa192895e70, type: 2}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: 'recipeIngredients.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5cb584379c584a64584b3aa192895e70, type: 2}
+      objectReference: {fileID: 11400000, guid: d30272158abc5cf42815fae8e1135ade, type: 2}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: 'recipeIngredients.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: e2d4e151186e7f04d8fb97ae70c63bd1, type: 2}
+      objectReference: {fileID: 11400000, guid: 5cb584379c584a64584b3aa192895e70, type: 2}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: 'recipeIngredients.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5cb584379c584a64584b3aa192895e70, type: 2}
+      objectReference: {fileID: 11400000, guid: e2d4e151186e7f04d8fb97ae70c63bd1, type: 2}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: ingredientSpawnPoints.Array.size
       value: 3
