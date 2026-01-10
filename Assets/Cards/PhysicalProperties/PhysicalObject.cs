@@ -1,5 +1,7 @@
 ﻿using System;
 using Cards.Core;
+using Cards.Core.BehaviorTags;
+using Cards.Environments;
 using UnityEngine;
 using Utils;
 
@@ -76,6 +78,11 @@ namespace Cards.PhysicalProperties
                     Direction = g.transform.forward,
                     Speed = rb.linearVelocity.magnitude
                 });
+
+                foreach (var hit in card.GetAllBehaviors<IBehaviorHitListener>())
+                {
+                    hit.Hit(OpenWorldEnv.Current, g);
+                }
             }
         }
 

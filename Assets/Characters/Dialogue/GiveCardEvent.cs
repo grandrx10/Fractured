@@ -35,13 +35,13 @@ namespace World.Objects
             if (giveToHand)
             {
                 // Put card directly in the main hand
-                player.AddCard(c, true);
+                player.GiveCard(c, true);
                 Debug.Log($"GiveCardEvent: Gave card '{card.name}' to player's hand.");
             }
             else
             {
                 // Add card to inventory
-                player.AddCard(c);
+                player.GiveCard(c);
                 Debug.Log($"GiveCardEvent: Gave card '{card.name}' to inventory.");
             }
         }

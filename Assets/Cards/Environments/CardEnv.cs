@@ -76,12 +76,17 @@ namespace Cards.Environments
             return effect;
         }
         
+        List<PlayerEffect> _deleted = new();
+        
         protected virtual void Update()
         {
             foreach (var effect in _effects)
             {
-                effect.TickEffect(Time.deltaTime);
+                if (effect) effect.TickEffect(Time.deltaTime);
+                else _deleted.Add(effect);
             }
+            _deleted.ForEach(o => Destroy(o.gameObject));
+            _deleted.Clear();
             manaDisplay.SetMaxValue(CurrentStats.maxMana);
             manaDisplay.SetValue(mana);
         }

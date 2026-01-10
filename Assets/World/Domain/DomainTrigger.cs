@@ -7,7 +7,7 @@ namespace World.Domain
     {
         public string domainName, domainPoint;
         [TextArea] public string domainTag;
-
+        
         public void Trigger()
         {
             Trigger(transform.position);

@@ -108,7 +108,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 3018293464407900647, guid: dcfd9a6b10dd01d49bd8253edbc0de9a, type: 3}
+  m_Mesh: {fileID: 3018293464407900647, guid: ec69847b5119baf49ac02b8427310434, type: 3}
 --- !u!1 &5574053415742184780
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 5854324720487329561}
   - component: {fileID: 3815654288951035567}
   - component: {fileID: 8687992202709163576}
+  - component: {fileID: 3184098889601165898}
   m_Layer: 0
   m_Name: goat
   m_TagString: Untagged
@@ -224,7 +225,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a1ea405ffd446492e9d7c15d9fbe93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1ee242d8-d5eb-4a9e-89d9-1a5e19f9dbdf
+  id: 7fca63b2-3a58-4ae5-9966-87d47a21bd40
+--- !u!114 &3184098889601165898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5574053415742184780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764933e7d7f89ce40bddb1c85feb4093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 1
+  interactTime: 0
+  interactText: (E) Interact
+  defaultConversationName: GoatConvo
 --- !u!1 &6671412296125758599
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +350,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -4144909649680100680, guid: dcfd9a6b10dd01d49bd8253edbc0de9a, type: 3}
+  m_Mesh: {fileID: -4144909649680100680, guid: ec69847b5119baf49ac02b8427310434, type: 3}
 --- !u!1001 &1917468086508007406
 PrefabInstance:
   m_ObjectHideFlags: 0

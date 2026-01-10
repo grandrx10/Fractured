@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cards.Card_Assets.Systems.B;
 using Cards.Core;
 using Cards.Environments;
+using Game;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -62,6 +64,12 @@ namespace Cards
         
         public void GiveCard(Card card, bool toHand=false)
         {
+            if (card.TryGetBehavior(out MoneyBehavior money))
+            {
+                GlobalState.instance.AddMoney(money.value);
+                OnGetCard?.Invoke(card, toHand ? CardTarget.Hand : CardTarget.Deck);
+                return;
+            }
             AddCard(card, toHand);
             OnGetCard?.Invoke(card, toHand ? CardTarget.Hand : CardTarget.Deck);
             //OnAddCard?.Invoke(card, toHand ? CardTarget.Hand : CardTarget.Deck);

@@ -663,7 +663,7 @@ Transform:
   m_GameObject: {fileID: 2883721986354152233}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13665478, y: -0.00000006858001, z: 0.000000009460539, w: 0.99061877}
-  m_LocalPosition: {x: 0.6930008, y: 3.493, z: -8}
+  m_LocalPosition: {x: -77.69994, y: -12.174367, z: 376.34192}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1426,7 +1426,7 @@ Transform:
   m_GameObject: {fileID: 4678834173544844809}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.971, z: 0}
+  m_LocalPosition: {x: 0, y: -0.907, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1451,7 +1451,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.0916872, z: 1}
+  m_Size: {x: 0.5, y: 0.1, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2060773128537864986
 MonoBehaviour:
@@ -1577,9 +1577,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.3
-  m_Height: 2
+  m_Height: 1.908391
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.0458045, z: 0}
 --- !u!136 &8696635044982150939
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2408,9 +2408,9 @@ MonoBehaviour:
   hand: []
   deck: []
   selectedCard: {fileID: 0}
-  offHandCard: {fileID: 0}
   stats:
     baseStats: {fileID: 11400000, guid: 262ea9b263432c5498210fa1e8199428, type: 2}
+    tempStats: {fileID: 0}
 --- !u!114 &7471105227004324364
 MonoBehaviour:
   m_ObjectHideFlags: 0

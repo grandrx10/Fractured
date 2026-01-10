@@ -9,8 +9,6 @@ namespace Cards.PhysicalProperties
         
         public float lifetime;
         
-        
-
         private void Update()
         {
             lifetime -= Time.deltaTime;

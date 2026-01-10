@@ -5,6 +5,6 @@ namespace Cards.Core.BehaviorTags
 {
     public interface IBehaviorHitListener
     {
-        public void Hit(OpenWorldEnv env, Agent agent, GameObject target);
+        public void Hit(OpenWorldEnv env, GameObject target);
     }
 }

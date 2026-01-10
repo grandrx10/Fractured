@@ -25,8 +25,14 @@ public class PersistentID : MonoBehaviour
     {
         EnsureID();
     }
+
+    private void Reset()
+    {
+        EnsureID();
+    }
 #endif
 
+    [ContextMenu("Make ID")]
     void EnsureID()
     {
 #if UNITY_EDITOR
@@ -34,10 +40,13 @@ public class PersistentID : MonoBehaviour
             return;
 #endif
 
-        if (!string.IsNullOrEmpty(id))
+        if (!string.IsNullOrEmpty(id) && !HasDuplicate(id))
+        {
+            //Debug.Log(string.IsNullOrEmpty(id));
+            //Debug.Log(id);
             return;
-        if (!HasDuplicate(id))
-            return;
+        }
+            
 #if UNITY_EDITOR
         Undo.RecordObject(this, "Generate Persistent ID");
 #endif

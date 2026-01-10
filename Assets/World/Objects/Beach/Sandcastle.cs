@@ -16,7 +16,7 @@ public class Sandcastle : MonoBehaviour
 
     private void Break()
     {
-        var c = Instantiate(brokenPrefab, transform.position, Quaternion.identity);
+        var c = Instantiate(brokenPrefab, transform.position, transform.rotation);
         if (c.TryGetComponent(out Chest ch)) ch.id = _id;
         Destroy(gameObject);
         GlobalState.instance.AddEvent($"Sandcastle_Destroy_{_id.ID}");

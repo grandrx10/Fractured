@@ -11,7 +11,7 @@ namespace Cards.Core.Behaviors
         [Header("Prefab to Summon")]
         public GameObject prefabToSummon;
 
-        public void Hit(OpenWorldEnv env, Agent agent, GameObject target)
+        public void Hit(OpenWorldEnv env, GameObject target)
         {   
             Debug.Log("TOUCH!");
             if (AttachedCard == null)

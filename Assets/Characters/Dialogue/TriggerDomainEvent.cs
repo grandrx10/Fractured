@@ -11,7 +11,8 @@ namespace Characters.Dialogue
 
         [Header("Options")]
         public bool TriggerAtPlayerFeet = false;
-
+        
+        [ContextMenu("Execute")]
         public override void Execute()
         {
             if (domain == null)

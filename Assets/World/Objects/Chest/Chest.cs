@@ -34,7 +34,7 @@ namespace World.Objects
             GameObject cardGo = new GameObject("Card");
             Card c = cardGo.AddComponent<Card>();
             c.AssignData(card);
-            player.GetComponentInChildren<PlayerAgent>().AddCard(c);
+            player.GetComponentInChildren<PlayerAgent>().GiveCard(c);
         
             if (id.ID != "")
             {
