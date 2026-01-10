@@ -6,6 +6,7 @@ using Minigames.Cooking.PotionIngrediets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Characters.Dialogue;
 
 namespace Minigames.Cooking.Stations
 {
@@ -19,7 +20,6 @@ namespace Minigames.Cooking.Stations
         public Image currentIngredientImage;
         public Image nextIngredientImage;
         public TextMeshProUGUI timerText;
-        public TextMeshProUGUI inspectPromptText;
 
         [Header("Ingredient Tossing")]
         public List<Transform> ingredientSpawnPoints = new List<Transform>();
@@ -31,11 +31,17 @@ namespace Minigames.Cooking.Stations
         [Tooltip("Force applied to tossed ingredients")]
         public float tossForce = 6f;
 
+        [Header("Dialogue Settings")]
+        [Tooltip("Dialogue to trigger on successful completion")]
+        public string successDialogue;
+
+        [Tooltip("Dialogue to trigger on failure/explosion")]
+        public string failDialogue;
+
         private int currentIngredientIndex = 0;
         private bool potStarted = false;
         private float ingredientTimer = 0f;
         private bool timerActive = false;
-        private bool isInspecting = false;
 
         private float tossTimer = 0f;
 
@@ -52,8 +58,8 @@ namespace Minigames.Cooking.Stations
         }
 
         /* =========================
-     * POT LIFECYCLE
-     * ========================= */
+         * POT LIFECYCLE
+         * ========================= */
 
         public void StartPot()
         {
@@ -83,17 +89,11 @@ namespace Minigames.Cooking.Stations
         }
 
         /* =========================
-     * UPDATE LOOP
-     * ========================= */
+         * UPDATE LOOP
+         * ========================= */
 
         private void Update()
         {
-            // Inspect input
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                ToggleInspect();
-            }
-
             // Toss ingredients while pot is active
             if (potStarted)
             {
@@ -114,20 +114,22 @@ namespace Minigames.Cooking.Stations
             if (ingredientTimer <= 0f)
             {
                 timerActive = false;
-                ExplodeManager.Instance.Explode(stationPoint);
+                TriggerFail();
             }
         }
 
         /* =========================
-     * INTERACTION
-     * ========================= */
+         * INTERACTION
+         * ========================= */
 
         public override void Interact(GameObject player)
         {
             if (!potStarted)
                 return;
 
-            Cook cook = OpenWorldEnv.Current.GetComponent<Cook>();
+            Cook cook = OpenWorldEnv.Current
+                ?.PlayerTransform
+                ?.GetComponent<Cook>();
             if (cook == null || cook.heldObject == null)
                 return;
 
@@ -140,10 +142,16 @@ namespace Minigames.Cooking.Stations
             {
                 currentIngredientIndex++;
                 StartIngredientTimer();
+
+                // Recipe complete
+                if (currentIngredientIndex >= recipeIngredients.Count)
+                {
+                    TriggerSuccess();
+                }
             }
             else
             {
-                ExplodeManager.Instance.Explode(stationPoint);
+                TriggerFail();
             }
 
             Destroy(cook.heldObject.gameObject);
@@ -153,49 +161,45 @@ namespace Minigames.Cooking.Stations
         }
 
         /* =========================
-     * INSPECT FUNCTIONALITY
-     * ========================= */
+         * SUCCESS / FAIL
+         * ========================= */
 
-        private void ToggleInspect()
+        public void TriggerSuccess()
         {
-            if (!potStarted || currentIngredientIndex >= recipeIngredients.Count)
-                return;
+            if (!potStarted) return;
 
-            isInspecting = !isInspecting;
+            potStarted = false;
+            timerActive = false;
 
-            if (isInspecting)
-                ShowInspect();
-            else
-                HideInspect();
+            if (!string.IsNullOrEmpty(successDialogue) && DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.StartConversation(successDialogue);
+            }
+
+            UpdateUI();
         }
 
-        private void ShowInspect()
+        public void TriggerFail()
         {
-            if (currentIngredientImage == null)
-                return;
+            if (!potStarted) return;
 
-            currentIngredientImage.transform.SetAsLastSibling();
-            currentIngredientImage.rectTransform.anchorMin = Vector2.zero;
-            currentIngredientImage.rectTransform.anchorMax = Vector2.one;
-            currentIngredientImage.rectTransform.offsetMin = Vector2.zero;
-            currentIngredientImage.rectTransform.offsetMax = Vector2.zero;
-        }
+            potStarted = false;
+            timerActive = false;
 
-        private void HideInspect()
-        {
-            if (currentIngredientImage == null)
-                return;
+            ExplodeManager.Instance?.Explode(transform);
 
-            currentIngredientImage.rectTransform.anchorMin = originalAnchorMin;
-            currentIngredientImage.rectTransform.anchorMax = originalAnchorMax;
-            currentIngredientImage.rectTransform.offsetMin = originalOffsetMin;
-            currentIngredientImage.rectTransform.offsetMax = originalOffsetMax;
-            currentIngredientImage.transform.SetSiblingIndex(originalSiblingIndex);
+            if (!string.IsNullOrEmpty(failDialogue) && DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.StartConversation(failDialogue);
+                Debug.Log("This triggered");
+            }
+
+            UpdateUI();
         }
 
         /* =========================
-     * UI
-     * ========================= */
+         * UI
+         * ========================= */
 
         private void UpdateUI()
         {
@@ -210,16 +214,10 @@ namespace Minigames.Cooking.Stations
             {
                 currentIngredientImage.sprite = recipeIngredients[currentIngredientIndex].ingredientImage;
                 currentIngredientImage.gameObject.SetActive(true);
-
-                if (inspectPromptText != null)
-                    inspectPromptText.gameObject.SetActive(true);
             }
             else
             {
                 currentIngredientImage.gameObject.SetActive(false);
-
-                if (inspectPromptText != null)
-                    inspectPromptText.gameObject.SetActive(false);
             }
 
             // Next ingredient
@@ -259,13 +257,11 @@ namespace Minigames.Cooking.Stations
                 nextIngredientImage.gameObject.SetActive(false);
             if (timerText != null)
                 timerText.gameObject.SetActive(false);
-            if (inspectPromptText != null)
-                inspectPromptText.gameObject.SetActive(false);
         }
 
         /* =========================
-     * INGREDIENT TOSSING
-     * ========================= */
+         * INGREDIENT TOSSING
+         * ========================= */
 
         private void TossRandomIngredient()
         {
@@ -288,7 +284,6 @@ namespace Minigames.Cooking.Stations
             rb.angularVelocity = Vector3.zero;
             rb.AddForce(direction * tossForce, ForceMode.Impulse);
         }
-
 
         private void Start()
         {

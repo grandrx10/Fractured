@@ -51,14 +51,13 @@ Sorry, did you say we could blow up?
 [Nyx]
 Fabulous! When you're ready, go into my hut.
 ===
-[Nyx]{NyxWait}
 [NyxDoor]{NyxDoorEnter}
+[Nyx]{NyxWait}
 ###
 NyxDoorEnter
 ===
 <NyxDoorEnter>
 ===
-[NyxDoor]{}
 ###
 NyxWait
 ===
@@ -99,10 +98,12 @@ Remember, you have to stir in the correct motion, and insert ingredients at the 
 I'll handle the stirring. Knives are... knives aren't my thing.
 ---
 [Dorian]
-Don't worry, I'll handle the ingredients.
+Then I'll handle preparing the ingredients.
 ---
+<GiveRecipeLuminshroom>
+<GiveRecipeGumproot>
 [Ravenna]
-See if you can take a look at the stations - let me know when you're ready.
+Here's the recipe book she gave me, it looks pretty complicated, so give it a readover. Let me know when you're ready.
 ===
 [Ravenna]{BeginCooking}
 ###

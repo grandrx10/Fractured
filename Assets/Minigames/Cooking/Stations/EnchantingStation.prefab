@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 564629750192592209}
   - component: {fileID: 5091367034476618703}
+  - component: {fileID: 273164248263222096}
   - component: {fileID: 5667985155090615212}
   m_Layer: 6
   m_Name: EnchantingStation
@@ -59,8 +60,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.0000004172325}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6306351137209582238}
   - {fileID: 5021108818043007647}
@@ -81,8 +82,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   interactTime: 0.5
-  interactText: (E) Interact
+  interactText: (E) to Enchant
   stationPoint: {fileID: 6306351137209582238}
+--- !u!54 &273164248263222096
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2772296359085852104}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!54 &5667985155090615212
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -121,8 +149,9 @@ GameObject:
   - component: {fileID: 5021108818043007647}
   - component: {fileID: 8518490980483754150}
   - component: {fileID: 4898721635388247989}
+  - component: {fileID: 7400402041333554956}
   - component: {fileID: 9185915916091046729}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: station_ench
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,6 +229,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7400402041333554956
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3546058204461219220}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7821746598815248697, guid: 8bf207ad4f00eae4ba19908c6059e8e4, type: 3}
 --- !u!65 &9185915916091046729
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -232,7 +283,8 @@ GameObject:
   - component: {fileID: 443644952199784492}
   - component: {fileID: 3128943354107741800}
   - component: {fileID: 5810687860159591906}
-  m_Layer: 0
+  - component: {fileID: 9001420577922457506}
+  m_Layer: 6
   m_Name: station_ench_cloth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,3 +359,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &9001420577922457506
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231957635152539557}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2595242426936324343, guid: 8bf207ad4f00eae4ba19908c6059e8e4, type: 3}

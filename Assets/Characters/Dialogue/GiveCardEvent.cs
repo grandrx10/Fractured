@@ -14,6 +14,9 @@ namespace World.Objects
         [Header("Card to Give")]
         public CardData card;
 
+        [Header("Give to hand")]
+        public bool giveToHand = false;
+
         public override void Execute()
         {
             if (OpenWorldEnv.Current == null || OpenWorldEnv.Current.player == null)
@@ -29,10 +32,18 @@ namespace World.Objects
             Card c = cardGo.AddComponent<Card>();
             c.AssignData(card);
 
-            // Give card to player
-            player.AddCard(c);
-
-            Debug.Log($"GiveCardEvent: Gave card '{card.name}' to player.");
+            if (giveToHand)
+            {
+                // Put card directly in the main hand
+                player.AddCard(c, true);
+                Debug.Log($"GiveCardEvent: Gave card '{card.name}' to player's hand.");
+            }
+            else
+            {
+                // Add card to inventory
+                player.AddCard(c);
+                Debug.Log($"GiveCardEvent: Gave card '{card.name}' to inventory.");
+            }
         }
     }
 }

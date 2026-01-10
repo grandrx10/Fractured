@@ -15,7 +15,9 @@ namespace Minigames.Cooking.Stations
         public override void Interact(GameObject player)
         {
             // Get the cook
-            Cook cook = OpenWorldEnv.Current.GetComponent<Cook>();
+            Cook cook = OpenWorldEnv.Current
+                ?.PlayerTransform
+                ?.GetComponent<Cook>();
             if (cook == null) return;
 
             Cookable heldObject = cook.heldObject;
