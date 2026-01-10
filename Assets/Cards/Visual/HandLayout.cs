@@ -12,14 +12,13 @@ namespace Cards.Visual
     {
         public InteractMode mode;
         public LayoutMode layout;
-        
+        public int cardCap = 7;
         [SerializeField] private float cardWidth = 150f;
         [SerializeField] private float handWidth = 150f;
         [SerializeField] private float baseY = 80f;
         [SerializeField] private float arcXOffset = 80f;
         [SerializeField] private float hoverPopHeight = 140f;
         [SerializeField] private float sideShift = 40f;
-        [SerializeField] private float sideMove = 40f;
         [SerializeField] private float animTime = 0.15f;
         
         [SerializeField] float arcRadius = 400f;
@@ -73,10 +72,16 @@ namespace Cards.Visual
             RefreshLayout();
         }
 
-        public override void AddCard(Card card, bool force = true, int position = 0)
+        public override void AddCardDisplay(Card card, int position = 0)
         {
-            base.AddCard(card, force, position);
+            base.AddCardDisplay(card, position);
             RefreshLayout();
+        }
+
+        public override bool OnCardDropped(CardInteractionContainer source, CardDisplayInteractable card)
+        {
+            if (CardDisplays.Count >= cardCap) return false;
+            return base.OnCardDropped(source, card);
         }
 
         private int HoveredIndexClamped()

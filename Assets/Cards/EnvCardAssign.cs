@@ -13,7 +13,7 @@ namespace Cards
         {
             env.OnLoad += () =>
             {
-                env.player.AddCard(card, true);
+                env.player.GiveCard(card, true);
             };
         }
     }

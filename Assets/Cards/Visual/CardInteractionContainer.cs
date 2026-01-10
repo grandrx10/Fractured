@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cards.Core;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,51 +8,48 @@ namespace Cards.Visual
 {
     public class CardInteractionContainer : MonoBehaviour
     {
-        protected List<CardDisplayInteractable> CardDisplays = new();
+        [SerializeField] protected List<CardDisplayInteractable> CardDisplays = new();
         protected List<Card> Cards;
         public RectTransform content;
         public CardDisplay cardPrefab;
-        
-        public void AssignCardList(List<Card> cards)
+        protected Action<Card> AddCard, RemoveCard;
+        public void AssignCardList(List<Card> cards, Action<Card> addCard, Action<Card> removeCard)
         {
             Cards = cards;
+            AddCard = addCard;
+            RemoveCard = removeCard;
             PopulateCards();
         }
         
         public virtual void PopulateCards()
         {
-            for (int i = 0; i < Cards.Count; i++)
+            foreach (var t in Cards)
             {
-                var cc = Instantiate(cardPrefab, content);
-                cc.card = Cards[i];
-                var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
-                hcc.Init(this);
-                CardDisplays.Add(hcc);
+                AddCardDisplay(t);
             }
+
             RefreshLayout();
         }
 
-        public virtual void AddCard(Card card, bool force=true, int position=0)
+        public virtual void AddCardDisplay(Card card, int position=0)
         {
-            if (!force && !Cards.Contains(card)) return;
+            if (!Cards.Contains(card)) return;
             
             card.transform.SetParent(transform);
             var cc = Instantiate(cardPrefab, content);
             cc.card = card;
-            if (force && !Cards.Contains(card)) Cards.Add(card);
             var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
             hcc.Init(this);
             cc.transform.SetSiblingIndex(position);
             CardDisplays.Insert(position, hcc);
         }
         
-        public virtual void RemoveCard(Card card, bool force=true)
+        public virtual void RemoveCardDisplay(Card card)
         {
-            if (force && Cards.Contains(card)) Cards.Remove(card);
-
             CardDisplayInteractable c = null;
             foreach (var cc in CardDisplays)
             {
+                //Debug.Log($"{cc.AttachedCard}, {card}");
                 if (ReferenceEquals(cc.AttachedCard, card))
                 {
                     c = cc;
@@ -76,7 +74,7 @@ namespace Cards.Visual
             if (source.OnCardRemoved(card))
             {
                 AddCard(card.AttachedCard);
-                Destroy(card.gameObject);
+                AddCardDisplay(card.AttachedCard);
                 RefreshLayout();
                 return true;
             }
@@ -85,8 +83,8 @@ namespace Cards.Visual
         
         public virtual bool OnCardRemoved(CardDisplayInteractable card)
         {
-            CardDisplays.Remove(card);
-            Cards.Remove(card.AttachedCard);
+            RemoveCard(card.AttachedCard);
+            RemoveCardDisplay(card.AttachedCard);
             RefreshLayout();
             return true;
         }

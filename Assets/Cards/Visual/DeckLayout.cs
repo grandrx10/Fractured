@@ -74,9 +74,8 @@ namespace Cards.Visual
                     pointerLocal,
                     CardDisplays.Count);
                 
-                AddCard(card.AttachedCard, position:targetIndex);
-                
-                Destroy(card.gameObject);
+                AddCard(card.AttachedCard);
+                AddCardDisplay(card.AttachedCard, targetIndex);
                 RefreshLayout();
                 return true;
             }
@@ -152,7 +151,7 @@ namespace Cards.Visual
                     col = Mathf.Clamp(col, 0, cols - 1);
 
                     index = row * cols + col;
-                    Debug.Log($"{col} {row} {index} {pointerLocal.x}/{x}/{stepX} {pointerLocal.y}/{y}/{stepY}");
+                    //Debug.Log($"{col} {row} {index} {pointerLocal.x}/{x}/{stepX} {pointerLocal.y}/{y}/{stepY}");
                     break;
                 }
             }
@@ -161,11 +160,11 @@ namespace Cards.Visual
             return Mathf.Clamp(index, 0, itemCount);
         }
         
-        public override void AddCard(Card card, bool force=true, int position=-1)
+        public override void AddCardDisplay(Card card, int position=-1)
         {
             if (card.IsTarot) return;
             if (position == -1) position = CardDisplays.Count - 1;
-            base.AddCard(card, force, position);
+            base.AddCardDisplay(card, position);
         }
     }
 }

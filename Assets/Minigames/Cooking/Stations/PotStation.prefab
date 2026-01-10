@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6652323072216252958}
   - component: {fileID: 7337100010674728698}
   - component: {fileID: 6570582710987180640}
+  - component: {fileID: 6768922070108999817}
   m_Layer: 0
   m_Name: pot_stones
   m_TagString: Untagged
@@ -86,6 +87,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6768922070108999817
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267975516384538911}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7814176151559510326, guid: 8bf207ad4f00eae4ba19908c6059e8e4, type: 3}
 --- !u!1 &3617058125987968365
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8154332438693791080}
   - component: {fileID: 178390416867952123}
+  - component: {fileID: 5524076162299421966}
   m_Layer: 0
   m_Name: PotStation
   m_TagString: Untagged
@@ -266,6 +290,33 @@ MonoBehaviour:
   tossableIngredients: []
   tossInterval: 3
   tossForce: 6
+--- !u!54 &5524076162299421966
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6810320788131952663}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8896224563867145266
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,6 +328,7 @@ GameObject:
   - component: {fileID: 6382229040498196726}
   - component: {fileID: 2618903428049117239}
   - component: {fileID: 1795582436626876205}
+  - component: {fileID: 8711056173023515134}
   m_Layer: 0
   m_Name: pot_main
   m_TagString: Untagged
@@ -293,7 +345,7 @@ Transform:
   m_GameObject: {fileID: 8896224563867145266}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0.6744633, z: 0}
+  m_LocalPosition: {x: 0, y: 1.02, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -353,3 +405,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8711056173023515134
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8896224563867145266}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6844738551967418867, guid: 8bf207ad4f00eae4ba19908c6059e8e4, type: 3}

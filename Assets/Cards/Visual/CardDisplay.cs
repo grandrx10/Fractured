@@ -28,15 +28,9 @@ namespace Cards.Visual
             var container = cardContainers[(int)v.Style];
             if (card.GetData() is TarotCardData tarotData) container = tarotData.customDisplay;
             _cc = Instantiate(container, transform);
-            _cc.transform.SetAsFirstSibling();
-            _cc.transform.localPosition = Vector3.zero;
-            _cc.icon.sprite = v.Icon;
-            _cc.SetTitle($"{v.Name}");
-            _cc.hp.text = $"{card.stats.health}";
-            _cc.mp.text = $"{card.stats.mana}";
-            _cc.dmg.text = $"{card.stats.strength}";
-            _cc.SetFlavor(v.FlavorText);
-            _cc.SetDesc(MakeDescription());
+            
+            SetDisplay();
+            
             if (!noPreview) {
                 DisplayClicked += () =>
                 {
@@ -48,6 +42,26 @@ namespace Cards.Visual
             {
                 UIHelper.FlattenChildrenZ(_cc.transform);
             }
+        }
+
+        private void SetDisplay()
+        {
+            if (!card || !_cc) return;
+            var v = card.Visuals;
+            _cc.transform.SetAsFirstSibling();
+            _cc.transform.localPosition = Vector3.zero;
+            _cc.icon.sprite = v.Icon;
+            _cc.SetTitle($"{v.Name}");
+            _cc.hp.text = $"{card.stats.health}";
+            _cc.mp.text = $"{card.stats.mana}";
+            _cc.dmg.text = $"{card.stats.strength}";
+            _cc.SetFlavor(v.FlavorText);
+            _cc.SetDesc(MakeDescription());
+        }
+
+        private void OnEnable()
+        {
+            SetDisplay();
         }
 
         private void OnDisable()

@@ -14,7 +14,7 @@ namespace Cards.Core.Behaviors
     {
         [Header("Juiced Settings")]
         [PrefabComponent] public PhysicalObject juicedCardPrefab;
-
+        public string description;
         public override bool Use(CardEnv env, Agent agent)
         {
             if (env is not OpenWorldEnv opEnv)
@@ -50,6 +50,11 @@ namespace Cards.Core.Behaviors
             cardPrefab = originalPrefab;
 
             return true;
+        }
+
+        public override string GetDescription()
+        {
+            return description;
         }
     }
 }

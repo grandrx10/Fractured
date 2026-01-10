@@ -658,9 +658,6 @@ MonoBehaviour:
   uiGameObject: {fileID: 270688468139425908}
   orientation: {fileID: 3603662854328374165}
   player: {fileID: 7779007587187811765}
-  playerObj: {fileID: 2060488939423351865}
-  rb: {fileID: 7163056067678048503}
-  rotationSpeed: 5
 --- !u!114 &2863553929789452979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1414,7 +1411,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -2018,7 +2015,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!114 &802383673487177519
 MonoBehaviour:
@@ -2037,6 +2034,7 @@ MonoBehaviour:
   jumpForce: 10
   jumpCooldown: 0.5
   airMultiplier: 1.5
+  rotationSpeed: 5
   jumpKey: 32
   whatIsGround:
     serializedVersion: 2

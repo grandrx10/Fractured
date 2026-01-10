@@ -20,22 +20,26 @@ namespace Cards.Visual
             {
                 targetAgent.SubmitCard(card);
             };
-            targetAgent.OnAddCard += card =>
+            targetAgent.OnGetCard += (card, target) =>
             {
-                deckLayout.AddCard(card, false);
-                tarotLayout.AddCard(card, false);
-                handLayout.AddCard(card, false);
+                deckLayout.AddCardDisplay(card);
+                tarotLayout.AddCardDisplay(card);
+                handLayout.AddCardDisplay(card);
                 CreatePreview(card);
             };
-            targetAgent.OnRemoveCard += card =>
+            targetAgent.OnLoseCard += (card, target) =>
             {
-                deckLayout.RemoveCard(card, false);
-                handLayout.RemoveCard(card, false);
-                tarotLayout.RemoveCard(card, false);
+                deckLayout.RemoveCardDisplay(card);
+                handLayout.RemoveCardDisplay(card);
+                tarotLayout.RemoveCardDisplay(card);
             };
-            handLayout.AssignCardList(targetAgent.hand);
-            deckLayout.AssignCardList(targetAgent.deck);
-            tarotLayout.AssignCardList(targetAgent.deck);
+            
+            handLayout.AssignCardList(targetAgent.hand, c => { targetAgent.AddCard(c, true); },
+                targetAgent.RemoveCard);
+            deckLayout.AssignCardList(targetAgent.deck, c => { targetAgent.AddCard(c); },
+                targetAgent.RemoveCard);
+            tarotLayout.AssignCardList(targetAgent.deck, c => { targetAgent.AddCard(c); },
+                targetAgent.RemoveCard);
         }
         
         public void CreatePreview(Card c)

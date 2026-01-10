@@ -11,6 +11,24 @@ namespace Game
         public static GlobalState instance;
         public bool saveOnExit = true;
         public bool saveOnChanged = true;
+        public int Money {
+            get
+            {
+                if (TryGetInt("Money", out int money))
+                {
+                    return money;
+                }
+                return 0;
+            }
+        }
+        public bool HasMoney(int money)
+        {
+            return Money >= money;
+        }
+        public void AddMoney(int money)
+        {
+            SetInt("Money", Money+money);
+        }
         private void Awake()
         {
             if (instance) Destroy(gameObject);
@@ -29,7 +47,7 @@ namespace Game
                 Save("Assets/Game/save.txt");
             }
         }
-
+        
         // ============================================================
         // Storage (Efficient dictionaries)
         // ============================================================

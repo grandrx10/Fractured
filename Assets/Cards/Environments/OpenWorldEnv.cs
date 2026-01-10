@@ -31,6 +31,7 @@ namespace Cards.Environments
             playerAgent.OnStatsUpdate += () =>
             {
                 PlayerMovement.moveSpeed = CurrentStats.speed;
+                PlayerMovement.jumpForce = CurrentStats.jumpPower;
             };
             playerAgent.UpdateStats();
         }
@@ -50,7 +51,7 @@ namespace Cards.Environments
         protected override void Update()
         {
             if (!initialized) return;
-            mana += CurrentStats.manaRegen * Time.deltaTime;
+            mana += CurrentStats.manaRegen * Time.deltaTime * (mana/CurrentStats.maxMana/2 + 1f);
             mana = Mathf.Clamp(mana, 0, CurrentStats.maxMana);
            
             var ticks = player.selectedCard?.GetAllBehaviors<IBehaviorTickListener>();

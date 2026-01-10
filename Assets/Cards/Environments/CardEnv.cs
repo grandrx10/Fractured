@@ -54,7 +54,16 @@ namespace Cards.Environments
         
         public void RemoveEffect<T>() where T : PlayerEffect
         {
-            _effects.RemoveAll(e => e is T);
+            _effects.RemoveAll(e =>
+            {
+                if (e is T)
+                {
+                    Destroy(e);
+                    return true;
+                }
+                
+                return false;
+            });
         }
         
         public T AddEffect<T>() where T : PlayerEffect
@@ -62,6 +71,7 @@ namespace Cards.Environments
             if (_effects.Exists(e => e is T && e.Unique)) return null;
             
             var effect = gameObject.AddComponent<T>();
+            effect.env = this;
             _effects.Add(effect);
             return effect;
         }
@@ -95,7 +105,7 @@ namespace Cards.Environments
                          FindAll(c => c.TryGetBehavior(out TemporaryBehavior temp) && !temp.persistent))
             {
                 Debug.Log($"lost {card.Visuals.Name}");
-                player.RemoveCard(card);
+                player.TakeCard(card);
                 Destroy(card.gameObject);
             }
             player.OnStatsUpdate -= UpdateStats;

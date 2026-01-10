@@ -33,6 +33,7 @@ namespace Cards.Environments
                 c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
             });
             if (maxHealth == -1) maxHealth = playerAgent.TotalHealth + CurrentStats.health;
+            maxHealth = Mathf.Max(maxHealth, 1);
             _health = maxHealth;
             _healthInstance = player.gameObject.AddComponent<PlayerHealth>();
             _healthInstance.Init(this);
@@ -40,12 +41,13 @@ namespace Cards.Environments
             UpdateHealth();
         }
 
-        public void Heal(int amount)
+        public bool Heal(int amount)
         {
-            if (!allowHeal) return;
+            if (!allowHeal || _health >= maxHealth) return false;
             _health += amount;
             _health = Mathf.Clamp(_health, 0, maxHealth);
             UpdateHealth();
+            return true;
         }
 
         public bool TakeDamage(PlayerDamageData damage)

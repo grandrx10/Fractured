@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5635468974056937776}
   - component: {fileID: 6862231653591277170}
   - component: {fileID: 3009546791677738317}
+  - component: {fileID: 7886754913579225480}
   m_Layer: 0
   m_Name: station_cut
   m_TagString: Untagged
@@ -27,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 1290683499107916682}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 1.384, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalPosition: {x: 0, y: 1.096, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7470057891050121417}
@@ -88,6 +89,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7886754913579225480
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290683499107916682}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.4125488, y: 1.4605243, z: 1.7541833}
+  m_Center: {x: 0, y: 0, z: -0.209858}
 --- !u!1 &2250784591583405426
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,6 +121,7 @@ GameObject:
   - component: {fileID: 2808905486116739439}
   - component: {fileID: 3983264127312260593}
   - component: {fileID: 7269263094756530327}
+  - component: {fileID: 4892659211771349921}
   m_Layer: 0
   m_Name: station_cut_block
   m_TagString: Untagged
@@ -115,8 +138,8 @@ Transform:
   m_GameObject: {fileID: 2250784591583405426}
   serializedVersion: 2
   m_LocalRotation: {x: -0.702002, y: -0.08481233, z: -0.08481232, w: 0.7020021}
-  m_LocalPosition: {x: 0, y: 2.232, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalPosition: {x: 0, y: 1.8290001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7470057891050121417}
@@ -174,6 +197,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4892659211771349921
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2250784591583405426}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2293497, y: 0.96040344, z: 0.13195747}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7278917095088550550
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,6 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7470057891050121417}
   - component: {fileID: 2132624976379419642}
+  - component: {fileID: 5834188513928053024}
   m_Layer: 0
   m_Name: ChoppingStation
   m_TagString: Untagged
@@ -200,7 +245,7 @@ Transform:
   m_GameObject: {fileID: 7278917095088550550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.065369, y: 14.922207, z: -30.652468}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -225,6 +270,33 @@ MonoBehaviour:
   interactTime: 1
   interactText: (E) Interact
   stationPoint: {fileID: 8192352695392172401}
+--- !u!54 &5834188513928053024
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7278917095088550550}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &9157215340848878589
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +322,7 @@ Transform:
   m_GameObject: {fileID: 9157215340848878589}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.084, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

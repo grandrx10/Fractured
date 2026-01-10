@@ -11,8 +11,11 @@ public class JuicerBehavior : Behavior, IBehaviorUseListener
 {
     public bool Use(CardEnv env, Agent agent)
     {
-        env.AddEffect<JuicedEffect>();
+        return env.AddEffect<JuicedEffect>();
+    }
 
-        return true;
+    public override string GetDescription()
+    {
+        return "<b>Juicer:</b> On Use, empowers the next fruit you use.";
     }
 }

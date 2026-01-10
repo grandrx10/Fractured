@@ -8,16 +8,20 @@ namespace Characters.Player
         public int maxMana;
         public float manaRegen;
         public float speed;
+        public float jumpPower;
         public int health;
 
         public static PlayerStats Empty => CreateInstance<PlayerStats>();
         
         public static PlayerStats operator +(PlayerStats a, PlayerStats b)
         {
+            if (!a) return b;
+            if (!b) return a;
             var s = CreateInstance<PlayerStats>();
             s.maxMana = a.maxMana + b.maxMana;
             s.manaRegen = a.manaRegen + b.manaRegen;
             s.speed = a.speed + b.speed;
+            s.jumpPower = a.jumpPower + b.jumpPower;
             s.health = a.health + b.health;
             return s;
         }

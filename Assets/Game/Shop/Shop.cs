@@ -56,13 +56,13 @@ namespace Game.Shop
             GlobalState.instance.SetTup(shopId, state);
         }
 
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0) && IsPointerOverUI(out var obj))
-            {
-                Debug.Log("Clicked UI: " + obj.name);
-            }
-        }
+        // private void Update()
+        // {
+        //     if (Input.GetMouseButtonDown(0) && IsPointerOverUI(out var obj))
+        //     {
+        //         Debug.Log("Clicked UI: " + obj.name);
+        //     }
+        // }
         
         bool IsPointerOverUI(out GameObject uiObject)
         {

@@ -11,8 +11,6 @@ namespace Cards
 {
     public class PlayerAgent: Agent
     {
-        public Card offHandCard;
-        
         public PlayerStatsHolder stats;
         public Action OnStatsUpdate;
 
@@ -21,6 +19,22 @@ namespace Cards
             transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
             if (FindObjectsByType<PlayerAgent>(FindObjectsSortMode.None).Length > 1) Destroy(gameObject);
+            OnAddCard += (card, target) =>
+            {
+                if (target == CardTarget.Deck) return;
+                foreach (var equip in card.GetAllBehaviors<IBehaviorEquippedListener>())
+                {
+                    equip.Equip(this);
+                }
+            };
+            OnRemoveCard += (card, target) =>
+            {
+                if (target == CardTarget.Deck) return;
+                foreach (var equip in card.GetAllBehaviors<IBehaviorEquippedListener>())
+                {
+                    equip.Unequip(this);
+                }
+            };
         }
 
         public void UpdateStats()
@@ -50,6 +64,7 @@ namespace Cards
             }
             
             selectedCard = card;
+            UpdateStats();
         }
 
         /*

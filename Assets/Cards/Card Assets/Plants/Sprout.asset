@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Sprout
   m_EditorClassIdentifier: 
   name: Sprout
-  flavorText: the shield is made of bomb
+  flavorText: A small beginning, full of potential.
   collection: 7
   style: 0
   icon: {fileID: 873939033, guid: 210b0c01c2a79454f9caef844f9ceb44, type: 3}
   stats:
-    health: 1
-    mana: 2
+    health: 0
+    mana: 4
     strength: 1
-  behaviors: []
+  behaviors:
+  - {fileID: 11400000, guid: 4dab2855fe9ad7a4cb78b7f71642b26a, type: 2}

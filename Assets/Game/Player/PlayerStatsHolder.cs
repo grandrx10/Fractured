@@ -2,6 +2,7 @@
 using Cards;
 using Cards.Core.BehaviorTags;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Characters.Player
 {
@@ -10,12 +11,11 @@ namespace Characters.Player
     {
         [SerializeReference] private PlayerStats baseStats;
         private PlayerStats _calculatedStats;
-        private PlayerStats _tempStats;
-
+        public PlayerStats tempStats;
+        
         public PlayerStats GetStats()
         {
-            
-            return baseStats + _calculatedStats + _tempStats;
+            return baseStats + _calculatedStats + tempStats;
         }
 
         public void RecomputeStats(Agent player)
@@ -28,7 +28,7 @@ namespace Characters.Player
                     _calculatedStats += stats.GetStats();
                 }
             }
-            if (!_tempStats) _tempStats = PlayerStats.Empty;
+            if (!tempStats) tempStats = PlayerStats.Empty;
         }
     }
 }

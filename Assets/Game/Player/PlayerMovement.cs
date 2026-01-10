@@ -1,3 +1,4 @@
+using System;
 using Cards;
 using Cards.Core;
 using UnityEngine;
@@ -39,6 +40,7 @@ namespace Characters
             rb.freezeRotation = true;
             readyToJump = true;
             agent.OnUseCard += UseCard;
+            Application.targetFrameRate = 60;
         }
 
         private void UseCard(Card c)
@@ -59,15 +61,18 @@ namespace Characters
         {
             MyInput();
             SpeedControl();
-            
             rb.linearDamping = grounded ? groundDrag : 0;
         }
 
+        private int _airFrames = 0;
         private void FixedUpdate()
         {
             MovePlayer();
+            
             animator.SetBool("MovingUp", rb.linearVelocity.y > 0);
-            animator.SetBool("Grounded", grounded);
+            if (!grounded) _airFrames++;
+            else _airFrames = 0;
+            animator.SetBool("Grounded", _airFrames <= 20);
         }
 
         private void MyInput()
@@ -80,16 +85,7 @@ namespace Characters
             }
             horizontalInput = Input.GetAxisRaw("Horizontal");
             verticalInput = Input.GetAxisRaw("Vertical");
-            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-            if (inputDir != Vector3.zero)
-            {
-                transform.forward = Vector3.Slerp(
-                    transform.forward,
-                    inputDir.normalized,
-                    Time.deltaTime * rotationSpeed
-                );
-            }
+            
             if (Input.GetKey(jumpKey) && readyToJump && grounded)
             {
                 readyToJump = false;
@@ -100,8 +96,13 @@ namespace Characters
 
         private void MovePlayer()
         {
-            moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
+            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+            moveDirection = inputDir;
+            
+            if (inputDir != Vector3.zero)
+            {
+                rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(inputDir), Time.fixedDeltaTime * rotationSpeed));
+            }
             animator.SetBool("Moving", moveDirection.magnitude >= 0.1f);
             
             if (grounded)
