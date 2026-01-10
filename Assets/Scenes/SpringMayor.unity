@@ -2435,7 +2435,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Interact
-  conversationName: SylphOpener
+  defaultConversationName: 
 --- !u!114 &573861771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2457,6 +2457,8 @@ MonoBehaviour:
     m_Bits: 64
   groundCheckDistance: 1.05
   followerHeight: 2
+  nodeReachThreshold: 0.1
+  airSpeedMultiplier: 1
 --- !u!4 &573861772
 Transform:
   m_ObjectHideFlags: 0
@@ -2668,7 +2670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -83.14
+      value: -65.08
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2912,7 +2914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7779007587187811765, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -77.14
+      value: -59.08
       objectReference: {fileID: 0}
     - target: {fileID: 7968015951245157327, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_Layer
@@ -2936,7 +2938,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -83.14
+      value: -65.08
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6587,6 +6589,7 @@ MonoBehaviour:
   conversationName: SoulOpen2
   triggerOnAwake: 0
   triggerOnlyOnce: 1
+  triggerOnceEver: 0
 --- !u!114 &1295383063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10117,6 +10120,7 @@ MonoBehaviour:
   conversationName: SoulOpen
   triggerOnAwake: 0
   triggerOnlyOnce: 1
+  triggerOnceEver: 0
 --- !u!114 &9122010271854530172
 MonoBehaviour:
   m_ObjectHideFlags: 0

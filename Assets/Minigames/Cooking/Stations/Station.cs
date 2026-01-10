@@ -15,7 +15,9 @@ namespace Minigames.Cooking.Stations
         private void Update()
         {
             // Get the Cook component from the singleton
-            Cook cook = OpenWorldEnv.Current.GetComponent<Cook>();
+            Cook cook = OpenWorldEnv.Current
+                ?.PlayerTransform
+                ?.GetComponent<Cook>();
             if (cook == null || cook.heldObject == null)
             {
                 canInteract = false;

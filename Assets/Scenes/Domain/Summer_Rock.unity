@@ -2085,7 +2085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2571bc352d805604a815340662b3b778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1000
+  health: 200
 --- !u!54 &930106252
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2147,7 +2147,7 @@ MonoBehaviour:
     transform: {fileID: 889227870}
   - name: RollRoot
     transform: {fileID: 116474524}
-  deathConversationName: 
+  deathConversationName: InnerRockEnder
 --- !u!4 &930106254
 Transform:
   m_ObjectHideFlags: 0
@@ -2589,6 +2589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 11400000, guid: 9733a60c9d708e94c8b4bcaa44a1bfa9, type: 2}
+  giveToHand: 1
 --- !u!1 &1488876242
 GameObject:
   m_ObjectHideFlags: 0
