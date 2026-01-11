@@ -6,7 +6,7 @@ public class SetPrefabToEvent : DialogueEvent
 {
     [Header("Target Object")]
     [Tooltip("The object whose prefab state will be set")]
-    public GameObject targetObject;
+    public string targetObjectName;
 
     [Header("Prefab Name")]
     [Tooltip("The name of the prefab this object should become")]
@@ -14,7 +14,7 @@ public class SetPrefabToEvent : DialogueEvent
 
     public override void Execute()
     {
-        if (targetObject == null)
+        if (targetObjectName == null)
         {
             Debug.LogWarning("SetPrefabToEvent: No target object assigned.");
             return;
@@ -32,9 +32,9 @@ public class SetPrefabToEvent : DialogueEvent
             return;
         }
 
-        string key = $"PREFAB_{targetObject.name}";
+        string key = $"PREFAB_{targetObjectName}";
         GlobalState.instance.SetStr(key, prefabName);
 
-        Debug.Log($"SetPrefabToEvent: Set {targetObject.name} to prefab '{prefabName}'");
+        Debug.Log($"SetPrefabToEvent: Set {targetObjectName} to prefab '{prefabName}'");
     }
 }

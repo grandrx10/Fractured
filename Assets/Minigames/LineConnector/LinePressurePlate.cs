@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -16,10 +17,15 @@ public class LinePressurePlate : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private Renderer plateRenderer;
 
+    [Header("Color Transition")]
+    [SerializeField] private float colorLerpDuration = 0.15f;
+
     private GridPuzzleManager manager;
     private Material materialInstance;
     private Color dotColor;
     private Rigidbody rb;
+
+    private Coroutine colorRoutine;
 
     public void Init(GridPuzzleManager mgr, Vector2Int pos)
     {
@@ -27,8 +33,7 @@ public class LinePressurePlate : MonoBehaviour
         gridPos = pos;
 
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;     // IMPORTANT: start kinematic
-        // rb.useGravity = true;
+        rb.isKinematic = true;
 
         if (plateRenderer == null)
             plateRenderer = GetComponentInChildren<Renderer>();
@@ -55,7 +60,8 @@ public class LinePressurePlate : MonoBehaviour
     {
         occupied = true;
         occupiedByPair = pair;
-        materialInstance.color = manager.GetColorForPair(pair);
+
+        TransitionToColor(manager.GetColorForPair(pair));
     }
 
     public void SetDotColor(Color color)
@@ -69,13 +75,42 @@ public class LinePressurePlate : MonoBehaviour
         occupied = false;
         occupiedByPair = -1;
 
-        materialInstance.color = isDot ? dotColor : Color.gray;
+        Color target = isDot ? dotColor : Color.gray;
+        TransitionToColor(target);
     }
 
     void ResetVisual()
     {
         materialInstance.color = Color.gray;
     }
+
+    // ---------------- COLOR LERP ----------------
+
+    void TransitionToColor(Color target)
+    {
+        if (colorRoutine != null)
+            StopCoroutine(colorRoutine);
+
+        colorRoutine = StartCoroutine(LerpColor(target));
+    }
+
+    IEnumerator LerpColor(Color target)
+    {
+        Color start = materialInstance.color;
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / colorLerpDuration;
+            materialInstance.color = Color.Lerp(start, target, t);
+            yield return null;
+        }
+
+        materialInstance.color = target;
+        colorRoutine = null;
+    }
+
+    // ---------------- INPUT ----------------
 
     private void OnTriggerEnter(Collider other)
     {

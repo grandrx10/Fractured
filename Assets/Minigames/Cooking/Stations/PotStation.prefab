@@ -600,7 +600,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 625, y: 374}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 200, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7409812125663839030
 CanvasRenderer:
@@ -704,6 +704,8 @@ MonoBehaviour:
   tossableIngredients: []
   tossInterval: 3
   tossForce: 6
+  successDialogue: 
+  failDialogue: 
 --- !u!54 &3593125141668653230
 Rigidbody:
   m_ObjectHideFlags: 0

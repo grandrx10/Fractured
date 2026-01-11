@@ -24,7 +24,8 @@ namespace Cards.Environments
         private int _iframes;
         private PlayerHealth _healthInstance;
         public CardData hope;
-        
+        public bool invincible = false;
+
         public override void Initialize(PlayerAgent playerAgent)
         {
             base.Initialize(playerAgent);
@@ -59,26 +60,35 @@ namespace Cards.Environments
 
         public bool TakeDamage(PlayerDamageData damage)
         {
-            if (_iframes > 0) return false;
-            
+            if (invincible)
+                return false;
+
+            if (_iframes > 0)
+                return false;
+
             var listeners = player.GetCards()
                 .SelectMany(c => c.GetAllBehaviors<IBehaviorTakeDamageListener>())
                 .OrderByDescending(b => b.Priority)
                 .ToList();
+
             foreach (var l in listeners)
             {
                 damage = l.Hit(this, player, damage);
             }
+
             _health -= Mathf.Max(damage.Damage, 0);
             _health = Mathf.Clamp(_health, 0, maxHealth);
             UpdateHealth();
+
             if (damage.Damage > 0 || damage.ForceIframes)
             {
                 _iframes = damageIframes;
                 return true;
             }
+
             return false;
         }
+
 
         private void UpdateHealth()
         {

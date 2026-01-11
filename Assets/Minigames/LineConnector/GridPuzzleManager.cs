@@ -4,13 +4,14 @@ using UnityEngine;
 public class GridPuzzleManager : MonoBehaviour
 {
     [Header("Grid Settings")]
-    public int n = 5;
-    public int pairCount = 2;
     public float spacing = 1.2f;
-    public int minDistance = 2;
+    public TextAsset puzzleFile;
 
     [Header("Prefabs")]
     public LinePressurePlate platePrefab;
+
+    private int n;
+    private int pairCount;
 
     private LinePressurePlate[,] grid;
     private Dictionary<int, PuzzlePair> pairs = new();
@@ -22,8 +23,9 @@ public class GridPuzzleManager : MonoBehaviour
 
     void Start()
     {
+        LoadPuzzleFromFile();
         GenerateGrid();
-        GeneratePairsSolvable();
+        PlacePairsFromFile();
     }
 
     // ---------------- GRID ----------------
@@ -54,132 +56,120 @@ public class GridPuzzleManager : MonoBehaviour
 
     // ---------------- PAIRS ----------------
 
-    void GeneratePairsSolvable()
+    void LoadPuzzleFromFile()
     {
-        bool[,] occupied = new bool[n, n];
-        HashSet<Vector2Int> reservedDots = new();
-
-        for (int i = 0; i < pairCount; i++)
+        if (puzzleFile == null)
         {
-            List<Vector2Int> path = GenerateRandomPath(occupied, reservedDots);
+            Debug.LogError("No puzzle file assigned!");
+            return;
+        }
 
-            if (path == null || path.Count < 2)
+        string[] lines = puzzleFile.text.Split('\n');
+        
+        // Remove empty lines and trim
+        List<string> validLines = new();
+        foreach (string line in lines)
+        {
+            string trimmed = line.Trim();
+            if (!string.IsNullOrEmpty(trimmed))
+                validLines.Add(trimmed);
+        }
+
+        if (validLines.Count == 0)
+        {
+            Debug.LogError("Puzzle file is empty!");
+            return;
+        }
+
+        n = validLines.Count;
+        
+        // Parse the grid and count pairs
+        HashSet<int> uniquePairs = new();
+        
+        for (int y = 0; y < n; y++)
+        {
+            string[] cells = validLines[y].Split(' ');
+            
+            if (cells.Length != n)
             {
-                Debug.LogError($"Failed to generate path for pair {i}");
+                Debug.LogError($"Row {y} has {cells.Length} cells, expected {n}");
+                return;
+            }
+
+            for (int x = 0; x < n; x++)
+            {
+                string cell = cells[x].Trim();
+                if (cell != ".")
+                {
+                    if (int.TryParse(cell, out int pairId))
+                    {
+                        uniquePairs.Add(pairId);
+                    }
+                }
+            }
+        }
+
+        pairCount = uniquePairs.Count;
+        Debug.Log($"Loaded {n}x{n} puzzle with {pairCount} pairs");
+    }
+
+    void PlacePairsFromFile()
+    {
+        if (puzzleFile == null) return;
+
+        string[] lines = puzzleFile.text.Split('\n');
+        List<string> validLines = new();
+        foreach (string line in lines)
+        {
+            string trimmed = line.Trim();
+            if (!string.IsNullOrEmpty(trimmed))
+                validLines.Add(trimmed);
+        }
+
+        Dictionary<int, List<LinePressurePlate>> pairPlates = new();
+
+        for (int y = 0; y < n; y++)
+        {
+            string[] cells = validLines[y].Split(' ');
+
+            for (int x = 0; x < n; x++)
+            {
+                string cell = cells[x].Trim();
+                
+                if (cell != "." && int.TryParse(cell, out int pairId))
+                {
+                    var plate = grid[x, n - 1 - y]; // Flip y to match Unity coordinates
+                    plate.isDot = true;
+                    plate.pairId = pairId;
+                    plate.SetDotColor(GetColorForPair(pairId));
+
+                    if (!pairPlates.ContainsKey(pairId))
+                        pairPlates[pairId] = new();
+                    
+                    pairPlates[pairId].Add(plate);
+                }
+            }
+        }
+
+        // Create pairs
+        foreach (var kvp in pairPlates)
+        {
+            int pairId = kvp.Key;
+            var plates = kvp.Value;
+
+            if (plates.Count != 2)
+            {
+                Debug.LogError($"Pair {pairId} has {plates.Count} dots, expected 2!");
                 continue;
             }
 
-            foreach (var cell in path)
-                occupied[cell.x, cell.y] = true;
-
-            Vector2Int startPos = path[0];
-            Vector2Int endPos = path[^1];
-
-            var start = grid[startPos.x, startPos.y];
-            var end = grid[endPos.x, endPos.y];
-
-            start.isDot = true;
-            end.isDot = true;
-            start.pairId = i;
-            end.pairId = i;
-
-            start.SetDotColor(GetColorForPair(i));
-            end.SetDotColor(GetColorForPair(i));
-
-            pairs[i] = new PuzzlePair
+            pairs[pairId] = new PuzzlePair
             {
-                pairId = i,
-                start = start,
-                end = end
+                pairId = pairId,
+                start = plates[0],
+                end = plates[1]
             };
         }
-    }
-
-    List<Vector2Int> GenerateRandomPath(bool[,] occupied, HashSet<Vector2Int> reservedDots)
-    {
-        int maxAttempts = 500;
-
-        for (int attempt = 0; attempt < maxAttempts; attempt++)
-        {
-            Vector2Int start = GetRandomUnoccupiedCell(occupied);
-            if (start.x == -1) return null;
-
-            List<Vector2Int> path = new() { start };
-            bool[,] localOccupied = (bool[,])occupied.Clone();
-            localOccupied[start.x, start.y] = true;
-
-            int targetLength = Random.Range(Mathf.Max(minDistance, 3), Mathf.Min(12, n * n / pairCount));
-
-            for (int step = 0; step < targetLength; step++)
-            {
-                Vector2Int current = path[^1];
-                var neighbors = GetUnoccupiedNeighbors(current, localOccupied);
-                if (neighbors.Count == 0) break;
-
-                Vector2Int next = neighbors[Random.Range(0, neighbors.Count)];
-                path.Add(next);
-                localOccupied[next.x, next.y] = true;
-            }
-
-            if (path.Count < 2) continue;
-
-            Vector2Int end = path[^1];
-
-            // Check if start and end meet minimum distance requirement
-            int distance = Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y);
-            if (distance < minDistance)
-                continue;
-
-            if (IsAdjacentToAnyDot(start, reservedDots)) continue;
-            if (IsAdjacentToAnyDot(end, reservedDots)) continue;
-
-            reservedDots.Add(start);
-            reservedDots.Add(end);
-
-            return path;
-        }
-
-        return null;
-    }
-
-    Vector2Int GetRandomUnoccupiedCell(bool[,] occupied)
-    {
-        List<Vector2Int> available = new();
-
-        for (int x = 0; x < n; x++)
-        for (int y = 0; y < n; y++)
-            if (!occupied[x, y])
-                available.Add(new Vector2Int(x, y));
-
-        return available.Count == 0
-            ? new Vector2Int(-1, -1)
-            : available[Random.Range(0, available.Count)];
-    }
-
-    List<Vector2Int> GetUnoccupiedNeighbors(Vector2Int pos, bool[,] occupied)
-    {
-        List<Vector2Int> neighbors = new();
-        Vector2Int[] dirs = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
-
-        foreach (var d in dirs)
-        {
-            Vector2Int npos = pos + d;
-            if (npos.x >= 0 && npos.x < n &&
-                npos.y >= 0 && npos.y < n &&
-                !occupied[npos.x, npos.y])
-            {
-                neighbors.Add(npos);
-            }
-        }
-        return neighbors;
-    }
-
-    bool IsAdjacentToAnyDot(Vector2Int pos, HashSet<Vector2Int> dots)
-    {
-        foreach (var d in dots)
-            if (Mathf.Abs(pos.x - d.x) + Mathf.Abs(pos.y - d.y) == 1)
-                return true;
-        return false;
     }
 
     // ---------------- INPUT ----------------
@@ -188,6 +178,7 @@ public class GridPuzzleManager : MonoBehaviour
     {
         if (puzzleCompleted) return;
 
+        // ---------------- START PATH ----------------
         if (currentPath == null)
         {
             if (!plate.isDot) return;
@@ -199,20 +190,31 @@ public class GridPuzzleManager : MonoBehaviour
 
         LinePressurePlate last = currentPath.plates[^1];
 
+        // Ignore staying on same plate
         if (plate == last) return;
 
+        // Must be adjacent
         if (!IsAdjacent(last, plate))
         {
             CancelCurrentPath();
             return;
         }
 
+        // ❌ Hit another pair's path
         if (plate.occupied && plate.occupiedByPair != currentPath.pairId)
         {
             CancelCurrentPath();
             return;
         }
 
+        // ❌ Hit another pair's dot (even if not occupied)
+        if (plate.isDot && plate.pairId != currentPath.pairId)
+        {
+            CancelCurrentPath();
+            return;
+        }
+
+        // ✅ Valid move
         AddPlateToPath(plate);
     }
 
@@ -229,6 +231,13 @@ public class GridPuzzleManager : MonoBehaviour
 
     void AddPlateToPath(LinePressurePlate plate)
     {
+        // Prevent retracing - can't step on a plate already in current path
+        if (currentPath.plates.Contains(plate))
+        {
+            CancelCurrentPath();
+            return;
+        }
+
         plate.SetOccupied(currentPath.pairId);
         currentPath.plates.Add(plate);
 
@@ -266,11 +275,24 @@ public class GridPuzzleManager : MonoBehaviour
 
     void CheckPuzzleComplete()
     {
-        if (completedPaths.Count == pairCount)
+        // Check if all pairs are completed
+        if (completedPaths.Count != pairCount)
+            return;
+
+        // Check if entire board is filled
+        for (int x = 0; x < n; x++)
+        for (int y = 0; y < n; y++)
         {
-            puzzleCompleted = true;
-            ReleaseAllPlates();
+            if (grid[x, y] != null && !grid[x, y].occupied)
+            {
+                // Board not fully filled yet
+                return;
+            }
         }
+
+        // All pairs complete AND board fully filled
+        puzzleCompleted = true;
+        ReleaseAllPlates();
     }
 
     void ReleaseAllPlates()

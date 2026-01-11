@@ -1773,7 +1773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2571bc352d805604a815340662b3b778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1000
+  health: 700
 --- !u!54 &930106252
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1822,10 +1822,11 @@ MonoBehaviour:
     - {fileID: 11400000, guid: ca8d2bf572b73b44aa908ca0668d4cd4, type: 2}
     - {fileID: 11400000, guid: 4f6a89dfebf5d4b42ae139934f79e2cb, type: 2}
     - {fileID: 11400000, guid: 23b1bb39edaebc14bb0a0b2904c7a1fa, type: 2}
-    minHealthThreshold: 400
+    minHealthThreshold: 300
     phaseTime: 0
   - phaseName: Phase2
     attacks:
+    - {fileID: 11400000, guid: 109cd4e2ee1b3c846b92431e1fc4ac06, type: 2}
     - {fileID: 11400000, guid: 60b0d3eb7a0eb374cae80d39522e99d6, type: 2}
     - {fileID: 11400000, guid: 633fac0549fb5f244bcef56e25323dea, type: 2}
     - {fileID: 11400000, guid: 71835b162865bd8409e1510b468aedf9, type: 2}
@@ -1834,7 +1835,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 633fac0549fb5f244bcef56e25323dea, type: 2}
     - {fileID: 11400000, guid: 71835b162865bd8409e1510b468aedf9, type: 2}
     - {fileID: 11400000, guid: 9ed732435cd800d418335b4881550609, type: 2}
-    minHealthThreshold: 400
+    minHealthThreshold: 0
     phaseTime: 0
   bossHealth: {fileID: 930106251}
   namedPoints:
@@ -1850,7 +1851,7 @@ MonoBehaviour:
     transform: {fileID: 2044264431}
   - name: LaserWallEnd
     transform: {fileID: 1352627621}
-  deathConversationName: 
+  deathConversationName: CyraDefeat
 --- !u!4 &930106254
 Transform:
   m_ObjectHideFlags: 0

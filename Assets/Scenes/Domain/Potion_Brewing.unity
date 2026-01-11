@@ -1874,7 +1874,7 @@ GameObject:
   - component: {fileID: 983472122}
   - component: {fileID: 983472121}
   - component: {fileID: 983472120}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cat_int_window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2021,6 +2021,7 @@ MonoBehaviour:
   - characterName: Ravenna
     characterObject: {fileID: 0}
   eventHandlerObject: {fileID: 1481173459}
+  inConversation: 0
 --- !u!4 &1033590868
 Transform:
   m_ObjectHideFlags: 0
@@ -2362,6 +2363,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: far clip plane
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 6958972981578174323, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
       value: -36.377052
@@ -2419,6 +2424,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+--- !u!1001 &1404567895
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.093851
+      objectReference: {fileID: 0}
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 12.400024
+      objectReference: {fileID: 0}
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -40.214367
+      objectReference: {fileID: 0}
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9847657
+      objectReference: {fileID: 0}
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.1738864
+      objectReference: {fileID: 0}
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -20.028
+      objectReference: {fileID: 0}
+    - target: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331748428031100001, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
+      propertyPath: m_Name
+      value: MoonWaterRinsing
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
 --- !u!1001 &1420851605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2905,7 +2967,7 @@ GameObject:
   - component: {fileID: 1702703830}
   - component: {fileID: 1702703829}
   - component: {fileID: 1702703832}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cat_int_wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3357,7 +3419,7 @@ PrefabInstance:
       objectReference: {fileID: 1111938742}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: recipeIngredients.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: tossableIngredients.Array.size
@@ -3379,6 +3441,14 @@ PrefabInstance:
       propertyPath: 'recipeIngredients.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: e2d4e151186e7f04d8fb97ae70c63bd1, type: 2}
+    - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
+      propertyPath: 'recipeIngredients.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 573932326334f7f4b9b19491b32c48fb, type: 2}
+    - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
+      propertyPath: 'recipeIngredients.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11d77ef8089f66c4e803eee32bb7996e, type: 2}
     - target: {fileID: 178390416867952123, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: ingredientSpawnPoints.Array.size
       value: 3
@@ -3407,6 +3477,10 @@ PrefabInstance:
       propertyPath: 'ingredientSpawnPoints.Array.data[2]'
       value: 
       objectReference: {fileID: 1029603010}
+    - target: {fileID: 2574548084943684668, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 3829641297452203825, guid: c4078ea37a6c418459c67e4170945c31, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3758,3 +3832,4 @@ SceneRoots:
   - {fileID: 1263440240}
   - {fileID: 5435418724033777436}
   - {fileID: 1912866858}
+  - {fileID: 1404567895}

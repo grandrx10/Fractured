@@ -78,7 +78,9 @@ namespace Characters.Dialogue
         private int dialogueIndex = 0;
         private Coroutine typingCoroutine;
         private bool isTyping = false;
-        private bool inConversation = false;
+        public bool inConversation = false;
+        private int dialogueSessionDepth = 0;
+        public bool IsDialogueSessionActive => dialogueSessionDepth > 0;
         private bool waitingForChoice = false;
 
         private List<Speaker> disabledSpeakers = new List<Speaker>();
@@ -346,14 +348,20 @@ namespace Characters.Dialogue
 
         public void StartConversation(string conversationName)
         {
+            SetCombatInvincible(true);
+            if (!inConversation)
+                dialogueSessionDepth++;
+
             currentConversation = conversations.Find(c => c.name == conversationName);
             if (currentConversation == null)
             {
                 Debug.LogError("Conversation not found: " + conversationName);
+                dialogueSessionDepth--;
                 return;
             }
 
             PlayerInteractController.PlayerInputs.AddBlocker("Conversation", InputBlockPrio.Dialogue);
+
             inConversation = true;
             waitingForChoice = false;
             disabledSpeakers.Clear();
@@ -362,6 +370,7 @@ namespace Characters.Dialogue
             dialogueBox.SetActive(true);
             ShowNextLine();
         }
+
 
         private void Update()
         {
@@ -428,13 +437,24 @@ namespace Characters.Dialogue
 
             foreach (DialogueChoice choice in currentConversation.choices)
             {
-                if (!string.IsNullOrEmpty(choice.requiredFlag))
+                if (!string.IsNullOrEmpty(choice.requiredFlag) && GlobalState.instance != null)
                 {
-                    bool questFlag = GlobalState.instance.HasQuest(choice.requiredFlag, true) ||
-                                     (choice.requiredFlag.StartsWith("!")
-                                      && !GlobalState.instance.HasQuest(choice.requiredFlag.Substring(1), true));
-                    if (GlobalState.instance == null || !(
-                            GlobalState.instance.HasEvent(choice.requiredFlag) || questFlag))
+                    bool showChoice = true;
+                    string flagName = choice.requiredFlag;
+
+                    if (flagName.StartsWith("!"))
+                    {
+                        // Show only if the flag is NOT set
+                        flagName = flagName.Substring(1);
+                        showChoice = !GlobalState.instance.HasEvent(flagName);
+                    }
+                    else
+                    {
+                        // Show only if the flag IS set
+                        showChoice = GlobalState.instance.HasEvent(flagName);
+                    }
+
+                    if (!showChoice)
                         continue;
                 }
 
@@ -449,6 +469,7 @@ namespace Characters.Dialogue
                     button.onClick.AddListener(() => OnChoiceSelected(capturedChoice));
                 }
             }
+
         }
 
         private void OnChoiceSelected(DialogueChoice choice)
@@ -458,22 +479,17 @@ namespace Characters.Dialogue
 
             waitingForChoice = false;
 
+            // Execute event immediately if present
             if (!string.IsNullOrEmpty(choice.eventName))
-            {
                 ExecuteEvent(choice.eventName);
-                EndConversation();
-            }
-            else if (!string.IsNullOrEmpty(choice.conversationName))
-            {
-                EndConversation();
-                StartConversation(choice.conversationName);
-            }
-            else
-            {
-                EndConversation();
-            }
+
+            if (!string.IsNullOrEmpty(choice.conversationName))
+                currentConversation.nextConversation = choice.conversationName;
 
             PlayerCamera.Instance.CursorUnlock -= "Dialogue";
+
+            // EndConversation ONCE
+            EndConversation();
         }
 
         private void ExecuteEvent(string eventName)
@@ -495,10 +511,19 @@ namespace Characters.Dialogue
             }
             isTyping = false;
         }
+        private void SetCombatInvincible(bool value)
+        {
+            if (OpenWorldEnv.Current is RTCombatEnv combatEnv)
+            {
+                combatEnv.invincible = value;
+            }
+        }
+
 
         private void EndConversation()
         {
             dialogueBox.SetActive(false);
+            SetCombatInvincible(false);
 
             // Apply swaps BEFORE clearing currentConversation
             if (currentConversation != null && currentConversation.swapInstructions.Count > 0)
@@ -537,9 +562,15 @@ namespace Characters.Dialogue
                 Destroy(child.gameObject);
 
             if (!string.IsNullOrEmpty(nextConvo))
+            {
                 StartConversation(nextConvo);
+            }
             else
+            {
+                dialogueSessionDepth--;
                 OnConversationEnded?.Invoke();
+            }
+
         }
 
     }

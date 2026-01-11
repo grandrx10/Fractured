@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 82869818}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -115.31, y: -12.61, z: -40.2}
+  m_LocalPosition: {x: -115.31, y: -10.83, z: -40.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125f37ca526dc324395fcfd831ac99ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 930106249}
+  targetObjectName: Rock
   prefabName: NormalRock
 --- !u!1 &731833871
 GameObject:
@@ -2015,6 +2015,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5862789751986474696, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
   m_PrefabInstance: {fileID: 604671198}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &855025574 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2513997769236153709, guid: 05422c51a071d2a418600c06a3489cb5, type: 3}
+  m_PrefabInstance: {fileID: 2317897292040959664}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &858349016
 GameObject:
   m_ObjectHideFlags: 0
@@ -2124,7 +2135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2571bc352d805604a815340662b3b778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 500
+  health: 250
 --- !u!54 &930106252
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3403,6 +3414,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2056472301 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3466748198913181648, guid: 05422c51a071d2a418600c06a3489cb5, type: 3}
+  m_PrefabInstance: {fileID: 2317897292040959664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2074110630
 GameObject:
   m_ObjectHideFlags: 0
@@ -3487,6 +3503,20 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9201985451569396019, guid: 05422c51a071d2a418600c06a3489cb5, type: 3}
   m_PrefabInstance: {fileID: 2317897292040959664}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2120934127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056472301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d70bdb9ceb1581c478869e30ce965ea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetHealth: {fileID: 930106251}
+  slider: {fileID: 855025574}
 --- !u!1 &2137318110
 GameObject:
   m_ObjectHideFlags: 0
@@ -3608,6 +3638,10 @@ PrefabInstance:
       value: Healthbar
       objectReference: {fileID: 0}
     - target: {fileID: 5133384646513930643, guid: 05422c51a071d2a418600c06a3489cb5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5133384646513930643, guid: 05422c51a071d2a418600c06a3489cb5, type: 3}
       propertyPath: bindingDefinition.targetObject
       value: 
       objectReference: {fileID: 930106249}
@@ -3706,7 +3740,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3466748198913181648, guid: 05422c51a071d2a418600c06a3489cb5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2120934127}
   m_SourcePrefab: {fileID: 100100000, guid: 05422c51a071d2a418600c06a3489cb5, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

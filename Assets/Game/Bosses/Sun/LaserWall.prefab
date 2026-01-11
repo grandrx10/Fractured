@@ -159,11 +159,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserCylinder: {fileID: 1211244150982331114}
   warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  startRadius: 0.1
   finalRadius: 5
   chargeDuration: 3
+  growDuration: 0.75
   activeDuration: 3
   warningRadius: 5
   warningDuration: 3
+  growthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!54 &-3934639012347722965
 Rigidbody:
   m_ObjectHideFlags: 0

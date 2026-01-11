@@ -90,8 +90,16 @@ namespace Game.Bosses
             {
                 phaseTimer += Time.deltaTime;
                 if (phaseTimer >= phase.phaseTime)
+                {
                     phaseEndRequested = true;
+                }
             }
+
+            // =========================
+            // Health-Based Phase Check (MOVED UP HERE)
+            // =========================
+            if (phase.phaseTime <= 0f && !phaseEndRequested)
+                CheckPhaseSwitch();
 
             if (phase.attacks.Length == 0)
                 return;
@@ -115,12 +123,6 @@ namespace Game.Bosses
                 if (delayTimer >= attack.delayAfter)
                     AdvanceToNextAttack();
             }
-
-            // =========================
-            // Health-Based Phase Check
-            // =========================
-            if (phase.phaseTime <= 0f && !phaseEndRequested)
-                CheckPhaseSwitch();
         }
 
         // =========================
@@ -130,16 +132,18 @@ namespace Game.Bosses
         {
             currentPhaseIndex = phaseIndex;
             currentAttackIndex = 0;
-
             attackTimer = 0f;
             delayTimer = 0f;
             phaseTimer = 0f;
-            phaseEndRequested = false;
+            phaseEndRequested = false;  // This needs to be reset BEFORE StartAttack is called
             waitingForNextAttack = false;
+
 
             BossPhase phase = phases[currentPhaseIndex];
             if (phase.attacks.Length > 0)
+            {
                 StartAttack(phase.attacks[0]);
+            }
         }
 
         private void AdvanceToNextPhase()
@@ -198,17 +202,22 @@ namespace Game.Bosses
                 phaseEndRequested = true;
 
             if (phaseEndRequested)
+            {
                 AdvanceToNextPhase();
+            }
+                
         }
 
         private void AdvanceToNextAttack()
         {
             if (phaseEndRequested)
+            {
+                AdvanceToNextPhase();
                 return;
-
+            }
+            
             BossPhase phase = phases[currentPhaseIndex];
-            if (phase.attacks.Length == 0)
-                return;
+            if (phase.attacks.Length == 0) return;
 
             currentAttackIndex = (currentAttackIndex + 1) % phase.attacks.Length;
             StartAttack(phase.attacks[currentAttackIndex]);

@@ -1,3 +1,12 @@
+NyxIntruder
+===
+[Ravenna]
+Uhm, Dorian, I don't think we should barge into someone's house without permission.
+---
+[Dorian]
+Oh, right, sorry.
+===
+###
 NyxOpener
 ===
 [Nyx]
@@ -71,12 +80,17 @@ Dorian, we need to cook!
 ###
 NyxCookFail
 ===
+<CookingLeaveEvent>
 [Nyx]
 Are you alright? You scared me for a moment back there.
----
-[Dorian]
-What... what happened?
----
+???
+[What... what happened?](!NyxBlowUp){NyxCookFailContinue}
+[What... what happened?](NyxBlowUp){NyxCookFail2}
+===
+###
+NyxCookFailContinue
+===
+>>!F NyxBlowUp
 [Nyx]
 You blew up. Don't worry, you'll get used to it after the first dozen times. How do you think I got dark fur?
 ---
@@ -85,6 +99,15 @@ Ow...
 ---
 [Nyx]
 Well, when you're ready to give the experiment another try, just let me know!
+---
+<GiveExplosion>
+===
+[Nyx]{NyxWait}
+###
+NyxCookFail2
+===
+[Nyx]
+You blew up again. You know what they say, science isn't exactly a precise study. Let's do it again and hope that we get a different outcome!
 ===
 [Nyx]{NyxWait}
 ###
@@ -96,10 +119,19 @@ Remember, you have to stir in the correct motion, and insert ingredients at the 
 <RavennaMoveToEvent>
 [Ravenna]
 I'll handle the stirring. Knives are... knives aren't my thing.
----
-[Dorian]
-Then I'll handle preparing the ingredients.
----
+???
+[Then I'll handle preparing the ingredients.](!NyxHaveIngredients){NyxGiveIngredients}
+[Then I'll handle preparing the ingredients.](NyxHaveIngredients){NyxSkipIngredients}
+===
+###
+NyxSkipIngredients
+===
+===
+[Ravenna]{BeginCooking}
+###
+NyxGiveIngredients
+===
+>>!F NyxHaveIngredients
 <GiveRecipeLuminshroom>
 <GiveRecipeGumproot>
 <GiveRecipeLumpfruit>
@@ -125,8 +157,9 @@ Right.
 NyxCookSuccess
 ===
 [Nyx]
-Hmmm, that smells wonderful. It seems the experiment was a success!
+Hmmm, that smells wonderful. It seems the experiment was a success! Bring some out here so I can take a look!
 ---
+<CookingLeaveEvent>
 [Ravenna]
 Hew! That was a sweat. So, what was this potion for anyways?
 ---
@@ -138,8 +171,6 @@ It's a potion that allows your to taste the direction of the wind.
 ---
 [Nyx]
 Quite so! Someone's got to develop cutting edge technology like this. Anyways, thanks for the help. Here's your research reward.
----
-<CookingLeaveEvent>
 ===
 [Nyx]{NyxTalk}
 ###

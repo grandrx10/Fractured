@@ -120,7 +120,14 @@ CyraOpener
 ---
 [?]
 So you made it this far. Truly, I'm impressed. Especially you, Ravenna.
----
+???
+[...]{CyraOpenerContinued}
+[Enough talk](CyraFightAgain){CyraFightOpener2}
+===
+###
+CyraOpenerContinued
+===
+>>!F CyraFightAgain
 [Ravenna]
 Who are you and how do you know me?
 ---
@@ -263,9 +270,9 @@ No. Let's do this together.
 I've heard enough from you.
 ---
 [Cyra]
-Very well. Come into my domain, if you dare.
+Very well.
 ===
-[Cyra]{}
+>>CyraFightOpener
 ###
 CyraRefuse2
 ===
@@ -288,9 +295,9 @@ I'm with you, all the way.
 I've heard enough from you.
 ---
 [Cyra]
-Very well. Come into my domain, if you dare.
+Very well.
 ===
-[Cyra]{}
+>>CyraFightOpener
 ###
 CyraRefuse3
 ===
@@ -316,9 +323,27 @@ Nah. Don't fight her alone. Let's do it together.
 I've heard enough from you.
 ---
 [Cyra]
-Very well. Come into my domain, if you dare.
+Very well.
 ===
-[Cyra]{}
+>>CyraFightOpener
+###
+CyraFightOpener2
+===
+[Cyra]
+Eager now, aren't we? I haven't even explained to you why I'm doing all this-
+---
+[Dorian]
+I know what you want. And I can't let you have it. Now bring out your technique.
+---
+[Cyra]
+Fine. Behold my technique, the Sun. I'll rend that poison from your bones.
+---
+[Dorian]
+Ravenna, stay close.
+---
+[Ravenna]
+Don't worry, Dorian, I'm always by your side.
+===
 ###
 CyraFightOpener
 ===
@@ -334,7 +359,55 @@ Don't worry, Dorian, I'm always by your side.
 ###
 CyraTauntStairs
 ===
-[???]
+[?]
 Ascend and face me, challenger.
+===
+###
+CyraPhase2
+===
+[Cyra]
+You worm. How could you have pushed me this far? I am Cyra, the benevolent! I will not be defeated by meaningless little creatures such as yourself!
+---
+[Cyra]
+Feel the wrath of the sun!
+===
+###
+CyraDefeat
+===
+[Cyra]
+...
+---
+[Cyra]
+How could... a lowly... nothing like you... defeat me?
+---
+[Cyra]
+I thought you had abandoned those... ambitions long ago.
+---
+[Dorian]
+I had, at one point.
+---
+[Dorian]
+But ambition is the driver of life, isn't it? Without it, we all grow stagnant in our ways, and living becomes no different from the stillness of death.
+---
+[Dorian]
+A friend of mine helped me realize the importance of contributing to the world - the importance in making a difference.
+---
+[Ravenna]
+(He's talking about me!!!)
+---
+[Dorian]
+If you give up on yourself, and stop improving, then eventually, you will be surpassed, no matter how great you are.
+---
+[Dorian]
+You've let yourself rot away, and that is why I was able to defeat you!
+---
+[Dorian]
+Now, free this realm from your tyranny!
+---
+[Cyra]
+I... dammit. You win. I'll... unseal this realm. I'll open up the gates to the other realms. But... don't say I didn't warn you.
+---
+[Cyra]
+Compared to them, I am a saint. Once you see their realms, you'll understand... you'll understand how benevolent I am.
 ===
 ###
