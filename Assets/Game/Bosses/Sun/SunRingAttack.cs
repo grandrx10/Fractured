@@ -44,8 +44,14 @@ namespace Game.Bosses.Cyra
 
             // Start rotating boss to face player continuously
             
-            lookAtPlayerRoutine = boss.GetComponent<MonoBehaviour>()
-                .StartCoroutine(LookAtPlayerCoroutine(boss.transform));
+            // lookAtPlayerRoutine = boss.GetComponent<MonoBehaviour>()
+            //     .StartCoroutine(LookAtPlayerCoroutine(boss.transform));
+            NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
+            if (npcCommands != null && OpenWorldEnv.Current != null)
+            {
+                npcCommands.LookingAt = OpenWorldEnv.Current.PlayerTransform;
+            }
+
             
         }
 
