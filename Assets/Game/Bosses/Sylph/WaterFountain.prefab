@@ -28,9 +28,9 @@ Transform:
   m_GameObject: {fileID: 595489017236905613}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -8.1827, z: 0}
-  m_LocalScale: {x: 5, y: 8.1625, z: 5}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: -8, z: 0}
+  m_LocalScale: {x: 6, y: 8, z: 6}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5229039898938094636}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,7 +49,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595489017236905613}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -102,11 +102,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2557381117859800881
@@ -152,6 +152,8 @@ GameObject:
   - component: {fileID: -2548122726482936149}
   - component: {fileID: -9203579047920324325}
   - component: {fileID: -3243019324461193766}
+  - component: {fileID: 6252032752437424098}
+  - component: {fileID: 6720970803651628315}
   m_Layer: 10
   m_Name: WaterFountain
   m_TagString: Untagged
@@ -168,7 +170,7 @@ Transform:
   m_GameObject: {fileID: 4712961189452969834}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -152.62576, y: 19.71, z: -55.018566}
+  m_LocalPosition: {x: -152.62576, y: 17.82, z: -55.018566}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -189,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfece0c347fda86488162381a9d97504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  riseHeight: 10
+  riseHeight: 20
   riseDuration: 0.5
   delayBeforeRise: 0
 --- !u!114 &-9203579047920324325
@@ -204,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfece0c347fda86488162381a9d97504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  riseHeight: -10
+  riseHeight: -20
   riseDuration: 0.5
   delayBeforeRise: 4
 --- !u!114 &-3243019324461193766
@@ -220,6 +222,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 5
+--- !u!114 &6252032752437424098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4712961189452969834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8110847834f645d0b136e0c09eee586b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+--- !u!54 &6720970803651628315
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4712961189452969834}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &5222376447051414996
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +289,7 @@ Transform:
   m_GameObject: {fileID: 5222376447051414996}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -16.15, z: 0}
+  m_LocalPosition: {x: 0, y: -20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Game
@@ -53,7 +54,7 @@ namespace Game
         // ============================================================
 
         public HashSet<string> events = new HashSet<string>();
-        public Dictionary<string, string> quests = new();
+        public Dictionary<string, (string, bool)> quests = new();
         public Dictionary<string, int> ints = new Dictionary<string, int>();
         public Dictionary<string, string> strs = new Dictionary<string, string>();
         public Dictionary<string, List<int>> tups = new Dictionary<string, List<int>>();
@@ -69,14 +70,24 @@ namespace Game
 
         public void RemoveEvent(string name) => events.Remove(name);
         public bool HasEvent(string name) => events.Contains(name);
-        public void AddQuest(string key, string value)
+        public void AddQuest(string key, string value, bool done)
         {
-            quests[key] = value;
+            quests[key] = (value, done);
             if (saveOnChanged) Save("Assets/Game/save.txt");
         }
-
-        public bool TryGetQuest(string key, out string value) => quests.TryGetValue(key, out value);
+        public bool HasQuest(string key, bool requireDone=false) => quests.ContainsKey(key) && (!requireDone || quests[key].Item2);
+        public bool TryGetQuest(string key, out (string, bool) value) => quests.TryGetValue(key, out value);
         public void RemoveQuest(string key) => quests.Remove(key);
+        
+        public void CompleteQuest(string key)
+        {
+            if (quests.TryGetValue(key, out var s))
+            {
+                AddQuest(key, s.Item1, true);
+                return;
+            }
+            Debug.LogError("No quest to complete");
+        }
 
         // ============================================================
         // INT
@@ -153,7 +164,10 @@ namespace Game
                 writer.WriteLine($"EVT -- {evt}");
             
             foreach (var qst in quests)
-                writer.WriteLine($"QST -- {qst.Key} : {qst.Value}");
+            {
+                var done = qst.Value.Item2 ? '1' : '0';
+                writer.WriteLine($"QST -- {qst.Key} : [{done}] {qst.Value.Item1}");
+            }
 
             // INT
             foreach (var kv in ints)
@@ -226,7 +240,13 @@ namespace Game
                         break;
                     
                     case "QST":
-                        quests[name] = data;
+                        var match = Regex.Match(data, @"^\[(\d+)\]\s*(.*)$");
+                        if (match.Success)
+                        {
+                            int i = int.Parse(match.Groups[1].Value);
+                            string remainingText = match.Groups[2].Value;
+                            quests[name] = (remainingText, i!=0);
+                        }
                         break;
 
                     case "TUP":

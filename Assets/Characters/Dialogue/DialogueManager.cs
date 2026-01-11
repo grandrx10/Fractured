@@ -430,7 +430,11 @@ namespace Characters.Dialogue
             {
                 if (!string.IsNullOrEmpty(choice.requiredFlag))
                 {
-                    if (GlobalState.instance == null || !GlobalState.instance.HasEvent(choice.requiredFlag))
+                    bool questFlag = GlobalState.instance.HasQuest(choice.requiredFlag, true) ||
+                                     (choice.requiredFlag.StartsWith("!")
+                                      && !GlobalState.instance.HasQuest(choice.requiredFlag.Substring(1), true));
+                    if (GlobalState.instance == null || !(
+                            GlobalState.instance.HasEvent(choice.requiredFlag) || questFlag))
                         continue;
                 }
 

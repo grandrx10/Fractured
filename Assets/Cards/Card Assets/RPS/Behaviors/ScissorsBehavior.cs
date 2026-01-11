@@ -8,7 +8,7 @@ namespace Cards.Card_Assets.RPS.Behaviors
     {
         public override string GetDescription()
         {
-            return $"<b>Snip Snip</b>: On Hit, [Cut](Cuts).";
+            return $"<b>Snip Snip</b>: On Hit, [Cut](Cuts) twice.";
         }
     }
 }

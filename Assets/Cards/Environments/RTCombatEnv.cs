@@ -23,10 +23,17 @@ namespace Cards.Environments
         public DomainTrigger onDeath;
         private int _iframes;
         private PlayerHealth _healthInstance;
+        public CardData hope;
         
         public override void Initialize(PlayerAgent playerAgent)
         {
             base.Initialize(playerAgent);
+            if (player.GetCards().Count == 0)
+            {
+                var c = new GameObject("hope").AddComponent<Card>();
+                c.AssignData(hope);
+                player.GiveCard(c, true);
+            }
             
             playerAgent.GetCards().ForEach(c =>
             {

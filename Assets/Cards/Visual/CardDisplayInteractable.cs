@@ -19,15 +19,11 @@ namespace Cards.Visual
         public bool dragAllowed = true;
         public Card AttachedCard => _attachedCardDisplay.card;
 
-        private void Awake()
-        {
-            _attachedCardDisplay = GetComponent<CardDisplay>();
-            _canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
-
         public void Init(CardInteractionContainer layout)
         {
             _container = layout;
+            _attachedCardDisplay = GetComponent<CardDisplay>();
+            _canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
 
         // --------------------------

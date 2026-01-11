@@ -68,7 +68,12 @@ namespace Cards.Environments
         
         public T AddEffect<T>() where T : PlayerEffect
         {
-            if (_effects.Exists(e => e is T && e.Unique)) return null;
+            var other = _effects.Find(e => e is T);
+            if (other)
+            {
+                if (other.Unique == PlayerEffect.EffectStackBehavior.Unique) return null;
+                if (other.Unique == PlayerEffect.EffectStackBehavior.Replace) Destroy(other);
+            }
             
             var effect = gameObject.AddComponent<T>();
             effect.env = this;
@@ -85,7 +90,11 @@ namespace Cards.Environments
                 if (effect) effect.TickEffect(Time.deltaTime);
                 else _deleted.Add(effect);
             }
-            _deleted.ForEach(o => Destroy(o.gameObject));
+            _deleted.ForEach(o =>
+            {
+                if (o) Destroy(o);
+                _effects.Remove(o);
+            });
             _deleted.Clear();
             manaDisplay.SetMaxValue(CurrentStats.maxMana);
             manaDisplay.SetValue(mana);

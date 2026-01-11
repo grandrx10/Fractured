@@ -12,12 +12,13 @@ namespace Cards.Card_Assets.Systems.B
             string s = "";
             foreach (var qst in GlobalState.instance.quests)
             {
-                string txt = qst.Value;
-                if (qst.Value.StartsWith("(DONE) "))
+                var txt = qst.Value;
+                string q = txt.Item1;
+                if (txt.Item2)
                 {
-                    txt = $"<s>{txt.Substring(7)}</s>";
+                    q = $"<s>{q}</s>";
                 }
-                s += $"- {txt}\n";
+                s += $"- {q}\n";
             }
             return s;
         }

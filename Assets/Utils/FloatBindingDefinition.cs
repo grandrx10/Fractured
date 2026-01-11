@@ -18,7 +18,7 @@ namespace Utils
         public static FloatBinding Create(FloatBindingDefinition def)
         {
             if (def.targetComponent == null || string.IsNullOrEmpty(def.memberName))
-                return null;
+                Debug.LogError("Binding failed");
 
             var comp = def.targetComponent;
             var type = comp.GetType();

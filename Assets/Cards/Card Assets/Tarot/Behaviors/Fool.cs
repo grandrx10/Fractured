@@ -33,8 +33,7 @@ namespace Cards.Card_Assets.Tarot.Behaviors
             if (env is OpenWorldEnv opEnv)
             {
                 var look = PhysicsHelper.MainObj(opEnv.GetPlayerLookTarget(foolLayer).collider);
-                Debug.Log(look);
-                if (look && look.TryGetComponent(out DomainTrigger domain))
+                if (look && look.TryGetComponent(out IDomainTriggerable domain))
                 {
                     domain.Trigger();
                     _lastUseTime = Time.time + 10;

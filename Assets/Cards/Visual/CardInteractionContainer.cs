@@ -50,7 +50,7 @@ namespace Cards.Visual
             foreach (var cc in CardDisplays)
             {
                 //Debug.Log($"{cc.AttachedCard}, {card}");
-                if (ReferenceEquals(cc.AttachedCard, card))
+                if (cc && ReferenceEquals(cc.AttachedCard, card))
                 {
                     c = cc;
                 }

@@ -10,6 +10,10 @@ namespace Characters.Player
         public float speed;
         public float jumpPower;
         public int health;
+        public override string ToString()
+        {
+            return $"Stats: {maxMana} max mana, {manaRegen:F1} mana, {speed:F1} speed, {jumpPower:F1} jump power, {health} health";
+        }
 
         public static PlayerStats Empty => CreateInstance<PlayerStats>();
         

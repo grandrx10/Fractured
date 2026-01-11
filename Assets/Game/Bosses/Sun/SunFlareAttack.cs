@@ -11,6 +11,7 @@ namespace Game.Bosses.Cyra
     {
         [Header("Settings")]
         public string spawnPointName;
+        public string spawnPoint2Name;
         public float maxDistanceFromBoss = 20f;
         public float dnaSegmentLength = 20f;
         public float dnaHeight = 2f;
@@ -55,14 +56,8 @@ namespace Game.Bosses.Cyra
             // Boss hand / spawn point
             Transform spawnPoint = boss.GetComponent<Boss>()
                 .GetPointTransform(spawnPointName);
-
-            if (spawnPoint == null)
-            {
-                Debug.LogWarning(
-                    $"SunFlareAttack: spawn point '{spawnPointName}' not found. Using boss transform."
-                );
-                spawnPoint = boss.transform;
-            }
+            Transform spawnPoint2 = boss.GetComponent<Boss>()
+                .GetPointTransform(spawnPoint2Name);
 
             Vector3 bossPos = boss.transform.position;
 
@@ -181,7 +176,7 @@ namespace Game.Bosses.Cyra
 
                 if (line2 != null)
                 {
-                    line2.SetPosition(0, spawnPoint.position);
+                    line2.SetPosition(0, spawnPoint2.position);
                     line2.SetPosition(1, pos2);
                 }
 

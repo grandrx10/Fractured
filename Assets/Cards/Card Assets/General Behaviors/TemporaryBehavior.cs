@@ -11,7 +11,7 @@ namespace Cards.Card_Assets.General_Behaviors
         public override string GetDescription()
         {
             if (persistent) return "<b>Disposable</b>: Is destroyed on use.";
-            return "<b>Fragile</b>: Is destroyed on use or on moving between worlds.";
+            return "<b>Fragile</b>: Is destroyed on moving between worlds.";
         }
     }
 }

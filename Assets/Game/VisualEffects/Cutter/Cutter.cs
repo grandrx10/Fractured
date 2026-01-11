@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 
 namespace Cards.Card_Assets.RPS.Behaviors
 {
@@ -53,6 +55,7 @@ namespace Cards.Card_Assets.RPS.Behaviors
             foreach (var hit in hits)
             {
                 var main = PhysicsHelper.MainObj(hit);
+                //Debug.Log(main);
                 var cuttable = main.GetComponent<ICuttable>();
                 if (cuttable == null)
                 {
@@ -66,6 +69,21 @@ namespace Cards.Card_Assets.RPS.Behaviors
 
                 cuttable.Cut(GetNormal(), transform.position);
             }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.isTrigger) return;
+            var main = PhysicsHelper.MainObj(other);
+            Debug.Log(main);
+            var cuttable = main.GetComponent<ICuttable>();
+            if (cuttable == null)
+            {
+                var slice = main.GetComponent<Slice>();
+                if (slice != null) slice.ComputeSlice(GetNormal(), transform.position);
+                return;
+            }
+            cuttable.Cut(GetNormal(), transform.position);
         }
 
         Vector3 GetNormal()

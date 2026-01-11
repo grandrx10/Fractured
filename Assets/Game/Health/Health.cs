@@ -4,12 +4,12 @@ namespace Game.Health
 {
     public class Health : MonoBehaviour
     {
-        public int health;
+        public float health;
         protected int maxHealth;
 
         protected virtual void Start()
         {
-            maxHealth = health;
+            maxHealth = (int)health;
         }
 
         public virtual void TakeDamage(int damage)

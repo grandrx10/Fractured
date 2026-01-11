@@ -6,7 +6,7 @@ namespace Game.Effects
 {
     public class JuicedEffect : PlayerEffect
     {
-        public override bool Unique => true;
+        public override EffectStackBehavior Unique => EffectStackBehavior.Unique;
         public GameObject effect;
         private void Start()
         {

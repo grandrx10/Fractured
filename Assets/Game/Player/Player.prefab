@@ -663,7 +663,7 @@ Transform:
   m_GameObject: {fileID: 2883721986354152233}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13665478, y: -0.00000006858001, z: 0.000000009460539, w: 0.99061877}
-  m_LocalPosition: {x: -77.69994, y: -12.174367, z: 376.34192}
+  m_LocalPosition: {x: 0.6930008, y: 3.493, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -709,7 +709,7 @@ Camera:
   m_Depth: 5
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 26487
+    m_Bits: 0
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -746,14 +746,15 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras:
+  - {fileID: 4431908262825752876}
   - {fileID: 2552474428852290638}
-  m_RendererIndex: -1
+  m_RendererIndex: 1
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1041,7 +1042,7 @@ MonoBehaviour:
     FieldOfView: 60.000004
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FarClipPlane: 300
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -1960,7 +1961,7 @@ GameObject:
   - component: {fileID: 4431908262825752876}
   - component: {fileID: 3224833176066962742}
   m_Layer: 0
-  m_Name: DomainCam
+  m_Name: WorldCam
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1990,7 +1991,7 @@ Camera:
   m_GameObject: {fileID: 7129956001561433532}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -2013,16 +2014,16 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 300
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: 5
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 124791
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: e32d9b44968b8014ca5b7173c597bea2, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -2044,23 +2045,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 0
+  m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
+  m_CameraType: 1
   m_Cameras: []
-  m_RendererIndex: 1
+  m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
-  m_ClearDepth: 1
+  m_ClearDepth: 0
   m_AllowXRRendering: 1
   m_AllowHDROutput: 1
   m_UseScreenCoordOverride: 0
@@ -2341,8 +2342,8 @@ MonoBehaviour:
   moveSpeed: 12
   groundDrag: 1
   jumpForce: 10
-  jumpCooldown: 0.5
-  airMultiplier: 1.5
+  jumpCooldown: 0.75
+  airMultiplier: 0.5
   rotationSpeed: 5
   jumpKey: 32
   whatIsGround:
@@ -2352,6 +2353,9 @@ MonoBehaviour:
   animator: {fileID: 2654903112271777459}
   agent: {fileID: 3267625878665347748}
   orientation: {fileID: 3603662854328374165}
+  maxSlopeAngle: 60
+  slideAcceleration: 2
+  sideDrag: 20
 --- !u!114 &2074361823588793967
 MonoBehaviour:
   m_ObjectHideFlags: 0

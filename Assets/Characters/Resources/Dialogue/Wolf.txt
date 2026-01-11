@@ -48,9 +48,11 @@ You can count on us, Mr. Wolf!
 [Dorian]
 Huh? I didn't sign up for-
 ---
+<GoatQuestStart>
 [Wolf]
-Great! Har har, I knew I could count on you, Ravenna and Dorian. Here's a scissor to help you on your journey. Once you're done, come to talk to me once again.
+Great! Har har, I knew I could count on you, Ravenna and Dorian. Here's some shears to help you on your journey. Once you're done, come to talk to me once again.
 ---
+<GiveShears>
 >>!F WolfSeen
 [Wolf]
 And remember. Do NOT tell anyone else. Especially not my wife.
@@ -59,14 +61,16 @@ And remember. Do NOT tell anyone else. Especially not my wife.
 ###
 WolfQuest
 ===
+<GoatQuestCheck>
 [Wolf]
 Har har, did you get it done?
 ???
-[Yes](WolfQuestComplete){WolfQuestComplete}
+[Yes](wool_quest_1){WolfQuestComplete}
 [No]{WolfQuestIncomplete}
 ###
 WolfQuestComplete
 ===
+<GoatQuestDone>
 [Wolf]
 Great job, I knew I could count on you two. Did I mention you two are my favourite younglings? Alright, thanks. I'll talk to you younglings later.
 ---

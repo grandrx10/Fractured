@@ -8,7 +8,14 @@ namespace Game.Health
     {
         public CardEnv env;
         public bool active = true;
-        public abstract bool Unique { get; }
+        public abstract EffectStackBehavior Unique { get; }
         public abstract void TickEffect(float dt);
+
+        public enum EffectStackBehavior
+        {
+            Multi,
+            Unique,
+            Replace
+        }
     }
 }

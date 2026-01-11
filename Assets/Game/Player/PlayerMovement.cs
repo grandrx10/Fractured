@@ -133,6 +133,47 @@ namespace Characters
             readyToJump = true;
         }
 
+        public float maxSlopeAngle = 45f;
+        public float slideAcceleration = 30f;
+        public float sideDrag = 6f;
+
+        private void OnCollisionStay(Collision other)
+        {
+            if (((1 << other.gameObject.layer) & whatIsGround) == 0 || !readyToJump)
+                return;
+
+            Vector3 n = other.contacts[0].normal.normalized;
+
+            float slopeCos = Vector3.Dot(n, Vector3.up);
+            float slopeAngle = Mathf.Acos(Mathf.Clamp(slopeCos, -1f, 1f)) * Mathf.Rad2Deg;
+
+            if (slopeAngle <= maxSlopeAngle)
+                return;
+
+            Vector3 v = rb.linearVelocity;
+
+            // Surface directions
+            Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, n).normalized;
+            Vector3 uphill = -downhill;
+            Vector3 sideways = Vector3.Cross(n, downhill).normalized;
+
+            // 1️⃣ Block uphill motion
+            float uphillSpeed = Vector3.Dot(v, uphill);
+            if (uphillSpeed > 0f)
+                v -= uphill * uphillSpeed;
+
+            // 2️⃣ Apply sideways drag
+            float sideSpeed = Vector3.Dot(v, sideways);
+            v -= sideways * sideSpeed * sideDrag * Time.fixedDeltaTime;
+
+            // 3️⃣ Apply downhill gravity (THIS fixes hovering)
+            Vector3 slideAccel = Vector3.ProjectOnPlane(Physics.gravity, n);
+            v += slideAccel * Time.fixedDeltaTime * slideAcceleration;
+
+            rb.linearVelocity = v;
+        }
+
+        
         // Trigger-based ground detection
         private void OnTriggerStay(Collider other)
         {

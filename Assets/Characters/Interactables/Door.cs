@@ -1,4 +1,5 @@
 using System.Collections;
+using Game;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -21,7 +22,8 @@ public class Door : MonoBehaviour
 
     protected Vector3 closedPosition;
     protected Vector3 openPosition;
-
+    
+    public PersistentID id;
     protected virtual void Awake()
     {
         if (doorObject == null)
@@ -29,7 +31,13 @@ public class Door : MonoBehaviour
 
         closedPosition = doorObject.transform.position;
         openPosition = closedPosition + Vector3.up * openHeight;
-
+        
+        
+    }
+    
+    private void Start()
+    {
+        if (GlobalState.instance.HasEvent($"DOOR_OPEN_{id.ID}")) startOpen = true;
         if (startOpen)
         {
             doorObject.transform.position = openPosition;
@@ -57,7 +65,7 @@ public class Door : MonoBehaviour
     {
         if (isOpen || isMoving)
             return;
-
+        GlobalState.instance.AddEvent($"DOOR_OPEN_{id.ID}");
         StartCoroutine(MoveDoor(closedPosition, openPosition, true));
     }
 

@@ -1,16 +1,28 @@
+using Cards;
+using Cards.Core;
+using Cards.Environments;
+using Game;
+using Game.Effects;
 using UnityEngine;
+using Utils;
+using World.Objects;
 
 public class SpringberryBush : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public float cd;
+    public GameObject berries;
+    public void Interact(BaseInteractable I, GameObject player, bool init)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (!init)
+        {
+            OpenWorldEnv.Current.AddEffect<SpringEffect>();
+            berries.SetActive(false);
+            I.canInteract = false;
+            Delay.Call(this, cd, () =>
+            {
+                berries.SetActive(true);
+                I.canInteract = true;
+            });
+        }
     }
 }

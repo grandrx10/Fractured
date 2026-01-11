@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5647469544010303917}
   - component: {fileID: 797380530065939414}
   - component: {fileID: -8908249898836826102}
+  - component: {fileID: 3092328673375069497}
   m_Layer: 10
   m_Name: StraightProton
   m_TagString: Untagged
@@ -112,6 +113,19 @@ MonoBehaviour:
   speed: 15
   maxDistance: 50
   impactPrefab: {fileID: 1110628304116608462, guid: 4f03f76abe8cc3242aeb9cc004aab92c, type: 3}
+--- !u!114 &3092328673375069497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572345846011009547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8110847834f645d0b136e0c09eee586b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
 --- !u!1 &3208653152124965536
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +190,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2b5196ff666f28349be048f8488f90b3, type: 2}
+  - {fileID: 2100000, guid: 07c8dca9b41333c438f32ef84cf5abdf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

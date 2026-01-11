@@ -3,7 +3,7 @@ using World.Objects;
 
 namespace World.Domain
 {
-    public class DomainTrigger : MonoBehaviour
+    public class DomainTrigger : MonoBehaviour, IDomainTriggerable
     {
         public string domainName, domainPoint;
         [TextArea] public string domainTag;

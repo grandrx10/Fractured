@@ -9,6 +9,7 @@ public class Damaging : MonoBehaviour
 
     [Header("Damage Settings")]
     public bool dealDamageOnce = true;
+    public float damageMultiplier = 1f;
 
     [Header("Damage Options")]
     public bool damageOnTrigger = true;
@@ -94,7 +95,7 @@ public class Damaging : MonoBehaviour
 
         if (health != null)
         {
-            int damage = card.stats.strength * 10;
+            int damage = Mathf.FloorToInt(card.stats.strength * 10 * damageMultiplier);
             if (showDebugLogs)
                 Debug.Log($"[Damaging] Dealing {damage} damage to {target.name}");
 

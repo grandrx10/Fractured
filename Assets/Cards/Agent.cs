@@ -68,6 +68,7 @@ namespace Cards
             {
                 GlobalState.instance.AddMoney(money.value);
                 OnGetCard?.Invoke(card, toHand ? CardTarget.Hand : CardTarget.Deck);
+                Destroy(card.gameObject);
                 return;
             }
             AddCard(card, toHand);
