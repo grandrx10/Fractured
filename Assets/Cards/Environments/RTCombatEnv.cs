@@ -9,6 +9,9 @@ using Game.Health;
 using UnityEngine;
 using UnityEngine.Serialization;
 using World.Domain;
+using Cards.Environments;
+using Game;
+using Characters.Dialogue;
 
 namespace Cards.Environments
 {
@@ -115,8 +118,34 @@ namespace Cards.Environments
         public void Die()
         {
             initialized = false;
+
+            // ----------------------------
+            // Increment death count
+            // ----------------------------
+            int deaths = 0;
+            if (GlobalState.instance != null)
+            {
+                GlobalState.instance.TryGetInt("DeathCount", out deaths);
+                deaths++;
+                GlobalState.instance.SetInt("DeathCount", deaths);
+            }
+
+            // ----------------------------
+            // Trigger death dialogue
+            // ----------------------------
+            if (DialogueManager.Instance != null)
+            {
+                string convoName = $"Death{deaths}";
+
+                DialogueManager.Instance.StartConversation(convoName);
+            }
+
+            // ----------------------------
+            // Trigger domain death logic (optional, AFTER dialogue)
+            // ----------------------------
             onDeath.Trigger(player.transform.position - Vector3.up * 1.5f);
         }
+
 
         public override void Destroy()
         {
