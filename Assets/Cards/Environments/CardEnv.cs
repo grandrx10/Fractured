@@ -22,6 +22,7 @@ namespace Cards.Environments
         public float environmentExitTime;
         public float environmentIntroTime;
         public float environmentIntroRad;
+        public RaviMode raviMode = RaviMode.Normal;
         [SerializeField] private List<Transform> environmentCenters;
         [HideInInspector] public bool initialized;
         

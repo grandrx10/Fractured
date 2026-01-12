@@ -1,9 +1,10 @@
-﻿namespace Cards.Core.BehaviorTags
+﻿using Cards.Environments;
+
+namespace Cards.Core.BehaviorTags
 {
     public interface IBehaviorCombatListener
     {
-        public void StartMatch();
-        public void EndMatch();
-        public void TakeDamage(int value);
+        public void StartMatch(RTCombatEnv env);
+        public void EndMatch(RTCombatEnv env);
     }
 }

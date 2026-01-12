@@ -1,9 +1,9 @@
+using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using UnityEngine;
-using Game.Health;
 
-namespace Cards.Core.Behaviors
+namespace Cards.Card_Assets.Combat.Behaviours
 {
     [CreateAssetMenu(fileName = "TouchSummon", menuName = "Behaviors/TouchSummon")]
     public class TouchSummonBehaviour : Behavior, IBehaviorHitListener

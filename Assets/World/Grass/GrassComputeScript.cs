@@ -396,6 +396,7 @@ namespace World.Grass
             GetFrustumData();
             if (_interactorDirty)
             {
+                interactorSet.RemoveWhere(i => !i);
                 interactors = interactorSet.ToArray();
             }
             // Update the shader with frame specific data
@@ -500,12 +501,21 @@ namespace World.Grass
                 int s = Mathf.Min(interactors.Length, 128);
                 Vector4[] positions = new Vector4[s];
 
-                for (int i = 0; i < s; i++)
+                try
                 {
-                    positions[i] = new Vector4(interactors[i].transform.position.x, interactors[i].transform.position.y, interactors[i].transform.position.z,
-                        interactors[i].radius);
+                    for (int i = 0; i < s; i++)
+                    {
+                        positions[i] = new Vector4(interactors[i].transform.position.x, interactors[i].transform.position.y, interactors[i].transform.position.z,
+                            interactors[i].radius);
 
+                    }
                 }
+                catch (MissingReferenceException _)
+                {
+                    _interactorDirty = true;
+                    return;
+                }
+                
                 m_InstantiatedComputeShader.SetVectorArray(shaderID, positions);
                 m_InstantiatedComputeShader.SetFloat("_InteractorsLength", s);
             }

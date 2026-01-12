@@ -65,14 +65,12 @@ Here it comes!
 ###
 InnerRockOpener2
 ===
->>!F FeatherGiven
 [Dorian]
 I don't think it's going to let us leave. We'll need to fight it.
 ---
 [Ravenna]
-Quick, take my technique, feather!
+Quick, throw something at it!
 ---
-<GiveFeather>
 [SYSTEM]
 SCROLL WHEEL to select a card. LEFT CLICK to cast.
 ---
@@ -82,10 +80,12 @@ Here it comes!
 ###
 InnerRockEnder
 ===
+<GiveRock>
 <SetRockDestroyed>
 [Dorian]
 I think we got it.
 ---
+<GiveFool>
 <Return>
 [Ravenna]
 Huff... Nice moves, Dorian. That was... intense. I've never been attacked by a rock before.
@@ -117,6 +117,5 @@ Dorian! What are we going to do? We totally busted up Myrtle's room!
 [Dorian]
 Right - we should probably tell her.
 ---
-<GiveFool>
 ===
 ###

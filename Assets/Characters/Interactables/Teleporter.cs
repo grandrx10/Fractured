@@ -5,12 +5,8 @@ using UnityEngine;
 
 public class Teleporter : Interactable
 {
-    [Header("Teleport Objects")]
-    [Tooltip("Objects to teleport")]
-    public List<GameObject> objectsToTeleport = new();
-
     [Tooltip("Target transforms (must match object count)")]
-    public List<Transform> targetPositions = new();
+    public Transform targetPosition;
 
     [Header("Fade Settings")]
     [Tooltip("Fade-out duration (seconds)")]
@@ -29,15 +25,6 @@ public class Teleporter : Interactable
         if (!canInteract || _isTeleporting)
             return;
 
-        if (objectsToTeleport.Count != targetPositions.Count)
-        {
-            Debug.LogError(
-                $"Teleporter mismatch: {objectsToTeleport.Count} objects, {targetPositions.Count} targets",
-                this
-            );
-            return;
-        }
-
         StartCoroutine(TeleportRoutine());
     }
 
@@ -53,15 +40,7 @@ public class Teleporter : Interactable
         yield return new WaitForSeconds(teleportDelay);
 
         // Teleport objects
-        for (int i = 0; i < objectsToTeleport.Count; i++)
-        {
-            if (!objectsToTeleport[i] || !targetPositions[i]) continue;
-
-            objectsToTeleport[i].transform.SetPositionAndRotation(
-                targetPositions[i].position,
-                targetPositions[i].rotation
-            );
-        }
+        GlobalWorldManager.Instance.CurrentEnvironment.player.GetComponent<Rigidbody>().MovePosition(targetPosition.position);
 
         // Wait before fade IN
         yield return new WaitForSeconds(unfadeDelay);

@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Grass
   m_EditorClassIdentifier: 
   name: Grass
-  flavorText: the shield is made of bomb
+  flavorText: A bundle of grass. It seems full of vitality.
   collection: 7
   style: 0
   icon: {fileID: 137904582, guid: 210b0c01c2a79454f9caef844f9ceb44, type: 3}
   stats:
-    health: 1
+    health: 0
     mana: 2
     strength: 1
-  behaviors: []
+  behaviors:
+  - {fileID: 11400000, guid: a1ee02faa4818a740b742ff53a4e8df4, type: 2}

@@ -18,10 +18,12 @@ namespace Cards.Environments
     public class RTCombatEnv: OpenWorldEnv
     {
         private float _health;
+        public int shield;
         public int maxHealth = -1;
         public bool allowHeal = true;
+        public bool allowShield = true;
         [SerializeField] private DiscreteContainer healthDisplay;
-        
+        [SerializeField] private DiscreteContainer shieldDisplay;
         public int damageIframes = 30;
         public DomainTrigger onDeath;
         private int _iframes;
@@ -41,7 +43,7 @@ namespace Cards.Environments
             
             playerAgent.GetCards().ForEach(c =>
             {
-                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch());
+                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch(this));
             });
             if (maxHealth == -1) maxHealth = playerAgent.TotalHealth + CurrentStats.health;
             maxHealth = Mathf.Max(maxHealth, 1);
@@ -50,6 +52,13 @@ namespace Cards.Environments
             _healthInstance.Init(this);
             PlayerInteractController.PlayerInputs.InCombat = true;
             UpdateHealth();
+        }
+
+        public void AddShield(int s)
+        {
+            if (!allowShield) return;
+            shield += s;
+            shieldDisplay.SetValue(shield);
         }
 
         public bool Heal(int amount)
@@ -79,7 +88,13 @@ namespace Cards.Environments
                 damage = l.Hit(this, player, damage);
             }
 
-            _health -= Mathf.Max(damage.Damage, 0);
+            int dmg = Mathf.RoundToInt(Mathf.Max(damage.Damage, 0));
+            
+            int shieldDamage = Mathf.Min(dmg, shield);
+            shield -= shieldDamage;
+            shieldDisplay.SetValue(shield);
+            dmg -= shieldDamage;
+            _health -= dmg;
             _health = Mathf.Clamp(_health, 0, maxHealth);
             UpdateHealth();
 
@@ -158,7 +173,7 @@ namespace Cards.Environments
             player.CancelSelection();
             player.GetCards().ForEach(c =>
             {
-                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch());
+                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch(this));
             });
             Destroy(_healthInstance);
             PlayerInteractController.PlayerInputs.InCombat = false;

@@ -13,7 +13,7 @@ namespace Game.Shop
     {
         public ShopInventory shopInventoryPrefab;
         public List<ShopInventory.ShopItem> shopItems;
-        [FormerlySerializedAs("shopText")] public string shopName;
+        public string shopName;
         public string shopId;
         public void Interact(BaseInteractable I, GameObject player, bool init)
         {

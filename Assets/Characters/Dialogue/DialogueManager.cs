@@ -534,6 +534,7 @@ namespace Characters.Dialogue
                     Debug.Log("SWAP DETECTED: " + swap.Key + " -> " + swap.Value);
                     if (mapping != null)
                     {
+                        if (!mapping.characterObject) continue;
                         Speaker sp = mapping.characterObject.GetComponent<Speaker>();
                         if (sp != null)
                         {

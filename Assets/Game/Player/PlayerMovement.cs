@@ -2,6 +2,7 @@ using System;
 using Cards;
 using Cards.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Characters
 {
@@ -15,7 +16,8 @@ namespace Characters
         public float airMultiplier;
         public float rotationSpeed = 5;
         bool readyToJump;
-
+        public AnimationCurve speedCurve, airCurve;
+        
         [Header("Keybinds")]
         public KeyCode jumpKey = KeyCode.Space;
 
@@ -60,7 +62,6 @@ namespace Characters
         private void Update()
         {
             MyInput();
-            SpeedControl();
             rb.linearDamping = grounded ? groundDrag : 0;
         }
 
@@ -72,6 +73,7 @@ namespace Characters
             animator.SetBool("MovingUp", rb.linearVelocity.y > 0);
             if (!grounded) _airFrames++;
             else _airFrames = 0;
+            animator.SetFloat("Fall", airCurve.Evaluate(_airFrames));
             animator.SetBool("Grounded", _airFrames <= 20);
         }
 
@@ -109,11 +111,15 @@ namespace Characters
                 rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
             else
                 rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            SpeedControl();
         }
 
         private void SpeedControl()
         {
             Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            animator.SetFloat("Speed", speedCurve.Evaluate(flatVel.magnitude) * ( _airFrames <= 20 ? 1 : 0.1f));
+            
+            
             if (flatVel.magnitude > moveSpeed)
             {
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -134,7 +140,7 @@ namespace Characters
         }
 
         public float maxSlopeAngle = 45f;
-        public float slideAcceleration = 30f;
+        [FormerlySerializedAs("slideAcceleration")] public float slideAccelerationFactor = 30f;
         public float sideDrag = 6f;
 
         private void OnCollisionStay(Collision other)
@@ -168,7 +174,7 @@ namespace Characters
 
             // 3️⃣ Apply downhill gravity (THIS fixes hovering)
             Vector3 slideAccel = Vector3.ProjectOnPlane(Physics.gravity, n);
-            v += slideAccel * Time.fixedDeltaTime * slideAcceleration;
+            v += slideAccel * Time.fixedDeltaTime * moveSpeed * slideAccelerationFactor;
 
             rb.linearVelocity = v;
         }

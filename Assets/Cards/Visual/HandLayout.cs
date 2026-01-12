@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Cards.Core;
 using Extras.LeanTween.Framework;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine.Serialization;
 
@@ -12,7 +13,7 @@ namespace Cards.Visual
     {
         public InteractMode mode;
         public LayoutMode layout;
-        public int cardCap = 7;
+        public int cardCap = 4;
         [SerializeField] private float cardWidth = 150f;
         [SerializeField] private float handWidth = 150f;
         [SerializeField] private float baseY = 80f;
@@ -20,7 +21,7 @@ namespace Cards.Visual
         [SerializeField] private float hoverPopHeight = 140f;
         [SerializeField] private float sideShift = 40f;
         [SerializeField] private float animTime = 0.15f;
-        
+        public TextMeshProUGUI capText;
         [SerializeField] float arcRadius = 400f;
         [SerializeField] float arcAngle = 25f; // degrees left/right from center
         [SerializeField] float cardRotation = 10f;
@@ -100,6 +101,7 @@ namespace Cards.Visual
         [ContextMenu("Refresh Layout")]
         public override void RefreshLayout()
         {
+            capText.text = $"{Cards.Count}/{cardCap}";
             ValidateSelectedCard();
             if (layout == LayoutMode.Hand)
                 LayoutHandMode();
@@ -136,6 +138,7 @@ namespace Cards.Visual
         
         private void LayoutHandMode()
         {
+            capText.gameObject.SetActive(false);
             int count = CardDisplays.Count;
             if (count == 0)
                 return;
@@ -205,6 +208,7 @@ namespace Cards.Visual
         
         void LayoutInventoryMode()
         {
+            capText.gameObject.SetActive(true);
             float cardCount = CardDisplays.Count;
 
             if (cardCount == 0)

@@ -19,7 +19,7 @@ public class DiscreteContainer : MonoBehaviour
         if (maxValue == currentMaxDisplays)
             return;
 
-        currentMaxDisplays = maxValue / maxPerContainer;
+        currentMaxDisplays = Mathf.CeilToInt((float)maxValue / maxPerContainer);
 
         foreach (Transform t in container)
         {

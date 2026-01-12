@@ -30,6 +30,12 @@ namespace Cards.PhysicalProperties
                     {
                         damaging.card = pco.card;
                     }
+                    
+                    var newpco = rbInstance.GetComponent<PhysicalObject>();
+                    if (newpco != null)
+                    {
+                        newpco.card = pco.card;
+                    }
 
                     if (destroy) Destroy(gameObject);
                 });

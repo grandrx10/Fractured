@@ -1,58 +1,61 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Barrier : MonoBehaviour
+namespace Cards.Card_Assets.Combat.Behaviours
 {
-    [Header("Lifetime Settings")]
-    public float defaultLifetime = 1f;
-    public float maxLifetime = 2.5f;
-
-    private float lifetimeRemaining;
-    private int extensionStep = 0; // How many times we've extended
-    private readonly float[] extensionValues = { 0.5f, 0.4f, 0.3f, 0.2f, 0.1f };
-
-    private HashSet<GameObject> hitProjectiles = new HashSet<GameObject>();
-
-    private void Start()
+    public class Barrier : MonoBehaviour
     {
-        lifetimeRemaining = defaultLifetime;
-    }
+        [Header("Lifetime Settings")]
+        public float defaultLifetime = 1f;
+        public float maxLifetime = 2.5f;
 
-    private void Update()
-    {
-        lifetimeRemaining -= Time.deltaTime;
-        if (lifetimeRemaining <= 0f)
+        private float lifetimeRemaining;
+        private int extensionStep = 0; // How many times we've extended
+        private readonly float[] extensionValues = { 0.5f, 0.4f, 0.3f, 0.2f, 0.1f };
+
+        private HashSet<GameObject> hitProjectiles = new HashSet<GameObject>();
+
+        private void Start()
         {
-            Destroy(gameObject);
+            lifetimeRemaining = defaultLifetime;
         }
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        GameObject other = collision.gameObject;
-
-        // Only consider objects in the "Projectile" layer
-        if (other.layer == LayerMask.NameToLayer("Projectile"))
+        private void Update()
         {
-            // Only extend if this projectile hasn't already triggered it
-            if (!hitProjectiles.Contains(other))
+            lifetimeRemaining -= Time.deltaTime;
+            if (lifetimeRemaining <= 0f)
             {
-                hitProjectiles.Add(other);
-                ExtendLifetime();
+                Destroy(gameObject);
             }
         }
-    }
 
-    private void ExtendLifetime()
-    {
-        if (extensionStep < extensionValues.Length)
+        private void OnCollisionEnter(Collision collision)
         {
-            lifetimeRemaining += extensionValues[extensionStep];
-            extensionStep++;
+            GameObject other = collision.gameObject;
 
-            // Clamp to maxLifetime
-            if (lifetimeRemaining > maxLifetime)
-                lifetimeRemaining = maxLifetime;
+            // Only consider objects in the "Projectile" layer
+            if (other.layer == LayerMask.NameToLayer("Projectile"))
+            {
+                // Only extend if this projectile hasn't already triggered it
+                if (!hitProjectiles.Contains(other))
+                {
+                    hitProjectiles.Add(other);
+                    ExtendLifetime();
+                }
+            }
+        }
+
+        private void ExtendLifetime()
+        {
+            if (extensionStep < extensionValues.Length)
+            {
+                lifetimeRemaining += extensionValues[extensionStep];
+                extensionStep++;
+
+                // Clamp to maxLifetime
+                if (lifetimeRemaining > maxLifetime)
+                    lifetimeRemaining = maxLifetime;
+            }
         }
     }
 }

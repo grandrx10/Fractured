@@ -27,7 +27,7 @@ namespace Cards.Card_Assets.Plants.Behaviors
 
         public override string GetDescription()
         {
-            return $"<b>Prickly</b>: Lose {hp} max health.";
+            return $"<b>Prickly</b>: When equipped, lose {hp} max health.";
         }
     }
 }

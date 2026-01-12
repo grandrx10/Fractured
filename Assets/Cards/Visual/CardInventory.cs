@@ -13,7 +13,7 @@ namespace Cards.Visual
         public GameObject deckMenu;
         public Agent targetAgent;
         public GameObject cardTab, tarotTab;
-        public CardPreview preview;
+        public CardPreview getPreview, preview;
         private void Awake()
         {
             handLayout.CardUsed += card =>
@@ -25,7 +25,7 @@ namespace Cards.Visual
                 deckLayout.AddCardDisplay(card);
                 tarotLayout.AddCardDisplay(card);
                 handLayout.AddCardDisplay(card);
-                CreatePreview(card);
+                CreatePreview(card, getPreview);
             };
             targetAgent.OnLoseCard += (card, target) =>
             {
@@ -42,9 +42,9 @@ namespace Cards.Visual
                 targetAgent.RemoveCard);
         }
         
-        public void CreatePreview(Card c)
+        public void CreatePreview(Card c, CardPreview p)
         {
-            var cardPrev = Instantiate(preview, UIHelper.GetRootCanvas(transform).transform);
+            var cardPrev = Instantiate(p, UIHelper.GetRootCanvas(transform).transform);
             cardPrev.cardDisplay.card = c;
             cardPrev.cardDisplay.interactable = true;
             cardPrev.cardDisplay.hasDepth = true;
@@ -74,6 +74,10 @@ namespace Cards.Visual
             if (Input.GetMouseButtonDown(0) && targetAgent.CardRequested)
             {
                 handLayout.UseCard();
+            }
+            if (Input.GetMouseButtonDown(1) && handLayout.SelectedCard)
+            {
+                CreatePreview(handLayout.SelectedCard.AttachedCard, preview);
             }
             
             for (int i = 1; i <= 9; i++)

@@ -14,12 +14,12 @@ public class GlobalWorldManager : MonoBehaviour
 {
     public static GlobalWorldManager Instance { get; private set; }
     public static event Action OnAfterMove;
-    public static event Action<CardEnv> OnLoadNewScene;
+    public static event Action<CardEnv> OnLoadNewScene, OnPreLoadNewScene;
     public float RawTransitionTime { get; private set; }
     public float CurvedTransitionTime => transitionCurve.Evaluate(RawTransitionTime);
     public AnimationCurve transitionCurve;
-    public CardEnv CurrentEnvironment;
-    public PlayerAgent playerAgent;
+    [HideInInspector] public CardEnv CurrentEnvironment;
+    private PlayerAgent playerAgent;
     public float newDomainOffset;
     public GameObject sphereEffect;
     public Material fadeMaterial;
@@ -55,6 +55,10 @@ public class GlobalWorldManager : MonoBehaviour
         mpb2.SetFloat("_NoDissolve", 1);
         
         foreach (var rend in FindAnyObjectByType<PlayerAgent>().GetComponentsInChildren<Renderer>())
+        {
+            rend.SetPropertyBlock(mpb2);
+        }
+        foreach (var rend in FindAnyObjectByType<RaviMain>().GetComponentsInChildren<Renderer>())
         {
             rend.SetPropertyBlock(mpb2);
         }
@@ -163,12 +167,14 @@ public class GlobalWorldManager : MonoBehaviour
     {
         if (CurrentEnvironment == null)
         {
+            OnPreLoadNewScene?.Invoke(env);
             CurrentEnvironment = env;
             env.Initialize(playerAgent);
             OnLoadNewScene?.Invoke(CurrentEnvironment);
         }
         else
         {
+            OnPreLoadNewScene?.Invoke(env);
             CurrentEnvironment.Destroy();
             _dissolveRad = env.environmentIntroRad;
             _transitioning = true;

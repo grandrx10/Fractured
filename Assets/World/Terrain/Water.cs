@@ -12,7 +12,7 @@ public class Water : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         var m = PhysicsHelper.MainObj(other);
-        if (m.CompareTag("Player"))
+        if (m.layer == LayerMask.NameToLayer("Player"))
         {
             var d = heightOffset + transform.position.y - m.transform.position.y;
             if (d < 0) return;

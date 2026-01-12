@@ -52,7 +52,7 @@ namespace Characters
             if (targetToFollow != null)
                 targetToFollow.OnNodesRemoved += HandleNodesRemoved;
 
-            DisableAllColliders();
+            //DisableAllColliders();
         }
 
         void Update()

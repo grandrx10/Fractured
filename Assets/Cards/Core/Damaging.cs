@@ -21,7 +21,7 @@ public class Damaging : MonoBehaviour
     public LayerMask destroyOnTouchLayers;
 
     [Header("Debug")]
-    [SerializeField] private bool showDebugLogs = true;
+    [SerializeField] private bool showDebugLogs = false;
 
     private bool hasDealtDamage = false;
 
