@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3b24bbc39d9cc441ac1546e33ba0f9a, type: 3}
+  m_Name: WingsAttack
+  m_EditorClassIdentifier: 
+  attackDuration: 24
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  spawnPrefab: {fileID: 8241814871917818601, guid: 0715c77f982f0974fb5921f045274269, type: 3}
+  pointNames:
+  - Wing1
+  - Wing2
+  spawnInterval: 0.05
+  onDuration: 8
+  offDuration: 2
+  movePoints:
+  - Ascend
+  - Ascend2
+  - Ascend3
+  - Ascend4
+  - Ascend5
+  - Ascend5
+  moveDuration: 3
