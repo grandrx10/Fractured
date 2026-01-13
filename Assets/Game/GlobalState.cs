@@ -37,7 +37,7 @@ namespace Game
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
-                Load("Assets/Game/save.txt");
+                Load("save.txt");
             }
         }
 
@@ -45,7 +45,7 @@ namespace Game
         {
             if (saveOnExit)
             {
-                Save("Assets/Game/save.txt");
+                Save("save.txt");
             }
         }
         
@@ -65,7 +65,7 @@ namespace Game
         public void AddEvent(string name)
         {
             events.Add(name);
-            if (saveOnChanged) Save("Assets/Game/save.txt");
+            if (saveOnChanged) Save("save.txt");
         }
 
         public void RemoveEvent(string name) => events.Remove(name);
@@ -73,7 +73,7 @@ namespace Game
         public void AddQuest(string key, string value, bool done)
         {
             quests[key] = (value, done);
-            if (saveOnChanged) Save("Assets/Game/save.txt");
+            if (saveOnChanged) Save("save.txt");
         }
         public bool HasQuest(string key, bool requireDone=false) => quests.ContainsKey(key) && (!requireDone || quests[key].Item2);
         public bool TryGetQuest(string key, out (string, bool) value) => quests.TryGetValue(key, out value);
@@ -95,7 +95,7 @@ namespace Game
         public void SetInt(string key, int value)
         {
             ints[key] = value;
-            if (saveOnChanged) Save("Assets/Game/save.txt");
+            if (saveOnChanged) Save("save.txt");
         }
 
         public bool TryGetInt(string key, out int value) => ints.TryGetValue(key, out value);
@@ -107,7 +107,7 @@ namespace Game
         public void SetStr(string key, string value)
         {
             strs[key] = value;
-            if (saveOnChanged) Save("Assets/Game/save.txt");
+            if (saveOnChanged) Save("save.txt");
         }
 
         public bool TryGetStr(string key, out string value) => strs.TryGetValue(key, out value);
@@ -119,7 +119,7 @@ namespace Game
         public void SetTup(string key, List<int> values)
         {
             tups[key] = new List<int>(values);
-            if (saveOnChanged) Save("Assets/Game/save.txt");
+            if (saveOnChanged) Save("save.txt");
         }
 
         public bool TryGetTup(string key, out List<int> values)
@@ -149,7 +149,7 @@ namespace Game
 
             if (!list.Contains(value))   // set behavior
                 list.Add(value);
-            if (saveOnChanged) Save("Assets/Game/save.txt");
+            if (saveOnChanged) Save("save.txt");
         }
 
         // ============================================================
@@ -157,6 +157,7 @@ namespace Game
         // ============================================================
         public void Save(string path)
         {
+            path = Path.Combine(Application.persistentDataPath, path);
             using StreamWriter writer = new StreamWriter(path);
 
             // EVT (no colon)
@@ -190,11 +191,13 @@ namespace Game
         // ============================================================
         public void Load(string path)
         {
+            path = Path.Combine(Application.persistentDataPath, path);
+            
             events.Clear();
             ints.Clear();
             strs.Clear();
             tups.Clear();
-
+            
             if (!File.Exists(path))
             {
                 Debug.LogWarning($"GlobalState: file does not exist: {path}");

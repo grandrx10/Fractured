@@ -229,6 +229,52 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5728948166946464556, guid: 823856e7189296842ad37e1d37063e2f, type: 3}
+--- !u!1 &71898617
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 71898618}
+  - component: {fileID: 71898619}
+  m_Layer: 0
+  m_Name: GiveMinorWater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &71898618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71898617}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -264.8714, y: 30.372818, z: -115.33737}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 255469567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &71898619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71898617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 11400000, guid: c9046eeaeb2130e48abd9d23f0c78d59, type: 2}
+  giveToHand: 0
 --- !u!1 &187086631
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,6 +568,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 999672000}
+  - {fileID: 71898618}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &276043630
@@ -787,6 +834,10 @@ PrefabInstance:
     - target: {fileID: 1469037134206347490, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1676729584742642380, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
+      propertyPath: raviMode
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1676729584742642380, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
       propertyPath: allowHeal
@@ -2074,6 +2125,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1748452218499281472, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: follow
+      value: 
+      objectReference: {fileID: 1688789907}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.99061877
@@ -2666,6 +2721,17 @@ MonoBehaviour:
     mana: 0
     strength: 0
   behaviors: []
+--- !u!114 &1688789907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7469986964817623342, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+  m_PrefabInstance: {fileID: 1106373212}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46a3cb9b61d2704199f845ef702e794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1694617084
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ namespace Cards.Card_Assets.General_Behaviors
     public class InspectableBehavior: Behavior, IBehaviorUseListener
     {
         public CardPreview preview;
+        public bool showDesc = true;
         public virtual bool Use(CardEnv env, Agent agent)
         {
             var cardPrev = Instantiate(preview, GameObject.FindGameObjectWithTag("Main UI").transform);
@@ -18,6 +19,11 @@ namespace Cards.Card_Assets.General_Behaviors
             cardPrev.cardDisplay.interactable = true;
             cardPrev.cardDisplay.hasDepth = true;
             return true;
+        }
+
+        public override string GetDescription()
+        {
+            return showDesc ? "<b>Cannot be thrown.</b>" : "";
         }
     }
 }

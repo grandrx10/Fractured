@@ -12,7 +12,7 @@ namespace Cards.Visual
         {
             foreach (var card in GetComponentsInChildren<Card>())
             {
-                agent.GiveCard(card);
+                agent.GiveCard(card, hand);
             }
         }
     }

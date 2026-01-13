@@ -8,11 +8,10 @@ namespace Cards.Card_Assets.Plants.Behaviors
     [CreateAssetMenu(fileName = "SpringberryBush", menuName = "Behaviors/SpringberryBush")]
     public class SpringberryBushBehavior : Behavior, IBehaviorEquippedListener
     {
-        public float speed = 2;
         public void Equip(PlayerAgent agent)
         {
             var s = PlayerStats.Empty;
-            s.speed += speed;
+            s.speed += AttachedCard.stats.strength;
             agent.stats.tempStats += s;
             agent.UpdateStats();
         }
@@ -20,14 +19,14 @@ namespace Cards.Card_Assets.Plants.Behaviors
         public void Unequip(PlayerAgent agent)
         {
             var s = PlayerStats.Empty;
-            s.speed -= speed;
+            s.speed -= AttachedCard.stats.strength;
             agent.stats.tempStats += s;
             agent.UpdateStats();
         }
 
         public override string GetDescription()
         {
-            return $"<b>Springy</b>: In hand, gives +{speed} movement speed.";
+            return $"<b>Springy</b>: When equipped, gives +{AttachedCard.stats.strength} movement speed.";
         }
     }
 }

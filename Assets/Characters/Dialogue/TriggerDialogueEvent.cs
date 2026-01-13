@@ -19,7 +19,7 @@ namespace Characters.Dialogue
 
         private string globalEventKey => $"DialogueEvent_{conversationName}";
 
-        private void Awake()
+        private void Start()
         {
             // Check persistent state
             if (triggerOnceEver && GlobalState.instance.HasEvent(globalEventKey))

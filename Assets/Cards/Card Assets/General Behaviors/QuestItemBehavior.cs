@@ -8,5 +8,10 @@ namespace Cards.Card_Assets.General_Behaviors
     public class QuestItemBehavior: Behavior
     {
         public string itemName = "QuestItem";
+
+        public override string GetDescription()
+        {
+            return "<b>Quest Item</b>";
+        }
     }
 }

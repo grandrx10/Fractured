@@ -28,7 +28,7 @@ namespace Cards.Card_Assets.Plants.Behaviors
 
         public override string GetDescription()
         {
-            return $"<b>Windy</b>: In hand, gives +{jump} jump power.";
+            return $"<b>Windy</b>: When equipped,, gives +{jump} jump power.";
         }
     }
 }
