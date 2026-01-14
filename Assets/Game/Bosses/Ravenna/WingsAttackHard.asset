@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03e2f55d2f098944b71bb4b89556a69, type: 3}
+  m_Name: WingsAttackHard
+  m_EditorClassIdentifier: 
+  attackDuration: 24
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  wingProjectilePrefab: {fileID: 8241814871917818601, guid: 0715c77f982f0974fb5921f045274269, type: 3}
+  wingPointNames:
+  - Wing1
+  - Wing2
+  wingSpawnInterval: 0.05
+  onDuration: 12
+  offDuration: 1
+  movePoints:
+  - Ascend
+  - Ascend2
+  - Ascend3
+  - Ascend4
+  - Ascend5
+  - Ascend6
+  moveDuration: 3
+  featherburstProjectilePrefab: {fileID: 8241814871917818601, guid: 2e4212a39a870c24e9f0f3a97208f649, type: 3}
+  featherSpawnPointName: Top
+  featherCount: 5
+  featherSpawnStagger: 0.05
+  featherTargetRadius: 6
+  featherMoveSpeed: 20
+  featherTurnSpeed: 8
+  featherKillDistance: 0.75
+  speedVariance: 2
+  turnSpeedVariance: 2
+  warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  warningRadius: 3
+  warningDuration: 1.5
