@@ -1,3 +1,4 @@
+using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
@@ -12,7 +13,7 @@ namespace Cards.Card_Assets.Combat.Behaviours
         public float dashSpeed = 40f;
         public float dashDuration = 0.2f;
 
-        public bool Use(CardEnv env, Agent agent)
+        public bool Use(Card card, CardEnv env, Agent agent)
         {
             var player = OpenWorldEnv.Current.PlayerTransform;
             if (player == null) 

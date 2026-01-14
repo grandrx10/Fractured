@@ -9,7 +9,7 @@ namespace Cards.Core.Behaviors
     {
         private int _health;
         
-        public virtual void StartMatch(RTCombatEnv env)
+        public virtual void StartMatch(Card card, RTCombatEnv env)
         {
             ResetValues();
         }
@@ -21,19 +21,21 @@ namespace Cards.Core.Behaviors
             //AttachedCard.UpdateActive();
         }
         
-        public virtual void EndMatch(RTCombatEnv env)
+        public virtual void EndMatch(Card card, RTCombatEnv env)
         {
             ResetValues();
         }
 
-        public virtual void TakeDamage(int damage)
+        public virtual void TakeDamage(Card card, int damage)
         {
             _health -= damage;
             if (_health >= 0)
             {
                 Active = false;
-                AttachedCard.UpdateActive();
+                card.UpdateActive();
             }
         }
+
+        public Card AttachedCard { get; set; }
     }
 }

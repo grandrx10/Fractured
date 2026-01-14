@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 34251128601320868}
   - component: {fileID: 869036080502897759}
   m_Layer: 0
-  m_Name: PlanePrefab.002
+  m_Name: leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,6 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 363654058212583059}
+  - component: {fileID: -7009450086630885036}
   m_Layer: 0
   m_Name: Bush 4
   m_TagString: Untagged
@@ -118,3 +119,25 @@ Transform:
   - {fileID: 8229750959946683726}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-7009450086630885036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5233073248024494641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9316bcefee44fe4c9fab84134583806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leaf:
+  - {fileID: 2100000, guid: ac5de5d0561aa314daf2a2abcda51f78, type: 2}
+  - {fileID: 2100000, guid: 0540ed90b1c5ef643bc44a380f77fba2, type: 2}
+  - {fileID: 2100000, guid: 7f4b6f8f8df2e78478bfc87a4d9dbfbc, type: 2}
+  - {fileID: 0}
+  trunk:
+  - {fileID: 2100000, guid: f841daa43d968bf4c9bc960c20627886, type: 2}
+  - {fileID: 2100000, guid: 3e3c86b7a4e52074b89d2a0448a2774f, type: 2}
+  - {fileID: 2100000, guid: 959f7c1e530006d4c881ad6685cf5012, type: 2}
+  - {fileID: 2100000, guid: 09a078ce6f3082e44a08a652f64303f4, type: 2}

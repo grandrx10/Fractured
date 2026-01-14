@@ -44,8 +44,11 @@ namespace Cards.Core
             
             for (int i = 0; i < behaviors.Count; i++)
             {
-                if (behaviors[i] is IBehaviorHasStateTag) behaviors[i] = Instantiate(behaviors[i]);
-                behaviors[i].Init(this);
+                if (behaviors[i] is IBehaviorHasStateTag)
+                {
+                    behaviors[i] = Instantiate(behaviors[i]);
+                    (behaviors[i] as IBehaviorHasStateTag).AttachedCard = this;
+                }
             }
             _initialized = true;
         }

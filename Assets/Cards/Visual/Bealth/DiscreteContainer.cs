@@ -16,11 +16,12 @@ public class DiscreteContainer : MonoBehaviour
     /// </summary>
     public void SetMaxValue(int maxValue)
     {
+        print("something there");
         if (maxValue == currentMaxDisplays)
             return;
 
         currentMaxDisplays = Mathf.CeilToInt((float)maxValue / maxPerContainer);
-
+        print($"{currentMaxDisplays}, {maxValue}");
         foreach (Transform t in container)
         {
             Destroy(t.gameObject);
@@ -33,6 +34,7 @@ public class DiscreteContainer : MonoBehaviour
             var newItem = Instantiate(itemPrefab, container);
             newItem.SetValue(0f); // initialize to zero
             items.Add(newItem);
+            print("yes");
         }
 
         if (flip) items.Reverse();

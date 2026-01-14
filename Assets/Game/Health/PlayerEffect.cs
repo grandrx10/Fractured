@@ -8,6 +8,7 @@ namespace Game.Health
     {
         public CardEnv env;
         public bool active = true;
+        public string id;
         public abstract EffectStackBehavior Unique { get; }
         public abstract void TickEffect(float dt);
 
@@ -15,7 +16,8 @@ namespace Game.Health
         {
             Multi,
             Unique,
-            Replace
+            Replace,
+            UniqueId,
         }
     }
 }

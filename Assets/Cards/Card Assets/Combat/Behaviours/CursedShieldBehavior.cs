@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using UnityEngine;
@@ -9,19 +10,21 @@ namespace Cards.Card_Assets.Combat.Behaviours
     public class CursedShieldBehavior: Behavior, IBehaviorCombatListener, IBehaviorHasStateTag
     {
         public string abilityName;
-        public virtual void StartMatch(RTCombatEnv env)
+        public virtual void StartMatch(Card card, RTCombatEnv env)
         {
-           env.AddShield(AttachedCard.stats.strength);
+           env.AddShield(card.stats.strength);
         }
         
-        public virtual void EndMatch(RTCombatEnv env)
+        public virtual void EndMatch(Card card, RTCombatEnv env)
         {
             
         }
         
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
-            return $"<b>{abilityName}:</b> grants {AttachedCard.stats.strength} shield at the start of combat.";
+            return $"<b>(Passive) {abilityName}:</b> Grants {card.stats.strength} shield at the start of combat.";
         }
+
+        public Card AttachedCard { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Characters.Player;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Cards.Card_Assets.Plants.Behaviors
     public class GoosherBehavior : Behavior, IBehaviorEquippedListener
     {
         public float jump = 2;
-        public void Equip(PlayerAgent agent)
+        public void Equip(Card card, PlayerAgent agent)
         {
             var s = PlayerStats.Empty;
             s.jumpPower += jump;
@@ -18,7 +19,7 @@ namespace Cards.Card_Assets.Plants.Behaviors
             agent.UpdateStats();
         }
 
-        public void Unequip(PlayerAgent agent)
+        public void Unequip(Card card, PlayerAgent agent)
         {
             var s = PlayerStats.Empty;
             s.jumpPower -= jump;
@@ -26,9 +27,9 @@ namespace Cards.Card_Assets.Plants.Behaviors
             agent.UpdateStats();
         }
 
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
-            return $"<b>Windy</b>: When equipped,, gives +{jump} jump power.";
+            return $"<b>(Passive) Windy</b>: Gives +{jump} jump power.";
         }
     }
 }

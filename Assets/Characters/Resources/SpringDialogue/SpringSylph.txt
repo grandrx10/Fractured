@@ -1,0 +1,66 @@
+SylphSpringOpener
+===
+[Sylph]
+Hey!
+---
+[Sylph]
+Who are you and what are you doing here? State your business!
+---
+[Sylph]
+I'm angry and stuff
+???
+[Yo chill]{SylphSpringChill}
+[Yeah, we're leaving]{SylphSpringLeave}
+===
+[Sylph]{}
+###
+SylphSpringWarn
+===
+[Sylph]
+Hey get outta here!
+---
+[Sylph]
+Don't come any closer!
+---
+[Sylph]
+I'm angry and stuff
+???
+[Yo chill]{SylphSpringChill}
+[Yeah, we're leaving]{SylphSpringLeave}
+===
+[Sylph]{}
+###
+SylphSpringChill
+===
+[Sylph]
+I am very angry do you want to fight
+???
+[Yo chill](!spring_progress_lock){SylphSpringFightLose}
+[Yo chill](spring_progress_lock){SylphSpringFightFair}
+[On another thought, we're leaving]{SylphSpringLeave}
+===
+###
+SylphSpringFightLose
+===
+[Sylph]
+Gl bro ur cooked
+---
+<SylphSpringFightLose>
+===
+###
+SylphSpringFightFair
+===
+[Sylph]
+Gl bro (but for real)
+---
+<SylphSpringFightFair>
+===
+###
+SylphSpringLeave
+===
+[Sylph]
+Get outta here
+---
+<SylphSpringKickout>
+===
+###

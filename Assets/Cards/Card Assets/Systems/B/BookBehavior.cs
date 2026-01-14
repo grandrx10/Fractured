@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using Game;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Cards.Card_Assets.Systems.B
     public class BookBehavior : Behavior
     {
         [TextArea(2, 5)] public string text;
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
             return text;
         }

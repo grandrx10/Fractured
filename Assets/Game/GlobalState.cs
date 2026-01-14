@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Game
 {
     public class GlobalState: MonoBehaviour
@@ -12,6 +16,10 @@ namespace Game
         public static GlobalState instance;
         public bool saveOnExit = true;
         public bool saveOnChanged = true;
+        #if UNITY_EDITOR
+        public bool clearOnPlay = true;
+        #endif
+        
         public int Money {
             get
             {
@@ -194,6 +202,7 @@ namespace Game
             path = Path.Combine(Application.persistentDataPath, path);
             
             events.Clear();
+            quests.Clear();
             ints.Clear();
             strs.Clear();
             tups.Clear();
@@ -267,5 +276,29 @@ namespace Game
                 }
             }
         }
+        
+        #if UNITY_EDITOR
+        void OnEnable()
+        {
+            EditorApplication.playModeStateChanged += OnPlayModeChanged;
+        }
+
+        void OnDisable()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+        }
+
+        void OnPlayModeChanged(PlayModeStateChange state)
+        {
+            if (clearOnPlay)
+            {
+                events.Clear();
+                quests.Clear();
+                ints.Clear();
+                strs.Clear();
+                tups.Clear();
+            }
+        }
+        #endif
     }
 }

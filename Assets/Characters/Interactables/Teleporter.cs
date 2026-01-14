@@ -22,7 +22,7 @@ public class Teleporter : Interactable
 
     public override void Interact(GameObject player)
     {
-        if (!canInteract || _isTeleporting)
+        if (_isTeleporting)
             return;
 
         StartCoroutine(TeleportRoutine());

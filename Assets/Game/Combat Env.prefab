@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd71611332340ee8a55e0245399f277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 5250656892259349912, guid: 1a2f6c73d2d933f4cb16b7500c6b628c, type: 3}
+  itemPrefab: {fileID: 5250656892259349912, guid: 3755fba73bebfba4e983356c16399e2f, type: 3}
   maxPerContainer: 2
   container: {fileID: 7330603287623081592}
   flip: 0
@@ -417,6 +417,7 @@ MonoBehaviour:
   environmentExitTime: 0
   environmentIntroTime: 0
   environmentIntroRad: 0
+  showRadius: 1
   raviMode: 1
   environmentCenters: []
   initialized: 0
@@ -432,7 +433,9 @@ MonoBehaviour:
   shieldDisplay: {fileID: 7504141612127857895}
   damageIframes: 30
   onDeath: {fileID: 7697353345037001635}
-  hope: {fileID: 11400000, guid: eaea6ffc27cc1474c8801da3e0a914cb, type: 2}
+  hope:
+  - {fileID: 11400000, guid: eaea6ffc27cc1474c8801da3e0a914cb, type: 2}
+  invincible: 0
 --- !u!114 &7697353345037001635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,7 +725,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3176740047915247065, guid: 3755fba73bebfba4e983356c16399e2f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 110
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 3176740047915247065, guid: 3755fba73bebfba4e983356c16399e2f, type: 3}
       propertyPath: m_AnchoredPosition.y

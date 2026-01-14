@@ -4,6 +4,6 @@ namespace Cards.Core.BehaviorTags
 {
     public interface IBehaviorTickListener
     {
-        public void Tick(CardEnv env, Agent agent);
+        public void Tick(Card card, CardEnv env, Agent agent);
     }
 }

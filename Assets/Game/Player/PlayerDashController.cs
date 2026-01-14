@@ -1,16 +1,19 @@
 using UnityEngine;
 using System.Collections;
+using Characters;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerDashController : MonoBehaviour
 {
     private bool isDashing = false;
     private Rigidbody rb;
+    private PlayerMovement playerMovement;
     private Vector3 dashDirection;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     /// <summary>
@@ -56,7 +59,7 @@ public class PlayerDashController : MonoBehaviour
     public void StartDash(float dashSpeed, float dashDuration)
     {
         if (isDashing) return;
-
+        
         Vector3 inputDirection = GetInputDirection();
         
         // Only dash if there's input
@@ -70,7 +73,7 @@ public class PlayerDashController : MonoBehaviour
     private IEnumerator DashCoroutine(float dashSpeed, float dashDuration)
     {
         isDashing = true;
-
+        playerMovement.MovementOverride = true;
         float elapsed = 0f;
 
         while (elapsed < dashDuration)
@@ -82,7 +85,7 @@ public class PlayerDashController : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+        playerMovement.MovementOverride = false;
         isDashing = false;
     }
 

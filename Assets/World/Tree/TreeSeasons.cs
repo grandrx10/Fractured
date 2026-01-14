@@ -9,15 +9,15 @@ public class TreeSeasons : MonoBehaviour
     {
         var data = GetComponentInParent<TreeSeasonsManager>();
         if (!data) Debug.LogError("No season data found");
-        foreach (Transform obj in transform)
+        foreach (MeshRenderer obj in GetComponentsInChildren<MeshRenderer>())
         {
             if (obj.name.Contains("leaf"))
             {
-                obj.GetComponent<MeshRenderer>().material = leaf[(int)data.season];
+                obj.material = leaf[(int)data.season];
             }
             else if (obj.name.Contains("tree"))
             {
-                obj.GetComponent<MeshRenderer>().material = trunk[(int)data.season];
+                obj.material = trunk[(int)data.season];
             }
         }
     }

@@ -28,7 +28,7 @@ namespace Characters
         public Animator animator;
         public PlayerAgent agent;
         public Transform orientation;
-        
+        public bool MovementOverride { get; set; }
         float horizontalInput;
         float verticalInput;
 
@@ -79,7 +79,7 @@ namespace Characters
 
         private void MyInput()
         {
-            if (!PlayerInteractController.PlayerInputs.IsInputAllowed(InputBlockPrio.StandardInput))
+            if (!PlayerInteractController.PlayerInputs.IsInputAllowed(InputBlockPrio.StandardInput) || MovementOverride)
             {
                 horizontalInput = 0;
                 verticalInput = 0;
@@ -120,7 +120,7 @@ namespace Characters
             animator.SetFloat("Speed", speedCurve.Evaluate(flatVel.magnitude) * ( _airFrames <= 20 ? 1 : 0.1f));
             
             
-            if (flatVel.magnitude > moveSpeed)
+            if (!MovementOverride && flatVel.magnitude > moveSpeed)
             {
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);

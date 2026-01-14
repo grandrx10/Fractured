@@ -4,18 +4,19 @@ using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using Characters;
 using Cards;
+using Cards.Core;
 using Game.Effects;
 
 [CreateAssetMenu(menuName = "Behaviors/JuicerBehavior")]
 public class JuicerBehavior : Behavior, IBehaviorUseListener
 {
-    public bool Use(CardEnv env, Agent agent)
+    public bool Use(Card card, CardEnv env, Agent agent)
     {
         return env.AddEffect<JuicedEffect>();
     }
 
-    public override string GetDescription()
+    public override string GetDescription(Card card)
     {
-        return "<b>Juicer:</b> On Use, empowers the next fruit you use.";
+        return "<b>(Active) Juicer:</b> Empowers the next fruit used.";
     }
 }

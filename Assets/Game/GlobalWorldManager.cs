@@ -46,6 +46,15 @@ public class GlobalWorldManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         playerAgent = FindAnyObjectByType<PlayerAgent>();
     }
+
+    [ContextMenu("Shuffle IDs")]
+    private void ShuffleIDs()
+    {
+        foreach (var pid in FindObjectsByType<PersistentID>(FindObjectsSortMode.None))
+        {
+            pid.ForceResetId();
+        }
+    }
     void Start()
     {
         RenderPipelineManager.beginContextRendering += Move;

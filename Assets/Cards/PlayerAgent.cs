@@ -24,7 +24,7 @@ namespace Cards
                 if (target == CardTarget.Deck) return;
                 foreach (var equip in card.GetAllBehaviors<IBehaviorEquippedListener>())
                 {
-                    equip.Equip(this);
+                    equip.Equip(card, this);
                 }
             };
             OnRemoveCard += (card, target) =>
@@ -32,7 +32,7 @@ namespace Cards
                 if (target == CardTarget.Deck) return;
                 foreach (var equip in card.GetAllBehaviors<IBehaviorEquippedListener>())
                 {
-                    equip.Unequip(this);
+                    equip.Unequip(card, this);
                 }
             };
         }
@@ -51,7 +51,7 @@ namespace Cards
             {
                 foreach (var hold in card.GetAllBehaviors<IBehaviorHoldListener>())
                 {
-                    hold.StartHold();
+                    hold.StartHold(card);
                 }
             }
 
@@ -59,7 +59,7 @@ namespace Cards
             {
                 foreach (var hold in selectedCard.GetAllBehaviors<IBehaviorHoldListener>())
                 {
-                    hold.StopHold();
+                    hold.StopHold(card);
                 }
             }
             

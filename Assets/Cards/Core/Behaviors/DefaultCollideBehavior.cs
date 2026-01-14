@@ -7,7 +7,7 @@ namespace Cards.Core.Behaviors
     [CreateAssetMenu(fileName = "Collide", menuName = "Behaviors/DefaultCollide")]
     public class DefaultCollideBehavior: Behavior, IBehaviorHitListener
     {
-        public void Hit(OpenWorldEnv env, GameObject target)
+        public void Hit(Card card, OpenWorldEnv env, GameObject target)
         {
             Debug.Log("the card colided");
         }

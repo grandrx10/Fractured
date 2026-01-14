@@ -59,7 +59,7 @@ namespace Cards.Environments
             {
                 foreach (var t in ticks)
                 {
-                    t.Tick(this, player);
+                    t.Tick(player.selectedCard, this, player);
                 }
             }
             base.Update();
@@ -72,7 +72,7 @@ namespace Cards.Environments
                 bool used = false;
                 foreach (var useBehavior in card.GetAllBehaviors<IBehaviorUseListener>())
                 {
-                    used = useBehavior.Use(this, player) || used;
+                    used = useBehavior.Use(card, this, player) || used;
                 }
 
                 if (used)

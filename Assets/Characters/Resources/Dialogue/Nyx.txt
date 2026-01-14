@@ -49,7 +49,7 @@ I can make orange juice.
 Don't worry, it's quite simple, just follow the recipe to the letter, and you won't blow up, probably. The ingredients must be put in a quick succession. Any deviation in timing can cause disastrous side effects, capiche?
 ---
 [Nyx]
-I have a brewing lab inside of my hut - that's where I'll need you two to operate. I'll toss in ingredients from out here, and you'll mix according to the recipe. Sound good?
+I have a brewing lab inside my hut - that's where I'll need you two to operate. I'll toss in ingredients from out here, and you'll mix according to the recipe. Sound good?
 ---
 [Ravenna]
 Sounds like a plan!
@@ -164,7 +164,7 @@ Hmmm, that smells wonderful. It seems the experiment was a success! Bring some o
 Hew! That was a sweat. So, what was this potion for anyways?
 ---
 [Nyx]
-It's a potion that allows your to taste the direction of the wind.
+It's a potion that allows you to taste the direction of the wind.
 ---
 [Dorian]
 ... Are you serious?
@@ -182,6 +182,7 @@ What's on your mind today, assistants?
 ???
 [How are you doing?]{NyxDoing}
 [Can you tell me a bit about yourself?]{NyxAboutSelf}
+[Can you tell me a bit about plants?]{NyxAboutPlants}
 [You're brilliant, why don't you become a scholar?]{NyxScholar}
 [Can we buy some of your potions?]{NyxPotionsStore}
 [That's all I wanted to ask]{NyxFinishTalk}
@@ -218,7 +219,7 @@ NyxAboutSelf
 I'm just a scientist, trying to discover the truths of the world, you know? As a kid, my parents were quite the superstitious bunch. They were always claiming things.
 ---
 [Nyx]
-Don't touch that! It's cursed! Don't go near the ruins, there's monsters there! Don't dunk your head underwater, you can't breath!
+Don't touch that! It's cursed! Don't go near the ruins, there are monsters there! Don't dunk your head underwater, you can't breathe!
 ---
 [Nyx]
 They didn't really explain why, and whenever I asked, they would just get angry.
@@ -228,6 +229,49 @@ And that's why I never take anything at face value. I'll do anything I can to di
 ---
 [Ravenna]
 That's... inspiring, Nyx!
+===
+>>NyxTalk
+###
+NyxAboutPlants
+===
+[Nyx]
+Ah, plants! Finally, a topic that doesn’t try to explode back at me. Usually.
+---
+[Nyx]
+Take springberries, for instance. Unassuming little things-grow on bushes, taste vaguely like disappointment-but once ingested, they stimulate muscle response and circulation.
+---
+[Nyx]
+In less academic terms: you eat them, and suddenly your legs decide they’ve got somewhere very important to be. Of course, you probably already know that.
+---
+[Ravenna]
+Yeah! My family used to eat them all the time to fly faster!
+---
+[Nyx]
+Then there are sproingles. Fascinating specimens. Their root structures build up an absurd amount of kinetic tension over time.
+---
+[Nyx]
+Step on one, and-boing-the stored energy releases all at once, launching you skyward. Nature’s way of saying “you shouldn’t have stood there.”
+---
+[Dorian]
+That explains... a lot.
+---
+[Nyx]
+And of course, my personal favorite: luminshrooms. Now those are special.
+---
+[Nyx]
+They absorb trace magical energies from their environment as they grow. Soil composition, nearby ruins, ley lines-each factor subtly alters their properties.
+---
+[Ravenna]
+So you’re saying where they grow matters?
+---
+[Nyx]
+Immensely! Location is everything. But luminshrooms decay too fast if they're not enchanted, so I can only use the ones from this forest.
+---
+[Nyx]
+And that concludes today's lesson.
+---
+[Ravenna]
+Thanks, Nyx!
 ===
 >>NyxTalk
 ###
@@ -260,7 +304,7 @@ NyxFinishTalk
 Well, next time you want to earn some quick coin, come experiment with me, will you?
 ---
 [Nyx]
-Ever since I made that potion that turns dirt into gold, I've had too much coin to throw around. Too bad that potion is way to boring to brew; hardly any explosions!
+Ever since I made that potion that turns dirt into gold, I've had too much coin to throw around. Too bad that potion is way too boring to brew; hardly any explosions!
 ---
 [Ravenna]
 See you next time, Nyx!

@@ -115,7 +115,7 @@ namespace Cards.Visual
             string t = "";
             foreach (var behavior in card.GetAllBehaviors<Behavior>())
             {
-                string s = AbilityDescriptions.ConvertBracketLinks(behavior.GetDescription());
+                string s = AbilityDescriptions.ConvertBracketLinks(behavior.GetDescription(card));
                 if (s=="") continue;
                 t += s + "\n";
             }

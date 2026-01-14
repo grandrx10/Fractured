@@ -32,6 +32,12 @@ public class PersistentID : MonoBehaviour
     }
 #endif
 
+    public void ForceResetId()
+    {
+        id = string.Empty;
+        EnsureID();
+    }
+
     [ContextMenu("Make ID")]
     void EnsureID()
     {

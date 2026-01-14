@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Cards.Card_Assets.General_Behaviors
     public class LookingAtBehavior: Behavior, IBehaviorUseListener
     {
         public LayerMask layers = ~0;
-        public RaycastHit LookingAt(CardEnv env)
+        public RaycastHit LookingAt(Card card, CardEnv env)
         {
             if (env is OpenWorldEnv opEnv)
             {
@@ -18,7 +19,7 @@ namespace Cards.Card_Assets.General_Behaviors
             return new();
         }
 
-        public virtual bool Use(CardEnv env, Agent agent)
+        public virtual bool Use(Card card, CardEnv env, Agent agent)
         {
             throw new System.NotImplementedException();
         }

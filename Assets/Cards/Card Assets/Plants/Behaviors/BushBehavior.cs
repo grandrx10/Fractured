@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Characters.Player;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Cards.Card_Assets.Plants.Behaviors
     public class BushBehavior : Behavior, IBehaviorEquippedListener
     {
         public int hp = 1;
-        public void Equip(PlayerAgent agent)
+        public void Equip(Card card, PlayerAgent agent)
         {
             var s = PlayerStats.Empty;
             s.health -= hp;
@@ -17,7 +18,7 @@ namespace Cards.Card_Assets.Plants.Behaviors
             agent.UpdateStats();
         }
 
-        public void Unequip(PlayerAgent agent)
+        public void Unequip(Card card, PlayerAgent agent)
         {
             var s = PlayerStats.Empty;
             s.health += hp;
@@ -25,9 +26,9 @@ namespace Cards.Card_Assets.Plants.Behaviors
             agent.UpdateStats();
         }
 
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
-            return $"<b>Prickly</b>: When equipped, lose {hp} max health.";
+            return $"<b>(Passive) Prickly</b>: Lose {hp} max health.";
         }
     }
 }

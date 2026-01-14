@@ -1,3 +1,4 @@
+using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
@@ -11,10 +12,10 @@ namespace Cards.Card_Assets.Combat.Behaviours
         [Header("Prefab to Summon")]
         public GameObject prefabToSummon;
 
-        public void Hit(OpenWorldEnv env, GameObject target)
+        public void Hit(Card card, OpenWorldEnv env, GameObject target)
         {   
             Debug.Log("TOUCH!");
-            if (AttachedCard == null)
+            if (card == null)
             {
                 Debug.LogWarning("TouchSummonBehaviour: AttachedCard is null!");
                 return;
@@ -23,13 +24,13 @@ namespace Cards.Card_Assets.Combat.Behaviours
             if (prefabToSummon != null)
             {
                 // Spawn the prefab at the card's position
-                GameObject spawned = GameObject.Instantiate(prefabToSummon, AttachedCard.transform.position, Quaternion.identity);
+                GameObject spawned = GameObject.Instantiate(prefabToSummon, card.transform.position, Quaternion.identity);
 
                 // Check if the spawned prefab has a Damaging component
                 Damaging damagingComponent = spawned.GetComponent<Damaging>();
                 if (damagingComponent != null)
                 {
-                    damagingComponent.card = AttachedCard;
+                    damagingComponent.card = card;
                 }
             }
             else
@@ -38,7 +39,7 @@ namespace Cards.Card_Assets.Combat.Behaviours
             }
 
             // Destroy the card
-            GameObject.Destroy(AttachedCard.gameObject);
+            GameObject.Destroy(card.gameObject);
         }
     }
 }

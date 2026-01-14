@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using UnityEngine;
 using Utils;
 
@@ -9,7 +10,7 @@ namespace Cards.Card_Assets.General_Behaviors
     {
         public string itemName = "QuestItem";
 
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
             return "<b>Quest Item</b>";
         }

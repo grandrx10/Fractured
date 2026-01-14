@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using UnityEngine;
@@ -12,10 +13,10 @@ namespace Cards.Card_Assets.General_Behaviors
         private bool _placed;
         public Mirror mirrorPrefab;
         private Mirror _placedMirror;
-        public override bool Use(CardEnv env, Agent agent)
+        public override bool Use(Card card, CardEnv env, Agent agent)
         {
             if (!(env is OpenWorldEnv opEnv)) return false;
-            var look = LookingAt(env);
+            var look = LookingAt(card, env);
 
             var go = PhysicsHelper.MainObj(look.collider);
             
@@ -50,9 +51,11 @@ namespace Cards.Card_Assets.General_Behaviors
             return false;
         }
 
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
-            return $"<b>Mirror</b>: On Use, places a mirror. If placed, retrieves it.";
+            return $"<b>(Active) Mirror</b>: Place a mirror. If one is already placed, retrieve it.";
         }
+
+        public Card AttachedCard { get; set; }
     }
 }

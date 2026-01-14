@@ -7,6 +7,6 @@ namespace Cards.Core.BehaviorTags
     public interface IBehaviorTakeDamageListener
     {
         public float Priority { get; }
-        public PlayerDamageData Hit(OpenWorldEnv env, Agent agent, PlayerDamageData data);
+        public PlayerDamageData Hit(Card card, OpenWorldEnv env, Agent agent, PlayerDamageData data);
     }
 }

@@ -28,22 +28,26 @@ namespace Cards.Environments
         public DomainTrigger onDeath;
         private int _iframes;
         private PlayerHealth _healthInstance;
-        public CardData hope;
+        public List<CardData> hope;
         public bool invincible = false;
+        private bool _healthInitialized = false;
 
         public override void Initialize(PlayerAgent playerAgent)
         {
             base.Initialize(playerAgent);
             if (player.GetCards().Count == 0)
             {
-                var c = new GameObject("hope").AddComponent<Card>();
-                c.AssignData(hope);
-                player.GiveCard(c, true);
+                foreach (var h in hope)
+                {
+                    var c = new GameObject("hope").AddComponent<Card>();
+                    c.AssignData(h);
+                    player.GiveCard(c, true);
+                }
             }
             
             playerAgent.GetCards().ForEach(c =>
             {
-                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch(this));
+                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.StartMatch(c, this));
             });
             if (maxHealth == -1) maxHealth = playerAgent.TotalHealth + CurrentStats.health;
             maxHealth = Mathf.Max(maxHealth, 1);
@@ -51,6 +55,7 @@ namespace Cards.Environments
             _healthInstance = player.gameObject.AddComponent<PlayerHealth>();
             _healthInstance.Init(this);
             PlayerInteractController.PlayerInputs.InCombat = true;
+            _healthInitialized = true;
             UpdateHealth();
         }
 
@@ -58,7 +63,7 @@ namespace Cards.Environments
         {
             if (!allowShield) return;
             shield += s;
-            shieldDisplay.SetValue(shield);
+            UpdateHealth();
         }
 
         public bool Heal(int amount)
@@ -79,20 +84,22 @@ namespace Cards.Environments
                 return false;
 
             var listeners = player.GetCards()
-                .SelectMany(c => c.GetAllBehaviors<IBehaviorTakeDamageListener>())
-                .OrderByDescending(b => b.Priority)
+                .SelectMany(card =>
+                    card.GetAllBehaviors<IBehaviorTakeDamageListener>()
+                        .Select(listener => (card, listener))
+                )
+                .OrderByDescending(x => x.listener.Priority)
                 .ToList();
 
-            foreach (var l in listeners)
+            foreach (var (card, listener) in listeners)
             {
-                damage = l.Hit(this, player, damage);
+                damage = listener.Hit(card, this, player, damage);
             }
 
             int dmg = Mathf.RoundToInt(Mathf.Max(damage.Damage, 0));
             
             int shieldDamage = Mathf.Min(dmg, shield);
             shield -= shieldDamage;
-            shieldDisplay.SetValue(shield);
             dmg -= shieldDamage;
             _health -= dmg;
             _health = Mathf.Clamp(_health, 0, maxHealth);
@@ -110,9 +117,12 @@ namespace Cards.Environments
 
         private void UpdateHealth()
         {
-            if (!initialized) return;
+            if (!initialized || !_healthInitialized) return;
+            shield = Mathf.Min(shield, maxHealth);
             healthDisplay.SetMaxValue(maxHealth);
+            shieldDisplay.SetMaxValue(maxHealth);
             healthDisplay.SetValue(_health);
+            shieldDisplay.SetValue(shield);
             if (_health <= 0)
             {
                 Die();
@@ -173,7 +183,7 @@ namespace Cards.Environments
             player.CancelSelection();
             player.GetCards().ForEach(c =>
             {
-                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch(this));
+                c.GetAllBehaviors<IBehaviorCombatListener>().ForEach(h => h.EndMatch(c, this));
             });
             Destroy(_healthInstance);
             PlayerInteractController.PlayerInputs.InCombat = false;

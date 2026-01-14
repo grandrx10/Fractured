@@ -1,3 +1,4 @@
+using Cards.Core;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using Cards.PhysicalProperties;
@@ -14,7 +15,7 @@ namespace Cards.Card_Assets.Fishing.B
         public string state = "ready";
         private GameObject spawnedRod;
 
-        public virtual bool Use(CardEnv env, Agent agent)
+        public virtual bool Use(Card card, CardEnv env, Agent agent)
         {
             if (env is OpenWorldEnv opEnv)
             {
@@ -80,5 +81,7 @@ namespace Cards.Card_Assets.Fishing.B
         {
             state = "cast";
         }
+
+        public Card AttachedCard { get; set; }
     }
 }

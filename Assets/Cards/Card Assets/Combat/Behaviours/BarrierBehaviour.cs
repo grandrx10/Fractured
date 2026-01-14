@@ -1,3 +1,4 @@
+using Cards.Core;
 using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
@@ -12,7 +13,7 @@ namespace Cards.Card_Assets.Combat.Behaviours
         public GameObject barrierPrefab; // Prefab to spawn
         public Vector3 localOffset = Vector3.zero; // Offset relative to player
 
-        public bool Use(CardEnv env, Agent agent)
+        public bool Use(Card card, CardEnv env, Agent agent)
         {
             var player = OpenWorldEnv.Current.PlayerTransform;
             if (player == null)

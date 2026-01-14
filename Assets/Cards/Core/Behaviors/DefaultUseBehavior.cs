@@ -12,11 +12,11 @@ namespace Cards.Core.Behaviors
     {
         [PrefabComponent] public PhysicalObject cardPrefab;
         public float speed;
-        public virtual bool Use(CardEnv env, Agent agent)
+        public virtual bool Use(Card card, CardEnv env, Agent agent)
         {
             if (env is OpenWorldEnv opEnv)
             {
-                ThrowCard(agent, opEnv, Quaternion.identity);
+                ThrowCard(card, agent, opEnv, Quaternion.identity);
             }
             else
             {
@@ -26,13 +26,13 @@ namespace Cards.Core.Behaviors
             return true;
         }
         
-        public void ThrowCard(Agent player, OpenWorldEnv env, Quaternion rotation)
+        public void ThrowCard(Card card, Agent player, OpenWorldEnv env, Quaternion rotation)
         {
             var p = player.transform.position;
             var pLook = rotation * player.transform.forward;
             var d = rotation * env.PlayerLook;
             var c = Instantiate(cardPrefab, p, Quaternion.LookRotation(d));
-            c.card = AttachedCard;
+            c.card = card;
             c.InitState = new PhysicalObject.PhysicalInitState()
             {
                 CenterPosition = p,

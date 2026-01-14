@@ -25,7 +25,7 @@ namespace Characters.Player
             {
                 foreach (var stats in card.GetAllBehaviors<IBehaviorStatUpdater>())
                 {
-                    _calculatedStats += stats.GetStats();
+                    _calculatedStats += stats.GetStats(card);
                 }
             }
             if (!tempStats) tempStats = PlayerStats.Empty;

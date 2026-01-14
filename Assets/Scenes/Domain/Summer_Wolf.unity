@@ -686,9 +686,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2703680323838922465, guid: 4df9c395c79068847aaedb30bddcd50b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 617657829}
-    - targetCorrespondingSourceObject: {fileID: 2703680323838922465, guid: 4df9c395c79068847aaedb30bddcd50b, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 617657828}
   m_SourcePrefab: {fileID: 100100000, guid: 4df9c395c79068847aaedb30bddcd50b, type: 3}
 --- !u!4 &617657826 stripped
@@ -724,22 +721,6 @@ CapsuleCollider:
   m_Height: 9.55075
   m_Direction: 1
   m_Center: {x: -0.0000068500854, y: 4.275364, z: 0.00001606411}
---- !u!114 &617657829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 617657827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 764933e7d7f89ce40bddb1c85feb4093, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canInteract: 1
-  interactTime: 0
-  interactText: (E) Listen
-  defaultConversationName: InnerWolf
 --- !u!1001 &625718990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2456,6 +2437,8 @@ GameObject:
   - component: {fileID: 3117825364711615329}
   - component: {fileID: 6424879707539345098}
   - component: {fileID: 8485853311004373031}
+  - component: {fileID: 8485853311004373033}
+  - component: {fileID: 8485853311004373032}
   m_Layer: 0
   m_Name: bed
   m_TagString: Untagged
@@ -2485,6 +2468,49 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 3335724914305450694, guid: 823856e7189296842ad37e1d37063e2f, type: 3}
+--- !u!54 &8485853311004373032
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485853311004373030}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8485853311004373033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485853311004373030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764933e7d7f89ce40bddb1c85feb4093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 1
+  interactTime: 0
+  interactText: (E) Listen
+  defaultConversationName: InnerWolf
 --- !u!4 &8947182419433282110
 Transform:
   m_ObjectHideFlags: 0

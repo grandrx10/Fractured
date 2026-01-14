@@ -2,8 +2,8 @@
 {
     public interface IBehaviorEquippedListener
     {
-        public void Equip(PlayerAgent agent);
+        public void Equip(Card card, PlayerAgent agent);
         
-        public void Unequip(PlayerAgent agent);
+        public void Unequip(Card card, PlayerAgent agent);
     }
 }

@@ -81,7 +81,7 @@ namespace Cards.PhysicalProperties
 
                 foreach (var hit in card.GetAllBehaviors<IBehaviorHitListener>())
                 {
-                    hit.Hit(OpenWorldEnv.Current, g);
+                    hit.Hit(card, OpenWorldEnv.Current, g);
                 }
             }
         }

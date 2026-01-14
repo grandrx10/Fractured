@@ -22,6 +22,7 @@ namespace Cards.Environments
         public float environmentExitTime;
         public float environmentIntroTime;
         public float environmentIntroRad;
+        public bool showRadius = true;
         public RaviMode raviMode = RaviMode.Normal;
         [SerializeField] private List<Transform> environmentCenters;
         [HideInInspector] public bool initialized;
@@ -47,6 +48,13 @@ namespace Cards.Environments
             return e != null;
         }
         
+        public bool TryGetEffectById<T>(out T effect, string id) where T : PlayerEffect
+        {
+            var e = _effects.Find(e => e is T && e.id == id);
+            effect = e as T;
+            return e != null;
+        }
+        
         public bool HasEffect<T>() where T : PlayerEffect
         {
             var e = _effects.Find(e => e is T);
@@ -67,16 +75,18 @@ namespace Cards.Environments
             });
         }
         
-        public T AddEffect<T>() where T : PlayerEffect
+        public T AddEffect<T>(string effectId="effect") where T : PlayerEffect
         {
             var other = _effects.Find(e => e is T);
             if (other)
             {
                 if (other.Unique == PlayerEffect.EffectStackBehavior.Unique) return null;
+                if (other.Unique == PlayerEffect.EffectStackBehavior.UniqueId && other.id == effectId) return null;
                 if (other.Unique == PlayerEffect.EffectStackBehavior.Replace) Destroy(other);
             }
             
             var effect = gameObject.AddComponent<T>();
+            effect.id = effectId;
             effect.env = this;
             _effects.Add(effect);
             return effect;
@@ -128,6 +138,7 @@ namespace Cards.Environments
 
         private void OnDrawGizmos()
         {
+            if (!showRadius) return;
             foreach (var v in environmentCenters)
             {
                 Gizmos.DrawWireSphere(v.position, environmentIntroRad);

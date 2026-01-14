@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using UnityEngine;
 using Utils;
 
@@ -10,9 +11,9 @@ namespace Cards.Card_Assets.General_Behaviors
         public string abilityName = "Throw";
         public string objectName = "card";
         
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
-            return $"<b>{abilityName}</b>: On Use, throws {TextHelper.WithIndefiniteArticle(objectName)}.";
+            return $"<b>(Active) {abilityName}</b>: Throw {TextHelper.WithIndefiniteArticle(objectName)}.";
         }
     }
 }

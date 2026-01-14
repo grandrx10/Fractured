@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using Cards.Visual;
@@ -12,16 +13,16 @@ namespace Cards.Card_Assets.General_Behaviors
     {
         public CardPreview preview;
         public bool showDesc = true;
-        public virtual bool Use(CardEnv env, Agent agent)
+        public virtual bool Use(Card card, CardEnv env, Agent agent)
         {
             var cardPrev = Instantiate(preview, GameObject.FindGameObjectWithTag("Main UI").transform);
-            cardPrev.cardDisplay.card = AttachedCard;
+            cardPrev.cardDisplay.card = card;
             cardPrev.cardDisplay.interactable = true;
             cardPrev.cardDisplay.hasDepth = true;
             return true;
         }
 
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
             return showDesc ? "<b>Cannot be thrown.</b>" : "";
         }

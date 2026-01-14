@@ -14,8 +14,8 @@ namespace Cards.Core.Behaviors
     {
         [Header("Juiced Settings")]
         [PrefabComponent] public PhysicalObject juicedCardPrefab;
-        public string description;
-        public override bool Use(CardEnv env, Agent agent)
+        public string abilityName, description;
+        public override bool Use(Card card, CardEnv env, Agent agent)
         {
             if (env is not OpenWorldEnv opEnv)
             {
@@ -38,7 +38,7 @@ namespace Cards.Core.Behaviors
             }
 
             // Throw card
-            ThrowCard(agent, opEnv, Quaternion.identity);
+            ThrowCard(card, agent, opEnv, Quaternion.identity);
 
             // Consume juiced status
             if (isJuiced)
@@ -52,9 +52,9 @@ namespace Cards.Core.Behaviors
             return true;
         }
 
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
-            return description;
+            return $"<b>(Active) {abilityName}</b>: {description}";
         }
     }
 }

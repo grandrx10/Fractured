@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using Cards.Core.BehaviorTags;
 using Cards.Environments;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Cards.Card_Assets.Tarot.Behaviors
         private bool _effectActive;
         private float _lastUseTime;
         
-        public void StartHold()
+        public void StartHold(Card card)
         {
             if (_lastUseTime < Time.time)
             {
@@ -23,12 +24,12 @@ namespace Cards.Card_Assets.Tarot.Behaviors
             }
         }
 
-        public void StopHold()
+        public void StopHold(Card card)
         {
             ToggleEffect(false);
         }
 
-        public virtual bool Use(CardEnv env, Agent agent)
+        public virtual bool Use(Card card, CardEnv env, Agent agent)
         {
             if (env is OpenWorldEnv opEnv)
             {
@@ -54,7 +55,7 @@ namespace Cards.Card_Assets.Tarot.Behaviors
             DomainListener.DomainEffect?.Invoke(active);
         }
 
-        public void Tick(CardEnv env, Agent agent)
+        public void Tick(Card card, CardEnv env, Agent agent)
         {
             if (!_effectActive)
             {
@@ -72,5 +73,7 @@ namespace Cards.Card_Assets.Tarot.Behaviors
                 }
             }
         }
+
+        public Card AttachedCard { get; set; }
     }
 }
