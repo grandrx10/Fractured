@@ -241,6 +241,9 @@ public class GridPuzzleManager : MonoBehaviour
         plate.SetOccupied(currentPath.pairId);
         currentPath.plates.Add(plate);
 
+        // Update connections for the entire path
+        UpdateAllConnections(currentPath.pairId);
+
         if (plate.isDot &&
             plate.pairId == currentPath.pairId &&
             plate != currentPath.startPlate)
@@ -261,7 +264,14 @@ public class GridPuzzleManager : MonoBehaviour
     void CancelCurrentPath()
     {
         if (currentPath == null) return;
+        
+        // Clear visuals before resetting
+        int pairId = currentPath.pairId;
         currentPath.Reset();
+        
+        // Update connections for any remaining plates of this pair
+        UpdateAllConnections(pairId);
+        
         currentPath = null;
     }
 
@@ -350,5 +360,56 @@ public class GridPuzzleManager : MonoBehaviour
     {
         float h = (pairId * 0.6180339887f) % 1f;
         return Color.HSVToRGB(h, 0.75f, 0.9f);
+    }
+
+    // ---------------- NEIGHBORS & CONNECTIONS ----------------
+
+    public LinePressurePlate[] GetNeighbors(LinePressurePlate plate)
+    {
+        var neighbors = new LinePressurePlate[4]; // N, E, S, W
+        int x = plate.gridPos.x;
+        int y = plate.gridPos.y;
+
+        // North (y+1)
+        if (y + 1 < n) neighbors[0] = grid[x, y + 1];
+        // East (x+1)
+        if (x + 1 < n) neighbors[1] = grid[x + 1, y];
+        // South (y-1)
+        if (y - 1 >= 0) neighbors[2] = grid[x, y - 1];
+        // West (x-1)
+        if (x - 1 >= 0) neighbors[3] = grid[x - 1, y];
+
+        return neighbors;
+    }
+
+    public int GetPlateIndexInPath(LinePressurePlate plate, int pairId)
+    {
+        // Check current path first
+        if (currentPath != null && currentPath.pairId == pairId)
+        {
+            return currentPath.plates.IndexOf(plate);
+        }
+        
+        // Check completed paths
+        if (completedPaths.TryGetValue(pairId, out PathState path))
+        {
+            return path.plates.IndexOf(plate);
+        }
+        
+        return -1;
+    }
+
+    public void UpdateAllConnections(int pairId)
+    {
+        // Update all plates that belong to this pair
+        for (int x = 0; x < n; x++)
+        for (int y = 0; y < n; y++)
+        {
+            var plate = grid[x, y];
+            if (plate != null && plate.occupied && plate.occupiedByPair == pairId)
+            {
+                plate.UpdateConnections();
+            }
+        }
     }
 }

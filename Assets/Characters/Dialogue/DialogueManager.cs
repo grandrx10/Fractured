@@ -18,7 +18,15 @@ namespace Characters.Dialogue
         public string speaker;
         public string text;
         public List<string> events = new List<string>();
+        public List<DialogueAnimCommand> Animations = new ();
         public List<string> flagsToSet = new List<string>(); // Flags to set when this line is shown
+    }
+    
+    public class DialogueAnimCommand
+    {
+        public bool trigger;
+        public string speaker;
+        public string animation;
     }
 
     [System.Serializable]
@@ -211,6 +219,10 @@ namespace Characters.Dialogue
             foreach (string block in convoBlocks)
                 ParseConversationBlock(block.Trim());
         }
+        
+        static readonly Regex AnimRegex =
+            new(@"\$(ANIM|ANIMTRIG)\$\s*([^:\s]+)\s*:\s*(\S+)",
+                RegexOptions.Compiled);
 
         private void ParseConversationBlock(string block)
         {
@@ -294,10 +306,22 @@ namespace Characters.Dialogue
                 while (lineIndex < dlgLines.Length)
                 {
                     string line = dlgLines[lineIndex].Trim();
+                    
+                    foreach (Match m in AnimRegex.Matches(line))
+                    {
+                        dialogueLine.Animations.Add(new DialogueAnimCommand
+                        {
+                            trigger = m.Groups[1].Value == "ANIMTRIG",
+                            speaker = m.Groups[2].Value.Trim(),
+                            animation = m.Groups[3].Value.Trim()
+                        });
+                    }
+                    
                     MatchCollection flagMatches = Regex.Matches(line, @">>!F\s+(\S+)");
                     string cleanLine = Regex.Replace(line, @"<([^>]+)>", "").Trim();
                     cleanLine = Regex.Replace(cleanLine, @">>!F\s+\S+", "").Trim();
-
+                    cleanLine = AnimRegex.Replace(cleanLine, "").Trim();
+                    
                     if (string.IsNullOrEmpty(cleanLine))
                     {
                         MatchCollection eventMatches = Regex.Matches(line, @"<([^>]+)>");
@@ -406,6 +430,9 @@ namespace Characters.Dialogue
 
             foreach (string eventName in line.events)
                 ExecuteEvent(eventName);
+            
+            foreach (var anim in line.Animations)
+                ExecuteAnimation(anim);
 
             if (GlobalState.instance != null)
             {
@@ -498,6 +525,27 @@ namespace Characters.Dialogue
                 evt.Execute();
             else
                 Debug.LogWarning($"Event '{eventName}' not found in event handler object");
+        }
+        
+        private void ExecuteAnimation(DialogueAnimCommand anim)
+        {
+            var character = characterMappings.Find(c => c.characterName == anim.speaker);
+            if (character == null)
+                Debug.LogWarning($"Speaker '{anim.speaker}' not found in event handler object.");
+            else if (!character.characterObject)
+                Debug.LogWarning($"Speaker '{anim.speaker}' not bound to object.");
+            else
+            {
+                var a = character.characterObject.GetComponent<Animator>();
+                if (!a)
+                {
+                    Debug.LogWarning($"Speaker '{anim.speaker}' ({character.characterObject}) has no animator.");
+                    return;
+                }
+                if (anim.trigger) a.SetTrigger(anim.animation);
+                else a.Play(anim.animation);
+            }
+                
         }
 
         private IEnumerator TypeText(string text)

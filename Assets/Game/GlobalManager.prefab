@@ -194,7 +194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7181077240165984379
 Transform:
   m_ObjectHideFlags: 0
@@ -681,6 +681,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveOnExit: 1
+  saveOnChanged: 1
+  clearOnPlay: 1
 --- !u!114 &8860129337731645461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,10 +720,14 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   CurrentEnvironment: {fileID: 0}
-  playerAgent: {fileID: 0}
   newDomainOffset: 3000
   sphereEffect: {fileID: 5171707797180430754}
   fadeMaterial: {fileID: 2100000, guid: 61f9b948cf921014fa9dcb801ed9c4ff, type: 2}
   worldCanvas: {fileID: 1847521410490979434}
+  fogMaterial: {fileID: 2100000, guid: 317d67cf7fe22eb428ebf47c3a1e2202, type: 2}
+  _oldScene:
+    m_Handle: 0
+  _newScene:
+    m_Handle: 0
   shaders: {x: -2, y: 0, z: 0, w: 0}
   shaderColor: {x: 3, y: 7, z: 3, w: 1}

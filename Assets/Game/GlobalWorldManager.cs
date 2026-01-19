@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Cards;
 using Cards.Environments;
 using Characters;
+using Game.VisualEffects;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,8 @@ public class GlobalWorldManager : MonoBehaviour
     public Material fadeMaterial;
     public GameObject worldCanvas;
     private bool _transitioning;
+    public Material fogMaterial;
+    private FogSettings _fogSettings, _newFogSettings;
     public string TransitionTag { private set; get; }
     private GameObject[] _newObjects, _oldObjects;
     public Scene _oldScene, _newScene;
@@ -179,6 +182,8 @@ public class GlobalWorldManager : MonoBehaviour
             OnPreLoadNewScene?.Invoke(env);
             CurrentEnvironment = env;
             env.Initialize(playerAgent);
+            _newFogSettings = env.fog;
+            SetFog(_fogSettings, _newFogSettings, 1);
             OnLoadNewScene?.Invoke(CurrentEnvironment);
         }
         else
@@ -187,6 +192,8 @@ public class GlobalWorldManager : MonoBehaviour
             CurrentEnvironment.Destroy();
             _dissolveRad = env.environmentIntroRad;
             _transitioning = true;
+            _fogSettings = CurrentEnvironment.fog;
+            _newFogSettings = env.fog;
             float flipTime = Mathf.Min(introTime, env.environmentExitTime);
             float stopTime = introTime;
             _transitionSpeed = 1 / introTime;
@@ -206,7 +213,7 @@ public class GlobalWorldManager : MonoBehaviour
                     print(_startPosition);
                 }
             });
-            
+            sphereEffect.SetActive(true);
             sphereEffect.transform.position = _startPosition;
             sphereEffect.transform.localScale = Vector3.zero;
             
@@ -229,6 +236,7 @@ public class GlobalWorldManager : MonoBehaviour
                 CurrentEnvironment = env;
                 env.Initialize(playerAgent);
                 if (_transitioning) EndTransition();
+                SetFog(_fogSettings, _newFogSettings, 1);
                 OnLoadNewScene?.Invoke(CurrentEnvironment);
             });
         }
@@ -237,6 +245,7 @@ public class GlobalWorldManager : MonoBehaviour
     public void EndTransition()
     {
         _transitioning = false;
+        sphereEffect.SetActive(false);
         RawTransitionTime = -1;
         Shader.SetGlobalVector("_DissolveData", new Vector4(-5, 0, 0, 0));
         
@@ -263,7 +272,21 @@ public class GlobalWorldManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_transitioning) RawTransitionTime += Time.deltaTime * _transitionSpeed;
+        if (_transitioning)
+        {
+            RawTransitionTime += Time.deltaTime * _transitionSpeed;
+            SetFog(_fogSettings, _newFogSettings, RawTransitionTime);
+        }
+    }
+
+    private void SetFog(FogSettings a, FogSettings b, float t)
+    {
+        var aa = a ? a : FogSettings.Empty;
+        var bb = b ? b : FogSettings.Empty;
+        fogMaterial.SetColor("_Color", Color.Lerp(aa.color, bb.color, t));
+        fogMaterial.SetFloat("_Power", Mathf.Lerp(aa.power, bb.power, t));
+        fogMaterial.SetFloat("_Range", Mathf.Lerp(aa.range, bb.range, t));
+        fogMaterial.SetFloat("_Active", Mathf.Lerp(aa.activeState, bb.activeState, t));
     }
 
     void OnDestroy()
