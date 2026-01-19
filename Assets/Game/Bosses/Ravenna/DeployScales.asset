@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 196536c126566584da6dbbeaf09a00ac, type: 3}
+  m_Name: DeployScales
+  m_EditorClassIdentifier: 
+  attackDuration: 2
+  delayAfter: 1
+  triggerOnce: 1
+  manualSkip: 0
+  arenaPointName: ScalesPosition
+  dropTargetPointName: MiddlePlatform
+  scalePointName: Scale
+  warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  spawnHeight: 200
+  dropDuration: 3
+  postDropOffset: 50
+  postDropDuration: 1
+  warningRadius: 30
+  warningDuration: 2

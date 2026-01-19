@@ -16,7 +16,7 @@ public class DiscreteContainer : MonoBehaviour
     /// </summary>
     public void SetMaxValue(int maxValue)
     {
-        print("something there");
+        // print("something there");
         if (maxValue == currentMaxDisplays)
             return;
 
