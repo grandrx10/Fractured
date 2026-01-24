@@ -50,12 +50,21 @@ namespace Game.Bosses
         private bool _initialized;
         private bool isDead = false;
 
+        public bool ignoreInit = false;
+        public bool destroyOnDeath = false;
+
         // Tracks trigger-once attacks globally
         private HashSet<BossAttack> triggeredOnceAttacks = new HashSet<BossAttack>();
 
         private void Awake()
         {
             GlobalWorldManager.OnLoadNewScene += Init;
+
+            if (ignoreInit)
+            {
+                _initialized = true;
+                StartPhase(0);
+            }
         }
 
         private void Init(CardEnv environment)
@@ -300,6 +309,11 @@ namespace Game.Bosses
             if (!string.IsNullOrEmpty(deathConversationName) && DialogueManager.Instance != null)
             {
                 DialogueManager.Instance.StartConversation(deathConversationName);
+            }
+
+            if (destroyOnDeath)
+            {
+                Destroy(gameObject);
             }
         }
     }

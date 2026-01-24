@@ -11,10 +11,6 @@ namespace Game.Bosses
         [Header("Teleport")]
         public float teleportDistance = 20f;
 
-        [Header("Summon")]
-        public GameObject summonPrefab;
-        public string summonPointName;
-
         [Header("Timing")]
         public float preMeleeDelay = 5f;
 
@@ -24,12 +20,7 @@ namespace Game.Bosses
         public float lungeInterval = 4f;
         public float lungeDuration = 0.5f;
 
-        [Header("End")]
-        public string endPointName;
-        public float endLerpDuration = 1.5f;
-
         private Coroutine attackCoroutine;
-        private Coroutine endLerpCoroutine;
 
         public override void StartAttack(GameObject bossObj)
         {
@@ -48,17 +39,15 @@ namespace Game.Bosses
         public override void EndAttack(GameObject bossObj)
         {
             base.EndAttack(bossObj);
-            
-            Boss boss = bossObj.GetComponent<Boss>();
-            if (boss != null)
+
+            if (attackCoroutine != null)
             {
-                if (attackCoroutine != null)
+                Boss boss = bossObj.GetComponent<Boss>();
+                if (boss != null)
                 {
                     boss.StopCoroutine(attackCoroutine);
                     attackCoroutine = null;
                 }
-                
-                endLerpCoroutine = boss.StartCoroutine(EndLerpRoutine(boss));
             }
         }
 
@@ -70,30 +59,15 @@ namespace Game.Bosses
             NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
             if (npcCommands != null && OpenWorldEnv.Current != null)
             {
-                npcCommands.SetLookingAt(OpenWorldEnv.Current.PlayerTransform);
+                npcCommands.SetLookingAt(player);
             }
 
             /* ───────── TELEPORT ───────── */
             Vector2 randXZ = Random.insideUnitCircle.normalized * teleportDistance;
-            Vector3 teleportPos = player.position + new Vector3(randXZ.x, 0f, randXZ.y);
-            teleportPos.y = player.position.y;
-
-            bossTf.position = teleportPos;
-            teleportPos.y = player.position.y;
-
+            Vector3 teleportPos = OpenWorldEnv.Current.PlayerPos + new Vector3(randXZ.x, 0f, randXZ.y);
+            teleportPos.y = bossTf.position.y; // keep the boss's current height
             bossTf.position = teleportPos;
 
-            /* ───────── SUMMON ───────── */
-            Transform summonPoint = boss.GetPointTransform(summonPointName);
-            if (summonPoint != null && summonPrefab != null)
-            {
-                GameObject summon = Instantiate(
-                    summonPrefab,
-                    summonPoint.position,
-                    summonPoint.rotation,
-                    summonPoint
-                );
-            }
 
             /* ───────── WAIT ───────── */
             yield return new WaitForSeconds(preMeleeDelay);
@@ -109,7 +83,7 @@ namespace Game.Bosses
                 lungeTimer += Time.deltaTime;
 
                 Vector3 targetPos = player.position;
-                bossTf.position = new Vector3(bossTf.position.x, player.position.y, bossTf.position.z);
+                targetPos.y = bossTf.position.y; // keep boss y-level
 
                 // Check if it's time to start a new lunge
                 if (!isLunging && lungeTimer >= lungeInterval)
@@ -117,72 +91,43 @@ namespace Game.Bosses
                     isLunging = true;
                     currentLungeTime = 0f;
                     lungeTimer = 0f;
-                    // Lock direction for lunge
+
+                    // Lock direction for lunge (horizontal only)
                     lungeDirection = (targetPos - bossTf.position).normalized;
-                    
-                    // Stop looking at player during lunge
+                    lungeDirection.y = 0f;
+
                     if (npcCommands != null)
-                    {
                         npcCommands.SetLookingAt(null);
-                    }
                 }
 
                 // Handle lunging
                 if (isLunging)
                 {
                     currentLungeTime += Time.deltaTime;
-                    
+
                     if (currentLungeTime >= lungeDuration)
                     {
-                        // End lunge, return to tracking
                         isLunging = false;
                         currentLungeTime = 0f;
-                        
-                        // Resume looking at player after lunge
+
                         if (npcCommands != null)
-                        {
                             npcCommands.SetLookingAt(player);
-                        }
                     }
                     else
                     {
-                        // Move in locked lunge direction
                         bossTf.position += lungeDirection * lungeSpeed * Time.deltaTime;
                     }
                 }
                 else
                 {
-                    // Normal tracking movement
+                    // Normal tracking movement (horizontal only)
                     Vector3 moveDir = (targetPos - bossTf.position).normalized;
+                    moveDir.y = 0f;
                     bossTf.position += moveDir * trackingSpeed * Time.deltaTime;
                 }
 
                 yield return null;
             }
-        }
-
-        private IEnumerator EndLerpRoutine(Boss boss)
-        {
-            Transform bossTf = boss.transform;
-            Transform endPoint = boss.GetPointTransform(endPointName);
-            
-            if (endPoint != null)
-            {
-                Vector3 startPos = bossTf.position;
-                Vector3 endPos = endPoint.position;
-
-                float t = 0f;
-                while (t < 1f)
-                {
-                    t += Time.deltaTime / endLerpDuration;
-                    bossTf.position = Vector3.Lerp(startPos, endPos, t);
-                    yield return null;
-                }
-
-                bossTf.position = endPos;
-            }
-
-            endLerpCoroutine = null;
         }
     }
 }

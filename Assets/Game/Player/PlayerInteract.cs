@@ -189,7 +189,7 @@ namespace Characters
         private void CheckForInteractable()
         {
             GameObject go = PhysicsHelper.MainObj(GetPlayerLookTarget(interactableLayer).collider);
-
+            Debug.Log(go);
             if (go)
             {
                 currentLookTarget = go;
@@ -197,7 +197,6 @@ namespace Characters
             }
 
             currentLookTarget = null;
-
             if (showDebugRay)
                 Debug.DrawRay(raycastOrigin.position, raycastOrigin.forward * interactRange, Color.red);
         }

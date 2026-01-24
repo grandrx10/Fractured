@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Game.Bosses
 {
-    [CreateAssetMenu(fileName = "UnderworldAttack", menuName = "Boss Attacks/Underworld Attack")]
+    [CreateAssetMenu(fileName = "UnderworldAttack", menuName = "BossAttacks/Emperor/UnderworldAttack")]
     public class UnderworldAttack : BossAttack
     {
         [Header("Underworld Sword Settings")]
@@ -89,7 +89,7 @@ namespace Game.Bosses
             Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;
             Vector3 spawnPos = new Vector3(
                 bossPos.x + randomCircle.x,
-                playerGroundPos.y,
+                playerGroundPos.y - 1f,
                 bossPos.z + randomCircle.y
             );
 
