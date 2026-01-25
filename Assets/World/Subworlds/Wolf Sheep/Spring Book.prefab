@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6235096321566371614}
   - component: {fileID: 3383403133057711115}
-  - component: {fileID: 6858048381565439054}
-  - component: {fileID: 8013152961502209220}
   m_Layer: 0
   m_Name: Spring Book
   m_TagString: Untagged
@@ -51,55 +49,6 @@ MonoBehaviour:
   before: {fileID: 8018648725859776015}
   after: {fileID: 4864477372923638326}
   eventName: spring_sheep_book_1
---- !u!114 &6858048381565439054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697375628603907120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 023f12b4d0144ef7ab47607b1b1852bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canInteract: 1
-  interactTime: 0
-  interactText: (E) Enter
-  onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8013152961502209220}
-        m_TargetAssemblyTypeName: World.Domain.DomainTrigger, Assembly-CSharp
-        m_MethodName: TriggerInteract
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &8013152961502209220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697375628603907120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f6e3fe05f864ac48b9b78ccd9519e7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  domainName: 
-  domainPoint: 
-  domainTag: 'fade
-
-    delay:2
-
-    fast'
 --- !u!1 &4864477372923638326
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,6 +147,9 @@ GameObject:
   - component: {fileID: 3017714304996748965}
   - component: {fileID: 3373605436264910174}
   - component: {fileID: 701641398383033270}
+  - component: {fileID: 7466834290749113787}
+  - component: {fileID: 6069221584831270524}
+  - component: {fileID: 5155255203278592700}
   m_Layer: 0
   m_Name: book before
   m_TagString: Untagged
@@ -274,3 +226,69 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7466834290749113787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8018648725859776015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023f12b4d0144ef7ab47607b1b1852bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 1
+  interactTime: 0
+  interactText: (E) Enter
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6069221584831270524}
+        m_TargetAssemblyTypeName: World.Domain.DomainTrigger, Assembly-CSharp
+        m_MethodName: TriggerInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6069221584831270524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8018648725859776015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6e3fe05f864ac48b9b78ccd9519e7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  domainName: Spring_Sheep_Puzzle
+  domainPoint: Center
+  domainTag: 
+--- !u!65 &5155255203278592700
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8018648725859776015}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.10290867, y: 0.3910311, z: 0.4716518}
+  m_Center: {x: 0.00000023628908, y: 0.09527278, z: 0.00000023841856}

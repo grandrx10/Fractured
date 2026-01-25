@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 9164546173572323057}
   - component: {fileID: 228391486489954302}
   - component: {fileID: 5389862014957216580}
+  - component: {fileID: 3912447062081229815}
+  - component: {fileID: 4404926880159900397}
   m_Layer: 0
   m_Name: Starfish A
   m_TagString: Untagged
@@ -86,6 +88,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3912447062081229815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3547200498076323756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a1ea405ffd446492e9d7c15d9fbe93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 727a5e92-d543-4799-8e5a-5967b405cb0b
+--- !u!114 &4404926880159900397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3547200498076323756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bea4a366198456780cfe9e7d87dccb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: efa5d2312cabfc14391ed4968cbaf7b3, type: 2}
+  - {fileID: 2100000, guid: 9f8daf92d74049048b619a3bfbe7ecfb, type: 2}
+  - {fileID: 2100000, guid: 3fd3ed7b8d36c924eaf8458a15c78553, type: 2}
+  - {fileID: 2100000, guid: c70aa79520a6ae2428e177d9346c2208, type: 2}
+  spawnPoints:
+  - {fileID: 5389862014957216580}
 --- !u!1 &7247423160565085689
 GameObject:
   m_ObjectHideFlags: 0

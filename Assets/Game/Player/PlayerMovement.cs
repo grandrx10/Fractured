@@ -11,6 +11,7 @@ namespace Characters
     {
         [Header("Movement")]
         public float moveSpeed;
+        
         public float walkSpeed;
         public float groundDrag;
         public float jumpForce;
