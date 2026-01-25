@@ -4,6 +4,7 @@ public class PlatformSplitter : MonoBehaviour
 {
     [Header("Prefab")]
     public GameObject platformPrefab;
+    public bool disableOnUse = true;
 
     private void Start()
     {
@@ -63,6 +64,11 @@ public class PlatformSplitter : MonoBehaviour
         }
 
         // Disable the original platform
-        gameObject.SetActive(false);
+        sourceRenderer.enabled = false;
+        if (disableOnUse)
+        {
+            gameObject.SetActive(false);
+        }
+        
     }
 }

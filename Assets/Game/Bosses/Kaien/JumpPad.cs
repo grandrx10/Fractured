@@ -7,13 +7,16 @@ public class JumpPad : MonoBehaviour
     public float launchForce = 15f;
 
     public bool continuous;
+    
     [Header("Cooldown")]
     public float cooldown = 1.0f;
-
+    
     [Header("Detection")]
     public LayerMask playerLayer;
-
-    private float lastUseTime = -Mathf.Infinity;
+    
+    // Track cooldown per rigidbody to prevent issues with multiple players
+    private System.Collections.Generic.Dictionary<Rigidbody, float> lastUseTimes = 
+        new System.Collections.Generic.Dictionary<Rigidbody, float>();
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -31,30 +34,72 @@ public class JumpPad : MonoBehaviour
     }
 
     private void TryLaunch(GameObject obj)
-    {   
-        if (Time.time < lastUseTime + cooldown)
-            return;
-
+    {
+        // Check layer mask first
         if (((1 << obj.layer) & playerLayer) == 0)
         {
             if (continuous) Debug.Log("continuous blow up cpu");
             return;
+        
+        // Search for Rigidbody in parent hierarchy
         }
         
         // Search in parent hierarchy for Rigidbody
         Rigidbody rb = obj.GetComponentInParent<Rigidbody>();
         if (rb == null)
-        {
-            Debug.Log("No Rigidbody found in parent hierarchy!");
             return;
+        
+        // Check cooldown per rigidbody
+        if (lastUseTimes.ContainsKey(rb))
+        {
+            if (Time.time < lastUseTimes[rb] + cooldown)
+                return;
         }
         
-        Vector3 up = transform.up;
-
-        // Remove current velocity along the launch direction
-        rb.linearVelocity -= Vector3.Project(rb.linearVelocity, up);
-
-        // Apply launch force in local up direction
-        rb.linearVelocity += up * launchForce;
+        // Update last use time for this rigidbody
+        lastUseTimes[rb] = Time.time;
+        
+        // Get the launch direction (jump pad's up direction)
+        Vector3 launchDirection = transform.up;
+        
+        // Cancel existing vertical velocity to ensure consistent jump height
+        Vector3 currentVelocity = rb.linearVelocity;
+        Vector3 verticalVelocity = Vector3.Project(currentVelocity, launchDirection);
+        
+        // Only cancel upward velocity if moving against the launch direction
+        // This prevents canceling momentum when already moving in the right direction
+        if (Vector3.Dot(verticalVelocity, launchDirection) < 0)
+        {
+            rb.linearVelocity -= verticalVelocity;
+        }
+        else
+        {
+            // If already moving in launch direction, remove it for consistency
+            rb.linearVelocity -= verticalVelocity;
+        }
+        
+        // Apply launch impulse
+        rb.AddForce(launchDirection * launchForce, ForceMode.VelocityChange);
+    }
+    
+    // Clean up old entries to prevent memory leaks
+    private void LateUpdate()
+    {
+        // Remove entries older than cooldown + buffer
+        float cleanupThreshold = Time.time - (cooldown + 5f);
+        var keysToRemove = new System.Collections.Generic.List<Rigidbody>();
+        
+        foreach (var kvp in lastUseTimes)
+        {
+            if (kvp.Value < cleanupThreshold || kvp.Key == null)
+            {
+                keysToRemove.Add(kvp.Key);
+            }
+        }
+        
+        foreach (var key in keysToRemove)
+        {
+            lastUseTimes.Remove(key);
+        }
     }
 }

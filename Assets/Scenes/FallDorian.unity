@@ -1797,6 +1797,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   phases:
+  - phaseName: SplitterPhase
+    attacks:
+    - {fileID: 11400000, guid: d4b801b729bfab149bceab433f194db4, type: 2}
+    - {fileID: 11400000, guid: 5e833c401581d0b46944f033fda5088d, type: 2}
+    - {fileID: 11400000, guid: ddf9ca7e1e459014faf4df320c472688, type: 2}
+    - {fileID: 11400000, guid: d8ee9a9a485c11148b40e723b2118da5, type: 2}
+    - {fileID: 11400000, guid: d0eecc9af765eb646adb6a921efa1532, type: 2}
+    minHealthThreshold: 0
+    phaseTime: 0
   - phaseName: Waking Speech
     attacks:
     - {fileID: 11400000, guid: db533cec8019f61479d40ee05eff7922, type: 2}
@@ -1817,6 +1826,8 @@ MonoBehaviour:
   - name: Ascend
     transform: {fileID: 638338805}
   deathConversationName: 
+  ignoreInit: 0
+  destroyOnDeath: 0
 --- !u!4 &930106254
 Transform:
   m_ObjectHideFlags: 0
@@ -3066,7 +3077,7 @@ Transform:
   m_GameObject: {fileID: 1869954256}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -146.0964, y: 14.8621, z: -34.9}
+  m_LocalPosition: {x: -146.0964, y: 7.87, z: -34.9}
   m_LocalScale: {x: 8.3929, y: 5.676176, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

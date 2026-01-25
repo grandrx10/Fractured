@@ -14,7 +14,7 @@ namespace Game.Bosses.Dorian
         public int warningCount = 10;
         public float warningRadius = 30f;
         public float heightAboveWarning = 2.5f;
-        public float delayBetweenDashes = 0.1f;      // now used as lerp duration
+        public float delayBetweenDashes = 0.1f;
         public float delayBeforeDash = 0.5f;
 
         [Header("Warning Settings")]
@@ -26,8 +26,8 @@ namespace Game.Bosses.Dorian
         [Header("Line Settings")]
         public GameObject lineRendererPrefab;
 
-        private LineRenderer lineRenderer;
-        private List<Vector3> warningPositions = new List<Vector3>();
+        protected LineRenderer lineRenderer;
+        protected List<Vector3> warningPositions = new List<Vector3>();
 
         public override void StartAttack(GameObject boss)
         {
@@ -51,30 +51,28 @@ namespace Game.Bosses.Dorian
                 .StartCoroutine(BlitzSequence(boss));
         }
 
-        private IEnumerator BlitzSequence(GameObject boss)
+        protected virtual IEnumerator BlitzSequence(GameObject boss)
         {
             warningPositions.Clear();
             Vector3 prevPos = boss.transform.position;
 
             // -------------------------------
-            // Phase 1: Spawn all warnings around the player's live position
+            // Phase 1: Spawn warnings
             // -------------------------------
             for (int i = 0; i < warningCount && isActive; i++)
             {
-
                 Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
-
                 Vector3 warningPos;
                 int attempts = 0;
 
-                // Keep trying until the new point is far enough from previous
                 do
                 {
                     Vector2 offset = Random.insideUnitCircle * warningRadius;
                     warningPos = playerPos + new Vector3(offset.x, 0f, offset.y);
                     attempts++;
                     if (attempts > 100) break;
-                } while (Vector3.Distance(warningPos, prevPos) < warningRadius);
+                }
+                while (Vector3.Distance(warningPos, prevPos) < warningRadius);
 
                 warningPositions.Add(warningPos);
                 prevPos = warningPos;
@@ -99,11 +97,10 @@ namespace Game.Bosses.Dorian
             }
 
             // -------------------------------
-            // Phase 2: Boss dashes to each warning smoothly
+            // Phase 2: Dash sequence
             // -------------------------------
             yield return new WaitForSeconds(delayBeforeDash);
 
-            // Add boss starting position as the first line point
             if (lineRenderer != null)
             {
                 lineRenderer.positionCount = 1;
@@ -125,32 +122,34 @@ namespace Game.Bosses.Dorian
                     float t = Mathf.Clamp01(elapsed / delayBetweenDashes);
                     boss.transform.position = Vector3.Lerp(startPos, targetPos, t);
 
-                    // Rotate boss to look at the target
                     Vector3 lookDir = (targetPos - boss.transform.position).normalized;
                     if (lookDir != Vector3.zero)
                         boss.transform.rotation = Quaternion.LookRotation(lookDir);
 
-                    // Update line renderer
                     if (lineRenderer != null)
                     {
-                        lineRenderer.positionCount = lineRenderer.positionCount < 2 ? 2 : lineRenderer.positionCount;
+                        lineRenderer.positionCount = Mathf.Max(2, lineRenderer.positionCount);
                         lineRenderer.SetPosition(lineRenderer.positionCount - 1, boss.transform.position);
                     }
 
                     yield return null;
                 }
 
-                // Ensure final position
+                // Finalize dash
                 boss.transform.position = targetPos;
+
                 if (lineRenderer != null)
                 {
                     lineRenderer.positionCount++;
                     lineRenderer.SetPosition(lineRenderer.positionCount - 1, targetPos);
                 }
+
+                // 🔹 EXTENSION POINT
+                OnDashComplete(boss);
             }
 
             // -------------------------------
-            // Destroy line after 0.5s
+            // Cleanup line
             // -------------------------------
             if (lineRenderer != null)
             {
@@ -159,10 +158,14 @@ namespace Game.Bosses.Dorian
             }
         }
 
+        protected virtual void OnDashComplete(GameObject boss)
+        {
+            // Intentionally empty — overridden by derived attacks
+        }
+
         public override void EndAttack(GameObject boss)
         {
             base.EndAttack(boss);
-            // line destruction handled in coroutine
         }
     }
 }

@@ -65,7 +65,11 @@ public class Door : MonoBehaviour
     {
         if (isOpen || isMoving)
             return;
-        GlobalState.instance.AddEvent($"DOOR_OPEN_{id.ID}");
+        if (id != null)
+        {
+            GlobalState.instance.AddEvent($"DOOR_OPEN_{id.ID}");
+        }
+        
         StartCoroutine(MoveDoor(closedPosition, openPosition, true));
     }
 
