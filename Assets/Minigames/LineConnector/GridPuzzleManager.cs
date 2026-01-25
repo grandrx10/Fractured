@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GridPuzzleManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class GridPuzzleManager : MonoBehaviour
     public float spacing = 1.2f;
     public TextAsset puzzleFile;
 
+    public UnityEvent onCompletePuzzle;
     [Header("Prefabs")]
     public LinePressurePlate platePrefab;
 
@@ -300,9 +302,15 @@ public class GridPuzzleManager : MonoBehaviour
             }
         }
 
-        // All pairs complete AND board fully filled
+        CompletePuzzle();
+    }
+
+    [ContextMenu("complete puzzle")]
+    public void CompletePuzzle()
+    {
         puzzleCompleted = true;
         ReleaseAllPlates();
+        onCompletePuzzle.Invoke();
     }
 
     void ReleaseAllPlates()

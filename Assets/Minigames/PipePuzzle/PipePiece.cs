@@ -21,6 +21,7 @@ public enum PipeShape
 
 public class PipePiece : Interactable
 {
+    public PipePuzzleManager puzzleManager;
     [Header("Pipe Settings")]
     public PipeShape shape;
     public bool isSource;
@@ -59,7 +60,7 @@ public class PipePiece : Interactable
             return;
 
         RotatePipe();
-        PipePuzzleManager.Instance.RecalculateFlow();
+        puzzleManager.RecalculateFlow();
     }
 
     private void RotatePipe()

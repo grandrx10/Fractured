@@ -4,8 +4,6 @@ using Characters.Dialogue;
 
 public class PipePuzzleManager : MonoBehaviour
 {
-    public static PipePuzzleManager Instance;
-
     [Header("Grid")]
     public int width = 6;
     public int height = 6;
@@ -33,7 +31,6 @@ public class PipePuzzleManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
         gridOrigin = transform.position;
         GeneratePuzzle();
         RecalculateFlow();
@@ -204,7 +201,7 @@ public class PipePuzzleManager : MonoBehaviour
         pipe.shape = prefab.shape;
         pipe.isSource = false;
         pipe.isSink = false;
-
+        pipe.puzzleManager = this;
         return pipe;
     }
 
@@ -220,6 +217,8 @@ public class PipePuzzleManager : MonoBehaviour
 
         PipePiece pipe = Instantiate(prefab, GridToWorld(cell), Quaternion.identity, transform);
         pipe.shape = prefab.shape;
+        pipe.puzzleManager = this;
+        
         return pipe;
     }
 
