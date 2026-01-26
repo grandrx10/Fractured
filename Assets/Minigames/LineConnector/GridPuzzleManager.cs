@@ -22,7 +22,8 @@ public class GridPuzzleManager : MonoBehaviour
 
     private PathState currentPath;
     private bool puzzleCompleted = false;
-
+    
+    [ContextMenu("test")]
     void Start()
     {
         LoadPuzzleFromFile();
