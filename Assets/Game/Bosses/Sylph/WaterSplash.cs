@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using Game.Bosses.Projectiles;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace Game.Bosses.Sylph
         public override void StartAttack(GameObject boss)
         {
             base.StartAttack(boss);
-
+            SetTrigger(boss, "splash");
             // Get spawn transform the same way RockToss does
             spawnPoint = boss.GetComponent<Boss>().GetPointTransform(spawnPointName);
 
@@ -41,9 +42,9 @@ namespace Game.Bosses.Sylph
                 return;
             }
             NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
-            if (npcCommands != null && PlayerSingleton.Instance != null)
+            if (npcCommands != null)
             {
-                npcCommands.SetLookingAt(PlayerSingleton.Instance.transform);
+                npcCommands.SetLookingAt(OpenWorldEnv.Current.PlayerTransform);
             }
 
             boss.GetComponent<MonoBehaviour>().StartCoroutine(ContinuousSplash(boss));
@@ -52,10 +53,10 @@ namespace Game.Bosses.Sylph
         private IEnumerator ContinuousSplash(GameObject boss)
         {
             NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
                 // Ground position under the player
-                Vector3 playerPos = PlayerSingleton.Instance.GetPositionBelow();
+                Vector3 playerPos = OpenWorldEnv.Current.GetBossTargetGrounded();
 
                 // Random splash target around player
                 Vector2 randomOffset = Random.insideUnitCircle * targetRadius;
@@ -95,6 +96,8 @@ namespace Game.Bosses.Sylph
             {
                 npcCommands.SetLookingAt(null);
             }
+            
+            SetTrigger(boss, "next");
         }
 
         private IEnumerator LerpParabola(GameObject projectile, Rigidbody rb,

@@ -7,10 +7,11 @@ namespace Characters.Interactables
         // public string interactName = "";
         public bool canInteract = true;
         public float interactTime = 0;
+        public string interactText = "(E) Interact";
 
         public virtual void Interact(GameObject player)
         {
-        
+            
         }
     }
 }

@@ -4,95 +4,129 @@ FennOpener
 Heya there, Ravenna. Good to see you again!
 ---
 [Ravenna]
-Hi, Mr. Fenn.
+Hello there, Fenn.
 ---
 [Fenn]
-What can I do for ye today?
-???
-[We need wood for the Mayor](MayorWoodQuest){FennWoodQuest}
-[Just popping by to say hello]{FennHello}
-===
-[Fenn]{}
-###
-FennWoodQuest
-===
-[Fenn]
-Ah, wood you say? I have some lying around, but I can't just give it to you for free.
----
-[Fenn]
-When I was your age, I had to work for everything I got - I built this farm all on my lonesome, from scratch. Working really taught me a thing or two about being the rabbit I am today.
----
-[Fenn]
-So I hope you don't mind if I give you two a little quest, in exchange for the wood?
+Who's your friend?
 ---
 [Ravenna]
-No problem, Mr. Fernn. What can we do for you?
+His name is Dorian.
 ---
 [Fenn]
-I'm looking for some apple seeds so I can grow an apple tree. If you two can find some for me, that'd be great. I'm sure there'll be a few lying around the forest somewhere. Good luck!
+Dorian... that's a nice name. It's memorable, unlike Fenn. Damn, what were my parents thinking?
 ---
 [Ravenna]
-Of course, Mr. Fenn!
-===
-[Fenn]{FennQuestReturn}
-###
-FennHello
-===
+I think it's a pretty good name!
+---
 [Fenn]
-Well, hello to you too. What was your name again?
+Heh, you always know how to make me smile. What are you two up to today?
+---
+[Ravenna]
+We're just going for a walk around the island.
+---
+[Fenn]
+Are you interested in a little quest?
+---
+[Ravenna]
+Of course!
+---
+[Fenn]
+I've been trying to grow an apple tree for a while now, but all my apple seeds have been stolen by those blasted crows. If you two could get me some more seeds, I'd be grateful. In fact, you can have some of the apples I grow.
+---
+[Ravenna]
+You can count on us, Mr. Fenn!
+---
+[Fenn]
+You should be able to find some in the forest off yonder. However, I do have to warn you, do not go close to the ruins. Monsters live there.
+---
+[Ravenna]
+Hahaha, you're quite the joker, Fenn!
 ---
 [Dorian]
-Dorian.
+Ha... ha? That's a joke, right?
+---
+<AppleQuestStart>
+[Fenn]
+Heh, just a little old folk tale I heard from when I was a young hopper. I've never been there myself, but I'm sure it's empty, save for a spiderweb or two.
 ---
 [Fenn]
-Nice to meet ye, Dorian. Ah, to be young again - that would be my dream. You see this farm? I built this with my own two hands, from scratch. Working for myself like that really taught me a thing or two about being the rabbit that I am today.
----
-[Fenn]
-I think a bit of work would do you two some good as well. I have a little quest for you two, should you choose to accept it.
----
-[Ravenna]
-Of course! What's the quest?
----
-[Fenn]
-I'm looking for some apple seeds so I can grow an apple tree. If you two can find some for me, that'd be great. I'm sure there'll be a few lying around the forest somewhere. If you do find some, I'll give you a handsome reward!
----
-[Ravenna]
-We'll keep an eye out, sir!
+Anyways, good luck on your quest! Bring me those apple seeds when you can!
 ===
 [Fenn]{FennQuestReturn}
 ###
 FennQuestReturn
 ===
 [Fenn]
-Did you manage to find any apple seeds?
+Did you find those seeds?
 ???
-[Yes](FennApplesFound){FennQuestComplete}
-[No]{FennNoQuest}
+[Yes, here you go](AppleSeedsFound){FennApplesFound}
+[No, not yet]{FennNoApples}
 ===
 ###
-FennNoQuest
+FennApplesFound
+===
+[Fenn]
+Wonderful! Now I can finally grow the apple tree!
 ---
 [Fenn]
-Well, keep your eyes peeled. There should be some in the forest.
+Thank you. Both of you.
 ---
 [Ravenna]
-We will stay vigilant!
+It's no problem, Mr. Fenn. It was actually Dorian that found it.
+---
+[Fenn]
+Thank you, Dorian. This... means a lot to me.
+---
+[Dorian]
+It's no problem.
+---
+[Fenn]
+Usually, I'd go out and look for seeds myself, but recently, I've been at a loss for energy. I'm not sure what's happening, but I always wake up tired. But planting and growing things always brought me joy. Hopefully, they can once again.
+---
+[Dorian]
+I'm just glad we could help.
+---
+[Fenn]
+Come back when the apple tree is fully grown. I'll have a gift basket waiting for you!
+===
+[Fenn]{FennReturn}
+###
+FennNoApples
+===
+[Fenn]
+Well, take your time. No rush. A good place to look would be in the forest.
 ===
 [Fenn]{FennQuestReturn}
 ###
-FennQuestComplete
+FennReturn
 ===
 [Fenn]
-Oh, thank you! I've been wanting to grow apples for quite a while now, but I just didn't have the time to go out looking for seeds. Well, as a reward, you can take some of the spare wood I have lying around the barn, and some of the apples that the tree makes.
+Welcome back! Here are the apples I promised.
+---
+[Ravenna]
+Thanks, Mr. Fenn, these are some of the reddest apples I've seen!
 ---
 [Fenn]
-If you ever find any cool seeds, feel free to bring them to me - I'll plant them for you, and you can have whatever it grows!
+If you two ever find any interesting seeds, bring them to me. I can grow them for you anytime.
 ===
-[Fenn]{FennGrow}
+[Fenn]{FennGrowPlants}
 ###
-FennGrow
+FennGrowPlants
 ===
-<OpenFarmerShop>
+[Fenn]
+What do you have for me?
 ===
-[Fenn]{FennGrow}
+[Fenn]{FennGrowPlants}
+###
+InnerFenn
+===
+[Fenn]
+Mmm, apples.
+---
+[Fenn]
+You're sweet, but sometimes... sometimes I wish I had never left.
+---
+[Fenn]
+I only wanted to discover myself... not leave you behind.
+===
 ###

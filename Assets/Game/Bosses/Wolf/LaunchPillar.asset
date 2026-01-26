@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee04cb30532c1ad4d8ff405250a4b1f1, type: 3}
+  m_Name: LaunchPillar
+  m_EditorClassIdentifier: 
+  attackDuration: 8
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  spawnPointName: PillarSpawn
+  pillarPrefab: {fileID: 6408674236645632333, guid: 51b097b8ba7d8374785b08c05bb1e0cf, type: 3}
+  attackInterval: 1
+  pillarTravelTime: 0.5
+  delayBeforeShoot: 0.5
+  movePointName: Rise
+  moveToPointSpeed: 20
+  arriveThreshold: 0.1
+  minRadius: 10
+  maxRadius: 50
+  minHeightAboveBoss: 2
+  maxHeightAboveBoss: 5
+  shootSpeed: 20

@@ -1,3 +1,4 @@
+using Cards.Environments;
 using UnityEngine;
 using Characters; // For PlayerSingleton
 
@@ -66,10 +67,7 @@ public class SunRing : MonoBehaviour
         // Unparent to move independently
         transform.parent = null;
 
-        if (PlayerSingleton.Instance == null)
-            return;
-
-        Vector3 playerPos = PlayerSingleton.Instance.transform.position;
+        Vector3 playerPos = OpenWorldEnv.Current.PlayerPos;
 
         Vector3 randomOffset = Random.insideUnitSphere * targetRadius;
         Vector3 targetPoint = playerPos + randomOffset;

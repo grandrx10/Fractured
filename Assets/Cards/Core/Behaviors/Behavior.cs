@@ -4,22 +4,11 @@ namespace Cards.Core.Behaviors
 {
     public abstract class Behavior: ScriptableObject
     {
-        protected Card AttachedCard;
         public bool Active {get; set;}
 
-        public virtual void Init(Card card)
-        {
-            AttachedCard = card;
-        }
-
-        public virtual string GetDescription()
+        public virtual string GetDescription(Card card)
         {
             return "";
-        }
-        
-        public virtual GameObject GetMenuObject()
-        {
-            return null;
         }
     }
 }

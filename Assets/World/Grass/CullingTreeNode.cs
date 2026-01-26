@@ -64,9 +64,9 @@ namespace World.Grass
             }
         }
 
-        public void RetrieveLeaves(Plane[] frustum, List<Bounds> list, List<int> visibleIDList)
+        public void RetrieveLeaves(Plane[] frustum, List<Bounds> list, List<int> visibleIDList, bool dontCull = false)
         {
-            if (GeometryUtility.TestPlanesAABB(frustum, m_bounds))
+            if (GeometryUtility.TestPlanesAABB(frustum, m_bounds) || dontCull)
             {
                 if (children.Count == 0)
                 {
@@ -80,7 +80,7 @@ namespace World.Grass
                 {
                     foreach (CullingTreeNode child in children)
                     {
-                        child.RetrieveLeaves(frustum, list, visibleIDList);
+                        child.RetrieveLeaves(frustum, list, visibleIDList, dontCull);
                     }
                 }
             }

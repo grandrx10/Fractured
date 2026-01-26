@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Game;
 
 public class SymbolDoor : Door
 {
@@ -9,7 +11,7 @@ public class SymbolDoor : Door
 
     [Tooltip("Correct index for each symbol (must match order above)")]
     public List<int> correctIndices = new List<int>();
-
+    
     public override bool CheckCondition()
     {
         if (symbolChangers.Count == 0 || correctIndices.Count == 0)

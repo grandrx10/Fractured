@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1810ad1b2553232468a6f05eb7105542, type: 3}
+  m_Name: SwipeAttack
+  m_EditorClassIdentifier: 
+  attackDuration: 12
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  dashSpeed: 35
+  slashDelay: 0.25
+  recoveryDelay: 0.75
+  dashesPerCycle: 3
+  offCycleDuration: 1
+  sweepPrefab: {fileID: 8848286113791336229, guid: 777e36f35310feb42bd37e345b8eafeb, type: 3}
+  summonPointName: SlashPoint

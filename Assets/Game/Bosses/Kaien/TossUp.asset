@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b2682cd60e98744819b2ebd9fae000, type: 3}
+  m_Name: TossUp
+  m_EditorClassIdentifier: 
+  attackDuration: 4
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  buildingPrefabs:
+  - {fileID: 8532285242222923206, guid: 6a4ab390b9d4c37478fa4afc75622344, type: 3}
+  - {fileID: 1316686809228774187, guid: 152ee2693709c4946876028a14c81da3, type: 3}
+  - {fileID: 2508459100724795257, guid: 28602b2451f924044a5d64251c58855d, type: 3}
+  - {fileID: 9133921693367462048, guid: 6fbdbf42a9cb0434688a51a91338301b, type: 3}
+  spawnPointNames:
+  - 1
+  - 2
+  - 3
+  - 4
+  throwForce: 500
+  forceMode: 1
+  minSpin: {x: -4, y: -6, z: -4}
+  maxSpin: {x: 4, y: 6, z: 4}
+  spawnInterval: 1
+  minMaxScale: 3
+  maxMaxScale: 5
+  scaleGrowTime: 0.25

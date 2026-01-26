@@ -14,14 +14,14 @@ public static class DisableURPFeatureOnExit
 
     private static void OnPlayModeChanged(PlayModeStateChange state)
     {
-        if (state == PlayModeStateChange.ExitingPlayMode)
-        {
-            DisableFeature(false);
-        }
-        else if (state == PlayModeStateChange.EnteredPlayMode)
-        {
-            DisableFeature(true);
-        }
+        // if (state == PlayModeStateChange.ExitingPlayMode)
+        // {
+        //     DisableFeature(false);
+        // }
+        // else if (state == PlayModeStateChange.EnteredPlayMode)
+        // {
+        //     DisableFeature(true);
+        // }
             
     }
 

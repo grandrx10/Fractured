@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using UnityEngine;
 
 namespace Cards.Card_Assets.General_Behaviors
@@ -8,10 +9,10 @@ namespace Cards.Card_Assets.General_Behaviors
     {
         public bool persistent;
         
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
-            if (persistent) return "<b>Disposable</b>: Is destroyed on use.";
-            return "<b>Fragile</b>: Is destroyed on use or on moving between worlds.";
+            if (persistent) return "<b>(Innate) Disposable</b>: Is destroyed on use.";
+            return "<b>(Innate) Fragile</b>: Is destroyed on moving between worlds.";
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Cards.Core.Util
             Agent attached = GetComponent<Agent>();
             foreach (Card card in c)
             {
-                attached.AddCard(card);
+                attached.GiveCard(card);
             }
             Destroy(this);
         }

@@ -16,8 +16,7 @@ namespace Game.Bosses
         {
             base.StartAttack(boss);
 
-            manualSkip = true; // REQUIRED
-
+            manualSkip = true;
             cachedBoss = boss.GetComponent<Boss>();
 
             if (DialogueManager.Instance == null)
@@ -27,22 +26,23 @@ namespace Game.Bosses
                 return;
             }
 
-            DialogueManager.Instance.OnConversationEnded += OnDialogueFinished;
+            Debug.Log("PLAYING THE DIALOGUE!");
+            Debug.Log(conversationName);
+
+            DialogueManager.Instance.OnConversationEnded += OnDialogueSessionEnded;
             DialogueManager.Instance.StartConversation(conversationName);
         }
 
-        private void OnDialogueFinished()
+        private void OnDialogueSessionEnded()
         {
-            DialogueManager.Instance.OnConversationEnded -= OnDialogueFinished;
+            DialogueManager.Instance.OnConversationEnded -= OnDialogueSessionEnded;
             EndSelf();
         }
 
         private void EndSelf()
         {
             if (cachedBoss != null)
-            {
                 cachedBoss.EndCurrentAttack();
-            }
         }
 
         public override void EndAttack(GameObject boss)
@@ -50,7 +50,7 @@ namespace Game.Bosses
             base.EndAttack(boss);
 
             if (DialogueManager.Instance != null)
-                DialogueManager.Instance.OnConversationEnded -= OnDialogueFinished;
+                DialogueManager.Instance.OnConversationEnded -= OnDialogueSessionEnded;
         }
     }
 }

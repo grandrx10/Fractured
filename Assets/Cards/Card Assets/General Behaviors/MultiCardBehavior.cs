@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using Cards.Environments;
 using TMPro;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Cards.Card_Assets.General_Behaviors
         public int count = 3;     // number of cards to throw
         public string objectName = "cards";
         
-        public override bool Use(CardEnv env, Agent agent)
+        public override bool Use(Card card, CardEnv env, Agent agent)
         {
             if (env is OpenWorldEnv opEnv)
             {
@@ -30,7 +31,7 @@ namespace Cards.Card_Assets.General_Behaviors
                 {
                     float currentAngle = startAngle + i * step;
                     Quaternion rot = Quaternion.Euler(0f, currentAngle, 0f);
-                    ThrowCard(agent, opEnv, rot); // 30 can be replaced with a speed parameter
+                    ThrowCard(card, agent, opEnv, rot); // 30 can be replaced with a speed parameter
                 }
             }
             else
@@ -41,9 +42,9 @@ namespace Cards.Card_Assets.General_Behaviors
             return true;
         }
         
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
-            return $"<b>Multishot</b>: On Use, Throws {count} {objectName}.";
+            return $"<b>(Active) Multishot</b>: Throw {count} {objectName}.";
         }
 
         //public override GameObject GetMenuObject()

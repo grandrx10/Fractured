@@ -1,6 +1,9 @@
-﻿namespace Utils
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
+
+namespace Utils
 {
-    public static class ArticleHelper
+    public static class TextHelper
     {
         /// <summary>
         /// Returns "a {word}" or "an {word}" depending on pronunciation rules.
@@ -47,6 +50,23 @@
                 if (word.StartsWith(s, System.StringComparison.OrdinalIgnoreCase))
                     return true;
             return false;
+        }
+        
+        
+        public static float GetFloatTag(
+            string input,
+            string tag,
+            float defaultValue = 0f)
+        {
+            var match = Regex.Match(
+                input,
+                $@"\b{tag}:(-?\d*\.?\d+)\b",
+                RegexOptions.CultureInvariant
+            );
+
+            return match.Success
+                ? float.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture)
+                : defaultValue;
         }
     }
 }

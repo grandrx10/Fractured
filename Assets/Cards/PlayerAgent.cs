@@ -11,34 +11,60 @@ namespace Cards
 {
     public class PlayerAgent: Agent
     {
-        public Card mainHandCard;
-        public Card offHandCard;
-        
-        public PlayerStatsHolder Stats {get; private set;}
+        public PlayerStatsHolder stats;
+        public Action OnStatsUpdate;
 
+        private void Awake()
+        {
+            transform.SetParent(null);
+            DontDestroyOnLoad(gameObject);
+            if (FindObjectsByType<PlayerAgent>(FindObjectsSortMode.None).Length > 1) Destroy(gameObject);
+            OnAddCard += (card, target) =>
+            {
+                if (target == CardTarget.Deck) return;
+                foreach (var equip in card.GetAllBehaviors<IBehaviorEquippedListener>())
+                {
+                    equip.Equip(card, this);
+                }
+            };
+            OnRemoveCard += (card, target) =>
+            {
+                if (target == CardTarget.Deck) return;
+                foreach (var equip in card.GetAllBehaviors<IBehaviorEquippedListener>())
+                {
+                    equip.Unequip(card, this);
+                }
+            };
+        }
+
+        public void UpdateStats()
+        {
+            stats.RecomputeStats(this);
+            OnStatsUpdate?.Invoke();
+        }
+        
         public void SetMainHand(Card card)
         {
-            if (card == mainHandCard) return;
+            if (card == selectedCard) return;
 
             if (card)
             {
                 foreach (var hold in card.GetAllBehaviors<IBehaviorHoldListener>())
                 {
-                    hold.StartHold();
+                    hold.StartHold(card);
+                }
+            }
+
+            if (selectedCard)
+            {
+                foreach (var hold in selectedCard.GetAllBehaviors<IBehaviorHoldListener>())
+                {
+                    hold.StopHold(card);
                 }
             }
             
-            mainHandCard = card;
-            foreach (var hold in mainHandCard.GetAllBehaviors<IBehaviorHoldListener>())
-            {
-                hold.StopHold();
-            }
-            
-        }
-        
-        private void Awake()
-        {
-            Stats = FindFirstObjectByType<PlayerStatsHolder>();
+            selectedCard = card;
+            UpdateStats();
         }
 
         /*

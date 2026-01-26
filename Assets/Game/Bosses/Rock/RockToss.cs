@@ -1,3 +1,4 @@
+using Cards.Environments;
 using Characters;
 using UnityEngine;
 
@@ -25,8 +26,8 @@ namespace Game.Bosses.Rock
             lastAttackTime = -cooldown;
 
             npc = boss.GetComponent<NpcCommands>();
-            if (npc != null && PlayerSingleton.Instance != null)
-                npc.SetLookingAt(PlayerSingleton.Instance.transform);
+            if (npc != null)
+                npc.SetLookingAt(OpenWorldEnv.Current.PlayerTransform);
 
             // Get the spawn transform
             spawnPoint = boss.GetComponent<Boss>().GetPointTransform(spawnPointName);
@@ -50,9 +51,9 @@ namespace Game.Bosses.Rock
 
         public override void Tick(GameObject boss)
         {
-            if (!isActive || PlayerSingleton.Instance == null) return;
+            if (!isActive) return;
 
-            Transform player = PlayerSingleton.Instance.transform;
+            Transform player = OpenWorldEnv.Current.PlayerTransform;
 
             if (isWindingUp && currentRock != null)
             {

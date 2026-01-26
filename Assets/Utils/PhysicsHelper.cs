@@ -6,6 +6,7 @@ namespace Utils
     {
         public static GameObject MainObj(Collider collider)
         {
+            if (!collider) return null;
             return collider.attachedRigidbody? collider.attachedRigidbody.gameObject : collider.gameObject;
         }
         

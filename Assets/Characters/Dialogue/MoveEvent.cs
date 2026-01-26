@@ -37,16 +37,10 @@ namespace Characters.Dialogue
                 yield return MoveToTargetCoroutine(target);
             }
 
-            // Final rotation after completing the path
+            // Smooth final rotation after completing the path
             if (endLookingAt != null)
             {
-                Vector3 lookDir = endLookingAt.position - objectToMove.transform.position;
-                lookDir.y = 0f;
-
-                if (lookDir.sqrMagnitude > 0.001f)
-                {
-                    objectToMove.transform.rotation = Quaternion.LookRotation(lookDir);
-                }
+                yield return RotateToLookAtCoroutine(endLookingAt);
             }
         }
 
@@ -54,7 +48,7 @@ namespace Characters.Dialogue
         {
             Vector3 endPos = target.position;
 
-            while (Vector3.Distance(objectToMove.transform.position, endPos) > 0.01f)
+            while (Vector3.Distance(objectToMove.transform.position, endPos) > 0.05f)
             {
                 // Move
                 objectToMove.transform.position = Vector3.MoveTowards(
@@ -83,8 +77,30 @@ namespace Characters.Dialogue
                 yield return null;
             }
 
-            // Snap exactly to target
+            // Snap exactly to target position
             objectToMove.transform.position = endPos;
+        }
+
+        private IEnumerator RotateToLookAtCoroutine(Transform lookAtTarget)
+        {
+            Vector3 lookDir = lookAtTarget.position - objectToMove.transform.position;
+            lookDir.y = 0f;
+
+            if (lookDir.sqrMagnitude < 0.001f)
+                yield break;
+
+            Quaternion startRot = objectToMove.transform.rotation;
+            Quaternion targetRot = Quaternion.LookRotation(lookDir);
+
+            float t = 0f;
+            while (t < 1f)
+            {
+                t += Time.deltaTime * rotationSpeed;
+                objectToMove.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+                yield return null;
+            }
+
+            objectToMove.transform.rotation = targetRot;
         }
     }
 }

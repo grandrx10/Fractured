@@ -5,6 +5,6 @@ namespace Cards.Core.BehaviorTags
 {
     public interface IBehaviorStatUpdater
     {
-        public PlayerStats GetStats();
+        public PlayerStats GetStats(Card card);
     }
 }

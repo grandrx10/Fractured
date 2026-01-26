@@ -1,3 +1,4 @@
+using Cards.Environments;
 using Characters;
 using Characters.Interactables;
 using Minigames.Cooking.CookingStuff;
@@ -13,15 +14,10 @@ namespace Minigames.Cooking.Stations
 
         private void Update()
         {
-            // Make sure player exists
-            if (PlayerSingleton.Instance == null)
-            {
-                canInteract = false;
-                return;
-            }
-
             // Get the Cook component from the singleton
-            Cook cook = PlayerSingleton.Instance.GetComponent<Cook>();
+            Cook cook = OpenWorldEnv.Current
+                ?.PlayerTransform
+                ?.GetComponent<Cook>();
             if (cook == null || cook.heldObject == null)
             {
                 canInteract = false;

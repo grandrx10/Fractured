@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76d17b784afa7184a9ead4e7b3932fb9, type: 3}
+  m_Name: TeleportSummonAttack
+  m_EditorClassIdentifier: 
+  attackDuration: 13
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  teleportRadius: 20
+  minTeleportDistance: 10
+  returnPointName: Return
+  bladePrefab: {fileID: 5058923715143006981, guid: 38d93825a4213184791bdde7a6ef7211, type: 3}
+  spawnHeight: 5
+  spawnRadiusXZ: 10
+  interval: 1

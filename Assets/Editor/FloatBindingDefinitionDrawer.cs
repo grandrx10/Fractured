@@ -57,9 +57,10 @@ public class FloatBindingDefinitionDrawer : PropertyDrawer
                 );
 
                 int mIndex = Mathf.Max(0, floatMembers.IndexOf(memberProp.stringValue));
+                if (mIndex == -1 || mIndex > floatMembers.Count) mIndex = 0;
                 int mNewIndex = EditorGUI.Popup(line, "Member", mIndex, floatMembers.ToArray());
 
-                if (mNewIndex != mIndex)
+                if ((mNewIndex != mIndex || newIndex != index) && floatMembers.Count > 0)
                     memberProp.stringValue = floatMembers[mNewIndex];
 
                 line.y += EditorGUIUtility.singleLineHeight + 2;
