@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using Cards.Core;
 using Extras.LeanTween.Framework;
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine.Serialization;
 
 namespace Cards.Visual
@@ -11,16 +13,19 @@ namespace Cards.Visual
     {
         public InteractMode mode;
         public LayoutMode layout;
-        public RectTransform content;
+        public int cardCap = 4;
         [SerializeField] private float cardWidth = 150f;
-        [SerializeField] private float maxSpacing = 150f;
+        [SerializeField] private float handWidth = 150f;
         [SerializeField] private float baseY = 80f;
+        [SerializeField] private float arcXOffset = 80f;
         [SerializeField] private float hoverPopHeight = 140f;
         [SerializeField] private float sideShift = 40f;
-        [SerializeField] private float sideMove = 40f;
         [SerializeField] private float animTime = 0.15f;
+        public TextMeshProUGUI capText;
+        [SerializeField] float arcRadius = 400f;
+        [SerializeField] float arcAngle = 25f; // degrees left/right from center
+        [SerializeField] float cardRotation = 10f;
         public Action<Card> CardUsed;
-        public CardDisplay cardPrefab;
         
         public enum LayoutMode
         {
@@ -39,29 +44,11 @@ namespace Cards.Visual
             Inactive
         }
 
-        public override void PopulateCards(List<Card> c)
+        private void Awake()
         {
             _rect = GetComponent<RectTransform>();
-            for (int i = 0; i < c.Count; i++)
-            {
-                var cc = Instantiate(cardPrefab, content);
-                cc.card = c[i];
-                var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
-                hcc.Init(this);
-                cards.Add(hcc);
-            }
-            RefreshLayout();
         }
         
-        public override void AddCard(Card card, int position=0)
-        {
-            var cc = Instantiate(cardPrefab, content);
-            cc.card = card;
-            var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
-            hcc.Init(this);
-            cards.Insert(position, hcc);
-        }
-
         public void UseCard()
         {
             if (_selectedCard == null) return;
@@ -78,12 +65,29 @@ namespace Cards.Visual
         public void OnScroll(float d)
         {
             if (mode != InteractMode.ThirdPerson || d == 0 || layout == LayoutMode.Inventory) return;
-            var hoveredIndex = cards.IndexOf(_selectedCard);
+            var hoveredIndex = CardDisplays.IndexOf(_selectedCard);
             hoveredIndex -= (int)Mathf.Sign(d);
-            if (hoveredIndex < 0) hoveredIndex = 0;
-            if (hoveredIndex >= cards.Count) hoveredIndex = cards.Count - 1;
-            if (hoveredIndex > -1 && hoveredIndex < cards.Count) _selectedCard = cards[hoveredIndex];
+            if (hoveredIndex < 0) hoveredIndex += CardDisplays.Count;
+            if (hoveredIndex >= CardDisplays.Count) hoveredIndex -= CardDisplays.Count;
+            if (hoveredIndex > -1 && hoveredIndex < CardDisplays.Count) _selectedCard = CardDisplays[hoveredIndex];
             RefreshLayout();
+        }
+
+        public override void AddCardDisplay(Card card, int position = 0)
+        {
+            base.AddCardDisplay(card, position);
+            RefreshLayout();
+        }
+
+        public override bool OnCardDropped(CardInteractionContainer source, CardDisplayInteractable card)
+        {
+            if (CardDisplays.Count >= cardCap) return false;
+            return base.OnCardDropped(source, card);
+        }
+
+        private int HoveredIndexClamped()
+        {
+            return Mathf.Max(CardDisplays.IndexOf(_selectedCard), 0);
         }
 
         public override void OnCardStopHover(CardDisplayInteractable card)
@@ -97,6 +101,7 @@ namespace Cards.Visual
         [ContextMenu("Refresh Layout")]
         public override void RefreshLayout()
         {
+            capText.text = $"{Cards.Count}/{cardCap}";
             ValidateSelectedCard();
             if (layout == LayoutMode.Hand)
                 LayoutHandMode();
@@ -106,98 +111,125 @@ namespace Cards.Visual
         
         private void ValidateSelectedCard()
         {
-            if (_selectedCard && !cards.Contains(_selectedCard)) _selectedCard = null;
+            if (_selectedCard && !CardDisplays.Contains(_selectedCard)) _selectedCard = null;
         }
 
         public void SetSelectedCard(int index)
         {
-            if (layout == LayoutMode.Hand && index >= 0 && index < cards.Count)
+            if (layout == LayoutMode.Hand && index >= 0 && index < CardDisplays.Count)
             {
-                _selectedCard = cards[index];
+                _selectedCard = CardDisplays[index];
                 RefreshLayout();
             }
         }
+        
+        int CircularOffset(int i, int center, int count)
+        {
+            int offset = i - center;
+            int d = Mathf.FloorToInt(count / 2f);
+            if (offset > d)
+                offset -= count;
+            else if (offset < -d)
+                offset += count;
 
+            return offset;
+        }
+
+        
         private void LayoutHandMode()
         {
-            if (cards.Count == 0)
+            capText.gameObject.SetActive(false);
+            int count = CardDisplays.Count;
+            if (count == 0)
                 return;
+            
+            int centerIndex = HoveredIndexClamped();
 
-            float handWidth = _rect.rect.width;
-            content.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, handWidth);
-            // Evenly space cards across hand width
-            float totalSpacing = handWidth - cardWidth;
-            float spacing = (cards.Count > 1)
-                ? totalSpacing / (cards.Count - 1)
-                : 0f;
-            spacing = Mathf.Min(maxSpacing, spacing);
+            int maxOffset = Mathf.Max(1, count / 2);
 
-            for (int i = 0; i < cards.Count; i++)
+            for (int i = 0; i < count; i++)
             {
-                RectTransform rt = cards[i].GetComponent<RectTransform>();
-                rt.SetSiblingIndex(i);
-                float targetX = i * spacing + cardWidth / 2;
-                float targetY = baseY;
+                RectTransform rt = CardDisplays[i].GetComponent<RectTransform>();
+
+                // Circular distance from center
+                int offset = CircularOffset(i, centerIndex, count);
+
+                // Normalize to [-1, 1] but CLAMP to arc
+                float t = Mathf.Clamp((float)offset / maxOffset, -1f, 1f);
+
+                // Arc math
+                float angle = t * arcAngle * Mathf.Deg2Rad;
+                float x = Mathf.Sin(angle) * arcRadius + arcXOffset;
+                float y = baseY + Mathf.Cos(angle) * arcRadius - arcRadius;
+
+                // Rotation
+                float rotZ = -t * cardRotation;
+
+                if (!_selectedCard)
+                {
+                    SetSelectedCard(0);
+                }
 
                 if (_selectedCard != null)
                 {
-                    var hoveredIndex = cards.IndexOf(_selectedCard);
-                    if (cards[i] == _selectedCard)
+                    if (i == centerIndex)
                     {
-                        // POP UP
-                        targetX += sideMove;
-                        targetY = hoverPopHeight;
+                        y += hoverPopHeight;
                     }
                     else
                     {
-                        // Distance-based shift
-                        int dist = Mathf.Abs(i - hoveredIndex);
-
-                        // Weight = 1.0 for adjacent, fades to 0.0 for far cards
-                        float weight = 1f / (dist + 0.5f);
-
-                        float shiftAmount = sideShift * weight;
-
-                        if (i < hoveredIndex)
-                        {
-                            targetX -= shiftAmount;
-                        }
-                        else
-                        {
-                            targetX += shiftAmount;
-                        }
+                        float weight = 1f / (Mathf.Abs(offset) + 0.5f);
+                        x += Mathf.Sign(offset) * sideShift * weight;
                     }
                 }
 
-                // Smooth animation
-                LeanTween.moveLocal(rt.gameObject, new Vector3(targetX, targetY, 0), animTime)
+                // Animate position
+                LeanTween.moveLocal(rt.gameObject, new Vector3(x, y, 0f), animTime)
                     .setEaseOutQuad();
+
+                // Animate rotation
+                LeanTween.rotateZ(rt.gameObject, rotZ, animTime)
+                    .setEaseOutQuad();
+
+                // ---- SIBLING ORDER ----
+                // middle = 0, left = odd, right = even
+                int priority;
+                if (offset == 0)
+                    priority = 0;
+                else if (offset < 0)
+                    priority = (-offset * 2) - (centerIndex < count / 2 ? 0 : 1);
+                else
+                    priority = offset * 2 - (centerIndex < count / 2 ? 1 : 0);
+
+                int siblingIndex = count - 1 - priority;
+                rt.SetSiblingIndex(siblingIndex);
             }
         }
         
         void LayoutInventoryMode()
         {
-            float cardCount = cards.Count;
+            capText.gameObject.SetActive(true);
+            float cardCount = CardDisplays.Count;
 
             if (cardCount == 0)
                 return;
 
             // total width of all cards placed side-by-side
-            float totalWidth = cardCount * cardWidth;
+            float allocWidth = handWidth/(cardCount+1);
 
-            // apply this width to the Content rect so scrolling works
-            content.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, totalWidth);
-
-            for (int i = 0; i < cards.Count; i++)
+            for (int i = 0; i < CardDisplays.Count; i++)
             {
-                float x = i * cardWidth + cardWidth * 0.5f; // center each card
+                RectTransform rt = CardDisplays[i].GetComponent<RectTransform>();
+                float x = i * allocWidth + cardWidth * 0.5f; // center each card
                 float y = baseY;
-
+                rt.SetSiblingIndex(i);
                 LeanTween.moveLocal(
-                    cards[i].gameObject,
+                    CardDisplays[i].gameObject,
                     new Vector3(x, y, 0),
                     animTime
                 ).setEaseOutQuad();
+                LeanTween.rotateZ(CardDisplays[i].gameObject, 0, animTime)
+                    .setEaseOutQuad();
             }
         }
     }

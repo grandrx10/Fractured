@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27061ce479acc1943a2b7047e9563e6e, type: 3}
+  m_Name: LaserBeam
+  m_EditorClassIdentifier: 
+  attackDuration: 10
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  headPointName: Head
+  headOutPointName: HeadOut
+  laserPointName: LaserOut
+  laserPrefab: {fileID: 2874185522165972557, guid: 777cdcd2ba7b64e448cbb49f17e39181, type: 3}
+  extendTime: 1
+  retractTime: 1
+  laserOffsetBeforeEnd: 1
+  initialTurnSpeed: 1
+  laserTurnSpeed: 0.1

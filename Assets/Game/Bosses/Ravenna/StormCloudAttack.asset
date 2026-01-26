@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ecdec35afaef2446acd4736f3e6b0fa, type: 3}
+  m_Name: StormCloudAttack
+  m_EditorClassIdentifier: 
+  attackDuration: 12
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  stormCloudPrefab: {fileID: 2126696189053397105, guid: 6520f19f5dece144abe0074a9844a339, type: 3}
+  spawnInterval: 3
+  lateralOffsetRange: {x: 50, y: -50}
+  spawnPointNames:
+  - CloudEntrance
+  - CloudEntrance2
+  - CloudEntrance3
+  - CloudEntrance4

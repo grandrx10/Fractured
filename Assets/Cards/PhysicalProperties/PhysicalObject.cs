@@ -1,5 +1,7 @@
 ﻿using System;
 using Cards.Core;
+using Cards.Core.BehaviorTags;
+using Cards.Environments;
 using UnityEngine;
 using Utils;
 
@@ -43,7 +45,16 @@ namespace Cards.PhysicalProperties
         public virtual void Start()
         {
             rb = GetComponent<Rigidbody>();
+            
+            // Initialize OnInit
             OnInit?.Invoke(InitState);
+
+            // Auto-assign card to Damaging component if it exists
+            var damaging = GetComponent<Damaging>();
+            if (damaging != null && card != null)
+            {
+                damaging.card = card;
+            }
         }
         
         Vector3 _preCollisionVelocity;
@@ -59,7 +70,7 @@ namespace Cards.PhysicalProperties
             var g = PhysicsHelper.MainObj(other.collider);
             if (PhysicsHelper.IsInMask(g.layer, hitLayers))
             {
-                OnHit.Invoke(new PhysicalHitState()
+                OnHit?.Invoke(new PhysicalHitState()
                 {
                     Other = other,
                     Position = g.transform.position,
@@ -67,6 +78,11 @@ namespace Cards.PhysicalProperties
                     Direction = g.transform.forward,
                     Speed = rb.linearVelocity.magnitude
                 });
+
+                foreach (var hit in card.GetAllBehaviors<IBehaviorHitListener>())
+                {
+                    hit.Hit(card, OpenWorldEnv.Current, g);
+                }
             }
         }
 

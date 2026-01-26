@@ -1,7 +1,16 @@
+NyxIntruder
+===
+[Ravenna]
+Uhm, Dorian, I don't think we should barge into someone's house without permission.
+---
+[Dorian]
+Oh, right, sorry.
+===
+###
 NyxOpener
 ===
 [Nyx]
-... a drop of agaricus, a bit of pleurotus, maybe some flammulina? No surely not.
+... a drop of agaricus, a bit of pleurotus, maybe some flammulina? No, surely not.
 ---
 [Ravenna]
 Excuse me-
@@ -13,7 +22,7 @@ Oh good, I was just looking for some assistants. My name is Nyx, and it is a ple
 Ravenna and Dorian. You said you were looking for assistants?
 ---
 [Nyx]
-Correct observation! You see, I'm in the midst of a scientific experiment, pushing the limits of the field. However, I afraid I do not have the dexterity to complete the task on my own. Are you two up for a small experiment?
+Correct observation! You see, I'm in the midst of a scientific experiment, pushing the limits of the field. However, I'm afraid I do not have the dexterity to complete the task on my own. Are you two up for a small experiment?
 ---
 [Ravenna]
 I'm down!
@@ -40,7 +49,7 @@ I can make orange juice.
 Don't worry, it's quite simple, just follow the recipe to the letter, and you won't blow up, probably. The ingredients must be put in a quick succession. Any deviation in timing can cause disastrous side effects, capiche?
 ---
 [Nyx]
-I have a brewing lab inside of my hut - that's where I'll need you two to operate. I'll toss in ingredients from out here, and you'll mix according to the recipe. Sound good?
+I have a brewing lab inside my hut - that's where I'll need you two to operate. I'll toss in ingredients from out here, and you'll mix according to the recipe. Sound good?
 ---
 [Ravenna]
 Sounds like a plan!
@@ -51,7 +60,13 @@ Sorry, did you say we could blow up?
 [Nyx]
 Fabulous! When you're ready, go into my hut.
 ===
+[NyxDoor]{NyxDoorEnter}
 [Nyx]{NyxWait}
+###
+NyxDoorEnter
+===
+<NyxDoorEnter>
+===
 ###
 NyxWait
 ===
@@ -65,12 +80,17 @@ Dorian, we need to cook!
 ###
 NyxCookFail
 ===
+<CookingLeaveEvent>
 [Nyx]
 Are you alright? You scared me for a moment back there.
----
-[Dorian]
-What... what happened?
----
+???
+[What... what happened?](!NyxBlowUp){NyxCookFailContinue}
+[What... what happened?](NyxBlowUp){NyxCookFail2}
+===
+###
+NyxCookFailContinue
+===
+>>!F NyxBlowUp
 [Nyx]
 You blew up. Don't worry, you'll get used to it after the first dozen times. How do you think I got dark fur?
 ---
@@ -79,6 +99,15 @@ Ow...
 ---
 [Nyx]
 Well, when you're ready to give the experiment another try, just let me know!
+---
+<GiveExplosion>
+===
+[Nyx]{NyxWait}
+###
+NyxCookFail2
+===
+[Nyx]
+You blew up again. You know what they say, science isn't exactly a precise study. Let's do it again and hope that we get a different outcome!
 ===
 [Nyx]{NyxWait}
 ###
@@ -90,12 +119,24 @@ Remember, you have to stir in the correct motion, and insert ingredients at the 
 <RavennaMoveToEvent>
 [Ravenna]
 I'll handle the stirring. Knives are... knives aren't my thing.
----
-[Dorian]
-Don't worry, I'll handle the ingredients.
----
+???
+[Then I'll handle preparing the ingredients.](!NyxHaveIngredients){NyxGiveIngredients}
+[Then I'll handle preparing the ingredients.](NyxHaveIngredients){NyxSkipIngredients}
+===
+###
+NyxSkipIngredients
+===
+===
+[Ravenna]{BeginCooking}
+###
+NyxGiveIngredients
+===
+>>!F NyxHaveIngredients
+<GiveRecipeLuminshroom>
+<GiveRecipeGumproot>
+<GiveRecipeLumpfruit>
 [Ravenna]
-See if you can take a look at the stations - let me know when you're ready.
+Here's the recipe book she gave me, it looks pretty complicated, so give it a readover. Let me know when you're ready.
 ===
 [Ravenna]{BeginCooking}
 ###
@@ -116,17 +157,19 @@ Right.
 NyxCookSuccess
 ===
 [Nyx]
-Hmmm, that smells wonderful. It seems the experiment was a success!
+Hmmm, that smells wonderful. It seems the experiment was a success! Bring some out here so I can take a look!
 ---
+<CookingLeaveEvent>
 [Ravenna]
 Hew! That was a sweat. So, what was this potion for anyways?
 ---
 [Nyx]
-It's a potion that increases your fur growth by 0.1%.
+It's a potion that allows you to taste the direction of the wind.
 ---
 [Dorian]
 ... Are you serious?
 ---
+<GiveLumin>
 [Nyx]
 Quite so! Someone's got to develop cutting edge technology like this. Anyways, thanks for the help. Here's your research reward.
 ===
@@ -137,6 +180,152 @@ NyxTalk
 [Nyx]
 What's on your mind today, assistants?
 ???
-[How are you doing?]{}
-[Can you tell me a bit about yourself?]{}
-[]
+[How are you doing?]{NyxDoing}
+[Can you tell me a bit about yourself?]{NyxAboutSelf}
+[Can you tell me a bit about plants?]{NyxAboutPlants}
+[You're brilliant, why don't you become a scholar?]{NyxScholar}
+[Can we buy some of your potions?]{NyxPotionsStore}
+[That's all I wanted to ask]{NyxFinishTalk}
+===
+###
+NyxDoing
+===
+[Nyx]
+How am I doing? Now that is an interesting question. Doing well, if I may say. I've been trying to complete that potion for quite some time now, and thanks to your help, I was successful.
+---
+[Nyx]
+Though, the last potion I made turned out to be a stomach ache potion that gives stomach aches. Who would've thought?
+---
+[Nyx]
+How are you two doing?
+---
+[Ravenna]
+Great!
+---
+[Dorian]
+Alright. It would be better if I had a smaller chance of blowing up.
+---
+[Nyx]
+What fun is science if there are no explosions?
+---
+[Dorian]
+Ha...
+===
+>>NyxTalk
+###
+NyxAboutSelf
+===
+[Nyx]
+I'm just a scientist, trying to discover the truths of the world, you know? As a kid, my parents were quite the superstitious bunch. They were always claiming things.
+---
+[Nyx]
+Don't touch that! It's cursed! Don't go near the ruins, there are monsters there! Don't dunk your head underwater, you can't breathe!
+---
+[Nyx]
+They didn't really explain why, and whenever I asked, they would just get angry.
+---
+[Nyx]
+And that's why I never take anything at face value. I'll do anything I can to discover the truth!
+---
+[Ravenna]
+That's... inspiring, Nyx!
+===
+>>NyxTalk
+###
+NyxAboutPlants
+===
+[Nyx]
+Ah, plants! Finally, a topic that doesn’t try to explode back at me. Usually.
+---
+[Nyx]
+Take springberries, for instance. Unassuming little things-grow on bushes, taste vaguely like disappointment-but once ingested, they stimulate muscle response and circulation.
+---
+[Nyx]
+In less academic terms: you eat them, and suddenly your legs decide they’ve got somewhere very important to be. Of course, you probably already know that.
+---
+[Ravenna]
+Yeah! My family used to eat them all the time to fly faster!
+---
+[Nyx]
+Then there are sproingles. Fascinating specimens. Their root structures build up an absurd amount of kinetic tension over time.
+---
+[Nyx]
+Step on one, and-boing-the stored energy releases all at once, launching you skyward. Nature’s way of saying “you shouldn’t have stood there.”
+---
+[Dorian]
+That explains... a lot.
+---
+[Nyx]
+And of course, my personal favorite: luminshrooms. Now those are special.
+---
+[Nyx]
+They absorb trace magical energies from their environment as they grow. Soil composition, nearby ruins, ley lines-each factor subtly alters their properties.
+---
+[Ravenna]
+So you’re saying where they grow matters?
+---
+[Nyx]
+Immensely! Location is everything. But luminshrooms decay too fast if they're not enchanted, so I can only use the ones from this forest.
+---
+[Nyx]
+And that concludes today's lesson.
+---
+[Ravenna]
+Thanks, Nyx!
+===
+>>NyxTalk
+###
+NyxScholar
+===
+[Nyx]
+I've thought about that, but the best schools are off this island.
+---
+[Nyx]
+But... a part of me doesn't want to leave this place. I've grown comfortable here.
+---
+[Nyx]
+It's that, and I'm afraid that once this hobby of mine becomes a full time profession, I'll lose interest.
+---
+[Dorian]
+Ah, I see.
+===
+>>NyxTalk
+###
+NyxPotionsStore
+===
+[Nyx]
+Hm... Maybe another time when I've tried and tested them some more.
+===
+>>NyxTalk
+###
+NyxFinishTalk
+===
+[Nyx]
+Well, next time you want to earn some quick coin, come experiment with me, will you?
+---
+[Nyx]
+Ever since I made that potion that turns dirt into gold, I've had too much coin to throw around. Too bad that potion is way too boring to brew; hardly any explosions!
+---
+[Ravenna]
+See you next time, Nyx!
+---
+[Dorian]
+Sorry, did you say you could turn dirt into coin?
+---
+[Nyx]
+See you!
+===
+[Nyx]{NyxTalk}
+###
+InnerNyx
+===
+[Nyx]
+I must find the truth, no matter the cost.
+---
+[Nyx]
+I would sacrifice everything to get a glimpse of what science sees.
+---
+[Nyx]
+Only then will I be satisfied.
+===
+###

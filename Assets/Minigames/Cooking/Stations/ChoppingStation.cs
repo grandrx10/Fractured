@@ -1,3 +1,4 @@
+using Cards.Environments;
 using Minigames.Cooking.CookingStuff;
 using UnityEngine;
 
@@ -16,7 +17,10 @@ namespace Minigames.Cooking.Stations
         public override void Interact(GameObject player)
         {
             // Get the Cook component from the singleton
-            Cook cook = Characters.PlayerSingleton.Instance.GetComponent<Cook>();
+            Cook cook = OpenWorldEnv.Current
+                ?.PlayerTransform
+                ?.GetComponent<Cook>();
+            Debug.Log(OpenWorldEnv.Current.PlayerTransform);
             if (cook == null) return;
 
             Cookable heldObject = cook.heldObject;

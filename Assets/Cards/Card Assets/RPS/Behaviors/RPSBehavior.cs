@@ -1,4 +1,5 @@
-﻿using Cards.Core.Behaviors;
+﻿using Cards.Core;
+using Cards.Core.Behaviors;
 using UnityEngine;
 
 namespace Cards.Card_Assets.RPS.Behaviors
@@ -15,7 +16,7 @@ namespace Cards.Card_Assets.RPS.Behaviors
             S,
         }
         
-        public override string GetDescription()
+        public override string GetDescription(Card card)
         {
             return $"<b>{GetName()}</b>: Beats {GetCounterName()} at RPS";
         }

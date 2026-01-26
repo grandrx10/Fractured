@@ -1,21 +1,66 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cards.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Cards.Visual
 {
     public class CardInteractionContainer : MonoBehaviour
     {
-        public List<CardDisplayInteractable> cards;
-
-        public virtual void PopulateCards(List<Card> c)
+        [SerializeField] protected List<CardDisplayInteractable> CardDisplays = new();
+        protected List<Card> Cards;
+        public RectTransform content;
+        public CardDisplay cardPrefab;
+        protected Action<Card> AddCard, RemoveCard;
+        public void AssignCardList(List<Card> cards, Action<Card> addCard, Action<Card> removeCard)
         {
-            throw new System.NotImplementedException();
+            Cards = cards;
+            AddCard = addCard;
+            RemoveCard = removeCard;
+            PopulateCards();
+        }
+        
+        public virtual void PopulateCards()
+        {
+            foreach (var t in Cards)
+            {
+                AddCardDisplay(t);
+            }
+
+            RefreshLayout();
         }
 
-        public virtual void AddCard(Card card, int position=0)
+        public virtual void AddCardDisplay(Card card, int position=0)
         {
-            throw new System.NotImplementedException();
+            if (!Cards.Contains(card)) return;
+            
+            card.transform.SetParent(transform);
+            var cc = Instantiate(cardPrefab, content);
+            cc.card = card;
+            var hcc = cc.gameObject.AddComponent<CardDisplayInteractable>();
+            hcc.Init(this);
+            cc.transform.SetSiblingIndex(position);
+            CardDisplays.Insert(position, hcc);
+        }
+        
+        public virtual void RemoveCardDisplay(Card card)
+        {
+            CardDisplayInteractable c = null;
+            foreach (var cc in CardDisplays)
+            {
+                //Debug.Log($"{cc.AttachedCard}, {card}");
+                if (cc && ReferenceEquals(cc.AttachedCard, card))
+                {
+                    c = cc;
+                }
+            }
+            if (c != null)
+            {
+                CardDisplays.Remove(c);
+                Destroy(c.gameObject);
+            }
+            RefreshLayout();
         }
 
         public virtual void RefreshLayout()
@@ -29,7 +74,7 @@ namespace Cards.Visual
             if (source.OnCardRemoved(card))
             {
                 AddCard(card.AttachedCard);
-                Destroy(card.gameObject);
+                AddCardDisplay(card.AttachedCard);
                 RefreshLayout();
                 return true;
             }
@@ -38,7 +83,8 @@ namespace Cards.Visual
         
         public virtual bool OnCardRemoved(CardDisplayInteractable card)
         {
-            cards.Remove(card);
+            RemoveCard(card.AttachedCard);
+            RemoveCardDisplay(card.AttachedCard);
             RefreshLayout();
             return true;
         }

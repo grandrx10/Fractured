@@ -1,24 +1,71 @@
 BeachConvo
 ===
 [Ravenna]
-Dori! Dori, Dori! Hey, don't ignore me when I'm talking to you!
+Dorian! Dorian! I know you're around here somewhere!
+---
+<OpeningArrival>
+[Ravenna]
+Ah, there you are. I was beginning to wonder if you were trying to avoid me or something.
 ---
 [Dorian]
-What is it, Ravi? It's my one day off, you know?
+Oh, I would never try to do that. Truly.
 ---
 [Ravenna]
-A friend of mine promised he would go exploring with me today, and I think he forgot all about it. Instead, he's relaxing on the beach, getting a tan! Ahem, ahem.
+You know, a friend of mine promised me that he would go exploring with me today, and I think he forgot all about it. Instead, he's relaxing at the beach, getting a tan! Ahem, ahem.
 ---
 [Dorian]
-Ah, I did say something like that, didn't I? Am I in trouble?
+Oh, I did say something like that, didn't I?
 ---
 [Ravenna]
-Not if you come along right now.
+Mhm.
 ---
 [Dorian]
-Alright, fine, fine. I'm getting up.
+Just 5 more minutes?
+---
+[Ravenna]
+Dorian!!!
+---
+[Dorian]
+Alright, alright, I'm getting up.
+---
+[SYSTEM]
+WASD to move. SPACEBAR to jump.
 ===
-[Ravenna]{Convo2}
+###
+RavennaOpener
+===
+[Ravenna]
+All ready to go?
+---
+[Dorian]
+Yeah. It's been a while since I've been to the town. I doubt anyone there remembers me.
+---
+<RavennaFollowEvent>
+<DisableLeaveWithout>
+[Ravenna]
+Well, we're going to change that today! Onwards to adventure!
+===
+###
+LeaveWithout
+===
+[Ravenna]
+Hey, are you going to leave without me? That's mean!
+---
+[Dorian]
+No, I just... saw something cool in the sand.
+---
+[Ravenna]
+Oh okay.
+---
+[Dorian]
+It's been a while since I've been to the town. I doubt anyone there remembers me.
+---
+<RavennaFollowEvent>
+<DisableLeaveWithout>
+[Ravenna]
+Well, we're going to change that today! Onwards to adventure!
+===
+[Ravenna]{}
 ###
 Convo2
 ===
@@ -60,4 +107,13 @@ EatSomething
 I heard the town's restaurant just got a new special, let's check it out!
 ===
 [Ravenna]{}
+###
+InnerRavenna
+===
+[Ravenna]
+Hey!
+---
+[Dorian]
+Sorry.
+===
 ###

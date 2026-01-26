@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2b5196ff666f28349be048f8488f90b3, type: 2}
+  - {fileID: 2100000, guid: 03c9249022e33f942b0a4b29c51fef07, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -120,6 +120,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2397372410368571962}
   - component: {fileID: 765744924291115930}
+  - component: {fileID: -3934639012347722965}
+  - component: {fileID: 4859881173074256995}
   m_Layer: 10
   m_Name: LaserWall
   m_TagString: Untagged
@@ -157,8 +159,74 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserCylinder: {fileID: 1211244150982331114}
   warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  startRadius: 0.1
   finalRadius: 5
   chargeDuration: 3
+  growDuration: 0.75
   activeDuration: 3
   warningRadius: 5
   warningDuration: 3
+  growthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!54 &-3934639012347722965
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7354872776213988899}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &4859881173074256995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7354872776213988899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8110847834f645d0b136e0c09eee586b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2

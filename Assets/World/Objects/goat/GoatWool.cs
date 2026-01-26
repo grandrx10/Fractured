@@ -9,13 +9,13 @@ namespace World.Objects.goat
 {
     public class GoatWool : MonoBehaviour, ICuttable
     {
-        public string goatId;
+        public PersistentID goatId;
         public Animator animator;
         public bool cut;
         public CardData c;
         public void Start()
         {
-            if (goatId != "" && GlobalState.instance.HasEvent($"GOAT_{goatId}_SHEAR"))
+            if (GlobalState.instance.HasEvent($"GOAT_{goatId.ID}_SHEAR"))
             {
                 animator.Play("Cut", -1, 1);
                 cut = true;
@@ -28,12 +28,9 @@ namespace World.Objects.goat
             cut = true;
             animator.Play("Cut");
             
-            FindFirstObjectByType<PlayerAgent>().AddCard(Card.MakeCard(c));
+            FindFirstObjectByType<PlayerAgent>().GiveCard(Card.MakeCard(c));
             
-            if (goatId != "")
-            {
-                GlobalState.instance.AddEvent($"GOAT_{goatId}_SHEAR");
-            }
+            GlobalState.instance.AddEvent($"GOAT_{goatId.ID}_SHEAR");
         }
     }
 }

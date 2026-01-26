@@ -1,4 +1,5 @@
 using System.Collections;
+using Cards.Environments;
 using Characters;
 using Game.Bosses.Projectiles;
 using UnityEngine;
@@ -26,9 +27,9 @@ namespace Game.Bosses.Sylph
             base.StartAttack(boss);
 
             NpcCommands npcCommands = boss.GetComponent<NpcCommands>();
-            if (npcCommands != null && PlayerSingleton.Instance != null)
+            if (npcCommands != null)
             {
-                npcCommands.SetLookingAt(PlayerSingleton.Instance.transform);
+                npcCommands.SetLookingAt(OpenWorldEnv.Current.PlayerTransform);
             }
 
             var runner = boss.GetComponent<RoutineRunner>();
@@ -44,43 +45,47 @@ namespace Game.Bosses.Sylph
 
         private IEnumerator FountainRoutine(GameObject boss, RoutineRunner runner, NpcCommands npcCommands)
         {
-            while (isActive && PlayerSingleton.Instance != null)
+            while (isActive)
             {
-                Vector3 basePos = PlayerSingleton.Instance.GetPositionBelow();
+                Vector3 basePos = OpenWorldEnv.Current.GetBossTargetGrounded();
 
                 // Random point around player
                 Vector2 offset = Random.insideUnitCircle * spawnRadius;
                 Vector3 targetPos = basePos + new Vector3(offset.x, 0f, offset.y);
 
-                // Spawn warning (does NOT block interval)
+                GameObject warningGO = null;
+
+                // Spawn warning
                 if (warningPrefab != null)
                 {
-                    Warning w = Instantiate(warningPrefab, targetPos, Quaternion.identity)
-                        .GetComponent<Warning>();
-                    w.Initialize(warningRadius, warningDelay, Warning.WarningType.Grounded, warningDuration);
+                    warningGO = Instantiate(warningPrefab, targetPos, Quaternion.identity);
+                    Warning w = warningGO.GetComponent<Warning>();
+                    if (w != null)
+                        w.Initialize(warningRadius, warningDelay, Warning.WarningType.Grounded, warningDuration);
                 }
 
                 // Spawn fountain after warningDelay asynchronously
                 if (fountainPrefab != null)
-                {
-                    runner.RunRoutine(SpawnFountainDelayed(targetPos, warningDelay));
-                }
+                    runner.RunRoutine(SpawnFountainDelayed(targetPos, warningDelay, warningGO));
 
-                // Wait for the attack interval before next fountain
+                // Wait only for the interval between fountains
                 yield return new WaitForSeconds(interval);
             }
 
             // Stop looking at player when attack ends
             if (npcCommands != null)
-            {
                 npcCommands.SetLookingAt(null);
-            }
         }
 
-        private IEnumerator SpawnFountainDelayed(Vector3 targetPos, float delay)
+        private IEnumerator SpawnFountainDelayed(Vector3 targetPos, float delay, GameObject warningGO)
         {
             yield return new WaitForSeconds(delay);
 
+            // Destroy warning when fountain rises
+            if (warningGO != null)
+                Destroy(warningGO);
+
+            // Spawn fountain
             GameObject fountain = Instantiate(fountainPrefab, targetPos, Quaternion.identity);
 
             // Align Top child to targetPos

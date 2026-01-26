@@ -49,6 +49,7 @@ Shader "Toon/Toon" {
         _BaseMap ("BaseMap", 2D) = "white" {}
         _BaseColor ("BaseColor", Color) = (1,1,1,1)
         [Toggle(_)] _Rad ("BaseCol2or", Float) = 1
+        [Toggle(_)] _OutlineBaked ("BaseCol2o2r", Float) = 1
         _Range_Min ("BaseCol2or", Float) = 1
         _Range_Max ("BaseCol2or", Float) = 1
         _Normal ("BaseCol2or", Vector) = (0,0,1, 0)

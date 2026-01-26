@@ -11,28 +11,64 @@ namespace Game.Bosses.Projectiles
             Floating
         }
 
+        // NEW (optional)
+        public enum WarningShape
+        {
+            Circle,
+            Rectangle
+        }
+
         [Header("Settings")]
         [SerializeField] private LayerMask groundMask;
 
+        // NEW (defaults preserve old behavior)
+        [Header("Shape")]
+        [SerializeField] private WarningShape shape = WarningShape.Circle;
+
+        // OLD (still used for circles)
+        [SerializeField] private float radius = 1f;
+
+        // NEW (only used if Rectangle)
+        [SerializeField] private Vector2 rectangleSize = Vector2.one;
+
         private Renderer[] renderers;
-        private float radius = 1f;
         private float duration = 1f;
         private WarningType type = WarningType.Grounded;
-        public float fadeTime = 0.3f; // duration of fade in/out
+        public float fadeTime = 0.3f;
 
         private void Awake()
         {
-            // Get all renderers and hide initially
             renderers = GetComponentsInChildren<Renderer>();
             SetRenderersAlpha(0f);
         }
 
         /// <summary>
-        /// Initialize the warning
+        /// ORIGINAL INITIALIZER (unchanged)
         /// </summary>
         public void Initialize(float radius, float duration, WarningType type, float fadeTime)
         {
             this.radius = radius;
+            this.duration = duration;
+            this.type = type;
+            this.fadeTime = fadeTime;
+
+            shape = WarningShape.Circle; // ensure legacy calls behave correctly
+
+            ApplySettings();
+            StartCoroutine(FadeRoutine());
+        }
+
+        /// <summary>
+        /// NEW RECTANGLE INITIALIZER (optional)
+        /// </summary>
+        public void InitializeRectangle(
+            Vector2 size,
+            float duration,
+            WarningType type,
+            float fadeTime)
+        {
+            shape = WarningShape.Rectangle;
+            rectangleSize = size;
             this.duration = duration;
             this.type = type;
             this.fadeTime = fadeTime;
@@ -43,10 +79,22 @@ namespace Game.Bosses.Projectiles
 
         private void ApplySettings()
         {
-            // Scale
-            transform.localScale = new Vector3(radius, 1f, radius);
+            // =========================
+            // SCALE
+            // =========================
+            if (shape == WarningShape.Rectangle)
+            {
+                transform.localScale = new Vector3(rectangleSize.x, 1f, rectangleSize.y);
+            }
+            else
+            {
+                // DEFAULT / LEGACY CIRCLE
+                transform.localScale = new Vector3(radius, 1f, radius);
+            }
 
-            // Ground placement
+            // =========================
+            // GROUND PLACEMENT
+            // =========================
             if (type == WarningType.Grounded)
             {
                 Ray ray = new Ray(transform.position + Vector3.up * 5f, Vector3.down);
@@ -62,13 +110,12 @@ namespace Game.Bosses.Projectiles
             // Fade in
             yield return Fade(0f, 1f, fadeTime);
 
-            // Wait for duration minus fade times
+            // Hold
             yield return new WaitForSeconds(Mathf.Max(0f, duration - fadeTime * 2f));
 
             // Fade out
             yield return Fade(1f, 0f, fadeTime);
 
-            // Destroy self
             Destroy(gameObject);
         }
 
@@ -87,7 +134,8 @@ namespace Game.Bosses.Projectiles
 
         private void SetRenderersAlpha(float alpha)
         {
-            if (renderers == null) return;
+            if (renderers == null)
+                return;
 
             foreach (var r in renderers)
             {

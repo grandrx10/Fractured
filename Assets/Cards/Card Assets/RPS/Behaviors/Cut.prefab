@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 360131982045508224}
   - component: {fileID: 8346120543473241468}
   - component: {fileID: 1446106469804794982}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,10 @@ GameObject:
   - component: {fileID: -5769899999006596992}
   - component: {fileID: -503476435417359267}
   - component: {fileID: 8263207967565178212}
-  m_Layer: 0
+  - component: {fileID: -7852925465867333047}
+  - component: {fileID: -5219779131359732412}
+  - component: {fileID: 2254328058686008893}
+  m_Layer: 13
   m_Name: Cut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081ab33155a453848b72999ac31454fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 1
+  lifetime: 100
 --- !u!114 &-5769899999006596992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +342,66 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 1
-  epsilonHeight: 0.1
+  epsilonHeight: 1
   normal: {x: 1, y: 0, z: 0}
   useLocalNormal: 1
   randomRotation: 0
+--- !u!114 &-7852925465867333047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918553136740364500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa27d833bc5f1d1479541256202a33d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  dealDamageOnce: 1
+  damageMultiplier: 1
+  damageOnTrigger: 1
+  damageOnCollide: 1
+  destroyAfterDamage: 0
+  destroyOnTouchLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  showDebugLogs: 0
+--- !u!114 &-5219779131359732412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918553136740364500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 677c37caf06949c4bba9da5f5d8adebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!65 &2254328058686008893
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918553136740364500}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

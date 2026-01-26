@@ -186,6 +186,7 @@ half4 _SpecColor;
 half4 _EmissionColor;
 
 float _Rad;
+float _OutlineBaked;
 float _Range_Min;
 float _Range_Max;
 float3 _Normal;

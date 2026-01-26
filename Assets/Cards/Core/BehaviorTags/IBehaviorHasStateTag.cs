@@ -2,6 +2,6 @@
 {
     public interface IBehaviorHasStateTag
     {
-        
+        public Card AttachedCard { get; set; }
     }
 }

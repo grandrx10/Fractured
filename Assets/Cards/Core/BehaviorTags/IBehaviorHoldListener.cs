@@ -2,7 +2,7 @@
 {
     public interface IBehaviorHoldListener
     {
-        public void StartHold();
-        public void StopHold();
+        public void StartHold(Card card);
+        public void StopHold(Card card);
     }
 }

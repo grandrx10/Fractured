@@ -4,6 +4,6 @@ namespace Cards.Core.BehaviorTags
 {
     public interface IBehaviorUseListener
     {
-        public bool Use(CardEnv env, Agent agent);
+        public bool Use(Card card, CardEnv env, Agent agent);
     }
 }

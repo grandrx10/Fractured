@@ -12,8 +12,7 @@ namespace Cards.Core
         [SerializeField] private CardData data;
         public CardVisuals Visuals => data.GetVisuals(this);
         public bool Active { get; private set; }
-        
-        public CardTier tier;
+        public bool IsTarot => data.collection == CardCollection.TarotTrump;
         public CardStats stats;
         public List<Behavior> behaviors;
         private bool _initialized;
@@ -21,6 +20,11 @@ namespace Cards.Core
         {
             data = d;
             Initialize();
+        }
+
+        public CardData GetData()
+        {
+            return data;
         }
         private void Awake()
         {
@@ -30,19 +34,21 @@ namespace Cards.Core
 
         private void Initialize()
         {
-            tier = data.tier;
             stats = data.stats;
             behaviors = data.behaviors.ToList();
             
             CreateDefault<IBehaviorUseListener, DefaultUseBehavior>("DefaultUseBehavior");
-            CreateDefault<IBehaviorPostHitListener, DefaultCollideBehavior>("DefaultCollideBehavior");
+            CreateDefault<IBehaviorHitListener, DefaultCollideBehavior>("DefaultCollideBehavior");
             CreateDefault<IBehaviorTurnListener, DefaultCardGameBehavior>("DefaultCardGameBehavior");
             CreateDefault<IBehaviorCombatListener, DefaultHealthBehavior>("DefaultHealthBehavior");
             
             for (int i = 0; i < behaviors.Count; i++)
             {
-                if (behaviors[i] is IBehaviorHasStateTag) behaviors[i] = Instantiate(behaviors[i]);
-                behaviors[i].Init(this);
+                if (behaviors[i] is IBehaviorHasStateTag)
+                {
+                    behaviors[i] = Instantiate(behaviors[i]);
+                    (behaviors[i] as IBehaviorHasStateTag).AttachedCard = this;
+                }
             }
             _initialized = true;
         }

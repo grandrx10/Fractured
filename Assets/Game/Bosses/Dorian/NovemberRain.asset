@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39a8d6e38a9edb47aeec255fd7ab18e, type: 3}
+  m_Name: NovemberRain
+  m_EditorClassIdentifier: 
+  attackDuration: 2
+  delayAfter: 4
+  triggerOnce: 0
+  manualSkip: 0
+  projectilePrefab: {fileID: 6291105167449011436, guid: 728f7cd69efabd14f8f6a243ecf45871, type: 3}
+  warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  targetRadius: 30
+  spawnHeight: 50
+  projectileSpeed: 40
+  spawnInterval: 0.1
+  warningDelay: 0.5
+  warningDuration: 0.5
+  warningRadius: 2
+  fallAngle: 30
+  fallDirection: {x: 0, y: 0, z: 1}

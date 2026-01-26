@@ -2,7 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Game
 {
@@ -10,6 +15,29 @@ namespace Game
     {
         public static GlobalState instance;
         public bool saveOnExit = true;
+        public bool saveOnChanged = true;
+        #if UNITY_EDITOR
+        public bool clearOnPlay = true;
+        #endif
+        
+        public int Money {
+            get
+            {
+                if (TryGetInt("Money", out int money))
+                {
+                    return money;
+                }
+                return 0;
+            }
+        }
+        public bool HasMoney(int money)
+        {
+            return Money >= money;
+        }
+        public void AddMoney(int money)
+        {
+            SetInt("Money", Money+money);
+        }
         private void Awake()
         {
             if (instance) Destroy(gameObject);
@@ -17,7 +45,7 @@ namespace Game
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
-                Load("Assets/Game/save.txt");
+                Load("save.txt");
             }
         }
 
@@ -25,15 +53,16 @@ namespace Game
         {
             if (saveOnExit)
             {
-                Save("Assets/Game/save.txt");
+                Save("save.txt");
             }
         }
-
+        
         // ============================================================
         // Storage (Efficient dictionaries)
         // ============================================================
 
         public HashSet<string> events = new HashSet<string>();
+        public Dictionary<string, (string, bool)> quests = new();
         public Dictionary<string, int> ints = new Dictionary<string, int>();
         public Dictionary<string, string> strs = new Dictionary<string, string>();
         public Dictionary<string, List<int>> tups = new Dictionary<string, List<int>>();
@@ -41,28 +70,65 @@ namespace Game
         // ============================================================
         // EVT
         // ============================================================
-        public void AddEvent(string name) => events.Add(name);
+        public void AddEvent(string name)
+        {
+            events.Add(name);
+            if (saveOnChanged) Save("save.txt");
+        }
+
         public void RemoveEvent(string name) => events.Remove(name);
         public bool HasEvent(string name) => events.Contains(name);
+        public void AddQuest(string key, string value, bool done)
+        {
+            quests[key] = (value, done);
+            if (saveOnChanged) Save("save.txt");
+        }
+        public bool HasQuest(string key, bool requireDone=false) => quests.ContainsKey(key) && (!requireDone || quests[key].Item2);
+        public bool TryGetQuest(string key, out (string, bool) value) => quests.TryGetValue(key, out value);
+        public void RemoveQuest(string key) => quests.Remove(key);
+        
+        public void CompleteQuest(string key)
+        {
+            if (quests.TryGetValue(key, out var s))
+            {
+                AddQuest(key, s.Item1, true);
+                return;
+            }
+            Debug.LogError("No quest to complete");
+        }
 
         // ============================================================
         // INT
         // ============================================================
-        public void SetInt(string key, int value) => ints[key] = value;
+        public void SetInt(string key, int value)
+        {
+            ints[key] = value;
+            if (saveOnChanged) Save("save.txt");
+        }
+
         public bool TryGetInt(string key, out int value) => ints.TryGetValue(key, out value);
         public void RemoveInt(string key) => ints.Remove(key);
 
         // ============================================================
         // STR
         // ============================================================
-        public void SetStr(string key, string value) => strs[key] = value;
+        public void SetStr(string key, string value)
+        {
+            strs[key] = value;
+            if (saveOnChanged) Save("save.txt");
+        }
+
         public bool TryGetStr(string key, out string value) => strs.TryGetValue(key, out value);
         public void RemoveStr(string key) => strs.Remove(key);
 
         // ============================================================
         // TUP (List<int>)
         // ============================================================
-        public void SetTup(string key, List<int> values) => tups[key] = new List<int>(values);
+        public void SetTup(string key, List<int> values)
+        {
+            tups[key] = new List<int>(values);
+            if (saveOnChanged) Save("save.txt");
+        }
 
         public bool TryGetTup(string key, out List<int> values)
         {
@@ -91,6 +157,7 @@ namespace Game
 
             if (!list.Contains(value))   // set behavior
                 list.Add(value);
+            if (saveOnChanged) Save("save.txt");
         }
 
         // ============================================================
@@ -98,11 +165,18 @@ namespace Game
         // ============================================================
         public void Save(string path)
         {
+            path = Path.Combine(Application.persistentDataPath, path);
             using StreamWriter writer = new StreamWriter(path);
 
             // EVT (no colon)
             foreach (var evt in events)
                 writer.WriteLine($"EVT -- {evt}");
+            
+            foreach (var qst in quests)
+            {
+                var done = qst.Value.Item2 ? '1' : '0';
+                writer.WriteLine($"QST -- {qst.Key} : [{done}] {qst.Value.Item1}");
+            }
 
             // INT
             foreach (var kv in ints)
@@ -125,11 +199,14 @@ namespace Game
         // ============================================================
         public void Load(string path)
         {
+            path = Path.Combine(Application.persistentDataPath, path);
+            
             events.Clear();
+            quests.Clear();
             ints.Clear();
             strs.Clear();
             tups.Clear();
-
+            
             if (!File.Exists(path))
             {
                 Debug.LogWarning($"GlobalState: file does not exist: {path}");
@@ -154,7 +231,7 @@ namespace Game
                     }
                     continue;
                 }
-
+                
                 // Everything else has a colon
                 var parts2 = line.Split(new[] { "--", ":" }, StringSplitOptions.None);
                 if (parts2.Length < 3) continue;
@@ -173,6 +250,16 @@ namespace Game
                     case "STR":
                         strs[name] = data;
                         break;
+                    
+                    case "QST":
+                        var match = Regex.Match(data, @"^\[(\d+)\]\s*(.*)$");
+                        if (match.Success)
+                        {
+                            int i = int.Parse(match.Groups[1].Value);
+                            string remainingText = match.Groups[2].Value;
+                            quests[name] = (remainingText, i!=0);
+                        }
+                        break;
 
                     case "TUP":
                         if (string.IsNullOrWhiteSpace(data))
@@ -189,5 +276,29 @@ namespace Game
                 }
             }
         }
+        
+        #if UNITY_EDITOR
+        void OnEnable()
+        {
+            EditorApplication.playModeStateChanged += OnPlayModeChanged;
+        }
+
+        void OnDisable()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+        }
+
+        void OnPlayModeChanged(PlayModeStateChange state)
+        {
+            if (clearOnPlay)
+            {
+                events.Clear();
+                quests.Clear();
+                ints.Clear();
+                strs.Clear();
+                tups.Clear();
+            }
+        }
+        #endif
     }
 }

@@ -30,14 +30,14 @@ I just thought it was some abandoned shack at the top of the mountain. I've neve
 [Sylph]
 Are you kidding me? The temple provides safety for the island, warding off the terrors in the surrounding seas. It is a beacon of hope and a bastion of purity for all!
 ---
+[Sylph]
+You're intruding upon sacred ground!
+---
 [Ravenna]
-Sorry, we don't mean to intrude. We were just exploring; we'll show ourselves out.
+Sacred?! Sorry, we didn't mean to! We were just exploring; we'll show ourselves out.
 ---
 [Sylph]
 Wait!!!!!!!!!
----
-[Ravenna]
-?
 ---
 [Sylph]
 I haven't talked to anyone in .... some 10 years... so... it's okay if you stay for a bit.
@@ -145,7 +145,7 @@ Lonely? Ha. the guardian of the Pond Temple doesn't get lonely. She just gets re
 SylphTeaYes
 ===
 [Sylph]
-Thats... that's good to know. Thanks.
+That's... that's good to know. Thanks.
 ---
 [Ravenna]
 It's okay to be sad some of the time. But people are meant to interact with each other, so too much solitude isn't good for you.
@@ -207,13 +207,32 @@ How will you test strength?
 We'll participate in a simple spar. If you can avoid my attacks for a minute, you'll be strong enough.
 ???
 [I accept]{SylphChallengeStart}
-[No thanks, another time]{SylphChallengeDecline}
+[No thanks, maybe another time]{SylphChallengeDecline}
 ===
 ###
 SylphChallengeStart
 ===
 [Sylph]
 Alright. Prepare yourself.
+---
+<SylphTriggerDomainEvent>
+[Sylph]
+Domain expansion.
+===
+###
+SylphCombatBegin
+===
+[Dorian]
+Whoa. Ravenna? Where are you?
+---
+[Sylph]
+Don't worry, she's waiting outside. Right now, it's just the two of us.
+---
+[Sylph]
+Your test of strength begins now.
+---
+[Dorian]
+Bring it on.
 ===
 ###
 SylphChallengeDecline
@@ -241,4 +260,94 @@ SylphVisit
 Thanks for coming. With you two here, this place feels a lot warmer. Like how it was, all those years ago.
 ===
 [Sylph]{SylphVisitChallenge}
+###
+SylphFinalPhase
+===
+[Sylph]
+You're quite nimble, aren't you? Dodge this attack, and you'll be worthy of my technique!
+===
+###
+SylphFail
+===
+[Dorian]
+Oh wow. That was... overwhelming.
+---
+[Sylph]
+My family technique is wonderful, isn't it?
+---
+[Dorian]
+I've never seen anything like it. I'm not sure I'm ever going to be able to dodge that.
+---
+[Ravenna]
+You can do it, Dorian. I know you can.
+???
+[Run it back]{SylphChallengeStart}
+[That's enough for now]{SylphChallengeDecline}
+###
+SylphPass
+===
+[Sylph]
+Huff... Huff... you're talented, aren't you? I've never seen someone move like that. Well done.
+---
+<Return>
+[Sylph]
+As promised, here's the water technique.
+---
+<GiveMinorWater>
+[Dorian]
+Thank you, I will treasure it.
+---
+[Sylph]
+You better! And if you visit me a few more times, I'd call it even.
+---
+[Ravenna]
+You're back!
+---
+[Dorian]
+That was... intense. I learned the technique though.
+---
+[Ravenna]
+Lucky, I could never learn a technique like that...
+---
+[Dorian]
+Why not? Don't you want to give it a try? Maybe I could teach you?
+---
+[Ravenna]
+No, it's alright. I already know what the result would be...
+---
+[Dorian]
+Oh.
+---
+[Ravenna]
+Anyways, Sylph, it was nice to meet you! We'll come visit you sometime!
+---
+[Dorian]
+Yeah, goodbye, Sylph.
+---
+[Sylph]
+Goodbye! I suppose I'll go back to guarding this shrine.
+===
+[Sylph]{SylphVisitChallengeComplete}
+###
+SylphVisitChallengeComplete
+===
+[Sylph]
+Welcome back!
+---
+[Ravenna]
+Glad to be back. Just checking in on you.
+---
+[Sylph]
+Thanks for coming. With you two here, this place feels a lot warmer. Like how it was, all those years ago.
+===
+[Sylph]{SylphVisitChallengeComplete}
+###
+InnerSylph
+===
+[Sylph]
+Oh. This is awkward. Dorian, is that you? I can't quite see you, but...
+---
+[Sylph]
+Well, welcome to my domain. There's not much here, sorry. I didn't really decorate the place.
+===
 ###

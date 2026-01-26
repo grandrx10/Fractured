@@ -18,7 +18,7 @@ namespace Utils
 
         void Update()
         {
-            if (binding == null || binding.Get == null) return;
+            if (binding == null || binding.Get == null) Debug.LogError("wheres the binding");
             slider.value = binding.Value / maxValue;
         }
     }

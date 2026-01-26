@@ -2173,7 +2173,7 @@ namespace UnityEditor.Rendering.Toon {
         void GUI_Outline(Material material) {
             const string kDisableOutlineKeyword = "_DISABLE_OUTLINE";
             bool isLegacy = (srpDefaultLightModeName == "Always");
-
+            
             var srpDefaultLightModeTag = material.GetTag("LightMode", false, srpDefaultLightModeName);
             bool isOutlineEnabled = true;
             if (srpDefaultLightModeTag == srpDefaultLightModeName) {
@@ -2200,7 +2200,10 @@ namespace UnityEditor.Rendering.Toon {
                     }
                 }
             }
-
+            
+            GUI_Toggle(material, new GUIContent("Toggle Baked Normal"), "_OutlineBaked",
+                MaterialGetInt(material, "_OutlineBaked") != 0);
+            
             EditorGUI.indentLevel++;
             EditorGUI.BeginDisabledGroup(!isOutlineEnabled);
             //
