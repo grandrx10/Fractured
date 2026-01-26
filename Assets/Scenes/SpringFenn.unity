@@ -293,7 +293,7 @@ Transform:
   - {fileID: 1237195641}
   - {fileID: 545583354}
   - {fileID: 1183790315}
-  - {fileID: 2042336372}
+  - {fileID: 678826602}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &78875760
@@ -341,9 +341,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 69c78f93fea603a4b9ac612dcb48d625, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -683,9 +680,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cc6cde98cec5b24f825d3f63dbc5d82, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -736,9 +730,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 159bf0f5ff16ce744acd728d9a085a5b, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -873,6 +864,7 @@ MonoBehaviour:
   conversationName: SpringFennPuzzleSolve
   triggerOnAwake: 0
   triggerOnlyOnce: 1
+  triggerOnceEver: 0
 --- !u!1001 &462193326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1000,9 +992,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 914998dd1b86dcb4b983c009e630e538, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -1161,9 +1150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cec3efd91b76854eb6d7a8ec2ac4721, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -1214,9 +1200,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 1a9b8c8d018c203409393fb5512a7cec, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -1522,6 +1505,10 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: far clip plane
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 108407
       objectReference: {fileID: 0}
@@ -1541,6 +1528,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 3267625878665347748, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: deck.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3267625878665347748, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: 'deck.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1502523785}
     - target: {fileID: 3390687561971376564, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -1858,13 +1853,15 @@ MonoBehaviour:
   environmentExitTime: 2
   environmentIntroTime: 15
   environmentIntroRad: 500
+  showRadius: 1
+  raviMode: 0
   environmentCenters:
   - {fileID: 758803039}
   - {fileID: 658968649}
   initialized: 0
-  player: {fileID: 0}
+  manaDisplay: {fileID: 0}
   mana: 1
-  maxMana: 100
+  player: {fileID: 0}
   minCardDelay: 0.1
 --- !u!4 &614724418
 Transform:
@@ -2124,14 +2121,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a29e910cdca74694c9815cc94d24810b, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
     strength: 0
   behaviors: []
+--- !u!1 &678826601
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 678826602}
+  - component: {fileID: 678826603}
+  m_Layer: 0
+  m_Name: Spinner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &678826602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678826601}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2042336372}
+  m_Father: {fileID: 62051256}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &678826603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678826601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a2532594494254586049ff401bc553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: {x: 0, y: 10, z: 0}
 --- !u!1 &758803038
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,9 +2439,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 75486609bd669374eb4dc8250003077c, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -2452,9 +2489,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 914998dd1b86dcb4b983c009e630e538, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -2711,6 +2745,7 @@ MonoBehaviour:
   - SpringDialogue/SpringFenn
   characterMappings: []
   eventHandlerObject: {fileID: 2726693}
+  inConversation: 0
 --- !u!114 &960084758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2879,9 +2914,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: c9046eeaeb2130e48abd9d23f0c78d59, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3034,9 +3066,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cec3efd91b76854eb6d7a8ec2ac4721, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3108,9 +3137,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 68b2ec6cec623bb488bfd248e6e75c20, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3317,9 +3343,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cc6cde98cec5b24f825d3f63dbc5d82, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3636,9 +3659,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 149359fa13f895c4eb5fb217d0e42108, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3876,6 +3896,56 @@ AudioListener:
   m_CorrespondingSourceObject: {fileID: 1042185769656286527, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
   m_PrefabInstance: {fileID: 577090889}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1502523784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1502523786}
+  - component: {fileID: 1502523785}
+  m_Layer: 0
+  m_Name: Reset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1502523785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502523784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f68f7f12ef2c54f85bc5c36b85c18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 27ecc2cb026938a4fa22b906c2c0f63b, type: 2}
+  stats:
+    health: 0
+    mana: 0
+    strength: 0
+  behaviors: []
+--- !u!4 &1502523786
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502523784}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 41.44305, y: -16.970434, z: 17.679918}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1703404547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1510091148
 GameObject:
   m_ObjectHideFlags: 0
@@ -3921,9 +3991,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a29e910cdca74694c9815cc94d24810b, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -3974,9 +4041,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: f81c01ac4f4df6a4b9673fe404095f62, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -4155,9 +4219,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 75486609bd669374eb4dc8250003077c, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -4198,6 +4259,7 @@ Transform:
   - {fileID: 1915671287}
   - {fileID: 665605312}
   - {fileID: 1511969974}
+  - {fileID: 1502523786}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1775376668
@@ -4245,9 +4307,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a29e910cdca74694c9815cc94d24810b, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -4298,9 +4357,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3cec3efd91b76854eb6d7a8ec2ac4721, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -4545,9 +4601,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 1a9b8c8d018c203409393fb5512a7cec, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -4688,9 +4741,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 1a9b8c8d018c203409393fb5512a7cec, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -4741,9 +4791,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 9733a60c9d708e94c8b4bcaa44a1bfa9, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -4794,9 +4841,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 75486609bd669374eb4dc8250003077c, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -4847,9 +4891,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 914998dd1b86dcb4b983c009e630e538, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -5016,12 +5057,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042336371}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000012218951}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000011622906}
   m_LocalPosition: {x: 0, y: 1.1599998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 62051256}
+  m_Father: {fileID: 678826602}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &2042336373
 MonoBehaviour:
@@ -5174,9 +5215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 39b9a656ee156b04f9abbb67e98b600a, type: 2}
-  tier:
-    rank: 0
-    level: 0
   stats:
     health: 0
     mana: 0
@@ -5197,11 +5235,13 @@ MonoBehaviour:
   environmentExitTime: 0
   environmentIntroTime: 0
   environmentIntroRad: 0
+  showRadius: 1
+  raviMode: 0
   environmentCenters: []
   initialized: 0
-  player: {fileID: 0}
+  manaDisplay: {fileID: 0}
   mana: 100
-  maxMana: 100
+  player: {fileID: 0}
   minCardDelay: 0.2
 --- !u!1 &7645614028289271629
 GameObject:

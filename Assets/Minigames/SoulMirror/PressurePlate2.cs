@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PressurePlate : MonoBehaviour
+public class PressurePlate2 : MonoBehaviour
 {
     [Header("References")]
     [Tooltip("The trigger collider to monitor for collisions")]
@@ -17,18 +17,19 @@ public class PressurePlate : MonoBehaviour
     [Tooltip("Speed of the compression animation")]
     public float compressionSpeed = 5f;
 
-    [Tooltip("If true, plate stays pressed after first activation")]
-    public bool stayPressed = false;
-
     [Header("Events")]
     public UnityEvent onPressed;
     public UnityEvent onReleased;
 
     private Vector3 originalPosition;
     private Vector3 pressedPosition;
-    private bool isPressed = false;
+    public bool isPressed = false;
     private bool hasBeenPressed = false;
     private int objectsOnPlate = 0;
+    private bool canBePressed = true;
+    private Renderer objRenderer;
+
+    public PressurePlate2[] surrounding;
 
     private void Start()
     {
@@ -49,14 +50,21 @@ public class PressurePlate : MonoBehaviour
             Debug.LogWarning("PressurePlate: Assigned collider is not set as trigger!");
         }
 
+        objRenderer = pressurePlate.GetComponent<Renderer>();
+        if (objRenderer == null) 
+        {
+            Debug.LogError("PressurePlate: No object renderer!");
+            return;
+        }
+
         originalPosition = pressurePlate.transform.localPosition;
         pressedPosition = originalPosition + Vector3.down * compressionDistance;
 
         // Subscribe to the trigger events
-        TriggerEventForwarder forwarder = triggerCollider.gameObject.GetComponent<TriggerEventForwarder>();
+        TriggerEventForwarder2 forwarder = triggerCollider.gameObject.GetComponent<TriggerEventForwarder2>();
         if (forwarder == null)
         {
-            forwarder = triggerCollider.gameObject.AddComponent<TriggerEventForwarder>();
+            forwarder = triggerCollider.gameObject.AddComponent<TriggerEventForwarder2>();
         }
         forwarder.SetTarget(this);
     }
@@ -65,11 +73,20 @@ public class PressurePlate : MonoBehaviour
     {
         if (pressurePlate == null) return;
 
+        if (isPressed)
+        {
+            objRenderer.material.color = Color.red;
+        }
+        else
+        {
+            objRenderer.material.color = Color.cyan;
+        }
+
         // Check for overlapping objects (handles teleportation cases)
         CheckForOverlaps();
 
         // Determine target position based on state
-        Vector3 targetPosition = (isPressed || (stayPressed && hasBeenPressed)) 
+        Vector3 targetPosition = (isPressed) 
             ? pressedPosition 
             : originalPosition;
 
@@ -103,48 +120,75 @@ public class PressurePlate : MonoBehaviour
         }
 
         // If something is overlapping and we're not pressed
-        if (currentOverlaps > 0 && !isPressed)
+        if (currentOverlaps > 0 && !isPressed && canBePressed)
         {
             isPressed = true;
             hasBeenPressed = true;
             objectsOnPlate = currentOverlaps;
             onPressed?.Invoke();
             Debug.Log($"Pressure plate pressed (overlap detected)");
+
+            foreach (PressurePlate2 pp2 in surrounding)
+            {
+                pp2.isPressed = !pp2.isPressed;
+            }
+            canBePressed = false;
         }
-        // If nothing is overlapping and we're pressed (and not stayPressed)
-        else if (currentOverlaps == 0 && isPressed && !stayPressed)
+        else if (currentOverlaps > 0 && isPressed && canBePressed)
         {
             isPressed = false;
-            objectsOnPlate = 0;
-            onReleased?.Invoke();
-            Debug.Log("Pressure plate released (no overlaps)");
+            foreach (PressurePlate2 pp2 in surrounding)
+            {
+                pp2.isPressed = !pp2.isPressed;
+            }
+            canBePressed = false;
+            Debug.Log("Running");
+        }
+        // If nothing is overlapping and we're pressed (and not stayPressed)
+        else if (currentOverlaps == 0)
+        {
+            // isPressed = false;
+            // objectsOnPlate = 0;
+            // onReleased?.Invoke();
+            // Debug.Log("Pressure plate released (no overlaps)");
+
+            canBePressed = true;
         }
     }
 
-    public void OnTriggerEnterReceived(Collider other)
+    public void OnTriggerEnterReceived(Collider other, bool recurse)
     {
-        objectsOnPlate++;
+        // objectsOnPlate++;
 
-        if (!isPressed)
-        {
-            isPressed = true;
-            hasBeenPressed = true;
-            onPressed?.Invoke();
-            Debug.Log($"Pressure plate pressed by: {other.name}");
-        }
+        // if (!isPressed)
+        // {
+        //     isPressed = true;
+        //     hasBeenPressed = true;
+        //     onPressed?.Invoke();
+        //     Debug.Log($"Pressure plate pressed by: {other.name}");
+        // 
+        //     if (recurse)
+        //     {
+        //         foreach (PressurePlate2 pp2 in surrounding)
+        //         {
+        //             pp2.OnTriggerEnterReceived(other, false);
+        //         }
+        //     }
+         
+        // }
     }
 
     public void OnTriggerExitReceived(Collider other)
     {
-        objectsOnPlate--;
+        // objectsOnPlate--;
 
-        if (objectsOnPlate <= 0 && !stayPressed)
-        {
-            objectsOnPlate = 0;
-            isPressed = false;
-            onReleased?.Invoke();
-            Debug.Log("Pressure plate released");
-        }
+        // if (objectsOnPlate <= 0 && !stayPressed)
+        // {
+        //     objectsOnPlate = 0;
+        //     isPressed = false;
+        //     onReleased?.Invoke();
+        //     Debug.Log("Pressure plate released");
+        // }
     }
 
     public void ResetPlate()
@@ -157,16 +201,16 @@ public class PressurePlate : MonoBehaviour
 
     public bool IsPressed()
     {
-        return isPressed || (stayPressed && hasBeenPressed);
+        return isPressed;
     }
 }
 
 // Helper component to forward trigger events from the collider to the PressurePlate
-public class TriggerEventForwarder : MonoBehaviour
+public class TriggerEventForwarder2 : MonoBehaviour
 {
-    private PressurePlate target;
+    private PressurePlate2 target;
 
-    public void SetTarget(PressurePlate plate)
+    public void SetTarget(PressurePlate2 plate)
     {
         target = plate;
     }
@@ -174,7 +218,7 @@ public class TriggerEventForwarder : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (target != null)
-            target.OnTriggerEnterReceived(other);
+            target.OnTriggerEnterReceived(other, true);
     }
 
     private void OnTriggerExit(Collider other)

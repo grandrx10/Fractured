@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2576078229354587017}
   - component: {fileID: 2723775052995299109}
   - component: {fileID: 5344802129490330279}
+  - component: {fileID: 7733851265442493574}
   m_Layer: 6
   m_Name: Mirror
   m_TagString: Untagged
@@ -46,10 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3992f5422d28244b97cf06784518fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canInteract: 1
-  interactTime: 0
-  rotationStepDegrees: 15
-  rotationDuration: 0.25
 --- !u!54 &5344802129490330279
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -77,6 +74,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7733851265442493574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665514448021025043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d10c64bc70eb99489f8b77af95439b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 1
+  interactTime: 0
+  interactText: (E) Interact
+  rotationAxis: {x: 0, y: 1, z: 0}
+  rotationStepDegrees: 15
+  rotationDuration: 0.25
 --- !u!1 &6094671107880536828
 GameObject:
   m_ObjectHideFlags: 0

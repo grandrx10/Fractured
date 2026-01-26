@@ -35,20 +35,27 @@ public class PipePiece : Interactable
     [Tooltip("Seconds it takes to rotate 90 degrees")]
     public float rotateDuration = 0.25f;
 
-    private int rotationIndex;
+    private int rotationIndex; // tracks current rotation (0-3)
     private bool isRotating;
     private Coroutine rotateRoutine;
+
+    // ----------------------------------
+    // PUBLIC ACCESS
+    // ----------------------------------
+    /// <summary>
+    /// Current rotation index (0 = 0°, 1 = 90°, 2 = 180°, 3 = 270°)
+    /// </summary>
+    public int CurrentRotation => rotationIndex;
 
     // ---------------- INITIALIZATION ----------------
 
     public void SetInitialRotation(int rot)
     {
-        rotationIndex = rot;
+        rotationIndex = rot % 4;
 
         if (visualRoot != null)
         {
-            visualRoot.transform.localRotation =
-                Quaternion.Euler(0f, rotationIndex * 90f, 0f);
+            visualRoot.transform.localRotation = Quaternion.Euler(0f, rotationIndex * 90f, 0f);
         }
     }
 
@@ -85,18 +92,14 @@ public class PipePiece : Interactable
 
         isRotating = true;
 
-        Quaternion startRot =
-            Quaternion.Euler(0f, fromIndex * 90f, 0f);
-        Quaternion endRot =
-            Quaternion.Euler(0f, toIndex * 90f, 0f);
+        Quaternion startRot = Quaternion.Euler(0f, fromIndex * 90f, 0f);
+        Quaternion endRot = Quaternion.Euler(0f, toIndex * 90f, 0f);
 
         float t = 0f;
-
         while (t < 1f)
         {
             t += Time.deltaTime / rotateDuration;
-            visualRoot.transform.localRotation =
-                Quaternion.Slerp(startRot, endRot, t);
+            visualRoot.transform.localRotation = Quaternion.Slerp(startRot, endRot, t);
             yield return null;
         }
 
@@ -106,6 +109,9 @@ public class PipePiece : Interactable
 
     // ---------------- LOGIC ----------------
 
+    /// <summary>
+    /// Returns the open directions of this pipe after rotation
+    /// </summary>
     public HashSet<PipeDirection> GetOpenDirections()
     {
         HashSet<PipeDirection> dirs = new();
@@ -139,16 +145,25 @@ public class PipePiece : Interactable
         return RotateDirections(dirs, rotationIndex);
     }
 
-    private HashSet<PipeDirection> RotateDirections(
-        HashSet<PipeDirection> original,
-        int rot
-    )
+    private HashSet<PipeDirection> RotateDirections(HashSet<PipeDirection> original, int rot)
     {
         HashSet<PipeDirection> rotated = new();
-
         foreach (var d in original)
             rotated.Add((PipeDirection)(((int)d + rot) % 4));
-
         return rotated;
+    }
+
+    
+}
+
+public static class ListExtensions
+{
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int j = Random.Range(i, list.Count);
+            (list[i], list[j]) = (list[j], list[i]);
+        }
     }
 }
