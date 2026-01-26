@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Characters.Dialogue;
 
-public class PipePuzzleManager : MonoBehaviour
+public class PipePuzzleManager : PuzzleManager
 {
     [Header("Grid")]
     public int width = 6;
@@ -22,32 +22,39 @@ public class PipePuzzleManager : MonoBehaviour
     public Material sinkMaterial;
 
     private Dictionary<Vector2Int, PipePiece> grid = new();
+    private Dictionary<PipePiece, int> initialRotations = new(); // store rotations for reset
     private Vector3 gridOrigin;
 
     [Header("Puzzle Completion")]
-    [Tooltip("Trigger dialogue when puzzle is solved")]
     public TriggerDialogueEvent completionDialogue;
 
-
-    private void Awake()
+    protected void Awake()
     {
+        gridOrigin = Vector3.zero; // LOCAL origin
         gridOrigin = transform.position;
         GeneratePuzzle();
         RecalculateFlow();
     }
 
-    // ======================================================
-    // PUZZLE GENERATION
-    // ======================================================
+    public override void OnPuzzleSolved()
+    {
+        base.OnPuzzleSolved();
+        Debug.Log($"{gameObject.name} pipe puzzle solved!");
+
+        if (completionDialogue != null)
+            completionDialogue.TryTrigger();
+    }
+
+    // ===================== PUZZLE GENERATION =====================
 
     private void GeneratePuzzle()
     {
         ClearGrid();
         grid.Clear();
+        initialRotations.Clear();
 
         Vector2Int start = new(0, Random.Range(0, height));
         Vector2Int end = new(width - 1, Random.Range(0, height));
-
         List<Vector2Int> path = GeneratePath(start, end);
 
         for (int i = 0; i < path.Count; i++)
@@ -61,20 +68,23 @@ public class PipePuzzleManager : MonoBehaviour
 
             if (i == 0) pipe.isSource = true;
             if (i == path.Count - 1) pipe.isSink = true;
+
+            initialRotations[pipe] = pipe.CurrentRotation;
         }
 
+        // Fill remaining cells with random pipes
         for (int x = 0; x < width; x++)
+        for (int y = 0; y < height; y++)
         {
-            for (int y = 0; y < height; y++)
-            {
-                Vector2Int cell = new(x, y);
-                if (grid.ContainsKey(cell)) continue;
+            Vector2Int cell = new(x, y);
+            if (grid.ContainsKey(cell)) continue;
 
-                PipePiece randomPipe = SpawnRandomPipe(cell);
-                grid[cell] = randomPipe;
-            }
+            PipePiece randomPipe = SpawnRandomPipe(cell);
+            grid[cell] = randomPipe;
+            initialRotations[randomPipe] = randomPipe.CurrentRotation;
         }
 
+        // Randomize rotation for all pipes
         foreach (var pipe in grid.Values)
         {
             int r = Random.Range(0, 4);
@@ -91,104 +101,43 @@ public class PipePuzzleManager : MonoBehaviour
         path.Add(current);
         visited.Add(current);
 
-        int maxIterations = width * height * 2; // Safety limit
+        int maxIterations = width * height * 2;
         int iterations = 0;
 
         while (current != end && iterations < maxIterations)
         {
             iterations++;
-            
             List<Vector2Int> options = new();
 
-            // Prioritize moving toward the end
             if (current.x < end.x && IsValidCell(current + Vector2Int.right) && !visited.Contains(current + Vector2Int.right))
                 options.Add(Vector2Int.right);
-            
             if (current.x > end.x && IsValidCell(current + Vector2Int.left) && !visited.Contains(current + Vector2Int.left))
                 options.Add(Vector2Int.left);
-            
             if (current.y < end.y && IsValidCell(current + Vector2Int.up) && !visited.Contains(current + Vector2Int.up))
                 options.Add(Vector2Int.up);
-            
             if (current.y > end.y && IsValidCell(current + Vector2Int.down) && !visited.Contains(current + Vector2Int.down))
                 options.Add(Vector2Int.down);
 
-            // Add other valid directions as backup
-            if (IsValidCell(current + Vector2Int.up) && !visited.Contains(current + Vector2Int.up) && !options.Contains(Vector2Int.up))
-                options.Add(Vector2Int.up);
-            
-            if (IsValidCell(current + Vector2Int.down) && !visited.Contains(current + Vector2Int.down) && !options.Contains(Vector2Int.down))
-                options.Add(Vector2Int.down);
-            
-            if (IsValidCell(current + Vector2Int.right) && !visited.Contains(current + Vector2Int.right) && !options.Contains(Vector2Int.right))
-                options.Add(Vector2Int.right);
-            
-            if (IsValidCell(current + Vector2Int.left) && !visited.Contains(current + Vector2Int.left) && !options.Contains(Vector2Int.left))
-                options.Add(Vector2Int.left);
-
-            // If no options, we're stuck - restart path generation
-            if (options.Count == 0)
-            {
-                Debug.LogWarning("Path generation stuck, restarting...");
-                return GeneratePath(start, end); // Recursive restart
-            }
+            if (options.Count == 0) return GeneratePath(start, end); // stuck -> restart
 
             options.Shuffle();
             Vector2Int next = current + options[0];
-
             current = next;
             path.Add(current);
             visited.Add(current);
         }
 
-        if (iterations >= maxIterations)
-        {
-            Debug.LogError("Path generation exceeded max iterations!");
-            // Return a simple direct path as fallback
-            return CreateDirectPath(start, end);
-        }
-
         return path;
     }
 
-    private List<Vector2Int> CreateDirectPath(Vector2Int start, Vector2Int end)
-    {
-        List<Vector2Int> path = new() { start };
-        Vector2Int current = start;
+    private bool IsValidCell(Vector2Int cell) => cell.x >= 0 && cell.x < width && cell.y >= 0 && cell.y < height;
 
-        while (current.x != end.x)
-        {
-            current.x += (end.x > current.x) ? 1 : -1;
-            path.Add(current);
-        }
-
-        while (current.y != end.y)
-        {
-            current.y += (end.y > current.y) ? 1 : -1;
-            path.Add(current);
-        }
-
-        return path;
-    }
-
-    private bool IsValidCell(Vector2Int cell)
-    {
-        return cell.x >= 0 && cell.x < width && cell.y >= 0 && cell.y < height;
-    }
-
-    private PipePiece SpawnPipeForPath(
-        Vector2Int cell,
-        Vector2Int? prev,
-        Vector2Int? next
-    )
+    private PipePiece SpawnPipeForPath(Vector2Int cell, Vector2Int? prev, Vector2Int? next)
     {
         HashSet<PipeDirection> needed = new();
 
-        if (prev.HasValue)
-            needed.Add(DirectionFromTo(cell, prev.Value));
-
-        if (next.HasValue)
-            needed.Add(DirectionFromTo(cell, next.Value));
+        if (prev.HasValue) needed.Add(DirectionFromTo(cell, prev.Value));
+        if (next.HasValue) needed.Add(DirectionFromTo(cell, next.Value));
 
         PipePiece prefab =
             needed.Count == 1 ? straightPrefab :
@@ -197,7 +146,9 @@ public class PipePuzzleManager : MonoBehaviour
             needed.Count == 3 ? tPrefab :
             plusPrefab;
 
-        PipePiece pipe = Instantiate(prefab, GridToWorld(cell), Quaternion.identity, transform);
+        PipePiece pipe = Instantiate(prefab, transform);
+        pipe.transform.localPosition = GridToLocal(cell);
+        pipe.transform.localRotation = Quaternion.identity;
         pipe.shape = prefab.shape;
         pipe.isSource = false;
         pipe.isSink = false;
@@ -215,7 +166,9 @@ public class PipePuzzleManager : MonoBehaviour
             _ => plusPrefab
         };
 
-        PipePiece pipe = Instantiate(prefab, GridToWorld(cell), Quaternion.identity, transform);
+        PipePiece pipe = Instantiate(prefab, transform);
+        pipe.transform.localPosition = GridToLocal(cell);
+        pipe.transform.localRotation = Quaternion.identity;
         pipe.shape = prefab.shape;
         pipe.puzzleManager = this;
         
@@ -228,44 +181,53 @@ public class PipePuzzleManager : MonoBehaviour
             Destroy(child.gameObject);
     }
 
-    // ======================================================
-    // FLOW LOGIC
-    // ======================================================
+    private PipeDirection DirectionFromTo(Vector2Int from, Vector2Int to)
+    {
+        Vector2Int d = to - from;
+        if (d == Vector2Int.up) return PipeDirection.Up;
+        if (d == Vector2Int.right) return PipeDirection.Right;
+        if (d == Vector2Int.down) return PipeDirection.Down;
+        return PipeDirection.Left;
+    }
 
+    private bool IsStraight(HashSet<PipeDirection> dirs)
+        => (dirs.Contains(PipeDirection.Up) && dirs.Contains(PipeDirection.Down)) ||
+           (dirs.Contains(PipeDirection.Left) && dirs.Contains(PipeDirection.Right));
+
+    // FIXED: Use local space instead of world space
+    private Vector3 GridToLocal(Vector2Int cell) => gridOrigin + new Vector3(cell.x * cellSize, 0f, cell.y * cellSize);
+
+    private Vector2Int DirToOffset(PipeDirection dir) => dir switch
+    {
+        PipeDirection.Up => Vector2Int.up,
+        PipeDirection.Right => Vector2Int.right,
+        PipeDirection.Down => Vector2Int.down,
+        PipeDirection.Left => Vector2Int.left,
+        _ => Vector2Int.zero
+    };
+    
+    private PipeDirection Opposite(PipeDirection dir) => (PipeDirection)(((int)dir + 2) % 4);
+
+    // ===================== FLOW =====================
     public void RecalculateFlow()
     {
-        // First apply special materials to source and sink
         foreach (var pipe in grid.Values)
         {
-            if (pipe.isSource)
-                ApplyMaterial(pipe, sourceMaterial);
-            else if (pipe.isSink)
-                ApplyMaterial(pipe, sinkMaterial);
-            else
-                ApplyMaterial(pipe, noFlowMaterial);
+            if (pipe.isSource) ApplyMaterial(pipe, sourceMaterial);
+            else if (pipe.isSink) ApplyMaterial(pipe, sinkMaterial);
+            else ApplyMaterial(pipe, noFlowMaterial);
         }
 
         bool sinkReached = false;
 
-        // Then flood from sources (this will override non-special pipes)
         foreach (var pipe in grid.Values)
         {
-            if (pipe.isSource)
-            {
-                if (FloodFrom(pipe))
-                {
-                    sinkReached = true;
-                }
-            }
+            if (pipe.isSource && FloodFrom(pipe))
+                sinkReached = true;
         }
 
-        // Trigger dialogue if puzzle solved
-        if (sinkReached && completionDialogue != null)
-        {
-            completionDialogue.TryTrigger();
-        }
+        if (sinkReached) OnPuzzleSolved();
     }
-
 
     private bool FloodFrom(PipePiece source)
     {
@@ -273,7 +235,6 @@ public class PipePuzzleManager : MonoBehaviour
         HashSet<PipePiece> visited = new();
 
         bool sinkReached = false;
-
         visited.Add(source);
 
         foreach (var dir in source.GetOpenDirections())
@@ -282,7 +243,7 @@ public class PipePuzzleManager : MonoBehaviour
         while (queue.Count > 0)
         {
             var (current, outDir) = queue.Dequeue();
-            Vector2Int nextCell = WorldToGrid(current.transform.position) + DirToOffset(outDir);
+            Vector2Int nextCell = LocalToGrid(current.transform.localPosition) + DirToOffset(outDir);
 
             if (!grid.TryGetValue(nextCell, out PipePiece next)) continue;
             if (visited.Contains(next)) continue;
@@ -290,13 +251,8 @@ public class PipePuzzleManager : MonoBehaviour
             PipeDirection opposite = Opposite(outDir);
             if (!next.GetOpenDirections().Contains(opposite)) continue;
 
-            if (next.isSink)
-            {
-                sinkReached = true;
-            }
-
-            if (!next.isSource && !next.isSink)
-                ApplyMaterial(next, flowMaterial);
+            if (next.isSink) sinkReached = true;
+            if (!next.isSource && !next.isSink) ApplyMaterial(next, flowMaterial);
 
             visited.Add(next);
 
@@ -308,82 +264,36 @@ public class PipePuzzleManager : MonoBehaviour
         return sinkReached;
     }
 
-
-    // ======================================================
-    // VISUALS
-    // ======================================================
-
-    private void ApplyMaterial(PipePiece pipe, Material material)
+    private void ApplyMaterial(PipePiece pipe, Material mat)
     {
         if (!pipe.visualRoot) return;
-
-        MeshRenderer[] renderers =
-            pipe.visualRoot.GetComponentsInChildren<MeshRenderer>(true);
-
-        foreach (var r in renderers)
-            r.material = material;
+        foreach (var r in pipe.visualRoot.GetComponentsInChildren<MeshRenderer>(true))
+            r.material = mat;
     }
 
-    // ======================================================
-    // HELPERS
-    // ======================================================
-
-    private Vector3 GridToWorld(Vector2Int cell)
+    // FIXED: Convert local position to grid coordinates
+    private Vector2Int LocalToGrid(Vector3 localPos)
     {
-        return gridOrigin + new Vector3(
-            cell.x * cellSize,
-            0f,
-            cell.y * cellSize
-        );
+        Vector3 relative = localPos - gridOrigin;
+        return new(Mathf.RoundToInt(relative.x / cellSize), Mathf.RoundToInt(relative.z / cellSize));
     }
 
-    private Vector2Int WorldToGrid(Vector3 pos)
+    // ===================== RESET =====================
+    public override void ResetPuzzle()
     {
-        Vector3 local = pos - gridOrigin;
+        base.ResetPuzzle();
+        Debug.Log($"{gameObject.name} pipe puzzle reset.");
 
-        return new(
-            Mathf.RoundToInt(local.x / cellSize),
-            Mathf.RoundToInt(local.z / cellSize)
-        );
-    }
+        foreach (var kvp in initialRotations)
+            kvp.Key.SetInitialRotation(kvp.Value);
 
-    private Vector2Int DirToOffset(PipeDirection dir) => dir switch
-    {
-        PipeDirection.Up => Vector2Int.up,
-        PipeDirection.Right => Vector2Int.right,
-        PipeDirection.Down => Vector2Int.down,
-        PipeDirection.Left => Vector2Int.left,
-        _ => Vector2Int.zero
-    };
-
-    private PipeDirection Opposite(PipeDirection dir)
-        => (PipeDirection)(((int)dir + 2) % 4);
-
-    private PipeDirection DirectionFromTo(Vector2Int from, Vector2Int to)
-    {
-        Vector2Int d = to - from;
-
-        if (d == Vector2Int.up) return PipeDirection.Up;
-        if (d == Vector2Int.right) return PipeDirection.Right;
-        if (d == Vector2Int.down) return PipeDirection.Down;
-        return PipeDirection.Left;
-    }
-
-    private bool IsStraight(HashSet<PipeDirection> dirs)
-    {
-        return (dirs.Contains(PipeDirection.Up) && dirs.Contains(PipeDirection.Down)) ||
-               (dirs.Contains(PipeDirection.Left) && dirs.Contains(PipeDirection.Right));
-    }
-}
-
-public static class ListExtensions
-{
-    public static void Shuffle<T>(this IList<T> list)
-    {
-        for (int i = 0; i < list.Count; i++)
+        foreach (var pipe in grid.Values)
         {
-            int j = Random.Range(i, list.Count);
-            (list[i], list[j]) = (list[j], list[i]);
+            if (pipe.isSource) ApplyMaterial(pipe, sourceMaterial);
+            else if (pipe.isSink) ApplyMaterial(pipe, sinkMaterial);
+            else ApplyMaterial(pipe, noFlowMaterial);
         }
+
+        isSolved = false;
     }
 }
