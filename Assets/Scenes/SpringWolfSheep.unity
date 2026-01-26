@@ -1357,6 +1357,56 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8124c5b68dc474a4cbf75e9a73eb87d3, type: 3}
+--- !u!1 &539273975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 539273977}
+  - component: {fileID: 539273976}
+  m_Layer: 0
+  m_Name: Reset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &539273976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539273975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f68f7f12ef2c54f85bc5c36b85c18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 27ecc2cb026938a4fa22b906c2c0f63b, type: 2}
+  stats:
+    health: 0
+    mana: 0
+    strength: 0
+  behaviors: []
+--- !u!4 &539273977
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539273975}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 41.44305, y: -16.970434, z: 17.679918}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1703404547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &553069450
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,6 +2041,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 3267625878665347748, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: deck.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3267625878665347748, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: 'deck.Array.data[0]'
+      value: 
+      objectReference: {fileID: 539273976}
     - target: {fileID: 3390687561971376564, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -2308,6 +2366,8 @@ MonoBehaviour:
   environmentExitTime: 2
   environmentIntroTime: 15
   environmentIntroRad: 500
+  showRadius: 1
+  raviMode: 0
   environmentCenters:
   - {fileID: 758803039}
   - {fileID: 658968649}
@@ -6202,6 +6262,7 @@ Transform:
   - {fileID: 1915671287}
   - {fileID: 665605312}
   - {fileID: 1511969974}
+  - {fileID: 539273977}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1735855612
@@ -8003,6 +8064,8 @@ MonoBehaviour:
   environmentExitTime: 0
   environmentIntroTime: 0
   environmentIntroRad: 0
+  showRadius: 1
+  raviMode: 0
   environmentCenters: []
   initialized: 0
   manaDisplay: {fileID: 0}

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridPuzzleManager : MonoBehaviour
+public class GridPuzzleManager : PuzzleManager
 {
     [Header("Grid Settings")]
     public float spacing = 1.2f;
@@ -19,13 +19,23 @@ public class GridPuzzleManager : MonoBehaviour
     private Dictionary<int, Color> pairColors = new();
 
     private PathState currentPath;
-    private bool puzzleCompleted = false;
 
-    void Start()
+    protected void Awake()
     {
+
         LoadPuzzleFromFile();
         GenerateGrid();
         PlacePairsFromFile();
+    }
+
+    public override void OnPuzzleSolved()
+    {
+        base.OnPuzzleSolved();
+
+        Debug.Log($"{gameObject.name} grid puzzle completed!");
+
+        // Optional: Release plates visually
+        ReleaseAllPlates();
     }
 
     // ---------------- GRID ----------------
@@ -41,20 +51,16 @@ public class GridPuzzleManager : MonoBehaviour
         for (int y = 0; y < n; y++)
         {
             Vector3 localPos = new Vector3(x * spacing, 0f, y * spacing);
-
             var plate = Instantiate(
                 platePrefab,
                 transform.position + originOffset + localPos,
                 Quaternion.identity,
                 transform
             );
-
             plate.Init(this, new Vector2Int(x, y));
             grid[x, y] = plate;
         }
     }
-
-    // ---------------- PAIRS ----------------
 
     void LoadPuzzleFromFile()
     {
@@ -65,8 +71,6 @@ public class GridPuzzleManager : MonoBehaviour
         }
 
         string[] lines = puzzleFile.text.Split('\n');
-        
-        // Remove empty lines and trim
         List<string> validLines = new();
         foreach (string line in lines)
         {
@@ -75,42 +79,21 @@ public class GridPuzzleManager : MonoBehaviour
                 validLines.Add(trimmed);
         }
 
-        if (validLines.Count == 0)
-        {
-            Debug.LogError("Puzzle file is empty!");
-            return;
-        }
-
         n = validLines.Count;
-        
-        // Parse the grid and count pairs
         HashSet<int> uniquePairs = new();
-        
         for (int y = 0; y < n; y++)
         {
             string[] cells = validLines[y].Split(' ');
-            
-            if (cells.Length != n)
-            {
-                Debug.LogError($"Row {y} has {cells.Length} cells, expected {n}");
-                return;
-            }
-
             for (int x = 0; x < n; x++)
             {
                 string cell = cells[x].Trim();
-                if (cell != ".")
-                {
-                    if (int.TryParse(cell, out int pairId))
-                    {
-                        uniquePairs.Add(pairId);
-                    }
-                }
+                if (cell != "." && int.TryParse(cell, out int pairId))
+                    uniquePairs.Add(pairId);
             }
         }
 
         pairCount = uniquePairs.Count;
-        Debug.Log($"Loaded {n}x{n} puzzle with {pairCount} pairs");
+        Debug.Log($"Loaded {n}x{n} grid puzzle with {pairCount} pairs");
     }
 
     void PlacePairsFromFile()
@@ -127,18 +110,15 @@ public class GridPuzzleManager : MonoBehaviour
         }
 
         Dictionary<int, List<LinePressurePlate>> pairPlates = new();
-
         for (int y = 0; y < n; y++)
         {
             string[] cells = validLines[y].Split(' ');
-
             for (int x = 0; x < n; x++)
             {
                 string cell = cells[x].Trim();
-                
                 if (cell != "." && int.TryParse(cell, out int pairId))
                 {
-                    var plate = grid[x, n - 1 - y]; // Flip y to match Unity coordinates
+                    var plate = grid[x, n - 1 - y]; // flip y to match Unity coordinates
                     plate.isDot = true;
                     plate.pairId = pairId;
                     plate.SetDotColor(GetColorForPair(pairId));
@@ -151,7 +131,6 @@ public class GridPuzzleManager : MonoBehaviour
             }
         }
 
-        // Create pairs
         foreach (var kvp in pairPlates)
         {
             int pairId = kvp.Key;
@@ -176,62 +155,35 @@ public class GridPuzzleManager : MonoBehaviour
 
     public void OnPlateStepped(LinePressurePlate plate)
     {
-        if (puzzleCompleted) return;
+        if (isSolved) return;
 
-        // ---------------- START PATH ----------------
         if (currentPath == null)
         {
-            if (!plate.isDot) return;
-            if (completedPaths.ContainsKey(plate.pairId)) return;
-
+            if (!plate.isDot || completedPaths.ContainsKey(plate.pairId)) return;
             StartPath(plate);
             return;
         }
 
         LinePressurePlate last = currentPath.plates[^1];
 
-        // Ignore staying on same plate
-        if (plate == last) return;
-
-        // Must be adjacent
-        if (!IsAdjacent(last, plate))
+        if (plate == last) return; // same plate
+        if (!IsAdjacent(last, plate) || (plate.occupied && plate.occupiedByPair != currentPath.pairId) || (plate.isDot && plate.pairId != currentPath.pairId))
         {
             CancelCurrentPath();
             return;
         }
 
-        // ❌ Hit another pair's path
-        if (plate.occupied && plate.occupiedByPair != currentPath.pairId)
-        {
-            CancelCurrentPath();
-            return;
-        }
-
-        // ❌ Hit another pair's dot (even if not occupied)
-        if (plate.isDot && plate.pairId != currentPath.pairId)
-        {
-            CancelCurrentPath();
-            return;
-        }
-
-        // ✅ Valid move
         AddPlateToPath(plate);
     }
 
     void StartPath(LinePressurePlate start)
     {
-        currentPath = new PathState
-        {
-            pairId = start.pairId,
-            startPlate = start
-        };
-
+        currentPath = new PathState { pairId = start.pairId, startPlate = start };
         AddPlateToPath(start);
     }
 
     void AddPlateToPath(LinePressurePlate plate)
     {
-        // Prevent retracing - can't step on a plate already in current path
         if (currentPath.plates.Contains(plate))
         {
             CancelCurrentPath();
@@ -241,12 +193,8 @@ public class GridPuzzleManager : MonoBehaviour
         plate.SetOccupied(currentPath.pairId);
         currentPath.plates.Add(plate);
 
-        if (plate.isDot &&
-            plate.pairId == currentPath.pairId &&
-            plate != currentPath.startPlate)
-        {
+        if (plate.isDot && plate.pairId == currentPath.pairId && plate != currentPath.startPlate)
             CompletePath();
-        }
     }
 
     void CompletePath()
@@ -275,24 +223,15 @@ public class GridPuzzleManager : MonoBehaviour
 
     void CheckPuzzleComplete()
     {
-        // Check if all pairs are completed
-        if (completedPaths.Count != pairCount)
-            return;
+        if (completedPaths.Count != pairCount) return;
 
-        // Check if entire board is filled
         for (int x = 0; x < n; x++)
         for (int y = 0; y < n; y++)
-        {
             if (grid[x, y] != null && !grid[x, y].occupied)
-            {
-                // Board not fully filled yet
                 return;
-            }
-        }
 
-        // All pairs complete AND board fully filled
-        puzzleCompleted = true;
-        ReleaseAllPlates();
+        // Puzzle fully completed
+        OnPuzzleSolved();
     }
 
     void ReleaseAllPlates()
@@ -301,36 +240,25 @@ public class GridPuzzleManager : MonoBehaviour
 
         for (int x = 0; x < n; x++)
         for (int y = 0; y < n; y++)
-            if (grid[x, y] != null)
-                grid[x, y].ReleaseAndDestroy(destroyDelay);
+            grid[x, y]?.ReleaseAndDestroy(destroyDelay);
     }
-
-    public bool IsPuzzleCompleted() => puzzleCompleted;
 
     // ---------------- RESET ----------------
 
-    public void ResetPuzzle()
+    public override void ResetPuzzle()
     {
-        if (puzzleCompleted)
-        {
-            Debug.Log("Cannot reset - puzzle already completed");
-            return;
-        }
+        base.ResetPuzzle();
 
-        if (currentPath != null)
-        {
-            currentPath.Reset();
-            currentPath = null;
-        }
+        currentPath?.Reset();
+        currentPath = null;
 
         foreach (var p in completedPaths.Values)
             p.Reset();
-
         completedPaths.Clear();
 
         for (int x = 0; x < n; x++)
         for (int y = 0; y < n; y++)
-            if (grid[x, y] != null && !grid[x, y].isDot)
+            if (grid[x, y] != null)
                 grid[x, y].Clear();
     }
 
