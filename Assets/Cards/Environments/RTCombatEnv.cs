@@ -105,6 +105,18 @@ namespace Cards.Environments
             _health = Mathf.Clamp(_health, 0, maxHealth);
             UpdateHealth();
 
+            // ----------------------------
+            // Play hurt sound
+            // ----------------------------
+            if (dmg > 0 && AudioManager.Instance != null)
+            {
+                AudioClip hurtClip = Resources.Load<AudioClip>("Audio/hurt");
+                if (hurtClip != null)
+                {
+                    AudioManager.Instance.PlayOneShot(hurtClip, player.transform.position, 1f);
+                }
+            }
+
             if (damage.Damage > 0 || damage.ForceIframes)
             {
                 _iframes = damageIframes;
@@ -113,6 +125,7 @@ namespace Cards.Environments
 
             return false;
         }
+
 
 
         private void UpdateHealth()

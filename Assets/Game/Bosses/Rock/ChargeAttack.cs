@@ -32,6 +32,11 @@ namespace Game.Bosses
         public LayerMask wallMask;     // layers considered "walls"
         public float rayDistance = 1f; // forward raycast distance to detect walls
 
+        [Header("Audio")]
+        public AudioClip rollSound;
+        [Range(0f, 1f)]
+        public float rollVolume = 1f;
+
         private Transform bossTransform;
         private Transform playerTransform;
         private Transform rollTransform;
@@ -42,6 +47,9 @@ namespace Game.Bosses
         private Vector3 lockedDirection;
         private float lockedY;
         private bool warningSpawned;
+
+        // Runtime handle for the rolling sound AudioSource
+        private AudioSource rollAudioSource;
 
         public override void StartAttack(GameObject boss)
         {
@@ -97,6 +105,16 @@ namespace Game.Bosses
                 lockedDirection = bossTransform.forward.normalized;
                 chargeElapsed = 0f;
                 SpawnWarning();
+
+                // Play rolling sound
+                if (rollSound != null && AudioManager.Instance != null)
+                {
+                    rollAudioSource = AudioManager.Instance.PlayLooping(
+                        rollSound,
+                        bossTransform.position,
+                        rollVolume
+                    );
+                }
             }
 
             chargeElapsed += Time.deltaTime;
@@ -125,6 +143,15 @@ namespace Game.Bosses
             }
 
             // =========================
+            // STOP ROLL SOUND IF BOSS STOPS EARLY
+            // =========================
+            if (rollAudioSource != null && speed <= 0f)
+            {
+                rollAudioSource.Stop();
+                rollAudioSource = null;
+            }
+
+            // =========================
             // MOVE STRAIGHT WITH WALL CHECK (STOP AT WALL)
             // =========================
             float distance = speed * Time.deltaTime;
@@ -132,16 +159,12 @@ namespace Game.Bosses
             // Raycast forward to detect wall
             if (Physics.Raycast(bossTransform.position, lockedDirection, out RaycastHit hit, distance + rayDistance, wallMask))
             {
-                // Wall detected: stop movement for this frame
                 distance = 0f;
             }
 
-            // Move boss smoothly (distance may be zero if wall detected)
             Vector3 newPos = bossTransform.position + lockedDirection * distance;
             newPos.y = lockedY;
             bossTransform.position = newPos;
-
-
 
             // =========================
             // ROLL VISUAL
@@ -153,6 +176,14 @@ namespace Game.Bosses
                     distance * rollDegreesPerMeter,
                     Space.Self
                 );
+            }
+
+            // =========================
+            // UPDATE ROLL SOUND POSITION
+            // =========================
+            if (rollAudioSource != null)
+            {
+                rollAudioSource.transform.position = bossTransform.position;
             }
         }
 
@@ -188,6 +219,13 @@ namespace Game.Bosses
         public override void EndAttack(GameObject boss)
         {
             base.EndAttack(boss);
+
+            // Stop roll sound if still playing
+            if (rollAudioSource != null)
+            {
+                rollAudioSource.Stop();
+                rollAudioSource = null;
+            }
         }
     }
 }

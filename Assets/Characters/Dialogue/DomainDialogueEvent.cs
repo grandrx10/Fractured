@@ -13,6 +13,7 @@ namespace Characters.Dialogue
 
         public override void Execute()
         {
+            base.Execute();
             TryTrigger();
         }
         public void TryTrigger()

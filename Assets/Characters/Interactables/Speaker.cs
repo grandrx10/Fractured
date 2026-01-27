@@ -9,6 +9,9 @@ namespace Characters.Interactables
         [Header("Conversation to Trigger")]
         [SerializeField] private string defaultConversationName;
 
+        // Static reference to the default speaker interact sound
+        private static AudioClip defaultSpeakerSound;
+
         public string conversationName
         {
             get
@@ -32,6 +35,21 @@ namespace Characters.Interactables
             }
         }
 
+        private void Awake()
+        {
+            // Load the default sound once
+            if (defaultSpeakerSound == null)
+            {
+                defaultSpeakerSound = Resources.Load<AudioClip>("Audio/BaseInteract");
+            }
+
+            // Assign it as the interactSound if not already assigned
+            if (interactSound == null)
+            {
+                interactSound = defaultSpeakerSound;
+            }
+        }
+
         private void Start()
         {
             RefreshCanInteract();
@@ -39,6 +57,8 @@ namespace Characters.Interactables
 
         public override void Interact(GameObject player)
         {
+            base.Interact(player); // will play default sound automatically
+
             if (!string.IsNullOrEmpty(conversationName))
             {
                 DialogueManager.Instance.StartConversation(conversationName);
