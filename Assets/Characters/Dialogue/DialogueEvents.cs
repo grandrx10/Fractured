@@ -4,9 +4,22 @@ namespace Characters.Dialogue
 {
     public class DialogueEvent : MonoBehaviour
     {
+        [Header("Audio")]
+        public AudioClip eventSound;   // optional audio clip
+        [Range(0f, 1f)]
+        public float eventVolume = 1f; // optional volume control
+
         public virtual void Execute()
         {
-        
+            // Play sound if assigned
+            if (eventSound != null && AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayOneShot(
+                    eventSound,
+                    transform.position, // play at this object's position
+                    eventVolume
+                );
+            }
         }
 
         private void OnDrawGizmos()

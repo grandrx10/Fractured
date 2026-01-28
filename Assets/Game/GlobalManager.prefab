@@ -642,6 +642,7 @@ GameObject:
   - component: {fileID: 1317919315183314023}
   - component: {fileID: 8500455466964973597}
   - component: {fileID: 8860129337731645461}
+  - component: {fileID: 1512747363772893072}
   m_Layer: 0
   m_Name: GlobalManager
   m_TagString: Untagged
@@ -724,10 +725,25 @@ MonoBehaviour:
   sphereEffect: {fileID: 5171707797180430754}
   fadeMaterial: {fileID: 2100000, guid: 61f9b948cf921014fa9dcb801ed9c4ff, type: 2}
   worldCanvas: {fileID: 1847521410490979434}
-  fogMaterial: {fileID: 2100000, guid: 317d67cf7fe22eb428ebf47c3a1e2202, type: 2}
   _oldScene:
     m_Handle: 0
   _newScene:
     m_Handle: 0
+  fogMaterial: {fileID: 2100000, guid: 317d67cf7fe22eb428ebf47c3a1e2202, type: 2}
   shaders: {x: -2, y: 0, z: 0, w: 0}
   shaderColor: {x: 3, y: 7, z: 3, w: 1}
+--- !u!114 &1512747363772893072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8299816908901511949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c10021ac1336f40bcde2a554188464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolume: 1
+  minPitch: 0.95
+  maxPitch: 1.05
