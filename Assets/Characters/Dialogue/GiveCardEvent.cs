@@ -1,3 +1,4 @@
+using System;
 using Cards;
 using Cards.Core;
 using Characters.Player;
@@ -16,6 +17,19 @@ namespace World.Objects
 
         [Header("Give to hand")]
         public bool giveToHand = false;
+        
+        public bool onStart = false;
+
+        private void Awake()
+        {
+            if (onStart) GlobalWorldManager.OnLoadNewScene += Init;
+        }
+
+        private void Init(CardEnv env)
+        {
+            GlobalWorldManager.OnLoadNewScene -= Init;
+            Execute();
+        }
 
         public override void Execute()
         {

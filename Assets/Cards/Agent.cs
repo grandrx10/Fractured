@@ -74,7 +74,7 @@ namespace Cards
             AddCard(card, toHand);
             OnGetCard?.Invoke(card, toHand ? CardTarget.Hand : CardTarget.Deck);
             //OnAddCard?.Invoke(card, toHand ? CardTarget.Hand : CardTarget.Deck);
-            card.transform.parent = transform;
+            
         }
         
         public void TakeCard(Card card)
@@ -91,6 +91,7 @@ namespace Cards
         {
             (toHand ? hand : deck).Add(card);
             OnAddCard?.Invoke(card, toHand ? CardTarget.Hand: CardTarget.Deck);
+            card.transform.parent = transform;
         }
         
         public void RemoveCard(Card card)

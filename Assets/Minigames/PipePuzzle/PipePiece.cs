@@ -65,7 +65,6 @@ public class PipePiece : Interactable
     {
         if (!canInteract || isRotating)
             return;
-
         RotatePipe();
         puzzleManager.RecalculateFlow();
     }

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Cards.Environments;
+using Minigames;
 using UnityEngine;
 
 public class DiscretePuzzleManager : PuzzleManager
@@ -11,9 +13,15 @@ public class DiscretePuzzleManager : PuzzleManager
 
     private Dictionary<GameObject, Pose> initialPoses = new();
     private bool initialized = false;
-
+    
     private void Awake()
     {
+        GlobalWorldManager.OnPreLoadNewScene += Init;
+    }
+    
+    private void Init(CardEnv env)
+    {
+        GlobalWorldManager.OnPreLoadNewScene -= Init;
         // Cache initial poses
         foreach (GameObject obj in resettableObjects)
         {
@@ -42,7 +50,9 @@ public class DiscretePuzzleManager : PuzzleManager
 
         OnPuzzleSolved();
     }
-
+    
+    
+[ContextMenu("Solve")]
     public override void OnPuzzleSolved()
     {
         base.OnPuzzleSolved();
@@ -63,8 +73,17 @@ public class DiscretePuzzleManager : PuzzleManager
         foreach (var pair in initialPoses)
         {
             if (pair.Key == null)
+            {
+                Debug.Log("???");
                 continue;
-
+            }
+            Debug.Log(pair.Key);
+            Debug.Log(pair.Value.position);
+            
+            if (pair.Key.TryGetComponent<IPuzzleResettable>(out IPuzzleResettable pr))
+            {
+                pr.Reset(pair.Value);
+            }
             if (pair.Key.TryGetComponent<Rigidbody>(out Rigidbody rb))
             {
                 rb.linearVelocity = Vector3.zero;
