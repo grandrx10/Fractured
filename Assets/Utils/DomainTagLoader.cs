@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Utils
@@ -9,9 +10,10 @@ namespace Utils
         private void Awake()
         {
             var t = GlobalWorldManager.Instance.TransitionTag;
+            
             foreach (var c in objects)
             {
-                c.SetActive(t.Contains(c.name));
+                c.SetActive(!String.IsNullOrEmpty(t) && t.Contains(c.name));
             }
         }
     }

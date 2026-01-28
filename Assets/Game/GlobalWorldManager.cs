@@ -17,10 +17,10 @@ public class GlobalWorldManager : MonoBehaviour
     public static event Action OnAfterMove;
     public static event Action<CardEnv> OnLoadNewScene, OnPreLoadNewScene;
     public float RawTransitionTime { get; private set; }
-    public float CurvedTransitionTime => transitionCurve.Evaluate(RawTransitionTime);
+    public float CurvedTransitionTime => RawTransitionTime == -1? -1 : transitionCurve.Evaluate(RawTransitionTime);
     public AnimationCurve transitionCurve;
     [HideInInspector] public CardEnv CurrentEnvironment;
-    private PlayerAgent playerAgent;
+    public PlayerAgent PlayerAgent {get; private set;}
     public float newDomainOffset;
     public GameObject sphereEffect;
     public Material fadeMaterial;
@@ -47,7 +47,7 @@ public class GlobalWorldManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        playerAgent = FindAnyObjectByType<PlayerAgent>();
+        PlayerAgent = FindAnyObjectByType<PlayerAgent>();
     }
 
     [ContextMenu("Shuffle IDs")]
@@ -86,7 +86,7 @@ public class GlobalWorldManager : MonoBehaviour
         _fade = tags.Contains("fade");
         Debug.Log($"FADE{_fade}");
         var delay = TextHelper.GetFloatTag(tags, "delay");
-        _ = LoadSceneAsyncWithCallback(newSceneName, delay, tags.Contains("fast"));
+        StartCoroutine(LoadSceneAsyncWithCallback(newSceneName, delay, tags.Contains("fast")));
     }
 
     public IEnumerator Fade(bool reverse=false, float duration = 1)
@@ -101,94 +101,104 @@ public class GlobalWorldManager : MonoBehaviour
         fadeMaterial.SetFloat("_t", reverse? 1 : 0);
     }
     
-    public async Task LoadSceneAsyncWithCallback(string sceneName, float delay, bool fast)
+    public IEnumerator LoadSceneAsyncWithCallback(
+    string sceneName,
+    float delay,
+    bool fast
+)
+{
+    _oldScene = SceneManager.GetActiveScene();
+    RawTransitionTime = 0;
+
+    if (_fade)
+        StartCoroutine(Fade());
+
+    AsyncOperation op =
+        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+    // Hold activation
+    op.allowSceneActivation = false;
+
+    // Wait until scene is loaded (0.9 = ready)
+    while (op.progress < 0.9f)
+        yield return null;
+
+    // Optional delay
+    float wait = 0f;
+    while (wait < delay)
     {
-        _oldScene = SceneManager.GetActiveScene();
-        RawTransitionTime = 0;
-        if (_fade) StartCoroutine(Fade());
-        
-        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        
-        op.allowSceneActivation = false;
-        while (op.progress < 0.9f)
-            await Task.Yield();
-        
-        float wait = 0;
-
-        while (wait < delay)
-        {
-            wait += Time.deltaTime;
-            await Task.Yield();
-        }
-        
-        op.allowSceneActivation = true;
-        
-        while (!op.isDone)
-            await Task.Yield();
-        
-        _newScene = SceneManager.GetSceneByName(sceneName);
-        //op.allowSceneActivation = false;
-        _newObjects = _newScene.GetRootGameObjects();
-        _oldObjects = _oldScene.GetRootGameObjects();
-        _flipped = false;
-        
-        var mpb = new MaterialPropertyBlock();
-        mpb.SetFloat("_Flipped", 1);
-
-        foreach (var go in _newObjects)
-        {
-            if (go.TryGetComponent(out CardEnv env))
-            {
-                Load(env, fast ? .5f : env.environmentIntroTime);
-                break;
-            }
-        }
-        
-        foreach (GameObject go in _newObjects)
-        {
-            go.transform.position += Vector3.right * newDomainOffset;
-            foreach (var rend in go.GetComponentsInChildren<Renderer>())
-            {
-                rend.SetPropertyBlock(mpb);
-            }
-
-            foreach (var rend in go.GetComponentsInChildren<IRenderable>())
-            {
-                rend.SetPropertyBlock(mpb);
-            }
-        }
-        
-        mpb = new MaterialPropertyBlock();
-        mpb.SetFloat("_Flipped", 0);
-        
-        foreach (GameObject go in _oldObjects)
-        {
-            foreach (var rend in go.GetComponentsInChildren<Renderer>())
-            {
-                rend.SetPropertyBlock(mpb);
-            }
-            foreach (var rend in go.GetComponentsInChildren<IRenderable>())
-            {
-                rend.SetPropertyBlock(mpb);
-            }
-        }
-        Debug.Log("Scene loaded!");
+        wait += Time.deltaTime;
+        yield return null;
     }
+
+    // Activate scene
+    op.allowSceneActivation = true;
+
+    // Wait for activation to complete
+    yield return op;
+
+    // Scene is now active, Awake/OnEnable already ran
+    _newScene = SceneManager.GetSceneByName(sceneName);
+    _newObjects = _newScene.GetRootGameObjects();
+    _oldObjects = _oldScene.GetRootGameObjects();
+    _flipped = false;
+
+    var mpb = new MaterialPropertyBlock();
+    mpb.SetFloat("_Flipped", 1);
+
+    // Load environment BEFORE Start()
+    foreach (var go in _newObjects)
+    {
+        if (go.TryGetComponent(out CardEnv env))
+        {
+            Load(env, fast ? 0.5f : env.environmentIntroTime);
+            break;
+        }
+    }
+
+    // Offset + flip new objects
+    foreach (GameObject go in _newObjects)
+    {
+        go.transform.position += Vector3.right * newDomainOffset;
+
+        foreach (var rend in go.GetComponentsInChildren<Renderer>())
+            rend.SetPropertyBlock(mpb);
+
+        foreach (var rend in go.GetComponentsInChildren<IRenderable>())
+            rend.SetPropertyBlock(mpb);
+    }
+
+    // Unflip old objects
+    mpb = new MaterialPropertyBlock();
+    mpb.SetFloat("_Flipped", 0);
+
+    foreach (GameObject go in _oldObjects)
+    {
+        foreach (var rend in go.GetComponentsInChildren<Renderer>())
+            rend.SetPropertyBlock(mpb);
+
+        foreach (var rend in go.GetComponentsInChildren<IRenderable>())
+            rend.SetPropertyBlock(mpb);
+    }
+
+    Debug.Log("Scene loaded!");
+}
+
 
     public void Load(CardEnv env, float introTime)
     {
         if (CurrentEnvironment == null)
         {
-            OnPreLoadNewScene?.Invoke(env);
             CurrentEnvironment = env;
-            env.Initialize(playerAgent);
+            env.Initialize(PlayerAgent);
             _newFogSettings = env.fog;
             SetFog(_fogSettings, _newFogSettings, 1);
+            OnPreLoadNewScene?.Invoke(env);
             OnLoadNewScene?.Invoke(CurrentEnvironment);
         }
         else
         {
-            OnPreLoadNewScene?.Invoke(env);
+            
             CurrentEnvironment.Destroy();
             _dissolveRad = env.environmentIntroRad;
             _transitioning = true;
@@ -198,24 +208,24 @@ public class GlobalWorldManager : MonoBehaviour
             float stopTime = introTime;
             _transitionSpeed = 1 / introTime;
             Shader.SetGlobalVector("_DissolveCenter", _startPosition);
-            Delay.Call(0.01f, () =>
+            
+            var center = env.GetEnvCenter(_startName);
+            if (center)
             {
-                var center = env.GetEnvCenter(_startName);
-                if (center)
+                var disp = _startPosition - (center.position);
+                foreach (var go in _newObjects)
                 {
-                    Debug.Log(center.gameObject.name);
-                    var disp = _startPosition - (center.position - Vector3.right * newDomainOffset);
-                    foreach (var go in _newObjects)
-                    {
-                        if (go) go.transform.position += disp;
-                    }
-                    print(center.transform.position);
-                    print(_startPosition);
+                    if (go) go.transform.position += disp;
                 }
-            });
+                print(center.transform.position);
+                print(_startPosition);
+            }
+            
             sphereEffect.SetActive(true);
             sphereEffect.transform.position = _startPosition;
             sphereEffect.transform.localScale = Vector3.zero;
+            
+            OnPreLoadNewScene?.Invoke(env);
             
             Delay.Call(flipTime, () =>
             {
@@ -234,7 +244,7 @@ public class GlobalWorldManager : MonoBehaviour
             Delay.Call(stopTime, () =>
             {
                 CurrentEnvironment = env;
-                env.Initialize(playerAgent);
+                env.Initialize(PlayerAgent);
                 if (_transitioning) EndTransition();
                 SetFog(_fogSettings, _newFogSettings, 1);
                 OnLoadNewScene?.Invoke(CurrentEnvironment);

@@ -13,12 +13,13 @@ namespace Characters
         public float moveSpeed;
         
         public float walkSpeed;
-        public float groundDrag;
+        public float groundDrag, airDrag;
         public float jumpForce;
         public float jumpCooldown;
         public float airMultiplier;
         public float rotationSpeed = 5;
         bool readyToJump;
+        public AnimationCurve dotDirCurve, speedForceCurve;
         public AnimationCurve speedCurve, airCurve;
         
         [Header("Keybinds")]
@@ -66,7 +67,7 @@ namespace Characters
         private void Update()
         {
             MyInput();
-            rb.linearDamping = grounded ? groundDrag : 0;
+            rb.linearDamping = grounded ? groundDrag : airDrag;
         }
 
         private int _airFrames = 0;
@@ -112,8 +113,8 @@ namespace Characters
         private void MovePlayer()
         {
             Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-            moveDirection = inputDir;
-
+            moveDirection = inputDir.normalized;
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             if (LookForward)
             {
                 var flatLook = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up);
@@ -125,12 +126,12 @@ namespace Characters
 
             
             animator.SetBool("Moving", moveDirection.magnitude >= 0.1f);
-            
-            var speed = GetSpeed();
-            if (grounded)
-                rb.AddForce(moveDirection.normalized * speed * 10f, ForceMode.Force);
-            else
-                rb.AddForce(moveDirection.normalized * speed * 10f * airMultiplier, ForceMode.Force);
+            var dot = Vector3.Dot(moveDirection, flatVel.normalized);
+            var s = dotDirCurve.Evaluate(dot) 
+                    * speedForceCurve.Evaluate(flatVel.magnitude/moveSpeed * dot);
+            var speed = GetSpeed() * s;
+            var airFactor = grounded? 1 : airMultiplier;
+            rb.AddForce(moveDirection * speed * 10f * airFactor, ForceMode.Force);
             SpeedControl();
         }
 
@@ -140,7 +141,7 @@ namespace Characters
             animator.SetFloat("Speed", speedCurve.Evaluate(flatVel.magnitude) * ( _airFrames <= 20 ? 1 : 0.1f));
             
             var speed = GetSpeed();
-            if (!MovementOverride && flatVel.magnitude > speed)
+            if (!MovementOverride && flatVel.magnitude > speed && grounded)
             {
                 Vector3 limitedVel = flatVel.normalized * speed;
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);

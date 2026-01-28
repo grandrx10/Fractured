@@ -70,6 +70,7 @@ namespace Characters
 
             if (currentLookTarget != null && currentLookTarget.TryGetComponent(out Interactable currentInteractable) && currentInteractable.canInteract)
             {
+                
                 if (currentInteractable.interactTime <= 0f)
                 {
                     // Instant interaction
@@ -189,7 +190,7 @@ namespace Characters
         private void CheckForInteractable()
         {
             GameObject go = PhysicsHelper.MainObj(GetPlayerLookTarget(interactableLayer).collider);
-            Debug.Log(go);
+            // Debug.Log(go);
             if (go)
             {
                 currentLookTarget = go;

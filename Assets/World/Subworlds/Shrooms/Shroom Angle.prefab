@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1024855763640269569}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shroom Angle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,8 @@ GameObject:
   - component: {fileID: 5014957116583067600}
   - component: {fileID: 1857885293496790694}
   - component: {fileID: 4103793690480549103}
-  m_Layer: 0
+  - component: {fileID: 822455987880593301}
+  m_Layer: 6
   m_Name: Shroom_top_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,6 +120,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &822455987880593301
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254872930251540507}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7001450083211463492, guid: ec69847b5119baf49ac02b8427310434, type: 3}
 --- !u!1 &6243174615033645915
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +153,8 @@ GameObject:
   - component: {fileID: 5262746841548795981}
   - component: {fileID: 8516838566964078019}
   - component: {fileID: 8140001527138783049}
-  m_Layer: 0
+  - component: {fileID: 3036704356748018633}
+  m_Layer: 6
   m_Name: Shroom_bot_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,3 +229,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3036704356748018633
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6243174615033645915}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5021905235068311236, guid: ec69847b5119baf49ac02b8427310434, type: 3}

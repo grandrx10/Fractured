@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Characters.Dialogue;
 
+[RequireComponent(typeof(PersistentID))]
 public class PipePuzzleManager : PuzzleManager
 {
     [Header("Grid")]
@@ -31,11 +32,11 @@ public class PipePuzzleManager : PuzzleManager
     protected void Awake()
     {
         gridOrigin = Vector3.zero; // LOCAL origin
-        gridOrigin = transform.position;
         GeneratePuzzle();
         RecalculateFlow();
     }
-
+    
+    [ContextMenu("solve")]
     public override void OnPuzzleSolved()
     {
         base.OnPuzzleSolved();
@@ -46,9 +47,12 @@ public class PipePuzzleManager : PuzzleManager
     }
 
     // ===================== PUZZLE GENERATION =====================
-
+    
+    [ContextMenu("generate")]
     private void GeneratePuzzle()
     {
+        var oldState = Random.state;
+        Random.InitState(GetComponent<PersistentID>().Seed());
         ClearGrid();
         grid.Clear();
         initialRotations.Clear();
@@ -90,6 +94,8 @@ public class PipePuzzleManager : PuzzleManager
             int r = Random.Range(0, 4);
             pipe.SetInitialRotation(r);
         }
+        
+        Random.state = oldState;
     }
 
     private List<Vector2Int> GeneratePath(Vector2Int start, Vector2Int end)

@@ -1,21 +1,24 @@
+using System;
 using UnityEngine;
 
 public class DiscreteBoxDetector : MonoBehaviour
 {
     [Header("Detector State")]
     [Tooltip("True when a DiscretePushBox is on this detector")]
-    public bool isActive { get; private set; }
+    public bool isActive => currentBox && !currentBox.isMoving;
 
+    public string requiredId;
     private DiscretePushBox currentBox;
 
     private void OnTriggerEnter(Collider other)
     {
         DiscretePushBox box = other.GetComponentInParent<DiscretePushBox>();
-        if (box == null)
+
+        if (box == null || (box.id != requiredId && requiredId != ""))
             return;
 
         currentBox = box;
-        isActive = true;
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -27,7 +30,6 @@ public class DiscreteBoxDetector : MonoBehaviour
         if (box == currentBox)
         {
             currentBox = null;
-            isActive = false;
         }
     }
 

@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Wall
-  m_Shader: {fileID: -6465566751694194690, guid: 4f33a396b2ce27244a77db831309478b, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 654e080048687c0419bc7821d286a27b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -421,8 +421,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Rad: 0
-    - _Range_Max: 0.5
-    - _Range_Min: -0.85
+    - _Range_Max: 3.63
+    - _Range_Min: 1.05
     - _ReceiveShadows: 1
     - _ReceivesSSR: 1
     - _RefractionModel: 0
@@ -438,6 +438,7 @@ Material:
     - _SPRDefaultUnlitColorMask: 15
     - _SRPDefaultUnlitColMode: 1
     - _SSRefractionProjectionModel: 0
+    - _Scale: 0.05
     - _Scroll_EmissiveU: 0
     - _Scroll_EmissiveV: 0
     - _SecondShadeOverridden: 0
@@ -526,10 +527,12 @@ Material:
     - _BaseColorMaskColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 0.64274704, b: 0.31603768, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
-    - _Color_1: {r: 1, g: 1, b: 0.84313726, a: 1}
+    - _Color_1: {r: 0.97900003, g: 0.97900003, b: 0.694111, a: 1}
+    - _Color_1_1: {r: 1, g: 1, b: 0.84313726, a: 1}
     - _Color_2: {r: 0.397, g: 0.397, b: 0.25095338, a: 1}
+    - _Color_2_1: {r: 0.39607844, g: 0.39607844, b: 0.2509804, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
-    - _Direction: {r: 0, g: 1, b: 0, a: 0}
+    - _Direction: {r: 0, g: 0, b: 1, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _Emission: {r: 0.74901956, g: 0.74901956, b: 0.6269855, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
@@ -547,6 +550,8 @@ Material:
     - _Outline_Color: {r: 0, g: 0, b: 0, a: 1}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimLightMaskColor: {r: 1, g: 0, b: 1, a: 1}
+    - _Scale: {r: 0.2, g: 0.05, b: 0.2, a: 0}
+    - _Scale_1: {r: 0, g: 0, b: 0, a: 0}
     - _SecondShadeMaskColor: {r: 0, g: 0, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

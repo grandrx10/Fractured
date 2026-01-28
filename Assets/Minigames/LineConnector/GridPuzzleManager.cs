@@ -8,10 +8,9 @@ public class GridPuzzleManager : PuzzleManager
     public float spacing = 1.2f;
     public TextAsset puzzleFile;
 
-    public UnityEvent onCompletePuzzle;
     [Header("Prefabs")]
     public LinePressurePlate platePrefab;
-
+    
     private int n;
     private int pairCount;
 
@@ -27,12 +26,13 @@ public class GridPuzzleManager : PuzzleManager
     [ContextMenu("test")]
     void Awake()
     {
-
         LoadPuzzleFromFile();
         GenerateGrid();
         PlacePairsFromFile();
     }
-
+    
+    
+    [ContextMenu("complete")]
     public override void OnPuzzleSolved()
     {
         base.OnPuzzleSolved();
@@ -206,6 +206,7 @@ public class GridPuzzleManager : PuzzleManager
             plate != currentPath.startPlate)
         {
             CompletePath();
+        }
     }
 
     void CompletePath()
@@ -248,17 +249,8 @@ public class GridPuzzleManager : PuzzleManager
             if (grid[x, y] != null && !grid[x, y].occupied)
                 return;
         OnPuzzleSolved();
-        CompletePuzzle();
     }
-
-    [ContextMenu("complete puzzle")]
-    public void CompletePuzzle()
-    {
-        puzzleCompleted = true;
-        ReleaseAllPlates();
-        onCompletePuzzle.Invoke();
-    }
-
+    
     void ReleaseAllPlates()
     {
         float destroyDelay = 3f;
