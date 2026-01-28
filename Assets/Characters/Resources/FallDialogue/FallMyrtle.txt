@@ -1,0 +1,90 @@
+FallMyrtleOpener
+===
+[Ravenna]
+Myrtle! What happened to you?
+---
+[Myrtle]
+Please! Please don't hurt me! I... I'm sorry.
+---
+[Ravenna]
+We're here to help you. What's wrong?
+---
+[Myrtle]
+What's wrong?! You two locked me in here as punishment for going against the order!
+---
+[Myrtle]
+Now you come back and act like nothing's wrong?
+---
+[Dorian]
+That... that wasn't us.
+---
+[Myrtle]
+I... I don't know what to think anymore. This island has gone to ruin ever since the mayor came into power. They force weaklings like me to work away while... and... after what happened to Poppy...
+---
+[Myrtle]
+I... I just want to take care of the Redwood, you know? But instead, I'm forced to work the mines, producing steel.
+---
+[Dorian]
+Who's making you do all this?
+---
+[Myrtle]
+Kaien... the mayor. He's gone mad with power! And you two! You're the one's enforcing the rules!
+---
+[Ravenna]
+Myrtle. Please, trust us. We would never do anything like that. We'll... we'll go talk to the mayor about this.
+---
+[Myrtle]
+I tried talking to him... and look where that got me. He only understand one language.
+---
+[Myrtle]
+Violence.
+---
+[Myrtle]
+But I can't fight him. I can only protect.
+---
+[Dorian]
+Then I'll fight him in your stead.
+---
+[Myrtle]
+... maybe you are different.
+---
+[Myrtle]
+Fine. I'll entrust you with my family's technique: barrier. Use it well.
+---
+[Myrtle]
+And if you manage to defeat him... you'll have my thanks.
+===
+###
+FallMyrtleTalk
+===
+[Myrtle]
+Have you defeated him?
+???
+[No, but we're here to open your cage]{MyrtleReleaseNo}
+[Yes, and we're here to free you](FallKaienDefeated){MyrtleReleaseYes}
+###
+MyrtleReleaseNo
+===
+[Myrtle]
+I... I don't want to leave this cage. If I do, they'll punish me for it.
+---
+[Myrtle]
+I'm not a brave person. I'm sorry.
+---
+[Dorian]
+We'll come back for you.
+===
+[Myrtle]{FallMyrtleTalk}
+###
+MyrtleReleaseYes
+===
+[Myrtle]
+I... I don't want to leave this cage. But if you've really defeated him...
+---
+[Myrtle]
+Thank you for freeing me. I would offer you a reward... but they took everything from me.
+---
+[Myrtle]
+You are different from the Dorian and Ravenna I know after all. Maybe this island can be saved from their tyranny.
+===
+###

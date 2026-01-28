@@ -27,13 +27,25 @@ namespace Characters
 
         [Header("Ground Check")]
         public LayerMask whatIsGround;
-        public Collider groundCheckCollider; // reference to your trigger collider
+        public Collider groundCheckCollider;
         bool grounded;
+        private bool wasGrounded; // Track previous grounded state
         public Animator animator;
         public PlayerAgent agent;
         public Transform orientation;
         public bool MovementOverride { get; set; }
         public bool LookForward { get; set; }
+
+        [Header("Audio")]
+        public AudioClip footstepClip;
+        public AudioClip jumpClip;
+        public AudioClip landClip; // Optional landing sound
+        public float footstepInterval = 0.45f;
+        public float minFootstepSpeed = 1.2f;
+        private float footstepTimer;
+        private bool isMoving; // Track if player is actually moving
+        private float landCooldown = 0f; // Prevent multiple land sounds
+
         float horizontalInput;
         float verticalInput;
 
@@ -67,6 +79,75 @@ namespace Characters
         private void Update()
         {
             MyInput();
+            
+            // Handle jump input immediately in Update for instant response
+            if (PlayerInteractController.PlayerInputs.IsInputAllowed(InputBlockPrio.StandardInput) && 
+                !MovementOverride &&
+                Input.GetKeyDown(jumpKey) && 
+                readyToJump && 
+                grounded)
+            {
+                readyToJump = false;
+                Jump();
+                Invoke(nameof(ResetJump), jumpCooldown);
+            }
+            
+            rb.linearDamping = grounded ? groundDrag : 0;
+            HandleFootsteps();
+            
+            // Decrease land cooldown
+            if (landCooldown > 0f)
+                landCooldown -= Time.deltaTime;
+            
+            // Detect landing - play when transitioning from air to ground
+            if (grounded && !wasGrounded && landClip != null && landCooldown <= 0f)
+            {
+                AudioManager.Instance.PlayOneShot(
+                    landClip,
+                    transform.position,
+                    0.8f
+                );
+                landCooldown = 0.3f; // Prevent retriggering
+            }
+            
+            wasGrounded = grounded;
+        }
+
+        private void HandleFootsteps()
+        {
+            // Get horizontal velocity (ignore vertical movement)
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            float speed = flatVel.magnitude;
+
+            // Check if player is actually moving and on ground
+            bool shouldPlayFootsteps = grounded && 
+                                      speed >= minFootstepSpeed && 
+                                      moveDirection.magnitude > 0.1f; // Check input as well
+
+            if (!shouldPlayFootsteps)
+            {
+                footstepTimer = 0f;
+                isMoving = false;
+                return;
+            }
+
+            isMoving = true;
+
+            // Countdown timer for step interval
+            footstepTimer -= Time.deltaTime;
+            if (footstepTimer <= 0f)
+            {
+                // Play the footstep sound at the player's position
+                AudioManager.Instance.PlayOneShot(
+                    footstepClip,
+                    transform.position,
+                    0.7f
+                );
+
+                // Adjust interval based on movement speed
+                float speedNormalized = Mathf.InverseLerp(minFootstepSpeed, moveSpeed, speed);
+                footstepTimer = Mathf.Lerp(0.6f, 0.3f, speedNormalized);
+            }
             rb.linearDamping = grounded ? groundDrag : airDrag;
         }
 
@@ -93,13 +174,6 @@ namespace Characters
             
             horizontalInput = Input.GetAxisRaw("Horizontal");
             verticalInput = Input.GetAxisRaw("Vertical");
-            
-            if (Input.GetKey(jumpKey) && readyToJump && grounded)
-            {
-                readyToJump = false;
-                Jump();
-                Invoke(nameof(ResetJump), jumpCooldown);
-            }
         }
         
         float GetSpeed()
@@ -150,6 +224,19 @@ namespace Characters
 
         private void Jump()
         {
+            // Play jump sound IMMEDIATELY when jump is called
+            if (jumpClip != null)
+            {
+                AudioManager.Instance.PlayOneShot(
+                    jumpClip,
+                    transform.position,
+                    1f
+                );
+            }
+            
+            // Reset footstep timer to prevent immediate footstep after landing
+            footstepTimer = 0f;
+            
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             animator.SetTrigger("Jump");
@@ -193,7 +280,7 @@ namespace Characters
             float sideSpeed = Vector3.Dot(v, sideways);
             v -= sideways * sideSpeed * sideDrag * Time.fixedDeltaTime;
 
-            // 3️⃣ Apply downhill gravity (THIS fixes hovering)
+            // 3️⃣ Apply downhill gravity
             Vector3 slideAccel = Vector3.ProjectOnPlane(Physics.gravity, n);
             v += slideAccel * Time.fixedDeltaTime * moveSpeed * slideAccelerationFactor;
 

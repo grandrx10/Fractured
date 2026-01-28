@@ -17,6 +17,7 @@ namespace World.Objects
 
         public override void Interact(GameObject player)
         {
+            base.Interact(player);
             onInteract.Invoke(this, player, false);
         }
     }

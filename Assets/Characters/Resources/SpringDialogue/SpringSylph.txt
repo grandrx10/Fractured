@@ -6,44 +6,51 @@ Hey!
 [Sylph]
 Who are you and what are you doing here? State your business!
 ---
+[Ravenna]
+Sylph, it's us. We're just -
+---
 [Sylph]
-I'm angry and stuff
+Intruders, the both of you. You're trampling upon sacred ground. And you, the fox, you're giving off a strange scent.
+---
+[Sylph]
+The smell of a demon. A monster.
+---
+[Sylph]
+Are you monsters from beyond the island? I will not hesitate to destroy you. Leave this place at once!
 ???
-[Yo chill]{SylphSpringChill}
-[Yeah, we're leaving]{SylphSpringLeave}
+[We're not here for a fight, we just want to talk]{SylphSpringChill}
+[We're leaving right now, sorry]{SylphSpringLeave}
 ===
-[Sylph]{}
 ###
 SylphSpringWarn
 ===
 [Sylph]
-Hey get outta here!
+You smell of monstrous scent. Leave now before I erase you.
 ---
 [Sylph]
-Don't come any closer!
----
-[Sylph]
-I'm angry and stuff
+Don't come any closer, intruder.
 ???
-[Yo chill]{SylphSpringChill}
-[Yeah, we're leaving]{SylphSpringLeave}
+[We're not here for a fight, we just want to talk]{SylphSpringChill}
+[We're leaving right now, sorry]{SylphSpringLeave}
 ===
-[Sylph]{}
 ###
 SylphSpringChill
 ===
 [Sylph]
-I am very angry do you want to fight
+Talk? I have no words for a monster like you. If you do not leave right now, I will be forced to eradicate you.
 ???
-[Yo chill](!spring_progress_lock){SylphSpringFightLose}
-[Yo chill](spring_progress_lock){SylphSpringFightFair}
+[Please, listen to us](!spring_progress_lock){SylphSpringFightLose}
+[Please, listen to us](spring_progress_lock){SylphSpringFightFair}
 [On another thought, we're leaving]{SylphSpringLeave}
 ===
 ###
 SylphSpringFightLose
 ===
 [Sylph]
-Gl bro ur cooked
+I, Sylph Ribbiton, will save this world from a monster like you!
+---
+[Sylph]
+I will defend this realm, no matter the cost!
 ---
 <SylphSpringFightLose>
 ===
@@ -51,7 +58,10 @@ Gl bro ur cooked
 SylphSpringFightFair
 ===
 [Sylph]
-Gl bro (but for real)
+I, Sylph Ribbiton, will save this world from a monster like you!
+---
+[Sylph]
+I will defend this realm, no matter the cost!
 ---
 <SylphSpringFightFair>
 ===
@@ -59,8 +69,80 @@ Gl bro (but for real)
 SylphSpringLeave
 ===
 [Sylph]
-Get outta here
+Then begone!
 ---
 <SylphSpringKickout>
+===
+###
+SylphSpringFightOpener
+===
+[Ravenna]
+Sylph, it's us! We're your friends!
+---
+[Sylph]
+I have no friends. Only... only enemies.
+---
+[Sylph]
+And I must destroy my enemies. That is... that is what mother taught me.
+===
+###
+SylphSpringFightPhase2
+===
+[Sylph]
+No. I still have more to give. I must... I must protect this realm!
+===
+###
+SylphSpringFightEnder
+===
+[Sylph]
+... I... I've failed.
+---
+[Sylph]
+Monsters. I... I am at your mercy.
+---
+[Ravenna]
+We really mean you no harm, Sylph. Are you hurt?
+---
+[Sylph]
+What kind of monster... does not wish to harm their enemy?
+---
+[Ravenna]
+We're not monsters.
+---
+[Dorian]
+Something is affecting your world. Something has taken control of everyone - can you tell us anything about it? We can help you.
+---
+[Sylph]
+Not... monsters? Perhaps I was wrong to judge you both so quickly.
+---
+[Sylph]
+I have heard tales of something that resides not in this world, but in a world within this world. My mother once told me of a figure that granted this realm a gift. The more people that accept her gift, the stronger she becomes.
+---
+[Sylph]
+Eventually, she became a monster so strong no one could oppose her. Even I shake when thinking about her.
+---
+[Sylph]
+All I know her as is the Widow. I... I fear I cannot say much more.
+---
+[Sylph]
+My mother warned of speaking of her.
+---
+[Ravenna]
+Thank you.
+---
+[Sylph]
+If you really are the travellers that you claim to be, I suggest that you abandon this quest and return to your home.
+---
+[Sylph]
+The Widow is not so kind to trespassers such as yourself.
+---
+[Dorian]
+We will free this world from her control.
+---
+[Sylph]
+The way you speak those words - you really believe you can. I must say, you are braver than I. Please, take my technique with you then. You have certainly proved yourself worthy of it.
+---
+[Sylph]
+Maybe with your help... this world can be free from her control once more.
 ===
 ###

@@ -16,7 +16,7 @@ Why do all the fish suck at school?
 Why?
 ---
 [Bobert]
-Because they always get below sea level!!! Eh?
+Because they always get below sea level!!! Eh? Get it? C level? Like C-?
 ---
 [Ravenna]
 Ha... ha...?
@@ -40,11 +40,123 @@ Like the one with the spikes and the unpleasant smell. Oh, nevermind that! What 
 We're off to explore the island!
 ---
 [Bobert]
-Mmmm, sounds adventurous. If you find any interesting fish on your travels, let me know!
+Mmmm, sounds adventurous. Well, if you ever want me take you on a ride across the island, just let me know. I'm always willing to go dock to dock.
+---
+>>!F BobertBeach
+[Ravenna]
+Thank you for the offer, Bobert.
+===
+[Bobert]{BobertRide}
+###
+BobertRide
+===
+[Bobert]
+Need a ride?
+???
+[To the beach](BobertBeach){BobertBeach}
+[To the ruins](BobertRuins){BobertRuins}
+[To the pond](BobertPond){BobertPond}
+[No thanks]{BobertNevermind}
+===
+###
+BobertRuinsVersion
+===
+[Bobert]
+What a coincedance to find you two here! People rare come to this part of the island.
 ---
 [Ravenna]
-Of course! See you later, Bobert.
+We're not disturbing you, are we?
+---
+>>!F BobertRuins
+[Bobert]
+No, not at all! You're just like the rain. Sometimes a few droplets now and then are fun, you know?
+---
+[Bobert]
+Speaking of which, I've come up with a new joke. What does rain do before marriage?
+---
+[Ravenna]
+What?
+---
+[Bobert]
+It precipiDATES!
+---
+[Dorian]
+Uh...
+---
+[Ravenna]
+Oh! I get it! Because precipidation and - that's funny, Bobert. You're getting better at this.
+---
+[Bobert]
+Thanks. Anyways, let me know if you need a ride.
 ===
+[BobertRuins]{BobertRide}
+###
+BobertPondVersion
+===
+[Bobert]
+What a coincedance to find you two here! People rare come to this part of the island.
+---
+[Ravenna]
+We're not disturbing you, are we?
+---
+>>!F BobertPond
+[Bobert]
+No, not at all! I'm just enjoying the view here. The pond provides a nice atmosphere, something about the smell.
+---
+[Bobert]
+Speaking of smell, what kind of ant smells the best?
+---
+[Dorian]
+What?
+---
+[Bobert]
+Deodorant!
+---
+[Ravenna]
+Ha!
+---
+[Bobert]
+Anyways, let me know if you need a ride.
+===
+[BobertPond]{BobertRide}
+###
+BobertNevermind
+===
+[Bobert]
+Well, let me know when you want to take a ride!
+###
+BobertBeach
+===
+[Bobert]
+Away we go!
+---
+[Bobert]
+Here we are. Have fun!
+---
+[Dorian]
+Thank you.
+###
+BobertRuins
+===
+[Bobert]
+Away we go!
+---
+[Bobert]
+Here we are. Have fun! Though, I'd be careful around these parts. I've heard strange tales of this part of the island.
+---
+[Ravenna]
+Oh, we'll be careful.
+###
+BobertPond
+===
+[Bobert]
+Away we go!
+---
+[Bobert]
+Here we are. Have fun!
+---
+[Dorian]
+Thank you.
 ###
 InnerBobert
 ===
