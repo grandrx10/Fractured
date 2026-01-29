@@ -8,17 +8,12 @@ namespace World.Objects
     public class BaseInteractable : Interactable
     {
         // this, Player, Init
-        public UnityEvent<BaseInteractable, GameObject, bool> onInteract;
-
-        private void Start()
-        {
-            onInteract.Invoke(this, null, true);
-        }
+        public UnityEvent<BaseInteractable, GameObject> onInteract;
 
         public override void Interact(GameObject player)
         {
             base.Interact(player);
-            onInteract.Invoke(this, player, false);
+            onInteract.Invoke(this, player);
         }
     }
 }

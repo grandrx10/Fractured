@@ -1,3 +1,4 @@
+using System;
 using Cards;
 using Cards.Core;
 using Game;
@@ -11,23 +12,21 @@ namespace World.Objects
         public Animator animator;
         public CardData card;
         public PersistentID id;
-            
-        private void Init(BaseInteractable I)
+
+        private void Awake()
         {
-            if (id.ID != "" && GlobalState.instance.HasEvent($"CHEST_{id.ID}_OPEN"))
+            GlobalWorldManager.RunOnNextLoad(e =>
             {
-                animator.Play("Open", -1, 1);
-                I.canInteract = false;
-            }
+                if (id.ID != "" && GlobalState.instance.HasEvent($"CHEST_{id.ID}_OPEN"))
+                {
+                    animator.Play("Open", -1, 1);
+                    GetComponent<BaseInteractable>().canInteract = false;
+                }
+            });
         }
 
-        public void Interact(BaseInteractable I, GameObject player, bool init)
+        public void Interact(BaseInteractable I, GameObject player)
         {
-            if (init)
-            {
-                Init(I);
-                return;
-            }
             animator.Play("Open");
             I.canInteract = false;
         
