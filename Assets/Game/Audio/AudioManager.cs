@@ -19,6 +19,9 @@ public class AudioManager : MonoBehaviour
     private Queue<AudioSource> audioSourcePool = new Queue<AudioSource>();
     private List<AudioSource> activeAudioSources = new List<AudioSource>();
 
+    // Track follow targets
+    private Dictionary<AudioSource, Transform> followTargets = new Dictionary<AudioSource, Transform>();
+
     private void Awake()
     {
         if (Instance != null)
@@ -31,18 +34,25 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         for (int i = 0; i < poolSize; i++)
-        {
             CreateAudioSource();
-        }
     }
 
     private void Update()
     {
+        // Update following sounds
+        foreach (var kvp in followTargets)
+        {
+            if (kvp.Key != null && kvp.Value != null)
+                kvp.Key.transform.position = kvp.Value.position;
+        }
+
+        // Cleanup finished sounds
         for (int i = activeAudioSources.Count - 1; i >= 0; i--)
         {
-            if (!activeAudioSources[i].isPlaying)
+            AudioSource src = activeAudioSources[i];
+            if (!src.isPlaying)
             {
-                ReturnToPool(activeAudioSources[i]);
+                ReturnToPool(src);
                 activeAudioSources.RemoveAt(i);
             }
         }
@@ -74,10 +84,17 @@ public class AudioManager : MonoBehaviour
         source.Stop();
         source.clip = null;
         source.loop = false;
+        source.spatialBlend = 1f;
+
+        followTargets.Remove(source);
+
         source.gameObject.SetActive(false);
         audioSourcePool.Enqueue(source);
     }
 
+    // -----------------------------
+    // Standard one-shot
+    // -----------------------------
     public void PlayOneShot(
         AudioClip clip,
         Vector3 position,
@@ -100,6 +117,9 @@ public class AudioManager : MonoBehaviour
         activeAudioSources.Add(source);
     }
 
+    // -----------------------------
+    // Looping at fixed position
+    // -----------------------------
     public AudioSource PlayLooping(
         AudioClip clip,
         Vector3 position,
@@ -123,6 +143,66 @@ public class AudioManager : MonoBehaviour
         return source;
     }
 
+    // -----------------------------
+    // 🔥 FOLLOWING ONE-SHOT
+    // -----------------------------
+    public void PlayFollowingOneShot(
+        AudioClip clip,
+        Transform followTarget,
+        float volume = 1f,
+        bool randomizePitch = true,
+        float spatialBlend = 1f
+    )
+    {
+        if (clip == null || followTarget == null) return;
+
+        AudioSource source = GetAudioSource();
+        source.clip = clip;
+        source.volume = volume * masterVolume;
+        source.pitch = randomizePitch ? Random.Range(minPitch, maxPitch) : 1f;
+        source.spatialBlend = spatialBlend;
+        source.loop = false;
+
+        followTargets[source] = followTarget;
+
+        source.transform.position = followTarget.position;
+        source.Play();
+
+        activeAudioSources.Add(source);
+    }
+
+    // -----------------------------
+    // 🔥 FOLLOWING LOOP
+    // -----------------------------
+    public AudioSource PlayFollowingLoop(
+        AudioClip clip,
+        Transform followTarget,
+        float volume = 1f,
+        bool randomizePitch = true,
+        float spatialBlend = 1f
+    )
+    {
+        if (clip == null || followTarget == null) return null;
+
+        AudioSource source = GetAudioSource();
+        source.clip = clip;
+        source.volume = volume * masterVolume;
+        source.pitch = randomizePitch ? Random.Range(minPitch, maxPitch) : 1f;
+        source.spatialBlend = spatialBlend;
+        source.loop = true;
+
+        followTargets[source] = followTarget;
+
+        source.transform.position = followTarget.position;
+        source.Play();
+
+        activeAudioSources.Add(source);
+        return source;
+    }
+
+    // -----------------------------
+    // Stop looping
+    // -----------------------------
     public void StopLooping(AudioSource source)
     {
         if (source == null) return;

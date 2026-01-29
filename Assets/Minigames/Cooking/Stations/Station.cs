@@ -30,6 +30,7 @@ namespace Minigames.Cooking.Stations
 
         public override void Interact(GameObject player)
         {
+            base.Interact(player);
         }
 
         protected virtual bool CheckCriteria(Cookable heldObject)

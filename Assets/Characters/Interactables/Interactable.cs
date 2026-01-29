@@ -11,13 +11,23 @@ namespace Characters.Interactables
 
         [Header("Audio")]
         public AudioClip interactSound; // assign in inspector, optional
+        public bool playSoundOnStart = false;
 
         public virtual void Interact(GameObject player)
-        {
+        {   
             if (!canInteract)
                 return;
 
-            // Play interaction sound if one is assigned
+            // Only play on completion if the flag is NOT set
+            if (!playSoundOnStart)
+            {
+                PlaySound();
+            }
+        }
+
+
+        public void PlaySound()
+        {
             if (interactSound != null && AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlayOneShot(
@@ -27,5 +37,6 @@ namespace Characters.Interactables
                 );
             }
         }
+
     }
 }

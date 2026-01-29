@@ -81,7 +81,16 @@ namespace Characters
                     // Hold to interact
                     if (Input.GetKey(interactKey))
                     {
-                        isHolding = true;
+                        if (!isHolding)
+                        {
+                            // First frame of holding
+                            isHolding = true;
+                            holdTimer = 0f;
+
+                            // Play sound immediately if the interactable wants it
+                            // currentInteractable.PlaySound();
+                        }
+
                         holdTimer += Time.deltaTime;
 
                         if (interactSlider != null)
@@ -101,6 +110,7 @@ namespace Characters
                         if (isHolding)
                             ResetHold();
                     }
+
                 }
             }
             else

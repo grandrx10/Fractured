@@ -8,6 +8,7 @@ namespace Minigames.Cooking.Stations
     {
         public override void Interact(GameObject player)
         {
+            base.Interact(player);
             Cook cook = OpenWorldEnv.Current
                 ?.PlayerTransform
                 ?.GetComponent<Cook>();

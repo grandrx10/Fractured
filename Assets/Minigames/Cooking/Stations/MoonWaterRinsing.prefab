@@ -50,6 +50,8 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 2
   interactText: (E) to Rinse
+  interactSound: {fileID: 8300000, guid: 37003f074ae26ee47b40cd6e875c854b, type: 3}
+  playSoundOnStart: 0
   stationPoint: {fileID: 6656138209177012108}
 --- !u!54 &2183586001467198139
 Rigidbody:
@@ -234,7 +236,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

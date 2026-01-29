@@ -16,6 +16,7 @@ namespace Minigames.Cooking.CookingStuff
 
         public override void Interact(GameObject player)
         {
+            base.Interact(player);
             Cook cook = player.GetComponent<Cook>();
             if (cook == null) return;
 

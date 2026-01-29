@@ -9785,6 +9785,8 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Challenge
+  interactSound: {fileID: 0}
+  playSoundOnStart: 0
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -15421,6 +15423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e343ad6ae3344b4791efbb6ddca13a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   conversationName: CyraTauntStairs
   triggerOnAwake: 0
   triggerOnlyOnce: 0
@@ -28435,6 +28439,8 @@ MonoBehaviour:
   openHeight: 5
   moveDuration: 1
   startOpen: 0
+  openSound: {fileID: 8300000, guid: b5fa79efe6a7efc42ae27daf5a9f602c, type: 3}
+  volume: 1
   id: {fileID: 7663039325508422246}
   symbolChangers:
   - {fileID: 1432404113}
