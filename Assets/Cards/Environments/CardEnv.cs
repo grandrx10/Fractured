@@ -4,6 +4,7 @@ using System.Linq;
 using Cards.Card_Assets.General_Behaviors;
 using Characters.Player;
 using Game.Health;
+using Game.VisualEffects;
 using UnityEngine;
 
 namespace Cards.Environments
@@ -22,7 +23,8 @@ namespace Cards.Environments
         public float environmentExitTime;
         public float environmentIntroTime;
         public float environmentIntroRad;
-        public bool showRadius = true;
+        public FogSettings fog;
+        public bool showRadius = true, drawPoints=true;
         public RaviMode raviMode = RaviMode.Normal;
         [SerializeField] private List<Transform> environmentCenters;
         [HideInInspector] public bool initialized;
@@ -77,11 +79,12 @@ namespace Cards.Environments
         
         public T AddEffect<T>(string effectId="effect") where T : PlayerEffect
         {
-            var other = _effects.Find(e => e is T);
+            var other = _effects.Find(e => e is T && 
+                                           (e.Unique != PlayerEffect.EffectStackBehavior.UniqueId || e.id == effectId));
             if (other)
             {
                 if (other.Unique == PlayerEffect.EffectStackBehavior.Unique) return null;
-                if (other.Unique == PlayerEffect.EffectStackBehavior.UniqueId && other.id == effectId) return null;
+                if (other.Unique == PlayerEffect.EffectStackBehavior.UniqueId) return null;
                 if (other.Unique == PlayerEffect.EffectStackBehavior.Replace) Destroy(other);
             }
             
@@ -138,15 +141,19 @@ namespace Cards.Environments
 
         private void OnDrawGizmos()
         {
-            if (!showRadius) return;
+#if UNITY_EDITOR
+            if (!showRadius && !drawPoints) return;
             foreach (var v in environmentCenters)
             {
-                Gizmos.DrawWireSphere(v.position, environmentIntroRad);
-#if UNITY_EDITOR
-                UnityEditor.Handles.Label(v.position, v.name);
-                Gizmos.DrawSphere(v.position, 0.05f);
-#endif
+                if (showRadius) Gizmos.DrawWireSphere(v.position, environmentIntroRad);
+
+                if (drawPoints)
+                {
+                    UnityEditor.Handles.Label(v.position, v.name);
+                    Gizmos.DrawSphere(v.position, 0.05f);
+                }
             }
+#endif
         }
     }
 }

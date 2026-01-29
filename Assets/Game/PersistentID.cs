@@ -77,4 +77,16 @@ public class PersistentID : MonoBehaviour
         }
         return false;
     }
+    
+    public int Seed()
+    {
+        unchecked
+        {
+            int hash = 23;
+            foreach (char c in ID)
+                hash = hash * 31 + c;
+            return hash;
+        }
+    }
+
 }

@@ -30,7 +30,7 @@ public class GlobalLightLerp : MonoBehaviour
             return;
 
         float t = GlobalWorldManager.Instance.CurvedTransitionTime;
-
+        // Debug.Log(t);
         if (t == -1f)
         {
             ApplyProperties(toProperties.Value, targetLight);
