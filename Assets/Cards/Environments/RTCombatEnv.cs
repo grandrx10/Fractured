@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using World.Domain;
 using Cards.Environments;
+using Cards.Visual;
 using Game;
 using Characters.Dialogue;
 
@@ -53,6 +54,7 @@ namespace Cards.Environments
             maxHealth = Mathf.Max(maxHealth, 1);
             _health = maxHealth;
             _healthInstance = player.gameObject.AddComponent<PlayerHealth>();
+            GameObject.FindAnyObjectByType<PlayerInventory>().MenuOff();
             _healthInstance.Init(this);
             PlayerInteractController.PlayerInputs.InCombat = true;
             _healthInitialized = true;

@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Characters.Dialogue;
 
+[RequireComponent(typeof(PersistentID))]
 public class PipePuzzleManager : PuzzleManager
 {
-    public static PipePuzzleManager Instance;
-
     [Header("Grid")]
     public int width = 6;
     public int height = 6;
@@ -32,12 +31,12 @@ public class PipePuzzleManager : PuzzleManager
 
     protected void Awake()
     {
-        Instance = this;
         gridOrigin = Vector3.zero; // LOCAL origin
         GeneratePuzzle();
         RecalculateFlow();
     }
-
+    
+    [ContextMenu("solve")]
     public override void OnPuzzleSolved()
     {
         base.OnPuzzleSolved();
@@ -48,9 +47,12 @@ public class PipePuzzleManager : PuzzleManager
     }
 
     // ===================== PUZZLE GENERATION =====================
-
+    
+    [ContextMenu("generate")]
     private void GeneratePuzzle()
     {
+        var oldState = Random.state;
+        Random.InitState(GetComponent<PersistentID>().Seed());
         ClearGrid();
         grid.Clear();
         initialRotations.Clear();
@@ -92,6 +94,8 @@ public class PipePuzzleManager : PuzzleManager
             int r = Random.Range(0, 4);
             pipe.SetInitialRotation(r);
         }
+        
+        Random.state = oldState;
     }
 
     private List<Vector2Int> GeneratePath(Vector2Int start, Vector2Int end)
@@ -154,7 +158,7 @@ public class PipePuzzleManager : PuzzleManager
         pipe.shape = prefab.shape;
         pipe.isSource = false;
         pipe.isSink = false;
-
+        pipe.puzzleManager = this;
         return pipe;
     }
 
@@ -172,6 +176,8 @@ public class PipePuzzleManager : PuzzleManager
         pipe.transform.localPosition = GridToLocal(cell);
         pipe.transform.localRotation = Quaternion.identity;
         pipe.shape = prefab.shape;
+        pipe.puzzleManager = this;
+        
         return pipe;
     }
 

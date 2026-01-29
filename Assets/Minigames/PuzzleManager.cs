@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public abstract class PuzzleManager : MonoBehaviour
 {
     protected bool isSolved = false;
-
+    public UnityEvent onSolve;
     /// <summary>
     /// Called when the puzzle is successfully solved.
     /// </summary>
@@ -11,7 +13,7 @@ public abstract class PuzzleManager : MonoBehaviour
     {
         if (isSolved)
             return;
-
+        onSolve.Invoke();
         isSolved = true;
         Debug.Log($"{gameObject.name} puzzle solved.");
     }

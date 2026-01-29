@@ -47,19 +47,19 @@ namespace Cards
         {
             if (card == selectedCard) return;
 
-            if (card)
-            {
-                foreach (var hold in card.GetAllBehaviors<IBehaviorHoldListener>())
-                {
-                    hold.StartHold(card);
-                }
-            }
-
             if (selectedCard)
             {
                 foreach (var hold in selectedCard.GetAllBehaviors<IBehaviorHoldListener>())
                 {
                     hold.StopHold(card);
+                }
+            }
+            
+            if (card)
+            {
+                foreach (var hold in card.GetAllBehaviors<IBehaviorHoldListener>())
+                {
+                    hold.StartHold(card);
                 }
             }
             
