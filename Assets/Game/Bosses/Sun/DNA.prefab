@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8963437953668580542}
   - component: {fileID: -4236925043851437767}
   - component: {fileID: -5541431328034715905}
+  - component: {fileID: 3564670573668476106}
   m_Layer: 0
   m_Name: DNA
   m_TagString: Untagged
@@ -74,6 +75,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+--- !u!114 &3564670573668476106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4226992968916193412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 0f232c47425fb224a8b0cd9ce9f8e179, type: 3}
+  mode: 1
+  volume: 1
+  randomizePitch: 1
 --- !u!1 &7687522233862040476
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,9 @@ namespace Game.Bosses.Sylph
     {
         [Header("Spawn Settings")]
         public string spawnPointName;   // The boss point to fire from
+        [Header("Audio")]
+        public AudioClip splashSound;
+
 
         [Header("Attack Settings")]
         public float attackInterval = 0.5f;
@@ -85,10 +88,17 @@ namespace Game.Bosses.Sylph
                     rb.isKinematic = true;
                     rb.useGravity = false;
 
+                    // --- PLAY AUDIO HERE ---
+                    if (AudioManager.Instance != null && splashSound != null)
+                    {
+                        AudioManager.Instance.PlayOneShot(splashSound, spawnPos, 1f);
+                    }
+
                     boss.GetComponent<MonoBehaviour>().StartCoroutine(
                         LerpParabola(proj, rb, spawnPos, targetPos, splashDuration)
                     );
                 }
+
 
                 yield return new WaitForSeconds(attackInterval);
             }

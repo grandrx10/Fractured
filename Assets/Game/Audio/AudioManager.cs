@@ -15,7 +15,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Pooling")]
     [SerializeField] private int poolSize = 10;
-    
+
     private Queue<AudioSource> audioSourcePool = new Queue<AudioSource>();
     private List<AudioSource> activeAudioSources = new List<AudioSource>();
 
@@ -29,8 +29,7 @@ public class AudioManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        
-        // Pre-create audio source pool
+
         for (int i = 0; i < poolSize; i++)
         {
             CreateAudioSource();
@@ -39,7 +38,6 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        // Clean up finished audio sources
         for (int i = activeAudioSources.Count - 1; i >= 0; i--)
         {
             if (!activeAudioSources[i].isPlaying)
@@ -56,7 +54,6 @@ public class AudioManager : MonoBehaviour
         obj.transform.SetParent(transform);
         AudioSource source = obj.AddComponent<AudioSource>();
         source.playOnAwake = false;
-        source.spatialBlend = 1f; // 3D sound
         obj.SetActive(false);
         audioSourcePool.Enqueue(source);
         return source;
@@ -65,10 +62,8 @@ public class AudioManager : MonoBehaviour
     private AudioSource GetAudioSource()
     {
         if (audioSourcePool.Count == 0)
-        {
             return CreateAudioSource();
-        }
-        
+
         AudioSource source = audioSourcePool.Dequeue();
         source.gameObject.SetActive(true);
         return source;
@@ -78,11 +73,18 @@ public class AudioManager : MonoBehaviour
     {
         source.Stop();
         source.clip = null;
+        source.loop = false;
         source.gameObject.SetActive(false);
         audioSourcePool.Enqueue(source);
     }
 
-    public void PlayOneShot(AudioClip clip, Vector3 position, float volume = 1f, bool randomizePitch = true)
+    public void PlayOneShot(
+        AudioClip clip,
+        Vector3 position,
+        float volume = 1f,
+        bool randomizePitch = true,
+        float spatialBlend = 1f
+    )
     {
         if (clip == null) return;
 
@@ -91,15 +93,20 @@ public class AudioManager : MonoBehaviour
         source.clip = clip;
         source.volume = volume * masterVolume;
         source.pitch = randomizePitch ? Random.Range(minPitch, maxPitch) : 1f;
+        source.spatialBlend = spatialBlend;
+        source.loop = false;
         source.Play();
 
         activeAudioSources.Add(source);
     }
 
-    /// <summary>
-    /// Plays a looping AudioClip at a position and returns the AudioSource so it can be stopped manually.
-    /// </summary>
-    public AudioSource PlayLooping(AudioClip clip, Vector3 position, float volume = 1f, bool randomizePitch = true)
+    public AudioSource PlayLooping(
+        AudioClip clip,
+        Vector3 position,
+        float volume = 1f,
+        bool randomizePitch = true,
+        float spatialBlend = 1f
+    )
     {
         if (clip == null) return null;
 
@@ -108,6 +115,7 @@ public class AudioManager : MonoBehaviour
         source.clip = clip;
         source.volume = volume * masterVolume;
         source.pitch = randomizePitch ? Random.Range(minPitch, maxPitch) : 1f;
+        source.spatialBlend = spatialBlend;
         source.loop = true;
         source.Play();
 
@@ -115,30 +123,21 @@ public class AudioManager : MonoBehaviour
         return source;
     }
 
-    /// <summary>
-    /// Stops a looping sound and returns it to the pool.
-    /// </summary>
     public void StopLooping(AudioSource source)
     {
         if (source == null) return;
 
         if (activeAudioSources.Contains(source))
-        {
             activeAudioSources.Remove(source);
-        }
 
-        source.Stop();
-        source.loop = false;
         ReturnToPool(source);
     }
-
 
     public void StopAllSounds()
     {
         foreach (var source in activeAudioSources)
-        {
             ReturnToPool(source);
-        }
+
         activeAudioSources.Clear();
     }
 }
