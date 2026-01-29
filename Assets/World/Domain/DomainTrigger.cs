@@ -21,10 +21,9 @@ namespace World.Domain
             Trigger(GetStartPoint());
         }
 
-        public void TriggerInteract(BaseInteractable __, GameObject _, bool init)
+        public void TriggerInteract(BaseInteractable __, GameObject _)
         {
-            if (!init)
-                Trigger();
+            Trigger();
         }
 
         public void Trigger(Vector3 startPoint)

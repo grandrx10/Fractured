@@ -49,6 +49,28 @@ public class GlobalWorldManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         PlayerAgent = FindAnyObjectByType<PlayerAgent>();
     }
+    
+    public static void RunOnNextPreLoad(Action<CardEnv> action)
+    {
+        void Handler(CardEnv env)
+        {
+            OnPreLoadNewScene -= Handler;
+            action?.Invoke(env);
+        }
+
+        OnPreLoadNewScene += Handler;
+        
+    }
+    public static void RunOnNextLoad(Action<CardEnv> action)
+    {
+        void Handler(CardEnv env)
+        {
+            OnLoadNewScene -= Handler;
+            action?.Invoke(env);
+        }
+
+        OnLoadNewScene += Handler;
+    }
 
     [ContextMenu("Shuffle IDs")]
     private void ShuffleIDs()

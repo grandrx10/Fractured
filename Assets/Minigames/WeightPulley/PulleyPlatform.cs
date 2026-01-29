@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cards.Environments;
 using UnityEngine;
 
 public class PulleyPlatform : MonoBehaviour
@@ -13,8 +14,14 @@ public class PulleyPlatform : MonoBehaviour
     public float minOffset = -5f;
     public float maxOffset = 5f;
 
+    [Header("Rope Visual")]
+    public Transform ropeTransform;
+    public float baseYScale = 1f;
+    public float yScalePerUnit = 0.2f;
+
     private readonly HashSet<Rigidbody> bodiesOnPlatform = new HashSet<Rigidbody>();
     private float baseY;
+    private Rigidbody rb;
 
     public float TotalMass
     {
@@ -32,14 +39,23 @@ public class PulleyPlatform : MonoBehaviour
 
     private void Awake()
     {
+        GlobalWorldManager.OnPreLoadNewScene += Init;
+    }
+
+    private void Init(CardEnv env)
+    {
+        GlobalWorldManager.OnPreLoadNewScene -= Init;
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
         baseY = transform.position.y;
+        baseYScale = ropeTransform.localScale.y;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.attachedRigidbody != null)
             bodiesOnPlatform.Add(other.attachedRigidbody);
-        Debug.Log("ENTERED!");
     }
 
     private void OnTriggerExit(Collider other)
@@ -48,67 +64,74 @@ public class PulleyPlatform : MonoBehaviour
             bodiesOnPlatform.Remove(other.attachedRigidbody);
     }
 
-    private void FixedUpdate()
-{
-    if (otherPlatform == null)
-        return;
-
-    float myMass = TotalMass;
-    float otherMass = otherPlatform.TotalMass;
-
-    float delta;
-
-    // CASE 1: Equal mass → return to equilibrium
-    if (Mathf.Approximately(myMass, otherMass))
+    float ComputeRopeVelocity()
     {
-        float myOffset = transform.position.y - baseY;
+        float myMass = TotalMass;
+        float otherMass = otherPlatform.TotalMass;
 
-        // Already balanced
-        if (Mathf.Abs(myOffset) < 0.01f)
+        if (Mathf.Approximately(myMass, otherMass))
+        {
+            float offset = transform.position.y - baseY;
+            return -offset * moveSpeed;
+        }
+
+        return (otherMass - myMass) * moveSpeed;
+    }
+
+    void FixedUpdate()
+    {
+        if (!rb || !otherPlatform)
             return;
 
-        // Move back toward base
-        float direction = myOffset > 0f ? -1f : 1f;
-        delta = direction * moveSpeed * Time.fixedDeltaTime;
+        float ropeVelocity = ComputeRopeVelocity();
+        float y = rb.position.y;
+
+        float minY = baseY + minOffset;
+        float maxY = baseY + maxOffset;
+
+        // Only stop velocity if it would move further outside
+        if (y <= minY && ropeVelocity < 0f)
+            ropeVelocity = 0f;
+        else if (y >= maxY && ropeVelocity > 0f)
+            ropeVelocity = 0f;
+
+        rb.linearVelocity = new Vector3(0f, ropeVelocity, 0f);
+
+        UpdateRopeVisual();
     }
-    // CASE 2: Unequal mass → heavier side goes down
-    else
+
+    
+    void OnDrawGizmos()
     {
-        float direction = myMass > otherMass ? -1f : 1f;
-        delta = direction * moveSpeed * Time.fixedDeltaTime;
+        float y = Application.isPlaying ? baseY : transform.position.y;
+
+        float minY = y + minOffset;
+        float maxY = y + maxOffset;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(
+            new Vector3(transform.position.x - 0.5f, minY, transform.position.z),
+            new Vector3(transform.position.x + 0.5f, minY, transform.position.z)
+        );
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(
+            new Vector3(transform.position.x - 0.5f, maxY, transform.position.z),
+            new Vector3(transform.position.x + 0.5f, maxY, transform.position.z)
+        );
     }
 
-    float newMyY = transform.position.y + delta;
-    float newOtherY = otherPlatform.transform.position.y - delta;
 
-    // Limits
-    float myMinY = baseY + minOffset;
-    float myMaxY = baseY + maxOffset;
-    float otherMinY = otherPlatform.baseY + otherPlatform.minOffset;
-    float otherMaxY = otherPlatform.baseY + otherPlatform.maxOffset;
+    void UpdateRopeVisual()
+    {
+        if (!ropeTransform)
+            return;
 
-    bool myBlocked =
-        (newMyY < myMinY && delta < 0f) ||
-        (newMyY > myMaxY && delta > 0f);
+        float displacement = baseY - transform.position.y;
+        float newYScale = baseYScale + displacement * yScalePerUnit;
 
-    bool otherBlocked =
-        (newOtherY < otherMinY && -delta < 0f) ||
-        (newOtherY > otherMaxY && -delta > 0f);
-
-    if (myBlocked || otherBlocked)
-        return;
-
-    transform.position = new Vector3(
-        transform.position.x,
-        newMyY,
-        transform.position.z
-    );
-
-    otherPlatform.transform.position = new Vector3(
-        otherPlatform.transform.position.x,
-        newOtherY,
-        otherPlatform.transform.position.z
-    );
-}
-
+        Vector3 scale = ropeTransform.localScale;
+        scale.y = newYScale;
+        ropeTransform.localScale = scale;
+    }
 }

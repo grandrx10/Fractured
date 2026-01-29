@@ -245,7 +245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &47726988
 Transform:
   m_ObjectHideFlags: 0
@@ -270,6 +270,63 @@ Transform:
   - {fileID: 1073896268}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &179862724
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 319808247074576418, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_Name
+      value: DialogueManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -27.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 27.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 39.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704944393633662882, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
 --- !u!1 &363191580
 GameObject:
   m_ObjectHideFlags: 0
@@ -4164,6 +4221,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Enter
+  interactSound: {fileID: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -4371,13 +4429,38 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4462714776887876798, guid: 347996ad55973574487c063c8eee4b05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 839589006}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1288463955073142123, guid: 347996ad55973574487c063c8eee4b05, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 1880844029}
   m_SourcePrefab: {fileID: 100100000, guid: 347996ad55973574487c063c8eee4b05, type: 3}
+--- !u!1 &1876817995 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1288463955073142123, guid: 347996ad55973574487c063c8eee4b05, type: 3}
+  m_PrefabInstance: {fileID: 1876817994}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1880844028 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4462714776887876798, guid: 347996ad55973574487c063c8eee4b05, type: 3}
   m_PrefabInstance: {fileID: 1876817994}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1880844029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876817995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764933e7d7f89ce40bddb1c85feb4093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 1
+  interactTime: 0
+  interactText: (E) Inspect
+  interactSound: {fileID: 8300000, guid: d4580beb9a8b7e94f81e5666763e6e2a, type: 3}
+  defaultConversationName: SpringWolfInnerBox
 --- !u!1 &1906070939
 GameObject:
   m_ObjectHideFlags: 0
@@ -4544,7 +4627,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0c8a75ff5cebb0428ba6fcf68babbf8, type: 2}
+  - {fileID: 2100000, guid: 79ccceadd86121d459fc9ec4ec0cfbfc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4670,6 +4753,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Enter
+  interactSound: {fileID: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -4853,6 +4937,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Enter
+  interactSound: {fileID: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -5502,6 +5587,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 593258325}
   - {fileID: 625718990}
+  - {fileID: 179862724}
   - {fileID: 1618669759}
   - {fileID: 1311300425}
   - {fileID: 1058727529}

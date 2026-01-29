@@ -2581,8 +2581,25 @@ MonoBehaviour:
     m_RotationOrder: 4
   airCurve:
     serializedVersion: 2
-    m_Curve: [{serializedVersion: 3, time: 0, value: 0, inSlope: 0, outSlope: 0, tangentMode: 0, weightedMode: 0, inWeight: 0, outWeight: 0},
-      {serializedVersion: 3, time: 20, value: 1, inSlope: 0.12639377, outSlope: 0.12639377, tangentMode: 0, weightedMode: 0, inWeight: 0.03921566, outWeight: 0}]
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 20
+      value: 1
+      inSlope: 0.12639377
+      outSlope: 0.12639377
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.03921566
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -2596,7 +2613,9 @@ MonoBehaviour:
   orientation: {fileID: 3603662854328374165}
   footstepClip: {fileID: 8300000, guid: cf4f38366db7ac148b2b2f2363dea7b6, type: 3}
   jumpClip: {fileID: 8300000, guid: 24566a0a8bb5b2342b54bd1533fb6849, type: 3}
+  landClip: {fileID: 8300000, guid: de762c321cc220c4191756572c4133d2, type: 3}
   footstepInterval: 0.3
+  minFootstepSpeed: 1.2
   maxSlopeAngle: 75
   slideAccelerationFactor: 0.05
   sideDrag: 0.5
@@ -2618,7 +2637,7 @@ MonoBehaviour:
   interactRange: 15
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 18295
+    m_Bits: 16759
   interactKey: 101
   raycastOrigin: {fileID: 2529452383630818853}
   useSphereCast: 0

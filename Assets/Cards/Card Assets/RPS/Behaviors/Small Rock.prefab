@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -5964529197348430249}
   - component: {fileID: -5421179156962236046}
   - component: {fileID: 8059965364052279252}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Small Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081ab33155a453848b72999ac31454fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 10
+  lifetime: 15
 --- !u!114 &8059965364052279252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,10 +179,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card: {fileID: 0}
   dealDamageOnce: 1
+  damageMultiplier: 1
   damageOnTrigger: 1
   damageOnCollide: 1
   destroyAfterDamage: 0
   destroyOnTouchLayers:
     serializedVersion: 2
     m_Bits: 0
-  showDebugLogs: 1
+  showDebugLogs: 0
