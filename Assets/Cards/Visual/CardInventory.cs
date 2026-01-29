@@ -94,6 +94,11 @@ namespace Cards.Visual
             }
         }
 
+        public void MenuOff()
+        {
+            if (deckMenu.activeSelf) ToggleMenu();
+        }
+
         private void ToggleMenu()
         {
             bool deckActive = deckMenu.activeSelf;

@@ -1,16 +1,22 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using Cards.Environments;
+using Cards.PhysicalProperties;
 using Characters.Interactables;
+using Minigames;
+using Utils;
 
-public class DiscretePushBox : Interactable
+public class DiscretePushBox : Interactable, IPuzzleResettable
 {
+    public string id;
     [Header("Push Settings")]
     public float pushDistance = 3f;
+    private float _epsilon = 0.3f;
     public LayerMask groundLayer;
     public float lerpDuration = 1f;
-
-    private bool isMoving = false;
+    public bool keepMoving;
+    public bool isMoving = false;
     private Collider[] boxColliders;
     private Coroutine fallRoutine;
 
@@ -37,7 +43,7 @@ public class DiscretePushBox : Interactable
         if (!canInteract || isMoving)
             return;
 
-        Vector3 playerPos = OpenWorldEnv.Current.PlayerPos;
+        Vector3 playerPos = player.transform.position;
         Vector3 boxPos = transform.position;
 
         // Direction from player to box (XZ only)
@@ -53,25 +59,33 @@ public class DiscretePushBox : Interactable
         else
             pushDir = toBox.z > 0 ? Vector3.forward : Vector3.back;
 
+        Push(pushDir);
+    }
+
+    private void Push(Vector3 pushDir)
+    {
+        Vector3 boxPos = transform.position;
         Vector3 targetPos = boxPos + pushDir * pushDistance;
         targetPos.y = boxPos.y;
 
-        if (IsPathBlocked(boxPos, pushDir, pushDistance))
+        if (IsPathBlocked(boxPos, pushDir, pushDistance - _epsilon))
             return;
 
-        StartCoroutine(PushAndFall(targetPos));
+        StartCoroutine(PushAndFall(pushDir, targetPos));
     }
 
     private bool IsPathBlocked(Vector3 origin, Vector3 direction, float distance)
     {
         // Wall check only
-        return Physics.Raycast(origin, direction, distance, groundLayer);
+        return Physics.Raycast(origin, direction, distance, groundLayer, QueryTriggerInteraction.Ignore);
     }
-
-    private IEnumerator PushAndFall(Vector3 horizontalTarget)
+    
+    bool _fell;
+    
+    private IEnumerator PushAndFall(Vector3 dir, Vector3 horizontalTarget)
     {
         isMoving = true;
-
+        canInteract = false;
         // Phase 1: horizontal push
         Vector3 startPos = transform.position;
         float elapsed = 0f;
@@ -85,34 +99,35 @@ public class DiscretePushBox : Interactable
         }
 
         transform.position = horizontalTarget;
-
+        _fell = false;
         // Phase 2: falling
         yield return StartCoroutine(ApplyDiscreteFall());
-
         isMoving = false;
+        canInteract = true;
+        if (keepMoving && !_fell) Push(dir);
     }
 
     private IEnumerator PassiveFall()
     {
         isMoving = true;
-
+        canInteract = false;
         yield return StartCoroutine(ApplyDiscreteFall());
 
         isMoving = false;
+        canInteract = true;
         fallRoutine = null;
     }
 
     private bool HasGroundBelow()
     {
-        float boxHeight = 3f;
-        float epsilon = 0.05f;
+        float boxHeight = pushDistance;
 
         Vector3 rayStart =
-            transform.position + Vector3.down * (boxHeight / 2f - epsilon);
+            transform.position + Vector3.down * (boxHeight / 2f - _epsilon);
 
-        float checkDistance = epsilon + 0.02f;
+        float checkDistance = _epsilon + 0.02f;
 
-        if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, checkDistance, groundLayer))
+        if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, checkDistance, groundLayer, QueryTriggerInteraction.Ignore))
         {
             // Ignore self-collisions
             foreach (var col in boxColliders)
@@ -120,7 +135,7 @@ public class DiscretePushBox : Interactable
                 if (hit.collider == col)
                     return false;
             }
-
+            //Debug.Log(hit.collider.name);
             return true;
         }
 
@@ -132,19 +147,18 @@ public class DiscretePushBox : Interactable
         int maxFallSteps = 100;
         int steps = 0;
 
-        float boxHeight = 3f;
-        float epsilon = 0.05f;
+        float boxHeight = pushDistance;
 
         while (steps < maxFallSteps)
         {
             Vector3 currentPos = transform.position;
 
             Vector3 rayStart =
-                currentPos + Vector3.down * (boxHeight / 2f - epsilon);
+                currentPos + Vector3.down * (boxHeight / 2f - _epsilon);
 
-            float checkDistance = boxHeight + epsilon;
+            float checkDistance = boxHeight/2 + _epsilon;
 
-            if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, checkDistance, groundLayer))
+            if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, checkDistance, groundLayer, QueryTriggerInteraction.Ignore))
             {
                 bool hitSelf = false;
                 foreach (var col in boxColliders)
@@ -171,8 +185,33 @@ public class DiscretePushBox : Interactable
                 yield return null;
             }
 
+            _fell = true;
             transform.position = targetPos;
             steps++;
         }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        var obj = PhysicsHelper.MainObj(other.collider);
+        if (obj && obj.TryGetComponent(out PhysicalObject pObj))
+        {
+            Interact(obj);
+        }
+    }
+    
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = isMoving ? Color.green : Color.red;
+        Gizmos.DrawWireCube(transform.position, transform.localScale/2);
+    }
+#endif
+    public void Reset(Pose parent)
+    {
+        StopAllCoroutines();
+        GetComponent<Rigidbody>().isKinematic = true;
+        isMoving = false;
+        canInteract = true;
     }
 }

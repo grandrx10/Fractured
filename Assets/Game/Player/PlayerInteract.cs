@@ -70,6 +70,7 @@ namespace Characters
 
             if (currentLookTarget != null && currentLookTarget.TryGetComponent(out Interactable currentInteractable) && currentInteractable.canInteract)
             {
+                
                 if (currentInteractable.interactTime <= 0f)
                 {
                     // Instant interaction
@@ -158,11 +159,11 @@ namespace Characters
         {
             bool hitSomething;
             RaycastHit hit;
-            
+            Vector3 pos = raycastOrigin.position + raycastOrigin.forward * 0.3f;
             if (useSphereCast)
             {
                 hitSomething = Physics.SphereCast(
-                    raycastOrigin.position,
+                    pos,
                     sphereCastRadius,
                     raycastOrigin.forward,
                     out hit,
@@ -174,7 +175,7 @@ namespace Characters
             else
             {
                 hitSomething = Physics.Raycast(
-                    raycastOrigin.position,
+                    pos,
                     raycastOrigin.forward,
                     out hit,
                     interactRange,
@@ -189,7 +190,9 @@ namespace Characters
         private void CheckForInteractable()
         {
             GameObject go = PhysicsHelper.MainObj(GetPlayerLookTarget(interactableLayer).collider);
-            Debug.Log(go);
+            // Debug.Log(go);
+            if (showDebugRay)
+                Debug.DrawRay(raycastOrigin.position, raycastOrigin.forward * interactRange, Color.red);
             if (go)
             {
                 currentLookTarget = go;
@@ -197,8 +200,7 @@ namespace Characters
             }
 
             currentLookTarget = null;
-            if (showDebugRay)
-                Debug.DrawRay(raycastOrigin.position, raycastOrigin.forward * interactRange, Color.red);
+            
         }
 
         private void UpdateUi()
@@ -220,12 +222,17 @@ namespace Characters
 
         public Vector3 GetCameraRaycastTarget()
         {
-            Ray ray = new Ray(raycastOrigin.position, raycastOrigin.forward);
+            Vector3 pos = raycastOrigin.position + raycastOrigin.forward * 0.3f;
+            
+            Ray ray = new Ray(pos, raycastOrigin.forward);
             RaycastHit hit;
 
-            // Use the same layer mask as the interactables
+            
             if (Physics.Raycast(ray, out hit, 500f, interactableLayer))
+            {
+                Debug.Log(hit.collider.name);
                 return hit.point;
+            }
 
             return raycastOrigin.position + raycastOrigin.forward * 500f;
         }

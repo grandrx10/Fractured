@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4370507121343200737}
   - component: {fileID: 8258398792643149174}
   - component: {fileID: 8387996075014150244}
+  - component: {fileID: 2028774858478404120}
+  - component: {fileID: 2616006909855160276}
   m_Layer: 0
   m_Name: Shell B
   m_TagString: Untagged
@@ -86,6 +88,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2028774858478404120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3228851252215052311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a1ea405ffd446492e9d7c15d9fbe93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 429dcd90-5a7d-4435-9bb5-dbea1afdc6e0
+--- !u!114 &2616006909855160276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3228851252215052311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bea4a366198456780cfe9e7d87dccb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: cf23e3aff0b65d0429e71a8502a1b568, type: 2}
+  - {fileID: 2100000, guid: 676e561f9a68bcd41bc541ef1c1969b8, type: 2}
+  - {fileID: 2100000, guid: 5b3e5db66dc0fbb4ba02ab9b7320d900, type: 2}
+  - {fileID: 2100000, guid: c3b18ac037bceb84caf5b5435f1c0f19, type: 2}
+  spawnPoints:
+  - {fileID: 8387996075014150244}
 --- !u!1 &4947321660139133758
 GameObject:
   m_ObjectHideFlags: 0

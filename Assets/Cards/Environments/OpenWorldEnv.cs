@@ -18,7 +18,7 @@ namespace Cards.Environments
         private PlayerInteractController _playerInteract;
         
         public float minCardDelay = 0.2f;
-        protected PlayerMovement PlayerMovement;
+        public PlayerMovement PlayerMovement { get; private set; }
         
         public override void Initialize(PlayerAgent playerAgent)
         {

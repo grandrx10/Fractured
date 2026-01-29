@@ -15,15 +15,15 @@ public class StackHealBehavior : Behavior, IBehaviorUseListener, IBehaviorHasSta
     public string abilityName;
     public bool Use(Card card, CardEnv env, Agent agent)
     {
-        if (env is RTCombatEnv rtc)
+        if (true)
         {
             _stacks++;
             if (_stacks >= stacks)
             {
-                stacks = 0;
-                rtc.Heal(healing);
-                SetStacks(env);
+                _stacks = 0;
+                //rtc.Heal(healing);
             }
+            SetStacks(env);
             return true;
         }
         return false;
@@ -37,7 +37,7 @@ public class StackHealBehavior : Behavior, IBehaviorUseListener, IBehaviorHasSta
     public Card AttachedCard { get; set; }
     public void StartMatch(Card card, RTCombatEnv env)
     {
-        stacks = 0;
+        _stacks = 0;
         SetStacks(env);
     }
 
@@ -45,17 +45,17 @@ public class StackHealBehavior : Behavior, IBehaviorUseListener, IBehaviorHasSta
     {
         if (env.TryGetEffectById(out HealEffect effect, abilityName))
         {
-            if (stacks > 0) effect.SetOrbs(0);
+            if (_stacks > 0) effect.SetOrbs(_stacks);
             else Destroy(effect);
-        } else if (stacks > 0)
+        } else if (_stacks > 0)
         {
             var eff = env.AddEffect<HealEffect>(abilityName);
-            eff.SetOrbs(stacks);
+            eff.orbs = _stacks;
         }
     }
 
     public void EndMatch(Card card, RTCombatEnv env)
     {
-        throw new System.NotImplementedException();
+        
     }
 }
