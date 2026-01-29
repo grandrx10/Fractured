@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Cards.Environments;
 using Game;
 using UnityEngine;
 
@@ -27,20 +29,22 @@ public class Door : MonoBehaviour
     [Range(0f, 1f)] public float volume = 1f;
     
     public PersistentID id;
-    protected virtual void Awake()
+
+    private void Awake()
     {
+        GlobalWorldManager.OnPreLoadNewScene += Init;
+    }
+
+    private void Init(CardEnv env)
+    {
+        GlobalWorldManager.OnPreLoadNewScene -= Init;
         if (doorObject == null)
             doorObject = gameObject;
 
         closedPosition = doorObject.transform.position;
         openPosition = closedPosition + Vector3.up * openHeight;
         
-        
-    }
-    
-    private void Start()
-    {
-        if (GlobalState.instance.HasEvent($"DOOR_OPEN_{id.ID}")) startOpen = true;
+        if (id && GlobalState.instance.HasEvent($"DOOR_OPEN_{id.ID}")) startOpen = true;
         if (startOpen)
         {
             doorObject.transform.position = openPosition;

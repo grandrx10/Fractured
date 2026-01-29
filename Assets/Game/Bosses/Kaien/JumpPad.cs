@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class JumpPad : MonoBehaviour
 {
     [Header("Jump Settings")]
     public float launchForce = 15f;
+
+    public bool continuous;
     
     [Header("Cooldown")]
     public float cooldown = 1.0f;
@@ -30,13 +33,23 @@ public class JumpPad : MonoBehaviour
         TryLaunch(other.gameObject);
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (continuous) TryLaunch(other.gameObject);
+    }
+
     private void TryLaunch(GameObject obj)
     {
         // Check layer mask first
         if (((1 << obj.layer) & playerLayer) == 0)
+        {
+            if (continuous) Debug.Log("continuous blow up cpu");
             return;
         
         // Search for Rigidbody in parent hierarchy
+        }
+        
+        // Search in parent hierarchy for Rigidbody
         Rigidbody rb = obj.GetComponentInParent<Rigidbody>();
         if (rb == null)
             return;

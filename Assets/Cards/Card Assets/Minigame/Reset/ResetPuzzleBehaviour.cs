@@ -10,6 +10,7 @@ namespace Cards.Card_Assets.Minigame.Reset
     [CreateAssetMenu(fileName = "ResetPuzzle", menuName = "Behaviors/Reset Puzzle")]
     public class ResetPuzzleBehavior : Behavior, IBehaviorUseListener
     {
+        public float range;
         public bool Use(Card card, CardEnv env, Agent agent)
         {
             if (env is not OpenWorldEnv)
@@ -28,7 +29,9 @@ namespace Cards.Card_Assets.Minigame.Reset
             }
 
             foreach (PuzzleManager puzzle in puzzles)
-                puzzle.ResetPuzzle();
+            {
+                if (Vector3.Distance(agent.transform.position, puzzle.transform.position) <= range) puzzle.ResetPuzzle();
+            }
 
             Debug.Log($"Reset {puzzles.Length} puzzle(s).");
             return true;

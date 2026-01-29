@@ -15,9 +15,10 @@ namespace Game.Shop
         public List<ShopInventory.ShopItem> shopItems;
         public string shopName;
         public string shopId;
-        public void Interact(BaseInteractable I, GameObject player, bool init)
+
+        private void Awake()
         {
-            if (init)
+            GlobalWorldManager.RunOnNextLoad(c =>
             {
                 if (shopId == "") return;
                 if (GlobalState.instance.TryGetTup(shopId, out var tup))
@@ -32,9 +33,13 @@ namespace Game.Shop
                         }
                     }
                 }
+            });
+        }
+        
+        
 
-                return;
-            }
+        public void Interact(BaseInteractable I, GameObject player)
+        {
             var canv = GameObject.FindGameObjectWithTag("Main UI");
             Instantiate(shopInventoryPrefab, canv.transform).Populate(shopName, shopItems, i =>
             {

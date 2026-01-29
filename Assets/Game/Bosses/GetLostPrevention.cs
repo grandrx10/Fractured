@@ -32,6 +32,7 @@ public class GetLostPrevention : MonoBehaviour
 
     IEnumerator Teleport()
     {
+        yield return new WaitForSeconds(tpDelay);
         if (effectAtTarget) Instantiate(effectAtTarget, center.position, Quaternion.identity);
         yield return new WaitForSeconds(tpPostDelay);
         if (effectAtBefore) Instantiate(effectAtBefore, transform.position, Quaternion.identity);

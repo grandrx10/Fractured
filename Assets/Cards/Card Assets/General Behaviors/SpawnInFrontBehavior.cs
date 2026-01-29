@@ -8,7 +8,7 @@ using Cards.Core;
 using Cards.PhysicalProperties;
 
 [CreateAssetMenu(menuName = "Behaviors/SpawnInFront")]
-public class SpawnInFrontBehavior : Behavior, IBehaviorUseListener
+public class SpawnInFrontBehavior : Behavior, IBehaviorUseListener, IBehaviorHoldListener
 {
     public PhysicalObject prefab;
     public float distance;
@@ -23,5 +23,17 @@ public class SpawnInFrontBehavior : Behavior, IBehaviorUseListener
     public override string GetDescription(Card card)
     {
         return $"<b>(Active) {abilityName}</b>: {description}.";
+    }
+
+    public void StartHold(Card card)
+    {
+        var pm = FindAnyObjectByType<PlayerMovement>();
+        pm.LookForward = true;
+    }
+
+    public void StopHold(Card card)
+    {
+        var pm = FindAnyObjectByType<PlayerMovement>();
+        pm.LookForward = false;
     }
 }

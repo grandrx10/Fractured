@@ -2,6 +2,7 @@ using System;
 using Cards;
 using Cards.Core;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 namespace Characters
@@ -10,12 +11,15 @@ namespace Characters
     {
         [Header("Movement")]
         public float moveSpeed;
-        public float groundDrag;
+        
+        public float walkSpeed;
+        public float groundDrag, airDrag;
         public float jumpForce;
         public float jumpCooldown;
         public float airMultiplier;
         public float rotationSpeed = 5;
         bool readyToJump;
+        public AnimationCurve dotDirCurve, speedForceCurve;
         public AnimationCurve speedCurve, airCurve;
         
         [Header("Keybinds")]
@@ -30,6 +34,7 @@ namespace Characters
         public PlayerAgent agent;
         public Transform orientation;
         public bool MovementOverride { get; set; }
+        public bool LookForward { get; set; }
 
         [Header("Audio")]
         public AudioClip footstepClip;
@@ -143,6 +148,7 @@ namespace Characters
                 float speedNormalized = Mathf.InverseLerp(minFootstepSpeed, moveSpeed, speed);
                 footstepTimer = Mathf.Lerp(0.6f, 0.3f, speedNormalized);
             }
+            rb.linearDamping = grounded ? groundDrag : airDrag;
         }
 
         private int _airFrames = 0;
@@ -165,25 +171,41 @@ namespace Characters
                 verticalInput = 0;
                 return;
             }
+            
             horizontalInput = Input.GetAxisRaw("Horizontal");
             verticalInput = Input.GetAxisRaw("Vertical");
+        }
+        
+        float GetSpeed()
+        {
+            float walkspeed = Mathf.Min(moveSpeed, walkSpeed);
+            float sprintSpeed = Mathf.Max(moveSpeed, walkSpeed);
+            float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkspeed;
+            return speed;
         }
 
         private void MovePlayer()
         {
             Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-            moveDirection = inputDir;
-            
-            if (inputDir != Vector3.zero)
+            moveDirection = inputDir.normalized;
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            if (LookForward)
+            {
+                var flatLook = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up);
+                rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(flatLook), Time.fixedDeltaTime * rotationSpeed));
+            } else if (inputDir != Vector3.zero && !LookForward)
             {
                 rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(inputDir), Time.fixedDeltaTime * rotationSpeed));
             }
-            animator.SetBool("Moving", moveDirection.magnitude >= 0.1f);
+
             
-            if (grounded)
-                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-            else
-                rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            animator.SetBool("Moving", moveDirection.magnitude >= 0.1f);
+            var dot = Vector3.Dot(moveDirection, flatVel.normalized);
+            var s = dotDirCurve.Evaluate(dot) 
+                    * speedForceCurve.Evaluate(flatVel.magnitude/moveSpeed * dot);
+            var speed = GetSpeed() * s;
+            var airFactor = grounded? 1 : airMultiplier;
+            rb.AddForce(moveDirection * speed * 10f * airFactor, ForceMode.Force);
             SpeedControl();
         }
 
@@ -192,10 +214,10 @@ namespace Characters
             Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             animator.SetFloat("Speed", speedCurve.Evaluate(flatVel.magnitude) * ( _airFrames <= 20 ? 1 : 0.1f));
             
-            
-            if (!MovementOverride && flatVel.magnitude > moveSpeed)
+            var speed = GetSpeed();
+            if (!MovementOverride && flatVel.magnitude > speed && grounded)
             {
-                Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                Vector3 limitedVel = flatVel.normalized * speed;
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
             }
         }

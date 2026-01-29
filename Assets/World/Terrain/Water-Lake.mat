@@ -84,6 +84,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 2800000, guid: cb541e13f614ed748a9058d942f9e9f4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -118,7 +122,8 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _Noise: 15
-    - _NoiseScale: 400
+    - _NoiseHeight: 700
+    - _NoiseScale: 100
     - _NoiseScale_A: 50
     - _NoiseScale_B: 1
     - _NoiseScale_C: 1
@@ -130,6 +135,7 @@ Material:
     - _QueueControl: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Resolution: 8
     - _Scale: 25
     - _Scale_A: 100
     - _Scale_B: 1
@@ -142,15 +148,17 @@ Material:
     - _SrcBlendAlpha: 1
     - _Str: 1.31
     - _Surface: 0
+    - _TexScale: 100
     - _Width: 20
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.12999997, g: 0.3342857, b: 0.78, a: 1}
-    - _BaseColor_1: {r: 0.109024554, g: 0.28426647, b: 0.6603774, a: 0}
+    - _BaseColor: {r: 0.496, g: 0.65387946, b: 1, a: 1}
+    - _BaseColor_1: {r: 0.1348333, g: 0.3467143, b: 0.809, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HSC: {r: 0, g: 2, b: 1, a: 0}
     - _HSV: {r: 2.94, g: 1, b: 1, a: 0}
     - _HSV_A: {r: 1.59, g: 1.5, b: 1, a: 0}
     - _HSV_B: {r: 1, g: 1, b: 1, a: 0}
