@@ -1797,6 +1797,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   phases:
+  - phaseName: Waking Speech
+    attacks:
+    - {fileID: 11400000, guid: ddf9ca7e1e459014faf4df320c472688, type: 2}
+    - {fileID: 11400000, guid: d0eecc9af765eb646adb6a921efa1532, type: 2}
+    - {fileID: 11400000, guid: db533cec8019f61479d40ee05eff7922, type: 2}
+    - {fileID: 11400000, guid: 3b7dfa9a2117a1540958bccf743d7bbd, type: 2}
+    - {fileID: 11400000, guid: 5e833c401581d0b46944f033fda5088d, type: 2}
+    - {fileID: 11400000, guid: ceaa9ad78f5d8ca42ae0f5776c768242, type: 2}
+    - {fileID: 11400000, guid: d8ee9a9a485c11148b40e723b2118da5, type: 2}
+    minHealthThreshold: 400
+    phaseTime: 0
   - phaseName: SplitterPhase
     attacks:
     - {fileID: 11400000, guid: d4b801b729bfab149bceab433f194db4, type: 2}
@@ -1805,17 +1816,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d8ee9a9a485c11148b40e723b2118da5, type: 2}
     - {fileID: 11400000, guid: d0eecc9af765eb646adb6a921efa1532, type: 2}
     minHealthThreshold: 0
-    phaseTime: 0
-  - phaseName: Waking Speech
-    attacks:
-    - {fileID: 11400000, guid: db533cec8019f61479d40ee05eff7922, type: 2}
-    - {fileID: 11400000, guid: 3b7dfa9a2117a1540958bccf743d7bbd, type: 2}
-    - {fileID: 11400000, guid: 5e833c401581d0b46944f033fda5088d, type: 2}
-    - {fileID: 11400000, guid: ceaa9ad78f5d8ca42ae0f5776c768242, type: 2}
-    - {fileID: 11400000, guid: ddf9ca7e1e459014faf4df320c472688, type: 2}
-    - {fileID: 11400000, guid: d8ee9a9a485c11148b40e723b2118da5, type: 2}
-    - {fileID: 11400000, guid: d0eecc9af765eb646adb6a921efa1532, type: 2}
-    minHealthThreshold: 400
     phaseTime: 0
   bossHealth: {fileID: 930106256}
   namedPoints:

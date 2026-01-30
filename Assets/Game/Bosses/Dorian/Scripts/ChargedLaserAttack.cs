@@ -22,7 +22,7 @@ namespace Game.Bosses.Dorian
         public float laserDuration = 3f;         // how long the laser stays active
 
         [Header("Rotation Settings")]
-        public float rotationSpeed = 90f; // degrees per second toward the player during charge/laser
+        public float rotationSpeed, rotationSpeedStart = 90f; // degrees per second toward the player during charge/laser
 
         public override void StartAttack(GameObject boss)
         {
@@ -83,7 +83,7 @@ namespace Game.Bosses.Dorian
                     boss.transform.rotation = Quaternion.RotateTowards(
                         boss.transform.rotation,
                         targetRot,
-                        rotationSpeed * Time.deltaTime
+                        rotationSpeedStart * Time.deltaTime
                     );
                 }
 
