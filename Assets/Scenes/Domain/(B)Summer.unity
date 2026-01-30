@@ -520,23 +520,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9906187
+      value: 0.984054
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.13665478
+      value: 0.16295445
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000061266014
+      value: 0.070341095
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000007610872
+      value: -0.011648135
       objectReference: {fileID: 0}
     - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: far clip plane
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: near clip plane
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6958972981578174323, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -580,11 +584,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6930008
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.493
+      value: 3.7140007
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
@@ -592,19 +596,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99061877
+      value: 0.984054
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.13665478
+      value: 0.16295445
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00000006138423
+      value: 0.070341095
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008467888
+      value: -0.011648135
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1821,16 +1825,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   phases:
-  - phaseName: Waking Speech
-    attacks:
-    - {fileID: 11400000, guid: 6ceabec0922a46d43b262a6b5e792b9a, type: 2}
-    - {fileID: 11400000, guid: a210f1a490812ac40be1332b20dea786, type: 2}
-    - {fileID: 11400000, guid: ca8d2bf572b73b44aa908ca0668d4cd4, type: 2}
-    - {fileID: 11400000, guid: 4f6a89dfebf5d4b42ae139934f79e2cb, type: 2}
-    - {fileID: 11400000, guid: 23b1bb39edaebc14bb0a0b2904c7a1fa, type: 2}
-    - {fileID: 11400000, guid: dc660b93bbaeba6419b9e97900992b2f, type: 2}
-    minHealthThreshold: 300
-    phaseTime: 0
   - phaseName: Phase2
     attacks:
     - {fileID: 11400000, guid: 109cd4e2ee1b3c846b92431e1fc4ac06, type: 2}
@@ -1843,6 +1837,16 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 71835b162865bd8409e1510b468aedf9, type: 2}
     - {fileID: 11400000, guid: 9ed732435cd800d418335b4881550609, type: 2}
     minHealthThreshold: 0
+    phaseTime: 0
+  - phaseName: Waking Speech
+    attacks:
+    - {fileID: 11400000, guid: dc660b93bbaeba6419b9e97900992b2f, type: 2}
+    - {fileID: 11400000, guid: 6ceabec0922a46d43b262a6b5e792b9a, type: 2}
+    - {fileID: 11400000, guid: a210f1a490812ac40be1332b20dea786, type: 2}
+    - {fileID: 11400000, guid: ca8d2bf572b73b44aa908ca0668d4cd4, type: 2}
+    - {fileID: 11400000, guid: 4f6a89dfebf5d4b42ae139934f79e2cb, type: 2}
+    - {fileID: 11400000, guid: 23b1bb39edaebc14bb0a0b2904c7a1fa, type: 2}
+    minHealthThreshold: 300
     phaseTime: 0
   bossHealth: {fileID: 930106251}
   namedPoints:
