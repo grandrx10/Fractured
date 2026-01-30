@@ -263,6 +263,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Exit
+  interactSound: {fileID: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -1286,7 +1287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: near clip plane
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4431908262825752876, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: near clip plane
@@ -4825,6 +4826,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
+      propertyPath: environmentExitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
       propertyPath: environmentCenters.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -5051,6 +5056,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Take
+  interactSound: {fileID: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -5081,7 +5087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a1ea405ffd446492e9d7c15d9fbe93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 8fb3ac6a-e39f-4a11-8e35-52f6961328fc
+  id: 9f227a5b-bb55-4804-aed2-2e3860c2f698
 --- !u!95 &5189767739534713642
 Animator:
   serializedVersion: 7

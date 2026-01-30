@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &21435486
 Transform:
   m_ObjectHideFlags: 0
@@ -263,6 +263,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Exit
+  interactSound: {fileID: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -1266,19 +1267,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9840541
+      value: 0.98403937
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.16295445
+      value: 0.16299711
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.07034108
+      value: 0.07044383
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.011648132
+      value: -0.011668376
       objectReference: {fileID: 0}
     - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: far clip plane
@@ -1286,7 +1287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: near clip plane
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4431908262825752876, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: near clip plane
@@ -1334,31 +1335,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.0006351471
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.713997
+      value: 1.6936111
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8
+      value: -3.0259686
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.984054
+      value: 0.98403937
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.16295445
+      value: 0.16299711
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.07034108
+      value: 0.07044383
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.011648133
+      value: -0.011668376
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -4963,6 +4964,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
+      propertyPath: environmentExitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
       propertyPath: environmentCenters.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -5189,6 +5194,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Take
+  interactSound: {fileID: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -5219,7 +5225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a1ea405ffd446492e9d7c15d9fbe93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 8fb3ac6a-e39f-4a11-8e35-52f6961328fc
+  id: e51e56ad-f524-4817-81e7-c3c5cbf8a09e
 --- !u!95 &5189767739534713642
 Animator:
   serializedVersion: 7

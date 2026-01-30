@@ -28,7 +28,7 @@ namespace World.Objects.goat
             cut = true;
             animator.Play("Cut");
             
-            FindFirstObjectByType<PlayerAgent>().GiveCard(Card.MakeCard(c));
+            if (c) FindFirstObjectByType<PlayerAgent>().GiveCard(Card.MakeCard(c));
             
             GlobalState.instance.AddEvent($"GOAT_{goatId.ID}_SHEAR");
         }

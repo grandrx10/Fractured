@@ -241,6 +241,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Interact
+  interactSound: {fileID: 0}
   defaultConversationName: GoatConvo
 --- !u!1 &6671412296125758599
 GameObject:
@@ -372,6 +373,10 @@ PrefabInstance:
     - target: {fileID: 1856773271514576501, guid: 9a1d978771cdc8145ae457119bb8c5d4, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856773271514576501, guid: 9a1d978771cdc8145ae457119bb8c5d4, type: 3}
+      propertyPath: domainName
+      value: Fixed_Goat
       objectReference: {fileID: 0}
     - target: {fileID: 8313325488053919982, guid: 9a1d978771cdc8145ae457119bb8c5d4, type: 3}
       propertyPath: m_LocalScale.x

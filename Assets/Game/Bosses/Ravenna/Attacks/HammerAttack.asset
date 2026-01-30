@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4422cd1f00e975c45949914994f58f6c, type: 3}
+  m_Name: HammerAttack
+  m_EditorClassIdentifier: 
+  attackDuration: 4
+  delayAfter: 1
+  triggerOnce: 0
+  manualSkip: 0
+  hammerSpawnPoints:
+  - Hammer1
+  - Hammer2
+  - Hammer3
+  - Hammer4
+  - Hammer5
+  - Hammer6
+  mainPlatformPoints:
+  - Platform1
+  - Platform2
+  - Platform3
+  - Platform4
+  - Platform5
+  - Platform6
+  affectedPlatformPoints:
+  - Platform4
+  - Platform5
+  - Platform6
+  - Platform1
+  - Platform2
+  - Platform3
+  hammerPrefab: {fileID: 7219257088826415220, guid: d842821ac2317b6478e68177c775e1b6, type: 3}
+  warningPrefab: {fileID: 2624752060842977419, guid: 576ff8121636bdb4698c98d3b191aadb, type: 3}
+  explosionPrefab: {fileID: 7922390357613520789, guid: 53056f9ebb76fb44580856760640b724, type: 3}
+  attackInterval: 5
+  hammerRotateDuration: 0.2
+  platformMoveDuration: 1
+  platformMoveBackDuration: 4
+  platformOffset: 30
+  warningRadius: 30
+  warningDuration: 2.5
