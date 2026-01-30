@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3134518384875086821}
   - component: {fileID: 833801928527572432}
   - component: {fileID: 6755530351116782931}
+  - component: {fileID: 2509031554708517847}
   m_Layer: 10
   m_Name: ProtonExplosion
   m_TagString: Untagged
@@ -88,6 +89,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+--- !u!114 &2509031554708517847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110628304116608462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: fa077025d86c9a449951740b8a23fe91, type: 3}
+  mode: 0
+  volume: 1
+  randomizePitch: 1
 --- !u!1 &1429494251192081981
 GameObject:
   m_ObjectHideFlags: 0

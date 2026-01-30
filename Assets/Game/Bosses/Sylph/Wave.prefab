@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 1796648673868679350}
   - component: {fileID: 2666791144737054125}
   - component: {fileID: 3338536049636577378}
+  - component: {fileID: -9223315778246969029}
   m_Layer: 10
   m_Name: Wave
   m_TagString: Untagged
@@ -214,3 +215,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+--- !u!114 &-9223315778246969029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6516466184858518129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: a02bb41a2e6fa634e987cd62385564a8, type: 3}
+  mode: 1
+  volume: 1
+  randomizePitch: 1

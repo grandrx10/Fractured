@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: -3243019324461193766}
   - component: {fileID: 6252032752437424098}
   - component: {fileID: 6720970803651628315}
+  - component: {fileID: 4218062975621606239}
   m_Layer: 10
   m_Name: WaterFountain
   m_TagString: Untagged
@@ -262,6 +263,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4218062975621606239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4712961189452969834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 5d6e4e5268c5e28428d3c0ff1caf32e4, type: 3}
+  mode: 0
+  volume: 1
+  randomizePitch: 1
 --- !u!1 &5222376447051414996
 GameObject:
   m_ObjectHideFlags: 0

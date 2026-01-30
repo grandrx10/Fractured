@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4801068985447355754}
   - component: {fileID: 4593902560986653418}
   - component: {fileID: 7831605326838447159}
+  - component: {fileID: 5504861835946242459}
   m_Layer: 10
   m_Name: LaserObj
   m_TagString: Untagged
@@ -110,6 +111,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &5504861835946242459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211244150982331114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 1ca97908e73107149b5a3f507a33a1d3, type: 3}
+  mode: 1
+  volume: 1
+  randomizePitch: 1
+  spatialBlend: 0.887
+  playWhenFirstEnabled: 1
 --- !u!1 &7354872776213988899
 GameObject:
   m_ObjectHideFlags: 0
