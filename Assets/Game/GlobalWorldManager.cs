@@ -102,6 +102,7 @@ public class GlobalWorldManager : MonoBehaviour
     public void Transition(string newSceneName, Vector3 startPosition, string startName, string tags)
     {
         if (_transitioning) return;
+        _transitioning = true;
         _startPosition = startPosition;
         _startName = startName;
         TransitionTag = tags;
@@ -173,7 +174,7 @@ public class GlobalWorldManager : MonoBehaviour
     {
         if (go.TryGetComponent(out CardEnv env))
         {
-            Load(env, fast ? 0.5f : env.environmentIntroTime);
+            Load(env, fast ? 2f : env.environmentIntroTime);
             break;
         }
     }

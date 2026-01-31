@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc02cb267c1a9a4e972a2cb8b2d5ebf, type: 3}
+  m_Name: Grass Autumn
+  m_EditorClassIdentifier: 
+  shaderToUse: {fileID: 7200000, guid: 501eadf783dff754da3e500d36319edc, type: 3}
+  materialToUse: {fileID: 2100000, guid: b6ea5f7b9cf836e4da22d17cd5c4f110, type: 2}
+  grassRandomHeightMin: 0.3
+  grassRandomHeightMax: 0.99999994
+  bladeRadius: 1
+  bladeForwardAmount: 0.464
+  bladeCurveAmount: 2
+  bottomWidth: 0.4
+  MinWidth: 0.01
+  MinHeight: 0.01
+  MaxWidth: 0.2
+  MaxHeight: 0.5197554
+  windSpeed: 2
+  windStrength: 0.05
+  allowedBladesPerVertex: 8
+  allowedSegmentsPerBlade: 4
+  affectStrength: 0.5
+  topTint: {r: 0.727935, g: 0.8117647, b: 0.1372549, a: 1}
+  bottomTint: {r: 0.092147075, g: 0.15294118, b: 0.03135294, a: 1}
+  drawBounds: 0
+  minFadeDistance: 50
+  maxDrawDistance: 200
+  cullingTreeDepth: 4
+  castShadow: 0

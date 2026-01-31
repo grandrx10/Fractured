@@ -611,6 +611,7 @@ Transform:
   - {fileID: 957249441182523344}
   - {fileID: 1209730688050479000}
   - {fileID: 7433737913558990419}
+  - {fileID: 9114688816727126194}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4213196562410550784
@@ -1797,6 +1798,110 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00016880035, y: 3.368351, z: 0.58865327}
     m_Extent: {x: 1.0395654, y: 0.84010696, z: 0.30146933}
   m_DirtyAABB: 0
+--- !u!1 &8514859046605715262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9114688816727126194}
+  - component: {fileID: 5146844984740284010}
+  m_Layer: 0
+  m_Name: raven_eyes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9114688816727126194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8514859046605715262}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.6402915, y: -1.4193157e-17, z: 1.4193152e-17, w: 0.76813203}
+  m_LocalPosition: {x: 0, y: 2.6362314, z: 0.18940014}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9127145205140043547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &5146844984740284010
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8514859046605715262}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 3
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: ee2bc03cec06a644dbc2da7dfa2561ff, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: -7295664653889899080, guid: a23c5323f905c314c85f9d9d5808d857, type: 3}
+  m_Bones:
+  - {fileID: 2855527727442098823}
+  - {fileID: 5161817361446538555}
+  - {fileID: 4086700089205075180}
+  - {fileID: 2801602818913850775}
+  - {fileID: 5834455251611625238}
+  - {fileID: 7896969874285864817}
+  - {fileID: 2770146792436946111}
+  - {fileID: 8282450589923725216}
+  - {fileID: 6458566559212970109}
+  - {fileID: 5017661896710658280}
+  - {fileID: 131132431288011113}
+  - {fileID: 6053624509862784835}
+  - {fileID: 3154197918099396167}
+  - {fileID: 4977642052744894598}
+  - {fileID: 2862910064822507024}
+  - {fileID: 1964399712968352783}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 2855527727442098823}
+  m_AABB:
+    m_Center: {x: -0.00000011920929, y: 3.0688612, z: 1.0271668}
+    m_Extent: {x: 0.80423516, y: 0.99814296, z: 0.47583067}
+  m_DirtyAABB: 0
 --- !u!1 &8873626340172338784
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,7 +2152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2944115808830531749}
   m_Layer: 0
-  m_Name: Raven Rig
+  m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
