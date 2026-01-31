@@ -19,6 +19,7 @@ namespace Cards.Environments
         
         public float minCardDelay = 0.2f;
         public PlayerMovement PlayerMovement { get; private set; }
+        public AudioClip useCardSound;
         
         public override void Initialize(PlayerAgent playerAgent)
         {
@@ -77,17 +78,31 @@ namespace Cards.Environments
 
                 if (used)
                 {
+                    // Subtract mana
                     mana -= card.stats.mana;
+
+                    // Play sound attached to the player
+                    if (useCardSound != null && AudioManager.Instance != null)
+                    {
+                        AudioManager.Instance.PlayFollowingOneShot(
+                            useCardSound,
+                            player.transform,
+                            volume: 1f,
+                            randomizePitch: true,
+                            spatialBlend: 1f
+                        );
+                    }
+
+                    // Delay next card selection
                     Delay.Call(this, minCardDelay, () =>
                     {
                         player.SelectCardAsync(UseCard, 1);
                     });
                 }
-                
-                
+
                 return used ? CardSubmitState.Success : CardSubmitState.Failure;
             }
-            
+
             return CardSubmitState.Failure;
         }
         

@@ -3287,16 +3287,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   phases:
-  - phaseName: Waking Speech
-    attacks:
-    - {fileID: 11400000, guid: 02710a626b1801f4394080face0490e6, type: 2}
-    - {fileID: 11400000, guid: 1a5e48defd2dad641ba1422c78e41c39, type: 2}
-    - {fileID: 11400000, guid: 9c9b47caeb2c17740b76842001df9eae, type: 2}
-    - {fileID: 11400000, guid: 74741226c44243f40b26b66787f155e2, type: 2}
-    - {fileID: 11400000, guid: c470f94c700dec04fa0a44ac0968e6b7, type: 2}
-    - {fileID: 11400000, guid: b862891a94bb28345bd06a2178142271, type: 2}
-    minHealthThreshold: 500
-    phaseTime: 0
   - phaseName: Phase2
     attacks:
     - {fileID: 11400000, guid: 71e0635c97af9dc4faa67829a23fd18d, type: 2}
@@ -3308,6 +3298,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4aa1c725d9a9a784a8be16b2cd579a27, type: 2}
     - {fileID: 11400000, guid: c470f94c700dec04fa0a44ac0968e6b7, type: 2}
     minHealthThreshold: 0
+    phaseTime: 0
+  - phaseName: Waking Speech
+    attacks:
+    - {fileID: 11400000, guid: 02710a626b1801f4394080face0490e6, type: 2}
+    - {fileID: 11400000, guid: 4563809f77a15ee4ea615a2b31cf8e50, type: 2}
+    - {fileID: 11400000, guid: 1a5e48defd2dad641ba1422c78e41c39, type: 2}
+    - {fileID: 11400000, guid: 9c9b47caeb2c17740b76842001df9eae, type: 2}
+    - {fileID: 11400000, guid: 74741226c44243f40b26b66787f155e2, type: 2}
+    - {fileID: 11400000, guid: c470f94c700dec04fa0a44ac0968e6b7, type: 2}
+    - {fileID: 11400000, guid: b862891a94bb28345bd06a2178142271, type: 2}
+    minHealthThreshold: 500
     phaseTime: 0
   bossHealth: {fileID: 930106256}
   namedPoints:
@@ -7079,11 +7080,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3617061006495735934, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
       propertyPath: dialogueFilePaths.Array.size
-      value: 16
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 3617061006495735934, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
-      propertyPath: 'dialogueFilePaths.Array.data[15]'
-      value: Death
+      propertyPath: 'dialogueFilePaths.Array.data[23]'
+      value: FallDialogue/FallRavenna
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

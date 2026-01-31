@@ -759,6 +759,63 @@ MonoBehaviour:
   before: {fileID: 1813763763}
   after: {fileID: 1102437344}
   eventName: spring_wolf_puzzle_1
+--- !u!1001 &566615443
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3155277033639931158, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_Name
+      value: InnerDomainSoundtrack
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -81.69699
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 48.481514
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 38.68331
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
 --- !u!1 &574027600
 GameObject:
   m_ObjectHideFlags: 0
@@ -4222,6 +4279,7 @@ MonoBehaviour:
   interactTime: 0
   interactText: (E) Enter
   interactSound: {fileID: 0}
+  playSoundOnStart: 0
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -4460,6 +4518,7 @@ MonoBehaviour:
   interactTime: 0
   interactText: (E) Inspect
   interactSound: {fileID: 8300000, guid: d4580beb9a8b7e94f81e5666763e6e2a, type: 3}
+  playSoundOnStart: 0
   defaultConversationName: SpringWolfInnerBox
 --- !u!1 &1906070939
 GameObject:
@@ -4754,6 +4813,7 @@ MonoBehaviour:
   interactTime: 0
   interactText: (E) Enter
   interactSound: {fileID: 0}
+  playSoundOnStart: 0
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -4938,6 +4998,7 @@ MonoBehaviour:
   interactTime: 0
   interactText: (E) Enter
   interactSound: {fileID: 0}
+  playSoundOnStart: 0
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -5595,3 +5656,4 @@ SceneRoots:
   - {fileID: 47726988}
   - {fileID: 2073516231}
   - {fileID: 428837102}
+  - {fileID: 566615443}

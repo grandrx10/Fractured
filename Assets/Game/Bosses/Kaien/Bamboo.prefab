@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 6281079648633760166}
   - component: {fileID: -7730812713067667975}
   - component: {fileID: 1423178655785391817}
+  - component: {fileID: -4074994273168487487}
   m_Layer: 0
   m_Name: Bamboo
   m_TagString: Untagged
@@ -243,6 +244,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 5
   replacementPrefab: {fileID: 7922390357613520789, guid: a38d4f7da14c7034f8c69107a02ea9d8, type: 3}
+--- !u!114 &-4074994273168487487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2336451837071188969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: d37e43a3f91b0c94aba369b4bdc1a244, type: 3}
+  mode: 1
+  volume: 1
+  randomizePitch: 1
+  spatialBlend: 1
+  playWhenFirstEnabled: 0
 --- !u!1 &3142820782867301608
 GameObject:
   m_ObjectHideFlags: 0

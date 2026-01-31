@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -8010236048135072254}
   - component: {fileID: 6317574109985077257}
   - component: {fileID: 2804724086314701626}
+  - component: {fileID: 2605940181121495821}
   m_Layer: 0
   m_Name: CrossSword
   m_TagString: Untagged
@@ -95,6 +96,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 15
+--- !u!114 &2605940181121495821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3519862730065028135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: ddfa561685636d147b19bba3e5d297d4, type: 3}
+  mode: 1
+  volume: 1
+  randomizePitch: 1
+  spatialBlend: 1
+  playWhenFirstEnabled: 0
 --- !u!1001 &1359503920902989465
 PrefabInstance:
   m_ObjectHideFlags: 0

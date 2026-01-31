@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7876577548060480981}
   - component: {fileID: 3363185334329586100}
+  - component: {fileID: 5888644658425796091}
   m_Layer: 0
   m_Name: WolfCutter
   m_TagString: Untagged
@@ -49,3 +50,21 @@ MonoBehaviour:
   normal: {x: 0, y: 1, z: 0}
   useLocalNormal: 1
   randomRotation: 0
+--- !u!114 &5888644658425796091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371854353414497180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: cf51cc24edc7d6946941e17d7bf948ee, type: 3}
+  mode: 0
+  volume: 1
+  randomizePitch: 1
+  spatialBlend: 0.658
+  playWhenFirstEnabled: 0

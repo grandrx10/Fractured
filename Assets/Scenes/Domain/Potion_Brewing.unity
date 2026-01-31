@@ -1045,8 +1045,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   card: {fileID: 11400000, guid: ee1e6ab61e52b9e4e8f84a015fffb1e8, type: 2}
   giveToHand: 1
+  onStart: 0
 --- !u!1 &558693845
 GameObject:
   m_ObjectHideFlags: 0
@@ -1122,8 +1125,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   card: {fileID: 11400000, guid: ee08e8efa6fb7fe48b0d87e0ea75cad7, type: 2}
   giveToHand: 1
+  onStart: 0
 --- !u!1 &651996817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,10 +1209,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e343ad6ae3344b4791efbb6ddca13a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   conversationName: NyxCookBegin
   triggerOnAwake: 1
   triggerOnlyOnce: 1
   triggerOnceEver: 0
+--- !u!1001 &723037792
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3155277033639931158, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_Name
+      value: PotionBrewSoundtrack
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -81.69699
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 48.481514
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 38.68331
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: f8150a25f05e2274697332025aa6563c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f8150a25f05e2274697332025aa6563c, type: 3}
 --- !u!4 &762523092 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 323401969713117009, guid: 5d653ac9b26bb51418e40fbaa203aab3, type: 3}
@@ -1318,6 +1383,8 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) to Trash
+  interactSound: {fileID: 0}
+  playSoundOnStart: 0
   stationPoint: {fileID: 1393639252}
 --- !u!65 &785655142
 BoxCollider:
@@ -1505,6 +1572,8 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Interact
+  interactSound: {fileID: 0}
+  playSoundOnStart: 0
   defaultConversationName: 
 --- !u!114 &795628686
 MonoBehaviour:
@@ -1873,6 +1942,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e12ff003b56f94fb55c07464be6a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   pot: {fileID: 928478059}
 --- !u!1 &983472119
 GameObject:
@@ -2262,6 +2333,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62ac701e220b9943b32029b5a9e1827, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   objectToMove: {fileID: 795628682}
   targetLocations:
   - {fileID: 1646753612}
@@ -2407,8 +2480,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   card: {fileID: 11400000, guid: eb1b86bc6684b0d4b9441ce7add9d642, type: 2}
   giveToHand: 0
+  onStart: 0
 --- !u!1 &1393639251
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,13 +2605,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.984054
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.16295446
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.07034109
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.011648134
+      objectReference: {fileID: 0}
     - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: far clip plane
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: near clip plane
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6958972981578174323, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -36.377052
+      value: -3.83
       objectReference: {fileID: 0}
     - target: {fileID: 6958972981578174323, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2543,7 +2639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6958972981578174323, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.251923
+      value: -33.76
       objectReference: {fileID: 0}
     - target: {fileID: 6958972981578174323, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2575,15 +2671,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6930008
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.493
+      value: 3.7140007
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
       value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.984054
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.16295448
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.070341095
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.011648137
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2863,8 +2975,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   card: {fileID: 11400000, guid: 759887b3c2af63d48b5afe513735b6af, type: 2}
   giveToHand: 1
+  onStart: 0
 --- !u!1 &1481173459
 GameObject:
   m_ObjectHideFlags: 0
@@ -3280,6 +3395,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   domainName: World_Summer
   domainPoint: NyxHouse
+  atPlayer: 0
+  offset: {x: 0, y: 0, z: 0}
+  offsetLocal: 0
   domainTag: 'fade
 
     delay:2
@@ -3297,6 +3415,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d42ba4f8bf295947b1c7b236a93068e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   domain: {fileID: 1770196407}
   TriggerAtPlayerFeet: 1
 --- !u!114 &1772401627 stripped
@@ -4001,3 +4121,4 @@ SceneRoots:
   - {fileID: 5435418724033777436}
   - {fileID: 1912866858}
   - {fileID: 1404567895}
+  - {fileID: 723037792}

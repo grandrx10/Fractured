@@ -273,8 +273,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   card: {fileID: 11400000, guid: c9046eeaeb2130e48abd9d23f0c78d59, type: 2}
   giveToHand: 0
+  onStart: 0
 --- !u!1 &187086631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1950,6 +1953,7 @@ MonoBehaviour:
   - phaseName: Intro Yap
     attacks:
     - {fileID: 11400000, guid: 24bad8c248fc39e4b8f912f56b60fe73, type: 2}
+    - {fileID: 11400000, guid: 706ab7e0c4fabda4aaca44150986556f, type: 2}
     minHealthThreshold: 400
     phaseTime: 0
   - phaseName: Phase 1
@@ -1982,6 +1986,8 @@ MonoBehaviour:
   - name: StaffPoint
     transform: {fileID: 1838575248}
   deathConversationName: 
+  ignoreInit: 0
+  destroyOnDeath: 0
 --- !u!4 &930106254
 Transform:
   m_ObjectHideFlags: 0
@@ -2125,6 +2131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d42ba4f8bf295947b1c7b236a93068e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   domain: {fileID: 1043060885}
   TriggerAtPlayerFeet: 0
 --- !u!1001 &1032117140
@@ -2230,6 +2238,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   domainName: World_Summer
   domainPoint: WaterTemple
+  atPlayer: 0
+  offset: {x: 0, y: 0, z: 0}
+  offsetLocal: 0
   domainTag: 
 --- !u!1001 &1106373212
 PrefabInstance:
@@ -2253,23 +2264,27 @@ PrefabInstance:
       objectReference: {fileID: 1688789907}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99061877
+      value: 0.9840541
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.1366548
+      value: 0.16295446
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000003003392
+      value: 0.070341095
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000014549496
+      value: -0.011648137
       objectReference: {fileID: 0}
     - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: far clip plane
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: near clip plane
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6958972981578174323, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2313,11 +2328,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6930001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.493
+      value: 3.7140002
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2325,19 +2340,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99061877
+      value: 0.984054
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.1366548
+      value: 0.16295448
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000003041195
+      value: 0.070341095
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000041952957
+      value: -0.011648139
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

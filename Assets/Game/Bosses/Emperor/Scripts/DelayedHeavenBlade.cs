@@ -9,6 +9,10 @@ public class DelayedTriggerHeavenBlade : MonoBehaviour
     public float targetRadius = 5f;
     public GameObject partToDelete;
 
+    [Header("Audio")]
+    public AudioClip launchSound; // <-- assign in inspector
+    public float launchSoundVolume = 1f;
+
     private Transform player;
     private Rigidbody rb;
 
@@ -42,7 +46,6 @@ public class DelayedTriggerHeavenBlade : MonoBehaviour
         transform.rotation = targetRot;
         aimed = true;
 
-        // If Activate() was already called, launch immediately
         if (activated)
             Launch();
     }
@@ -70,5 +73,15 @@ public class DelayedTriggerHeavenBlade : MonoBehaviour
         }
         rb.isKinematic = false;
         rb.linearVelocity = launchDirection * launchVelocity;
+
+        // Play launch sound
+        if (launchSound != null && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayOneShot(
+                launchSound,
+                transform.position,
+                launchSoundVolume
+            );
+        }
     }
 }

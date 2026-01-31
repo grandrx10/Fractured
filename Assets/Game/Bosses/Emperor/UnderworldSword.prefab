@@ -314,6 +314,7 @@ GameObject:
   - component: {fileID: 6643375026364506940}
   - component: {fileID: -45600488578051713}
   - component: {fileID: -8214368349855436641}
+  - component: {fileID: -7493475705790439295}
   m_Layer: 0
   m_Name: UnderworldSword
   m_TagString: Untagged
@@ -378,6 +379,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-7493475705790439295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058923715143006981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: d11ef60da35586a4ca8eae002de6ad67, type: 3}
+  mode: 2
+  volume: 1
+  randomizePitch: 1
+  spatialBlend: 1
+  playWhenFirstEnabled: 0
 --- !u!1 &8037784110796950374
 GameObject:
   m_ObjectHideFlags: 0

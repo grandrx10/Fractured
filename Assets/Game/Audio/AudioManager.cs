@@ -19,8 +19,11 @@ public class AudioManager : MonoBehaviour
     private Queue<AudioSource> audioSourcePool = new Queue<AudioSource>();
     private List<AudioSource> activeAudioSources = new List<AudioSource>();
 
-    // Track follow targets
     private Dictionary<AudioSource, Transform> followTargets = new Dictionary<AudioSource, Transform>();
+    private HashSet<AudioSource> _justStarted = new HashSet<AudioSource>();
+
+    [Header("Soundtrack")]
+    [SerializeField] private AudioSource soundtrackSource;
 
     private void Awake()
     {
@@ -33,29 +36,40 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        GameObject soundtrackObj = new GameObject("SoundtrackAudioSource");
+        soundtrackObj.transform.SetParent(transform);
+        soundtrackSource = soundtrackObj.AddComponent<AudioSource>();
+        soundtrackSource.playOnAwake = false;
+        soundtrackSource.loop = true;
+        soundtrackSource.spatialBlend = 0f;
+
         for (int i = 0; i < poolSize; i++)
             CreateAudioSource();
     }
 
     private void Update()
     {
-        // Update following sounds
         foreach (var kvp in followTargets)
         {
             if (kvp.Key != null && kvp.Value != null)
                 kvp.Key.transform.position = kvp.Value.position;
         }
 
-        // Cleanup finished sounds
         for (int i = activeAudioSources.Count - 1; i >= 0; i--)
         {
             AudioSource src = activeAudioSources[i];
+
+            if (_justStarted.Contains(src))
+                continue;
+
             if (!src.isPlaying)
             {
                 ReturnToPool(src);
                 activeAudioSources.RemoveAt(i);
             }
         }
+
+        _justStarted.Clear();
     }
 
     private AudioSource CreateAudioSource()
@@ -92,9 +106,6 @@ public class AudioManager : MonoBehaviour
         audioSourcePool.Enqueue(source);
     }
 
-    // -----------------------------
-    // Standard one-shot
-    // -----------------------------
     public void PlayOneShot(
         AudioClip clip,
         Vector3 position,
@@ -114,12 +125,10 @@ public class AudioManager : MonoBehaviour
         source.loop = false;
         source.Play();
 
+        _justStarted.Add(source);
         activeAudioSources.Add(source);
     }
 
-    // -----------------------------
-    // Looping at fixed position
-    // -----------------------------
     public AudioSource PlayLooping(
         AudioClip clip,
         Vector3 position,
@@ -139,13 +148,11 @@ public class AudioManager : MonoBehaviour
         source.loop = true;
         source.Play();
 
+        _justStarted.Add(source);
         activeAudioSources.Add(source);
         return source;
     }
 
-    // -----------------------------
-    // 🔥 FOLLOWING ONE-SHOT
-    // -----------------------------
     public void PlayFollowingOneShot(
         AudioClip clip,
         Transform followTarget,
@@ -164,16 +171,13 @@ public class AudioManager : MonoBehaviour
         source.loop = false;
 
         followTargets[source] = followTarget;
-
         source.transform.position = followTarget.position;
         source.Play();
 
+        _justStarted.Add(source);
         activeAudioSources.Add(source);
     }
 
-    // -----------------------------
-    // 🔥 FOLLOWING LOOP
-    // -----------------------------
     public AudioSource PlayFollowingLoop(
         AudioClip clip,
         Transform followTarget,
@@ -192,17 +196,14 @@ public class AudioManager : MonoBehaviour
         source.loop = true;
 
         followTargets[source] = followTarget;
-
         source.transform.position = followTarget.position;
         source.Play();
 
+        _justStarted.Add(source);
         activeAudioSources.Add(source);
         return source;
     }
 
-    // -----------------------------
-    // Stop looping
-    // -----------------------------
     public void StopLooping(AudioSource source)
     {
         if (source == null) return;
@@ -210,6 +211,7 @@ public class AudioManager : MonoBehaviour
         if (activeAudioSources.Contains(source))
             activeAudioSources.Remove(source);
 
+        _justStarted.Remove(source);
         ReturnToPool(source);
     }
 
@@ -219,5 +221,50 @@ public class AudioManager : MonoBehaviour
             ReturnToPool(source);
 
         activeAudioSources.Clear();
+        _justStarted.Clear();
+    }
+
+    public AudioSource PlaySoundtrack(
+        AudioClip clip,
+        float volume = 1f,
+        bool loop = true,
+        float pitch = 1f
+    )
+    {
+        if (clip == null) return null;
+
+        // Create a new GameObject in the scene
+        GameObject obj = new GameObject("SceneSoundtrack");
+        obj.transform.position = Vector3.zero;
+
+        // Add an AudioSource to it
+        AudioSource source = obj.AddComponent<AudioSource>();
+        source.clip = clip;
+        source.volume = volume * masterVolume;
+        source.pitch = pitch;
+        source.loop = loop;
+        source.spatialBlend = 0f; // 2D
+        source.playOnAwake = false;
+        source.Play();
+
+        return source;
+    }
+
+    public void StopSoundtrack()
+    {
+        soundtrackSource.Stop();
+        soundtrackSource.clip = null;
+    }
+
+    public void PauseSoundtrack()
+    {
+        if (soundtrackSource.isPlaying)
+            soundtrackSource.Pause();
+    }
+
+    public void ResumeSoundtrack()
+    {
+        if (!soundtrackSource.isPlaying && soundtrackSource.clip != null)
+            soundtrackSource.Play();
     }
 }

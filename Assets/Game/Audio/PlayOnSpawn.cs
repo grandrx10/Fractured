@@ -5,7 +5,9 @@ public class PlayOnSpawn : MonoBehaviour
     public enum AudioMode
     {
         PlayAtSpawn,
-        FollowObject
+        FollowObjectLoop,
+        FollowObjectOneShot,
+        Soundtrack   // NEW: plays on the AudioManager soundtrack
     }
 
     [Header("Audio")]
@@ -16,7 +18,7 @@ public class PlayOnSpawn : MonoBehaviour
 
     [Header("Spatial Blend")]
     [Range(0f, 1f)]
-    public float spatialBlend = 1f; // 0 = 2D, 1 = 3D
+    public float spatialBlend = 1f;
 
     [Header("Playback Timing")]
     public bool playWhenFirstEnabled = false;
@@ -26,26 +28,27 @@ public class PlayOnSpawn : MonoBehaviour
 
     void Start()
     {
-        // If we're NOT using playWhenFirstEnabled, play immediately on spawn
         if (!playWhenFirstEnabled)
-        {
             TryPlay();
-        }
     }
 
     void OnEnable()
     {
-        // Play only the FIRST time the object becomes enabled
         if (playWhenFirstEnabled && !hasPlayed)
-        {
             TryPlay();
-        }
     }
 
     private void TryPlay()
     {
-        if (hasPlayed || AudioManager.Instance == null || clip == null)
+        if (hasPlayed || clip == null)
             return;
+
+        if (AudioManager.Instance == null)
+        {
+            // World not ready yet — try again next frame
+            StartCoroutine(WaitForAudioManager());
+            return;
+        }
 
         hasPlayed = true;
 
@@ -61,24 +64,46 @@ public class PlayOnSpawn : MonoBehaviour
                 );
                 break;
 
-            case AudioMode.FollowObject:
-                activeSource = AudioManager.Instance.PlayLooping(
+            case AudioMode.FollowObjectOneShot:
+                AudioManager.Instance.PlayFollowingOneShot(
                     clip,
-                    transform.position,
+                    transform,
                     volume,
                     randomizePitch,
                     spatialBlend
                 );
                 break;
+
+            case AudioMode.FollowObjectLoop:
+                activeSource = AudioManager.Instance.PlayFollowingLoop(
+                    clip,
+                    transform,
+                    volume,
+                    randomizePitch,
+                    spatialBlend
+                );
+                break;
+
+            case AudioMode.Soundtrack:
+                // Pitch is supported, spatialBlend is ignored for soundtrack
+                AudioManager.Instance.PlaySoundtrack(
+                    clip,
+                    volume,
+                    loop: true,
+                    pitch: randomizePitch ? Random.Range(AudioManager.Instance.minPitch, AudioManager.Instance.maxPitch) : 1f
+                );
+                break;
         }
     }
 
-    void Update()
+    private System.Collections.IEnumerator WaitForAudioManager()
     {
-        if (activeSource != null)
-        {
-            activeSource.transform.position = transform.position;
-        }
+        yield return null;
+
+        while (AudioManager.Instance == null)
+            yield return null;
+
+        TryPlay();
     }
 
     void OnDestroy()

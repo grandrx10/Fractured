@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8949985671204313232}
   - component: {fileID: -7099757365396272593}
   - component: {fileID: 8128110756015271500}
+  - component: {fileID: 6749602111333232915}
   m_Layer: 0
   m_Name: LargeExplosion
   m_TagString: Untagged
@@ -89,6 +90,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6749602111333232915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7922390357613520789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: a354342426e6a334e8efe8dfe0a95cf7, type: 3}
+  mode: 0
+  volume: 1
+  randomizePitch: 1
+  spatialBlend: 1
+  playWhenFirstEnabled: 0
 --- !u!1 &8538770247846040519
 GameObject:
   m_ObjectHideFlags: 0

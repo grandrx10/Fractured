@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 6998818754470370404}
   - component: {fileID: 8797624119539603901}
   - component: {fileID: -6233199599431460743}
+  - component: {fileID: 143451641719925062}
   m_Layer: 10
   m_Name: ExplodingFeather
   m_TagString: Untagged
@@ -287,3 +288,21 @@ MonoBehaviour:
   explodeOnTouch: 1
   explosionSound: {fileID: 0}
   explosionVolume: 1
+--- !u!114 &143451641719925062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241814871917818601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 2f5148ea17eff664eb24c33a56bee22e, type: 3}
+  mode: 1
+  volume: 0.09
+  randomizePitch: 1
+  spatialBlend: 1
+  playWhenFirstEnabled: 0

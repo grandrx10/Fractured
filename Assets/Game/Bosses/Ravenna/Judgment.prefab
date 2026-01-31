@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 8529779235131075113}
   - component: {fileID: 4650622512371768260}
   - component: {fileID: 8819674794039314168}
+  - component: {fileID: 852735314081758867}
   m_Layer: 0
   m_Name: Judgment
   m_TagString: Untagged
@@ -196,3 +197,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 10
+--- !u!114 &852735314081758867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8966225931817756480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 5aa06a94b13e09f459d0a48835966c52, type: 3}
+  mode: 0
+  volume: 0.547
+  randomizePitch: 1
+  spatialBlend: 0.118
+  playWhenFirstEnabled: 0
