@@ -1026,6 +1026,7 @@ GameObject:
   - component: {fileID: 7276443312853280212}
   - component: {fileID: 8612277872011975213}
   - component: {fileID: 8649482150604219552}
+  - component: {fileID: 2682951650436027834}
   m_Layer: 0
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -1075,7 +1076,7 @@ MonoBehaviour:
     FieldOfView: 60.000004
     OrthographicSize: 5
     NearClipPlane: 0.2
-    FarClipPlane: 300
+    FarClipPlane: 500
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -1117,11 +1118,11 @@ MonoBehaviour:
       Radius: 3
       Height: 5
     Center:
-      Radius: 8
+      Radius: 6
       Height: 2.25
     Bottom:
-      Radius: 2
-      Height: -1.5
+      Radius: 4
+      Height: -3
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
@@ -1176,7 +1177,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 0, z: 0}
+  TargetOffset: {x: 0, y: 1, z: 0}
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
     Enabled: 0
@@ -1297,6 +1298,21 @@ MonoBehaviour:
     NearLimit: 5
     FarLimit: 30
     MaxQualityBoost: 0.2
+--- !u!114 &2682951650436027834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4344658441374012731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0.3, y: 0, z: 0}
+  ApplyAfter: 1
+  PreserveComposition: 0
 --- !u!1 &4668602197338843833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,10 +1626,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.26011562
+  m_Radius: 0.29
   m_Height: 0.63956356
   m_Direction: 1
-  m_Center: {x: 0, y: -0.5995288, z: -0.00621891}
+  m_Center: {x: 0, y: -0.5995288, z: 0}
 --- !u!136 &8696635044982150939
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1634,9 +1650,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.3
-  m_Height: 1.8
+  m_Height: 1.7199539
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: -0.0021648407}
+  m_Center: {x: 0, y: 0.04002303, z: -0.0021648407}
 --- !u!1 &5299371967232557730
 GameObject:
   m_ObjectHideFlags: 0
@@ -2639,7 +2655,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16759
   interactKey: 101
-  raycastOrigin: {fileID: 2529452383630818853}
+  raycastOrigin: {fileID: 8494477825668348118}
   useSphereCast: 0
   sphereCastRadius: 0.5
   interactText: {fileID: 8159835039736561410}

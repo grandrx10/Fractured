@@ -14,6 +14,7 @@ namespace Cards.Environments
 {
     public class OpenWorldEnv: CardEnv
     {
+        
         public static OpenWorldEnv Current => GlobalWorldManager.Instance.CurrentEnvironment as OpenWorldEnv;
         private PlayerInteractController _playerInteract;
         

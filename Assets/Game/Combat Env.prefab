@@ -414,10 +414,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 526d70bf1aad44e7a5b513869cd70163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preloadScene: 
   environmentExitTime: 0
   environmentIntroTime: 0
   environmentIntroRad: 0
+  fog: {fileID: 0}
   showRadius: 1
+  drawPoints: 1
   raviMode: 1
   environmentCenters: []
   initialized: 0
@@ -450,6 +453,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   domainName: 
   domainPoint: 
+  atPlayer: 1
+  offset: {x: 0, y: 0, z: 0}
+  offsetLocal: 0
   domainTag: 'fade
 
     delay:2

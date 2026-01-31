@@ -15,30 +15,29 @@ public class SpringberryBush : MonoBehaviour
     [Header("Audio")]
     public AudioClip eatSound; // assign in inspector
 
-    public void Interact(BaseInteractable I, GameObject player, bool init)
+    public void Interact(BaseInteractable I, GameObject player)
     {
-        if (!init)
+
+        // Play eat sound immediately
+        if (eatSound != null)
         {
-            // Play eat sound immediately
-            if (eatSound != null)
-            {
-                AudioManager.Instance.PlayOneShot(
-                    eatSound,
-                    transform.position,
-                    1f
-                );
-            }
-
-            OpenWorldEnv.Current.AddEffect<SpringEffect>();
-            berries.SetActive(false);
-            I.canInteract = false;
-
-            // Re-enable berries after cooldown
-            Delay.Call(this, cd, () =>
-            {
-                berries.SetActive(true);
-                I.canInteract = true;
-            });
+            AudioManager.Instance.PlayOneShot(
+                eatSound,
+                transform.position,
+                1f
+            );
         }
+
+        OpenWorldEnv.Current.AddEffect<SpringEffect>();
+        berries.SetActive(false);
+        I.canInteract = false;
+
+        // Re-enable berries after cooldown
+        Delay.Call(this, cd, () =>
+        {
+            berries.SetActive(true);
+            I.canInteract = true;
+        });
+        
     }
 }

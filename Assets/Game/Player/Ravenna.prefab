@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4337450177035998196}
   m_Layer: 9
   m_Name: Ravenna
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,6 +132,7 @@ MonoBehaviour:
   canInteract: 0
   interactTime: 0
   interactText: (E) Interact
+  interactSound: {fileID: 0}
   defaultConversationName: 
 --- !u!54 &3643963696755973312
 Rigidbody:
@@ -784,4 +785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e4dddb52d646a3ae8b9852b163cbad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   conversationName: InnerRavenna

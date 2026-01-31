@@ -51,6 +51,7 @@ namespace Game.Bosses
         private bool isDead = false;
 
         public bool ignoreInit = false;
+        public bool noInit = false;
         public bool destroyOnDeath = false;
 
         // Tracks trigger-once attacks globally
@@ -58,16 +59,21 @@ namespace Game.Bosses
 
         private void Awake()
         {
-            GlobalWorldManager.OnLoadNewScene += Init;
+            if (noInit) return;
+            
 
             if (ignoreInit)
             {
                 _initialized = true;
                 StartPhase(0);
             }
+            else
+            {
+                GlobalWorldManager.OnLoadNewScene += Init;
+            }
         }
 
-        private void Init(CardEnv environment)
+        public void Init(CardEnv environment)
         {
             GlobalWorldManager.OnLoadNewScene -= Init;
             if (phases.Length == 0)

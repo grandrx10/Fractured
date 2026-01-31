@@ -10,16 +10,9 @@ namespace Characters.Dialogue
     public class CompleteQuestEvent : DialogueEvent
     {
         public List<string> requiredItems;
-        public string questName;
+        public string keyName;
         public override void Execute()
         {
-            if (GlobalState.instance.HasQuest(questName, true)) return;
-            if (!GlobalState.instance.HasQuest(questName))
-            {
-                Debug.LogError($"Quest not started: {questName}");
-                return;
-            }
-
             var player = GlobalWorldManager.Instance
                 .CurrentEnvironment
                 .player;
@@ -57,7 +50,7 @@ namespace Characters.Dialogue
 
             if (hasAll)
             {
-                GlobalState.instance.CompleteQuest(questName);
+                GlobalState.instance.AddEvent(keyName);
             }
         }
     }

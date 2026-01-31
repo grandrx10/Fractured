@@ -20,6 +20,7 @@ namespace Cards.Environments
     // Currently the expectation is that cards type check the CardEnv parameter to execute behavior
     public class CardEnv: MonoBehaviour
     {
+        public string preloadScene;
         public float environmentExitTime;
         public float environmentIntroTime;
         public float environmentIntroRad;

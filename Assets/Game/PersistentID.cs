@@ -15,14 +15,16 @@ public class PersistentID : MonoBehaviour
 
     public string ID => id;
 
+#if UNITY_EDITOR
     void Awake()
     {
+        if (Application.isPlaying) return;
         EnsureID();
     }
-
-#if UNITY_EDITOR
+    
     void OnValidate()
     {
+        if (Application.isPlaying) return;
         EnsureID();
     }
 

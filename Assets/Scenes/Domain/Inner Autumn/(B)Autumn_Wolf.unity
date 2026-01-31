@@ -391,20 +391,28 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98404205
+      value: 0.98617256
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.16302706
+      value: 0.14960006
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.07034023
+      value: 0.07049252
       objectReference: {fileID: 0}
     - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.011653325
+      value: -0.010693551
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: far clip plane
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: near clip plane
@@ -452,7 +460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.2969499
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.y
@@ -460,23 +468,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8
+      value: -6.0426707
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9840543
+      value: 0.98617256
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.16295266
+      value: 0.14960006
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.07034112
+      value: 0.07049252
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0116480095
+      value: -0.01069355
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1626,6 +1634,7 @@ GameObject:
   - component: {fileID: 795007060}
   - component: {fileID: 795007059}
   - component: {fileID: 795007058}
+  - component: {fileID: 795007061}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -1736,6 +1745,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &795007061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795007057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b0a7381f6a14b24b3125ebb0c70ba5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &820815003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2110,19 +2131,6 @@ MonoBehaviour:
   phases:
   - phaseName: Waking Speech
     attacks:
-    - {fileID: 11400000, guid: d60439227bf1db343acfd344bea6dc80, type: 2}
-    - {fileID: 11400000, guid: 07ce66f2d89081d4a8e9fd6612008dcd, type: 2}
-    - {fileID: 11400000, guid: 8e4045adff2681049a5ad5dc9d245d97, type: 2}
-    - {fileID: 11400000, guid: a3756b1a2c9d2374195d7159dd212c2f, type: 2}
-    - {fileID: 11400000, guid: 24ed9f09fbd469442bd29ce70e54cce3, type: 2}
-    - {fileID: 11400000, guid: ab0dffc7e9f9a6b4185b6d8f0941c3bd, type: 2}
-    - {fileID: 11400000, guid: 4061df70dadac1047b85c03b311b3dc1, type: 2}
-    - {fileID: 11400000, guid: ab0dffc7e9f9a6b4185b6d8f0941c3bd, type: 2}
-    - {fileID: 11400000, guid: ab0dffc7e9f9a6b4185b6d8f0941c3bd, type: 2}
-    minHealthThreshold: 500
-    phaseTime: 0
-  - phaseName: Waking Speech
-    attacks:
     - {fileID: 11400000, guid: e18bdc56531223d4dbdeafc4c697fee0, type: 2}
     - {fileID: 11400000, guid: f2e090ac32e973d48a3acce7823efbd1, type: 2}
     - {fileID: 11400000, guid: 547070632b884e849a9af4e046fb4d81, type: 2}
@@ -2132,6 +2140,19 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 40022f705b6f8df49b2d628b16e6c500, type: 2}
     - {fileID: 11400000, guid: ea964dd4a9280704294e3191c3948f62, type: 2}
     - {fileID: 11400000, guid: f2c6dd354c9016845847b333705affee, type: 2}
+    minHealthThreshold: 500
+    phaseTime: 0
+  - phaseName: Waking Speech
+    attacks:
+    - {fileID: 11400000, guid: d60439227bf1db343acfd344bea6dc80, type: 2}
+    - {fileID: 11400000, guid: 07ce66f2d89081d4a8e9fd6612008dcd, type: 2}
+    - {fileID: 11400000, guid: 8e4045adff2681049a5ad5dc9d245d97, type: 2}
+    - {fileID: 11400000, guid: a3756b1a2c9d2374195d7159dd212c2f, type: 2}
+    - {fileID: 11400000, guid: 24ed9f09fbd469442bd29ce70e54cce3, type: 2}
+    - {fileID: 11400000, guid: ab0dffc7e9f9a6b4185b6d8f0941c3bd, type: 2}
+    - {fileID: 11400000, guid: 4061df70dadac1047b85c03b311b3dc1, type: 2}
+    - {fileID: 11400000, guid: ab0dffc7e9f9a6b4185b6d8f0941c3bd, type: 2}
+    - {fileID: 11400000, guid: ab0dffc7e9f9a6b4185b6d8f0941c3bd, type: 2}
     minHealthThreshold: 500
     phaseTime: 0
   bossHealth: {fileID: 930106251}
@@ -2150,6 +2171,7 @@ MonoBehaviour:
     transform: {fileID: 623956863}
   deathConversationName: 
   ignoreInit: 0
+  noInit: 0
   destroyOnDeath: 0
 --- !u!4 &930106254
 Transform:
@@ -3676,6 +3698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f955c41db5d44435a8920492642b579f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  time: 0
   onInteract:
     m_PersistentCalls:
       m_Calls:

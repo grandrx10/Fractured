@@ -37,6 +37,9 @@ public class GlobalWorldManager : MonoBehaviour
     private Vector3 _startPosition;
     private string _startName;
     private bool _fade;
+    
+    private AsyncOperation _preloadedScene;
+    private string _preloadedName;
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -137,7 +140,7 @@ public class GlobalWorldManager : MonoBehaviour
         StartCoroutine(Fade());
 
     AsyncOperation op =
-        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        _preloadedName == sceneName ? _preloadedScene : SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
     // Hold activation
     op.allowSceneActivation = false;
@@ -145,7 +148,10 @@ public class GlobalWorldManager : MonoBehaviour
     // Wait until scene is loaded (0.9 = ready)
     while (op.progress < 0.9f)
         yield return null;
-
+    
+    _preloadedScene = null;
+    _preloadedName = null;
+    
     // Optional delay
     float wait = 0f;
     while (wait < delay)
@@ -221,17 +227,16 @@ public class GlobalWorldManager : MonoBehaviour
         }
         else
         {
-            
-            CurrentEnvironment.Destroy();
             _dissolveRad = env.environmentIntroRad;
             _transitioning = true;
             _fogSettings = CurrentEnvironment.fog;
             _newFogSettings = env.fog;
-            float flipTime = Mathf.Min(introTime, env.environmentExitTime);
+            float flipTime = Mathf.Min(introTime, CurrentEnvironment.environmentExitTime);
             float stopTime = introTime;
             _transitionSpeed = 1 / introTime;
             Shader.SetGlobalVector("_DissolveCenter", _startPosition);
             
+            CurrentEnvironment.Destroy();
             var center = env.GetEnvCenter(_startName);
             if (center)
             {
@@ -249,7 +254,10 @@ public class GlobalWorldManager : MonoBehaviour
             sphereEffect.transform.localScale = Vector3.zero;
             
             OnPreLoadNewScene?.Invoke(env);
-            
+            var rb = PlayerAgent.GetComponent<Rigidbody>();
+            rb.linearVelocity = Vector3.zero;
+            rb.linearDamping = 5;
+            Debug.Log($"fliptiume {flipTime} {CurrentEnvironment.environmentExitTime} {CurrentEnvironment}");
             Delay.Call(flipTime, () =>
             {
                 foreach (var go in _newObjects)
@@ -260,7 +268,8 @@ public class GlobalWorldManager : MonoBehaviour
                 {
                     if (go) go.transform.position += Vector3.right * newDomainOffset;
                 }
-
+                Debug.Log($"flipped");
+                rb.linearDamping = 0;
                 _flipped = true;
             });
             
@@ -272,6 +281,13 @@ public class GlobalWorldManager : MonoBehaviour
                 SetFog(_fogSettings, _newFogSettings, 1);
                 OnLoadNewScene?.Invoke(CurrentEnvironment);
             });
+        }
+
+        if (!string.IsNullOrEmpty(env.preloadScene))
+        {
+            _preloadedScene = SceneManager.LoadSceneAsync(env.preloadScene, LoadSceneMode.Additive);
+            _preloadedScene.allowSceneActivation = false;
+            _preloadedName = env.preloadScene;
         }
     }
 
@@ -348,12 +364,13 @@ public class GlobalWorldManager : MonoBehaviour
     {
         if (_transitioning)
         {
-            
+            var target = _flipped ? _oldObjects : _newObjects;
+            if (target == null) return;
             var r = transitionCurve.Evaluate(RawTransitionTime) * _dissolveRad;
             sphereEffect.transform.localScale = r * Vector3.one * 2;
-            
-            foreach (var go in _flipped? _oldObjects : _newObjects)
+            foreach (var go in target)
             {
+                Debug.Log($"{go}");
                 if (go) go.transform.position -= Vector3.right * newDomainOffset;
             }
             Shader.SetGlobalVector("_DissolveData", new Vector4(r, shaders[1], shaders[2], 0));
@@ -365,7 +382,9 @@ public class GlobalWorldManager : MonoBehaviour
     {
         if (_transitioning)
         {
-            foreach (var go in _flipped? _oldObjects : _newObjects)
+            var target = _flipped ? _oldObjects : _newObjects;
+            if (target == null) return;
+            foreach (var go in target)
             {
                 if (go) go.transform.position += Vector3.right * newDomainOffset;
             }

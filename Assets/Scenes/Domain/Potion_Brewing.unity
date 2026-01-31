@@ -422,7 +422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
       propertyPath: environmentIntroTime
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
       propertyPath: environmentCenters.Array.size
@@ -1045,8 +1045,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   card: {fileID: 11400000, guid: ee1e6ab61e52b9e4e8f84a015fffb1e8, type: 2}
   giveToHand: 1
+  onStart: 0
 --- !u!1 &558693845
 GameObject:
   m_ObjectHideFlags: 0
@@ -1122,8 +1125,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   card: {fileID: 11400000, guid: ee08e8efa6fb7fe48b0d87e0ea75cad7, type: 2}
   giveToHand: 1
+  onStart: 0
 --- !u!1 &651996817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,6 +1209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e343ad6ae3344b4791efbb6ddca13a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   conversationName: NyxCookBegin
   triggerOnAwake: 1
   triggerOnlyOnce: 1
@@ -1318,6 +1326,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) to Trash
+  interactSound: {fileID: 0}
   stationPoint: {fileID: 1393639252}
 --- !u!65 &785655142
 BoxCollider:
@@ -1365,7 +1374,7 @@ Transform:
   m_GameObject: {fileID: 788595621}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.28, y: 0.86, z: -19.342}
+  m_LocalPosition: {x: 3.55, y: 0.86, z: -18.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1505,6 +1514,7 @@ MonoBehaviour:
   canInteract: 1
   interactTime: 0
   interactText: (E) Interact
+  interactSound: {fileID: 0}
   defaultConversationName: 
 --- !u!114 &795628686
 MonoBehaviour:
@@ -1873,6 +1883,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e12ff003b56f94fb55c07464be6a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   pot: {fileID: 928478059}
 --- !u!1 &983472119
 GameObject:
@@ -1990,63 +2002,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 48886163}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1033590865
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1033590868}
-  - component: {fileID: 1033590867}
-  m_Layer: 0
-  m_Name: DialogueManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1033590867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033590865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd9ac8858e658f8439f1938a3f3e65eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueBox: {fileID: 0}
-  characterNameText: {fileID: 0}
-  characterSpeechText: {fileID: 0}
-  choiceParent: {fileID: 0}
-  choicePrefab: {fileID: 9082769651056350315, guid: dfe71c0c3853cc84c978fe9f84e6f6bf, type: 3}
-  lettersPerSecond: 30
-  dialogueFilePaths:
-  - Dialogue/Nyx
-  characterMappings:
-  - characterName: Ravenna
-    characterObject: {fileID: 0}
-  eventHandlerObject: {fileID: 1481173459}
-  inConversation: 0
---- !u!4 &1033590868
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033590865}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1077594173
 GameObject:
@@ -2262,6 +2217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62ac701e220b9943b32029b5a9e1827, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   objectToMove: {fileID: 795628682}
   targetLocations:
   - {fileID: 1646753612}
@@ -2407,8 +2364,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   card: {fileID: 11400000, guid: eb1b86bc6684b0d4b9441ce7add9d642, type: 2}
   giveToHand: 0
+  onStart: 0
 --- !u!1 &1393639251
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,9 +2489,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.98617256
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.14960007
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.070492536
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529452383630818853, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.010693549
+      objectReference: {fileID: 0}
     - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: far clip plane
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823578971783169818, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: near clip plane
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6958972981578174323, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2575,15 +2559,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6930008
+      value: 0.2969513
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.493
+      value: 3.7140007
       objectReference: {fileID: 0}
     - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8
+      value: -6.042671
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.98617256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.14960007
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.070492536
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494477825668348118, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.010693554
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2863,8 +2863,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   card: {fileID: 11400000, guid: 759887b3c2af63d48b5afe513735b6af, type: 2}
   giveToHand: 1
+  onStart: 0
 --- !u!1 &1481173459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2929,7 +2932,7 @@ Transform:
   m_GameObject: {fileID: 1560378367}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.70710707, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: 41.86, y: -12.83, z: -29.35}
+  m_LocalPosition: {x: 41.86, y: -11.69, z: -29.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3280,6 +3283,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   domainName: World_Summer
   domainPoint: NyxHouse
+  atPlayer: 0
+  offset: {x: 0, y: 0, z: 0}
+  offsetLocal: 0
   domainTag: 'fade
 
     delay:2
@@ -3297,6 +3303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d42ba4f8bf295947b1c7b236a93068e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
   domain: {fileID: 1770196407}
   TriggerAtPlayerFeet: 1
 --- !u!114 &1772401627 stripped
@@ -3986,14 +3994,13 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1033590868}
+  - {fileID: 855668033}
   - {fileID: 794613084}
+  - {fileID: 836295031}
   - {fileID: 144916718}
   - {fileID: 1398430976}
   - {fileID: 1437361317}
-  - {fileID: 855668033}
   - {fileID: 403231486}
-  - {fileID: 836295031}
   - {fileID: 1481173460}
   - {fileID: 795628687}
   - {fileID: 1702703831}
