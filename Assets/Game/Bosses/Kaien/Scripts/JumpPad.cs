@@ -13,6 +13,11 @@ public class JumpPad : MonoBehaviour
     
     [Header("Detection")]
     public LayerMask playerLayer;
+    [Header("Audio")]
+    public AudioClip launchSound;
+    [Range(0f, 5f)]
+    public float soundVolume = 1f;
+
     
     // Track cooldown per rigidbody to prevent issues with multiple players
     private System.Collections.Generic.Dictionary<Rigidbody, float> lastUseTimes = 
@@ -80,6 +85,10 @@ public class JumpPad : MonoBehaviour
         
         // Apply launch impulse
         rb.AddForce(launchDirection * launchForce, ForceMode.VelocityChange);
+        if (launchSound != null && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayOneShot(launchSound, transform.position, soundVolume);
+        }
     }
     
     // Clean up old entries to prevent memory leaks

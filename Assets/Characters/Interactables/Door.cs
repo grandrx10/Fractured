@@ -24,6 +24,9 @@ public class Door : MonoBehaviour
 
     protected Vector3 closedPosition;
     protected Vector3 openPosition;
+    [Header("Audio")]
+    public AudioClip openSound;
+    [Range(0f, 1f)] public float volume = 1f;
     
     public PersistentID id;
 
@@ -69,11 +72,21 @@ public class Door : MonoBehaviour
     {
         if (isOpen || isMoving)
             return;
+
         if (id != null)
         {
             GlobalState.instance.AddEvent($"DOOR_OPEN_{id.ID}");
         }
-        
+
+        if (openSound != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                openSound,
+                doorObject.transform.position,
+                volume
+            );
+        }
+
         StartCoroutine(MoveDoor(closedPosition, openPosition, true));
     }
 

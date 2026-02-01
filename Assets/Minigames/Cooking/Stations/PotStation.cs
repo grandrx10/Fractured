@@ -126,6 +126,7 @@ namespace Minigames.Cooking.Stations
         {
             if (!potStarted)
                 return;
+            base.Interact(player);
 
             Cook cook = OpenWorldEnv.Current
                 ?.PlayerTransform

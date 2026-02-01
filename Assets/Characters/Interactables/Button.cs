@@ -35,6 +35,7 @@ namespace Characters.Interactables
 
         public override void Interact(GameObject player)
         {
+            base.Interact(player);
             if (!canInteract || isPressed)
                 return;
 
