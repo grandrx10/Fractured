@@ -821,6 +821,7 @@ GameObject:
   - component: {fileID: 3868473745750231735}
   - component: {fileID: 7939819171874507061}
   - component: {fileID: 1465081050525383638}
+  - component: {fileID: 5367905057244040703}
   m_Layer: 0
   m_Name: HouseSpear
   m_TagString: Untagged
@@ -885,6 +886,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 10
+--- !u!114 &5367905057244040703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4161099406447689864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 0414fc21170c5834ea70c03afab60236, type: 3}
+  mode: 2
+  volume: 1
+  randomizePitch: 1
+  spatialBlend: 1
+  playWhenFirstEnabled: 0
 --- !u!1 &5245700262421910074
 GameObject:
   m_ObjectHideFlags: 0

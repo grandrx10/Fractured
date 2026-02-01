@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9042349191156140511}
   - component: {fileID: 4392262470928528142}
   - component: {fileID: 1950824925450279070}
+  - component: {fileID: -2041416227785207661}
   m_Layer: 10
   m_Name: LargeSlash
   m_TagString: Untagged
@@ -75,6 +76,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 2
+--- !u!114 &-2041416227785207661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2183812748174503287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: e074914d4c2330a408e821581107651d, type: 3}
+  mode: 1
+  volume: 1
+  randomizePitch: 1
+  spatialBlend: 0.675
+  playWhenFirstEnabled: 0
 --- !u!1 &6893398905597410352
 GameObject:
   m_ObjectHideFlags: 0

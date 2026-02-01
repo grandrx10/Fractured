@@ -370,15 +370,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5146844984740284010, guid: 308659a36865fd844a97a054febb94b2, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
+      propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c663bfb2a8a46f947b143afa47ba48ec, type: 2}
     - target: {fileID: 5146844984740284010, guid: 308659a36865fd844a97a054febb94b2, type: 3}
-      propertyPath: 'm_Materials.Array.data[1]'
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: c663bfb2a8a46f947b143afa47ba48ec, type: 2}
     - target: {fileID: 5146844984740284010, guid: 308659a36865fd844a97a054febb94b2, type: 3}
-      propertyPath: 'm_Materials.Array.data[2]'
+      propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: c663bfb2a8a46f947b143afa47ba48ec, type: 2}
     - target: {fileID: 5161817361446538555, guid: 308659a36865fd844a97a054febb94b2, type: 3}
@@ -1076,9 +1076,7 @@ Transform:
   m_LocalPosition: {x: -11.388998, y: 15.113522, z: -26.051846}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 104555024}
-  - {fileID: 319659137}
+  m_Children: [{fileID: 104555024}, {fileID: 319659137}]
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &275020279
@@ -2336,7 +2334,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1676729584742642380, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
-      propertyPath: 'environmentCenters.Array.data[0]'
+      propertyPath: environmentCenters.Array.data[0]
       value: 
       objectReference: {fileID: 135168854}
     - target: {fileID: 2127274757429245319, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
@@ -2536,10 +2534,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2664136712794198840, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1214093288}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7144740217174136976, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 730005665}
+    m_AddedComponents: [{targetCorrespondingSourceObject: {fileID: 7144740217174136976, guid: fd9185c65af589449a0953749ac4da3f, type: 3}, insertIndex: -1, addedObject: {fileID: 730005665}}]
   m_SourcePrefab: {fileID: 100100000, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
 --- !u!224 &730005661 stripped
 RectTransform:
@@ -3816,6 +3811,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4aa1c725d9a9a784a8be16b2cd579a27, type: 2}
     - {fileID: 11400000, guid: c470f94c700dec04fa0a44ac0968e6b7, type: 2}
     minHealthThreshold: 0
+    phaseTime: 0
+  - phaseName: Waking Speech
+    attacks:
+    - {fileID: 11400000, guid: 02710a626b1801f4394080face0490e6, type: 2}
+    - {fileID: 11400000, guid: 4563809f77a15ee4ea615a2b31cf8e50, type: 2}
+    - {fileID: 11400000, guid: 1a5e48defd2dad641ba1422c78e41c39, type: 2}
+    - {fileID: 11400000, guid: 9c9b47caeb2c17740b76842001df9eae, type: 2}
+    - {fileID: 11400000, guid: 74741226c44243f40b26b66787f155e2, type: 2}
+    - {fileID: 11400000, guid: c470f94c700dec04fa0a44ac0968e6b7, type: 2}
+    - {fileID: 11400000, guid: b862891a94bb28345bd06a2178142271, type: 2}
+    minHealthThreshold: 500
     phaseTime: 0
   bossHealth: {fileID: 930106256}
   namedPoints:
@@ -7676,6 +7682,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3617061006495735934, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: dialogueFilePaths.Array.size
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617061006495735934, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: dialogueFilePaths.Array.data[23]
+      value: FallDialogue/FallRavenna
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617061006495735934, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
       propertyPath: eventHandlerObject
       value: 
       objectReference: {fileID: 255469566}
@@ -7752,7 +7766,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 807246738016681894, guid: 818588693c10d094ab3706cb89ac7e2e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
+      propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c98554ac50cb0c541a06d93253f38598, type: 2}
     - target: {fileID: 4844103184537140887, guid: 818588693c10d094ab3706cb89ac7e2e, type: 3}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7876577548060480981}
   - component: {fileID: 3363185334329586100}
   - component: {fileID: -1593016926172841275}
+  - component: {fileID: -7791458985664905873}
   m_Layer: 0
   m_Name: LargeWolfCutter
   m_TagString: Untagged
@@ -63,3 +64,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 5
+--- !u!114 &-7791458985664905873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371854353414497180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: cf51cc24edc7d6946941e17d7bf948ee, type: 3}
+  mode: 0
+  volume: 1
+  randomizePitch: 1
+  spatialBlend: 0.802
+  playWhenFirstEnabled: 0

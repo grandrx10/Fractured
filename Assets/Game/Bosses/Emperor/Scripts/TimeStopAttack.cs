@@ -8,6 +8,10 @@ using Cards.Environments;
 public class TimeStopAttack : BossAttack
 {
     public string fieldPointName;
+    [Header("Audio")]
+    public AudioClip timeStopSound;
+    public float timeStopVolume = 1f;
+
 
     [Header("Scaling")]
     public float maxScale = 400f;
@@ -31,6 +35,16 @@ public class TimeStopAttack : BossAttack
     public override void StartAttack(GameObject bossObj)
     {
         base.StartAttack(bossObj);
+        if (timeStopSound != null && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayOneShot(
+                timeStopSound,
+                Vector3.zero,      // position irrelevant for 2D
+                timeStopVolume,
+                randomizePitch: false,
+                spatialBlend: 0f   // 2D sound
+            );
+        }
 
         Boss boss = bossObj.GetComponent<Boss>();
         if (boss == null)

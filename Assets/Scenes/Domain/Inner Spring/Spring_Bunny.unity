@@ -885,6 +885,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197552093}
   m_Mesh: {fileID: -7400456473201126231, guid: 823856e7189296842ad37e1d37063e2f, type: 3}
+--- !u!1001 &219667849
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3155277033639931158, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_Name
+      value: InnerDomainSoundtrack
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -81.69699
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 48.481514
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 38.68331
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143967289103322950, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7b9e4fa98bed625409727601b3740183, type: 3}
 --- !u!1 &269526370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,6 +1116,133 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 277845826}
   m_Mesh: {fileID: -7400456473201126231, guid: 823856e7189296842ad37e1d37063e2f, type: 3}
+--- !u!21 &287263476
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: grass(Clone)
+  m_Shader: {fileID: -6465566751694194690, guid: 540755ea77c303146a9e6aea675aa93e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BlendMult: 1
+    - _BlendOff: 0
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _GrassDither: 20
+    - _GrassDither_1: 400
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Res: 10
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Vector2: {r: 800, g: 80, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &292454503
 GameObject:
   m_ObjectHideFlags: 0
@@ -2609,7 +2793,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 1688347040}
     m_Modifications:
     - target: {fileID: 2874460008711426544, guid: 62dac52a2955504479d4f04e1da5094a, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
+      propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 75e3e6e729dcef345938b052469085e1, type: 2}
     - target: {fileID: 4814394180294993099, guid: 62dac52a2955504479d4f04e1da5094a, type: 3}
@@ -3547,55 +3731,55 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[0]'
+      propertyPath: deck.Array.data[0]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[1]'
+      propertyPath: deck.Array.data[1]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[2]'
+      propertyPath: deck.Array.data[2]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[3]'
+      propertyPath: deck.Array.data[3]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[4]'
+      propertyPath: deck.Array.data[4]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[5]'
+      propertyPath: deck.Array.data[5]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[6]'
+      propertyPath: deck.Array.data[6]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[7]'
+      propertyPath: deck.Array.data[7]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[8]'
+      propertyPath: deck.Array.data[8]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[9]'
+      propertyPath: deck.Array.data[9]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'hand.Array.data[0]'
+      propertyPath: hand.Array.data[0]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[10]'
+      propertyPath: deck.Array.data[10]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
-      propertyPath: 'deck.Array.data[11]'
+      propertyPath: deck.Array.data[11]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1048625115379337615, guid: 10f6e313378088d4682d785d42aca9ac, type: 3}
@@ -4167,7 +4351,7 @@ MonoBehaviour:
     normal: {x: 0, y: 1, z: 2.2204462e-17}
     length: {x: 1, y: 0.4}
     color: {x: 1.2311615, y: 1.7975563, z: 1.0569799}
-  m_InstantiatedMaterial: {fileID: 409575402}
+  m_InstantiatedMaterial: {fileID: 287263476}
   noCull: 1
 --- !u!4 &1109392909
 Transform:
@@ -4801,19 +4985,19 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
-      propertyPath: 'environmentCenters.Array.data[0]'
+      propertyPath: environmentCenters.Array.data[0]
       value: 
       objectReference: {fileID: 1943674641}
     - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
-      propertyPath: 'environmentCenters.Array.data[1]'
+      propertyPath: environmentCenters.Array.data[1]
       value: 
       objectReference: {fileID: 1081354533}
     - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
-      propertyPath: 'environmentCenters.Array.data[2]'
+      propertyPath: environmentCenters.Array.data[2]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6381515565014297772, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
-      propertyPath: 'environmentCenters.Array.data[3]'
+      propertyPath: environmentCenters.Array.data[3]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6427185214176553436, guid: 88470004b4725ba49be1b252c8f7c39b, type: 3}
@@ -5740,6 +5924,7 @@ MonoBehaviour:
   interactTime: 0
   interactText: (E) Interact
   interactSound: {fileID: 0}
+  playSoundOnStart: 0
   defaultConversationName: InnerSpringFenn
 --- !u!136 &1469741054
 CapsuleCollider:
@@ -6683,10 +6868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 1275557322919661215, guid: 001f146ad0dc786459fa1100a91c1f52, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1392898314}
+    m_AddedGameObjects: [{targetCorrespondingSourceObject: {fileID: 1275557322919661215, guid: 001f146ad0dc786459fa1100a91c1f52, type: 3}, insertIndex: -1, addedObject: {fileID: 1392898314}}]
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2488409881830992223, guid: 001f146ad0dc786459fa1100a91c1f52, type: 3}
       insertIndex: -1
@@ -6721,6 +6903,7 @@ MonoBehaviour:
   interactTime: 0
   interactText: (E) Interact
   interactSound: {fileID: 0}
+  playSoundOnStart: 0
   defaultConversationName: InnerSpringFennEnder
 --- !u!136 &1639319536
 CapsuleCollider:
@@ -8986,3 +9169,4 @@ SceneRoots:
   - {fileID: 1127860053}
   - {fileID: 1109392909}
   - {fileID: 1430498263}
+  - {fileID: 219667849}

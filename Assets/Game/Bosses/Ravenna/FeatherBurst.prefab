@@ -354,6 +354,7 @@ GameObject:
   - component: {fileID: 222593520215764920}
   - component: {fileID: 6998818754470370404}
   - component: {fileID: 2782521983561688508}
+  - component: {fileID: 2623941512890119407}
   - component: {fileID: -3893060184430281842}
   m_Layer: 0
   m_Name: FeatherBurst
@@ -419,6 +420,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5280709518422ac4980f5733805062fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2623941512890119407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241814871917818601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb01d1b11f18b2649b60a7fc0be60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 2f5148ea17eff664eb24c33a56bee22e, type: 3}
+  mode: 1
+  volume: 0.08
+  randomizePitch: 1
+  spatialBlend: 1
+  playWhenFirstEnabled: 0
 --- !u!114 &-3893060184430281842
 MonoBehaviour:
   m_ObjectHideFlags: 0

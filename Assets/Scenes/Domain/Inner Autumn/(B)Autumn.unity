@@ -23919,11 +23919,11 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1676729584742642380, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
-      propertyPath: 'environmentCenters.Array.data[0]'
+      propertyPath: environmentCenters.Array.data[0]
       value: 
       objectReference: {fileID: 135168854}
     - target: {fileID: 1676729584742642380, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
-      propertyPath: 'environmentCenters.Array.data[1]'
+      propertyPath: environmentCenters.Array.data[1]
       value: 
       objectReference: {fileID: 1538472526}
     - target: {fileID: 2127274757429245319, guid: fd9185c65af589449a0953749ac4da3f, type: 3}
@@ -30688,6 +30688,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   phases:
+  - phaseName: Waking Speech
+    attacks:
+    - {fileID: 11400000, guid: bc44e4cae8d7dec4b969cf837daeda23, type: 2}
+    - {fileID: 11400000, guid: fc544eb2c40b08349b5bf67681080612, type: 2}
+    - {fileID: 11400000, guid: 94187bf6b714d464cb138257e8abe877, type: 2}
+    - {fileID: 11400000, guid: b4e3e949b2cdf274f8a63574a7758d83, type: 2}
+    - {fileID: 11400000, guid: 49ced9962b6ec2340b7a83da3f991c12, type: 2}
+    - {fileID: 11400000, guid: 89f50a090222acd45a556667353d7e0f, type: 2}
+    - {fileID: 11400000, guid: 94187bf6b714d464cb138257e8abe877, type: 2}
+    - {fileID: 11400000, guid: aa26e11bb7b4e0b4fb882ca5774af485, type: 2}
+    - {fileID: 11400000, guid: f70e1f8aeb1c76c479c7ce2e5ddcd52f, type: 2}
+    minHealthThreshold: 400
+    phaseTime: 0
   - phaseName: Phase2
     attacks:
     - {fileID: 11400000, guid: 8c5b68fe8ab5af7439503a7e5c79fd9f, type: 2}
@@ -66697,7 +66710,7 @@ PrefabInstance:
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3617061006495735934, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
-      propertyPath: 'dialogueFilePaths.Array.data[15]'
+      propertyPath: dialogueFilePaths.Array.data[15]
       value: Death
       objectReference: {fileID: 0}
     m_RemovedComponents: []
