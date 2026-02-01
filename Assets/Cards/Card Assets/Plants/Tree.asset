@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Tree
   m_EditorClassIdentifier: 
   name: Tree
-  flavorText: 
+  flavorText: A simple tree. It grows tall.
   collection: 7
   style: 0
   icon: {fileID: -1785115074, guid: 210b0c01c2a79454f9caef844f9ceb44, type: 3}
   stats:
-    health: 3
+    health: 5
     mana: 2
     strength: 1
-  behaviors: []
+  behaviors:
+  - {fileID: 11400000, guid: 436736bab944f9243942c83b56253e0f, type: 2}

@@ -1,3 +1,4 @@
+using Cards.Environments;
 using UnityEngine;
 
 public class PlatformSplitter : MonoBehaviour
@@ -6,8 +7,14 @@ public class PlatformSplitter : MonoBehaviour
     public GameObject platformPrefab;
     public bool disableOnUse = true;
 
-    private void Start()
+    private void Awake()
     {
+        GlobalWorldManager.OnLoadNewScene += Init;
+    }
+
+    private void Init(CardEnv _)
+    {
+        GlobalWorldManager.OnLoadNewScene -= Init;
         if (platformPrefab == null)
         {
             Debug.LogError("PlatformSplitter: No prefab assigned.");

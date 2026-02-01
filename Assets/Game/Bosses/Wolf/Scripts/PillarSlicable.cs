@@ -29,6 +29,7 @@ public class PillarSliceable : Slice, ICuttable
             var s = r.gameObject.AddComponent<ShrinkAndDestroy>();
             s.shrinkDuration = shrinkDuration;
             s.delayBeforeShrink = delayBeforeShrink;
+            r.AddForce(Vector3.up * 5, ForceMode.Impulse);
             s.StartShrinking();
         }
     }

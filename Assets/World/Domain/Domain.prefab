@@ -54,7 +54,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -76,6 +76,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   domainName: World_Characters
   domainPoint: Center
+  atPlayer: 0
+  offset: {x: 0, y: 0, z: 0}
+  offsetLocal: 0
   domainTag: 'char:
 
 '

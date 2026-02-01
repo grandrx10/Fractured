@@ -10,10 +10,12 @@ namespace Cards.Visual
         public bool hand;
         private void Start()
         {
+#if UNITY_EDITOR
             foreach (var card in GetComponentsInChildren<Card>())
             {
                 agent.GiveCard(card, hand);
             }
+#endif
         }
     }
 }

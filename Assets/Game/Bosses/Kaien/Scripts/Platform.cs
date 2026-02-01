@@ -40,7 +40,7 @@ public class Platform : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         platformRenderer = GetComponent<Renderer>();
 
-        originalMaterial = platformRenderer.material;
+        originalMaterial = platformRenderer.sharedMaterial;
 
         rb.isKinematic = true;
     }
@@ -50,9 +50,14 @@ public class Platform : MonoBehaviour
         originalPosition = transform.position;
         originalRotation = transform.rotation;
 
+        if (!rb.isKinematic)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+        
         rb.isKinematic = true;
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+        
 
         platformRenderer.material = originalMaterial;
 

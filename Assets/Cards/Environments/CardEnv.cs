@@ -111,8 +111,11 @@ namespace Cards.Environments
                 _effects.Remove(o);
             });
             _deleted.Clear();
-            manaDisplay.SetMaxValue(CurrentStats.maxMana);
-            manaDisplay.SetValue(mana);
+            if (manaDisplay)
+            {
+                manaDisplay.SetMaxValue(CurrentStats.maxMana);
+                manaDisplay.SetValue(mana);
+            }
         }
 
         public virtual void Initialize(PlayerAgent p)

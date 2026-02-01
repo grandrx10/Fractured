@@ -10,17 +10,21 @@ namespace World.Objects
     public class TriggerInteractable : MonoBehaviour
     {
         public float time;
+        public bool repeat = true;
         public UnityEvent onInteract;
 
         Coroutine waitRoutine;
+        private bool _ac;
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!repeat && _ac) return;
             if (!PhysicsHelper.MainObj(other).CompareTag("Player"))
                 return;
 
             if (time <= 0f)
             {
+                _ac = true;
                 onInteract.Invoke();
                 return;
             }
@@ -44,6 +48,7 @@ namespace World.Objects
         IEnumerator WaitAndTrigger()
         {
             yield return new WaitForSeconds(time);
+            _ac = true;
             onInteract.Invoke();
             waitRoutine = null;
         }

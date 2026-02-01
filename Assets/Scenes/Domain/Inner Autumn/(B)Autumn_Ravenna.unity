@@ -805,6 +805,54 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98838812}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &104555023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 104555024}
+  - component: {fileID: 104555025}
+  m_Layer: 0
+  m_Name: FallRavennaDomainLeave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &104555024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104555023}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 255469567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &104555025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104555023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d42ba4f8bf295947b1c7b236a93068e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
+  domain: {fileID: 730005664}
+  TriggerAtPlayerFeet: 0
 --- !u!1 &135168853
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1076,9 @@ Transform:
   m_LocalPosition: {x: -11.388998, y: 15.113522, z: -26.051846}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 104555024}
+  - {fileID: 319659137}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &275020279
@@ -1136,6 +1186,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6031836864815524002, guid: 7c8e5e2e324d5734ca54e96fa4e69126, type: 3}
   m_PrefabInstance: {fileID: 1994987543}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &319659136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 319659137}
+  - component: {fileID: 319659138}
+  m_Layer: 0
+  m_Name: GiveJudgement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &319659137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319659136}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 255469567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &319659138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319659136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e648e989f73387f46a64a22e1bc5a713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSound: {fileID: 0}
+  eventVolume: 1
+  card: {fileID: 11400000, guid: b3f319db41df9614db368f384120a16d, type: 2}
+  giveToHand: 0
+  onStart: 0
 --- !u!1 &378583534
 GameObject:
   m_ObjectHideFlags: 0
@@ -3697,22 +3796,23 @@ MonoBehaviour:
   phases:
   - phaseName: Waking Speech
     attacks:
+    - {fileID: 11400000, guid: 74741226c44243f40b26b66787f155e2, type: 2}
     - {fileID: 11400000, guid: 02710a626b1801f4394080face0490e6, type: 2}
     - {fileID: 11400000, guid: 1a5e48defd2dad641ba1422c78e41c39, type: 2}
     - {fileID: 11400000, guid: 9c9b47caeb2c17740b76842001df9eae, type: 2}
-    - {fileID: 11400000, guid: 74741226c44243f40b26b66787f155e2, type: 2}
     - {fileID: 11400000, guid: c470f94c700dec04fa0a44ac0968e6b7, type: 2}
     - {fileID: 11400000, guid: b862891a94bb28345bd06a2178142271, type: 2}
     minHealthThreshold: 500
     phaseTime: 0
   - phaseName: Phase2
     attacks:
+    - {fileID: 11400000, guid: 10d3f4e916b5d0140962427cb4c70012, type: 2}
     - {fileID: 11400000, guid: 71e0635c97af9dc4faa67829a23fd18d, type: 2}
     - {fileID: 11400000, guid: 8229f574f8bd66f45bdc1b1655cceb1f, type: 2}
-    - {fileID: 11400000, guid: fbfb97d7469e62b4f88110a16f2309cf, type: 2}
     - {fileID: 11400000, guid: 0add09a2bcd20234bb9e5a159757b49a, type: 2}
-    - {fileID: 11400000, guid: 0e884357d0a1219488e69e445325efaa, type: 2}
     - {fileID: 11400000, guid: 85877a641d4b29b4fbe100a886aded1e, type: 2}
+    - {fileID: 11400000, guid: 0e884357d0a1219488e69e445325efaa, type: 2}
+    - {fileID: 11400000, guid: fbfb97d7469e62b4f88110a16f2309cf, type: 2}
     - {fileID: 11400000, guid: 4aa1c725d9a9a784a8be16b2cd579a27, type: 2}
     - {fileID: 11400000, guid: c470f94c700dec04fa0a44ac0968e6b7, type: 2}
     minHealthThreshold: 0
@@ -3781,7 +3881,7 @@ MonoBehaviour:
     transform: {fileID: 1717867682}
   - name: Scale
     transform: {fileID: 870609889}
-  deathConversationName: 
+  deathConversationName: FallRavennaDefeat
   ignoreInit: 0
   noInit: 0
   destroyOnDeath: 0
@@ -7575,6 +7675,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3617061006495735934, guid: 331cccdac365d704e89842f4ac2a7531, type: 3}
+      propertyPath: eventHandlerObject
+      value: 
+      objectReference: {fileID: 255469566}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7785,13 +7889,13 @@ SceneRoots:
   - {fileID: 730005660}
   - {fileID: 275020280}
   - {fileID: 930106254}
+  - {fileID: 2120461251}
   - {fileID: 255469567}
   - {fileID: 1286117832}
   - {fileID: 829101880}
   - {fileID: 1760326083}
   - {fileID: 1657918796}
   - {fileID: 1378754577}
-  - {fileID: 2120461251}
   - {fileID: 1573818970}
   - {fileID: 774003955}
   - {fileID: 2111811594}

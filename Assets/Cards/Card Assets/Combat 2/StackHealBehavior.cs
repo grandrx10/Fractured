@@ -15,13 +15,13 @@ public class StackHealBehavior : Behavior, IBehaviorUseListener, IBehaviorHasSta
     public string abilityName;
     public bool Use(Card card, CardEnv env, Agent agent)
     {
-        if (true)
+        if (env is RTCombatEnv rtc)
         {
             _stacks++;
             if (_stacks >= stacks)
             {
                 _stacks = 0;
-                //rtc.Heal(healing);
+                rtc.Heal(healing);
             }
             SetStacks(env);
             return true;
