@@ -1,10 +1,25 @@
-# Card
+# Fractured
 
 A 3D action-adventure game built in Unity where everything is a **card**. Cards aren't just menu items — they're throwable, usable objects that drive combat, puzzles, and world interaction through a flexible, composition-based behavior system.
 
 ## 🎥 Demo
 
 [**Watch the gameplay demo on YouTube**](https://youtu.be/iiJcUfR9C-g?si=3MN_gj0FX-C6QRr_)
+
+## 📸 Screenshots
+
+> _Drop screenshots into a `docs/screenshots/` folder and update the paths below._
+
+| | |
+| --- | --- |
+| ![Screenshot 1](docs/screenshots/screenshot-1.png) | ![Screenshot 2](docs/screenshots/screenshot-2.png) |
+| ![Screenshot 3](docs/screenshots/screenshot-3.png) | ![Screenshot 4](docs/screenshots/screenshot-4.png) |
+
+<!--
+Add more shots as needed, e.g.:
+![Boss fight](docs/screenshots/boss-fight.png)
+![Puzzle minigame](docs/screenshots/puzzle.png)
+-->
 
 ## Overview
 
