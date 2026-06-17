@@ -8,12 +8,12 @@ A 3D action-adventure game built in Unity where everything is a **card**. Cards 
 
 ## 📸 Screenshots
 
-> _Drop screenshots into a `docs/screenshots/` folder and update the paths below._
+<img width="1915" height="1076" alt="image" src="https://github.com/user-attachments/assets/138e0071-755d-4717-a442-866188e17b30" />
+ <img width="1896" height="951" alt="image" src="https://github.com/user-attachments/assets/0af3655e-a84e-4b92-ae54-fa0acfa4f5b3" />
+ <img width="1912" height="1073" alt="image" src="https://github.com/user-attachments/assets/dc78c272-7016-43ef-a2a7-84bc9cc4e4a1" />
 
-| | |
-| --- | --- |
-| ![Screenshot 1](docs/screenshots/screenshot-1.png) | ![Screenshot 2](docs/screenshots/screenshot-2.png) |
-| ![Screenshot 3](docs/screenshots/screenshot-3.png) | ![Screenshot 4](docs/screenshots/screenshot-4.png) |
+<img width="1913" height="1076" alt="image" src="https://github.com/user-attachments/assets/ce2fa528-78e4-4cb5-9223-337c5f893a7f" />
+ <img width="1913" height="1082" alt="image" src="https://github.com/user-attachments/assets/b0f60164-49fe-4c1c-bf72-4b8dfcdc0ad5" />
 
 <!--
 Add more shots as needed, e.g.:
