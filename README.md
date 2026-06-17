@@ -3,8 +3,7 @@
 A 3D action-adventure game built in Unity where everything is a **card**. Cards aren't just menu items — they're throwable, usable objects that drive combat, puzzles, and world interaction through a flexible, composition-based behavior system.
 
 ## 🎥 Demo
-
-[**Watch the gameplay demo on YouTube**](https://youtu.be/iiJcUfR9C-g?si=3MN_gj0FX-C6QRr_)
+[![Watch the demo](https://img.youtube.com/vi/iiJcUfR9C-g/maxresdefault.jpg)](https://youtu.be/iiJcUfR9C-g)
 
 ## 📸 Screenshots
 
