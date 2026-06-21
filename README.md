@@ -1,6 +1,6 @@
 # Fractured
 
-A 3D action-adventure game built in Unity where everything is a **card**. Cards aren't just menu items — they're throwable, usable objects that drive combat, puzzles, and world interaction through a flexible, composition-based behavior system.
+A 3D action-adventure game built in Unity where everything is a **card**. Cards aren't just menu items — they're throwable, usable objects that drive combat, puzzles, and world interaction through a flexible, composition-based behavior system. This won first place at the Winter GDDC 2025 Game Jam!
 
 ## 🎥 Demo
 [![Watch the demo](https://img.youtube.com/vi/iiJcUfR9C-g/maxresdefault.jpg)](https://youtu.be/iiJcUfR9C-g)
